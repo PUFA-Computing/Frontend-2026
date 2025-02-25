@@ -1,11 +1,11 @@
 //DO NOT DELETE
 // First Generation
-import ALDEN_RNT from "@/assets/member/rnt/alden-sayidina-radjab.jpg";
-import IRFAN_RNT from "@/assets/member/rnt/irfan-saf.jpg";
-import ALIEF_RNT from "@/assets/member/rnt/m-alief-firmanda.jpg";
-import ILHAM_RNT from "@/assets/member/rnt/muhammad-ilham-pratama.jpg";
-import JOSH_RNT from "@/assets/member/rnt/rafael-josh.jpg";
-import YUDHISTIRA_RNT from "@/assets/member/rnt/yudhistira-fauzy-achmadarel.jpg";
+import ALDEN_RNT from "@/assets/member/rnt/2023-2024/alden-sayidina-radjab.jpg";
+import IRFAN_RNT from "@/assets/member/rnt/2023-2024/irfan-saf.jpg";
+import ALIEF_RNT from "@/assets/member/rnt/2023-2024/m-alief-firmanda.jpg";
+import ILHAM_RNT from "@/assets/member/rnt/2023-2024/muhammad-ilham-pratama.jpg";
+import JOSH_RNT from "@/assets/member/rnt/2023-2024/rafael-josh.jpg";
+import YUDHISTIRA_RNT from "@/assets/member/rnt/2023-2024/yudhistira-fauzy-achmadarel.jpg";
 
 export const developerHistory = [
     {

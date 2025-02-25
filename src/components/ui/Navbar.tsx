@@ -182,17 +182,17 @@ export default function Navbar() {
 
             {/* Main Navbar */}
             <header className={`fixed left-1/2 top-8 z-40 -translate-x-1/2 transition-all duration-500 ${visible ? 'translate-y-0' : '-translate-y-32'}`}>
-                <nav className={`relative flex h-14 items-center justify-center transition-all duration-500 ${isMenuOpen ? 'w-[300px] sm:w-[500px]' : 'w-[300px]'} rounded-full bg-black/90 overflow-visible border border-white/40`}>
+                <nav className={`relative flex top-[-6px] h-14 items-center justify-center transition-all duration-500 ${isMenuOpen ? 'w-[300px] sm:w-[420px] h-[50px] sm:h-[65px]' : 'w-[270px] bg-transparent border-none'} rounded-full bg-black/90 overflow-visible border border-white/40`}>
                     {/* PUMA Informatics Logo - Left */}
                     <div className={`absolute left-0 z-50 transition-all duration-700 ease-in-out ${isMenuOpen ? 'opacity-0 -translate-x-24 scale-50' : 'opacity-100 translate-x-0 scale-100 animate-fade-in-left'}`}>
                         <Link href="/puma/puma-informatics">
-                            <div className="group flex h-16 w-16 cursor-pointer items-center justify-center rounded-full bg-white shadow-lg transition-all duration-300 hover:scale-110 hover:shadow-xl">
-                                <div className="relative h-[50px] w-[50px] transition-transform duration-500 group-hover:rotate-12">
+                            <div className="group flex h-20 w-20 cursor-pointer items-center justify-center rounded-full bg-white shadow-lg transition-all duration-300 hover:scale-110 hover:shadow-xl">
+                                <div className="relative h-[67px] w-[67px] transition-transform duration-500 hover:-rotate-12">
                                     <Image
                                         alt="PUMA Informatics"
                                         src={PUMA_IT}
-                                        width="50"
-                                        height="50"
+                                        width="67"
+                                        height="67"
                                         className="pointer-events-none"
                                     />
                                 </div>
@@ -203,13 +203,13 @@ export default function Navbar() {
                     {/* PUMA IS Logo - Right */}
                     <div className={`absolute right-0 z-50 transition-all duration-700 ease-in-out ${isMenuOpen ? 'opacity-0 translate-x-24 scale-50' : 'opacity-100 translate-x-0 scale-100 animate-fade-in-right'}`}>
                         <Link href="/puma/puma-is">
-                            <div className="group flex h-16 w-16 cursor-pointer items-center justify-center rounded-full bg-white shadow-lg transition-all duration-300 hover:scale-110 hover:shadow-xl">
-                                <div className="relative h-[50px] w-[50px] transition-transform duration-500 group-hover:rotate-12">
+                            <div className="group flex h-20 w-20 cursor-pointer items-center justify-center rounded-full bg-white shadow-lg transition-all duration-300 hover:scale-110 hover:shadow-xl">
+                                <div className="relative h-[67px] w-[67px] transition-transform duration-500 group-hover:rotate-12">
                                     <Image
                                         alt="PUMA IS"
                                         src={PUMA_IS}
-                                        width="50"
-                                        height="50"
+                                        width="67"
+                                        height="67"
                                         className="pointer-events-none"
                                     />
                                 </div>
@@ -221,14 +221,14 @@ export default function Navbar() {
                     <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-40">
                         <div 
                             onClick={toggleMenu}
-                            className="group flex h-16 w-16 cursor-pointer items-center justify-center rounded-full bg-white shadow-lg transition-all duration-300 hover:scale-110 hover:shadow-xl"
+                            className="group flex h-20 w-20 cursor-pointer items-center justify-center rounded-full bg-white shadow-lg transition-all duration-300 hover:scale-110 hover:shadow-xl"
                         >
-                            <div className={`relative transition-transform duration-700 ease-in-out ${!isMenuOpen ? 'rotate-0' : 'rotate-180'}`}>
+                            <div className={`relative transition-transform duration-700 ease-in-out"`}>
                                 <Image
                                     alt="PU Computing"
                                     src={Logo}
-                                    width="44"
-                                    height="44"
+                                    width="55"
+                                    height="55"
                                     className="pointer-events-none"
                                     style={{ filter: 'brightness(0)' }}
                                 />
@@ -237,34 +237,31 @@ export default function Navbar() {
                     </div>
 
                     {/* Left Navigation Items */}
-                    <div className={`pointer-events-none flex items-center space-x-6 sm:space-x-10 pr-12 sm:pr-20 text-white transition-all duration-500 ${!isMenuOpen ? 'opacity-0 scale-0' : 'opacity-100 scale-100 pointer-events-auto'}`}>
-                        <Link href="/" className="group relative text-sm sm:text-[15px] font-medium tracking-wide">
+                    <div className={`pointer-events-none flex items-center space-x-6 sm:space-x-5 ml-10 sm:ml-3.5    text-white transition-all duration-500 ${!isMenuOpen ? 'opacity-0 scale-0' : 'opacity-100 scale-100 pointer-events-auto'}`}>
+                        <Link href="/" className="group relative text-sm sm:text-[14px] font-medium tracking-wide">
                             <span className="relative inline-block transition-all duration-300 group-hover:text-white group-hover:animate-cyber-glow">
                                 Home
                                 <span className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-white/0 via-white to-white/0 transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100"></span>
                             </span>
-                            <span className="absolute inset-0 w-full h-0.5 bg-white/20 transform scale-x-0 group-hover:scale-x-100 group-hover:animate-scanline pointer-events-none"></span>
                         </Link>
-                        <Link href="/events" className="group relative text-sm sm:text-[15px] font-medium tracking-wide">
+                        <Link href="/events" className="group relative text-sm sm:text-[14px] font-medium tracking-wide">
                             <span className="relative inline-block transition-all duration-300 group-hover:text-white group-hover:animate-cyber-glow">
                                 Events
                                 <span className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-white/0 via-white to-white/0 transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100"></span>
                             </span>
-                            <span className="absolute inset-0 w-full h-0.5 bg-white/20 transform scale-x-0 group-hover:scale-x-100 group-hover:animate-scanline pointer-events-none"></span>
                         </Link>
                     </div>
 
                     {/* Right Navigation Items */}
-                    <div className={`pointer-events-none flex items-center space-x-6 sm:space-x-10 pl-12 sm:pl-20 text-white transition-all duration-500 ${!isMenuOpen ? 'opacity-0 scale-0' : 'opacity-100 scale-100 pointer-events-auto'}`}>
-                        <Link href="/news" className="group relative text-sm sm:text-[15px] font-medium tracking-wide">
+                    <div className={`pointer-events-none flex items-center space-x-6 sm:space-x-5 pl-12 sm:ml-20 text-white transition-all duration-500 ${!isMenuOpen ? 'opacity-0 scale-0' : 'opacity-100 scale-100 pointer-events-auto'}`}>
+                        <Link href="/news" className="group relative text-sm sm:text-[14px] font-medium tracking-wide">
                             <span className="relative inline-block transition-all duration-300 group-hover:text-white group-hover:animate-cyber-glow">
                                 News
                                 <span className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-white/0 via-white to-white/0 transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100"></span>
                             </span>
-                            <span className="absolute inset-0 w-full h-0.5 bg-white/20 transform scale-x-0 group-hover:scale-x-100 group-hover:animate-scanline pointer-events-none"></span>
                         </Link>
                         <div className="relative group">
-                            <button className="group relative text-sm sm:text-[15px] font-medium tracking-wide">
+                            <button className="group relative text-sm sm:text-[14px] top-[-0.7px] font-medium tracking-wide">
                                 <span className="relative inline-block transition-all duration-300 group-hover:text-white group-hover:animate-cyber-glow">
                                     Others
                                     <span className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-white/0 via-white to-white/0 transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100"></span>
@@ -304,7 +301,7 @@ export default function Navbar() {
                     </div>
 
                     {/* Mobile Menu Button */}
-                    <button
+                    {/* <button
                         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                         className="absolute right-4 rounded p-2 text-white hover:text-gray-300 lg:hidden"
                     >
@@ -321,7 +318,7 @@ export default function Navbar() {
                                 d={isMobileMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}
                             />
                         </svg>
-                    </button>
+                    </button> */}
                 </nav>
 
                 {/* Mobile Menu */}
