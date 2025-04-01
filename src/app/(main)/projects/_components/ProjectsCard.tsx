@@ -44,7 +44,7 @@ export default async function ProjectsCard() {
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
          {projects.map((project) => (
             <div
-               className="flex flex-col gap-4 rounded-lg border border-black"
+               className="flex flex-col gap-4 rounded-lg border  border-black"
                key={project.id}
             >
                <div>

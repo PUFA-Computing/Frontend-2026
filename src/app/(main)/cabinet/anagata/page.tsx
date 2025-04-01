@@ -4,121 +4,70 @@ import Link from "next/link"
 import { ChevronRight, ExternalLink } from "lucide-react"
 
 export default function Page() {
-  return (
-    <div className="min-h-screen bg-gradient-to-b from-black to-zinc-900 text-white">
-      {/* Hero Section */}
-      <section className="relative h-[60vh] w-full overflow-hidden">
-        <div className="absolute inset-0">
-          <div className="h-full w-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-zinc-800/30 via-black to-black"></div>
-        </div>
-        <div className="container relative mx-auto flex h-full flex-col items-center justify-center px-4">
-          <div className="relative">
-            <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-amber-400 to-yellow-500 opacity-70 blur-sm"></div>
-            <Image
-              src={Logo || "/placeholder.svg"}
-              alt="Forcasion Logo"
-              width={200}
-              height={200}
-              className="relative rounded-full border-4 border-[#FFD700] bg-black/50 p-2 transition-all duration-500 hover:scale-105"
-            />
-          </div>
-          <h1 className="mt-8 bg-gradient-to-r from-amber-200 to-yellow-400 bg-clip-text text-4xl font-bold text-transparent sm:text-5xl md:text-6xl">
-            FORCASION CABINET
-          </h1>
-          <p className="mt-4 text-xl italic text-amber-300">"Together We Stand, Together We Succeed"</p>
-          <div className="mt-8 flex space-x-4">
-            <Link
-              href="#vision"
-              className="rounded-full bg-gradient-to-r from-amber-500 to-yellow-500 px-6 py-2 font-medium text-black transition-all duration-300 hover:shadow-lg hover:shadow-amber-500/30"
-            >
-              Learn More
-            </Link>
-            <Link
-              href="#divisions"
-              className="rounded-full border border-amber-500 px-6 py-2 font-medium text-amber-400 transition-all duration-300 hover:bg-amber-500/10 hover:shadow-lg hover:shadow-amber-500/20"
-            >
-              Our Divisions
-            </Link>
-          </div>
-        </div>
-      </section>
+   return (
+      <div className="min-h-screen bg-black text-white">
+         
 
-      {/* Vision & Mission */}
-      <section id="vision" className="py-20">
-        <div className="container mx-auto px-4">
-          <h2 className="mb-12 text-center text-3xl font-bold text-amber-400 sm:text-4xl">Our Vision & Mission</h2>
-          <div className="grid gap-8 md:grid-cols-2">
-            <div className="group rounded-2xl border border-amber-500/30 bg-gradient-to-br from-black to-zinc-900 p-8 shadow-lg shadow-amber-500/5 transition-all duration-300 hover:shadow-amber-500/20">
-              <div className="mb-6 flex items-center">
-                <div className="mr-4 flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-r from-amber-400 to-yellow-500">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6 text-black"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                    />
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                    />
-                  </svg>
+         {/* Hero Section */}
+         <section className="relative h-[50vh] w-full">
+                <div className="absolute inset-0">
+                    <div className="h-full w-full bg-gradient-to-b bg-black"></div>
                 </div>
-                <h3 className="text-2xl font-bold text-amber-400 group-hover:text-amber-300">Vision</h3>
-              </div>
-              <p className="text-lg leading-relaxed text-gray-300">
-                To create a united, communicative, and competitive faculty where students from all departments actively
-                participate in academic and non-academic activities and are fully supported in achieving their highest
-                potential.
-              </p>
-            </div>
+                <div className="container relative mx-auto flex h-full flex-col items-center justify-center px-4">
+                    <Image
+                        src={Logo}
+                        alt="Forcasion Logo"
+                        width={200}
+                        height={200}
+                        className="mb-8 rounded-full border-4 border-[#FFD700]"
+                    />
+                    <h1 className="mb-4 text-4xl font-bold text-[#FFD700]">
+                        FORCASION CABINET
+                    </h1>
+                    <p className="mb-6 text-xl italic text-[#FFD700]">
+                        "Together We Stand, Together We Succeed"
+                    </p>
+                </div>
+            </section>
 
-            <div className="group rounded-2xl border border-amber-500/30 bg-gradient-to-br from-black to-zinc-900 p-8 shadow-lg shadow-amber-500/5 transition-all duration-300 hover:shadow-amber-500/20">
-              <div className="mb-6 flex items-center">
-                <div className="mr-4 flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-r from-amber-400 to-yellow-500">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6 text-black"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
-                    />
-                  </svg>
+         {/* Vision & Mission */}
+         <section className="bg-black/90 py-16">
+                <div className="container mx-auto px-4">
+                    <div className="grid gap-8 md:grid-cols-2">
+                        <div className="rounded-lg border border-[#FFD700] bg-black/50 p-8">
+                            <h2 className="mb-6 text-2xl font-bold text-[#FFD700]">
+                                Vision
+                            </h2>
+                            <p className="text-lg leading-relaxed">
+                                To create a united, communicative, and
+                                competitive faculty where students from all
+                                departments actively participate in academic and
+                                non-academic activities and are fully supported
+                                in achieving their highest potential.
+                            </p>
+                        </div>
+                        <div className="rounded-lg border border-[#FFD700] bg-black/50 p-8">
+                            <h2 className="mb-6 text-2xl font-bold text-[#FFD700]">
+                                Mission
+                            </h2>
+                            <ul className="list-inside list-disc space-y-4">
+                                <li>
+                                    Foster interdepartmental collaboration and
+                                    unity
+                                </li>
+                                <li>
+                                    Facilitate academic and professional growth
+                                </li>
+                                <li>Create engaging events and programs</li>
+                                <li>
+                                    Support student initiatives and development
+                                </li>
+                                <li>Build strong community relationships</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-                <h3 className="text-2xl font-bold text-amber-400 group-hover:text-amber-300">Mission</h3>
-              </div>
-              <ul className="space-y-3 text-gray-300">
-                {[
-                  "Foster interdepartmental collaboration and unity",
-                  "Facilitate academic and professional growth",
-                  "Create engaging events and programs",
-                  "Support student initiatives and development",
-                  "Build strong community relationships",
-                ].map((item, index) => (
-                  <li key={index} className="flex items-start">
-                    <span className="mr-2 mt-1 text-amber-400">•</span>
-                    <span className="text-lg">{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
+            </section>
 
       {/* Division Section */}
       <section id="divisions" className="py-20">
