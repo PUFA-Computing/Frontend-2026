@@ -1,39 +1,56 @@
-import Image from "next/image";
-import React from "react";
+"use client"
+
+import Image from "next/image"
+import { motion } from "framer-motion"
 
 interface LogoSectionProps {
-    image: string;
-    title: string;
-    description: string;
+  image: string
+  title: string
+  description: string
 }
 
-export default function LogoSection({
-    image,
-    title,
-    description,
-}: LogoSectionProps) {
-    return (
-        <section className="mx-auto max-w-7xl pb-16 text-[#353535] px-4 sm:px-6 lg:px-8">
-            <h1 className="flex justify-center text-[32px] sm:text-[40px] font-[700] uppercase py-6">
-                logo philosophy
-            </h1>
-             <div className="flex flex-col lg:flex-row text-[24px] sm:text-[30px] font-[700] gap-4 py-6">
-                <Image
-                    src={image}
-                    alt={`${title}'s logo`}
-                    height={1080}
-                    width={1920}
-                    className="h-[200px] sm:h-[250px] w-[200px] sm:w-[250px] rounded-lg bg-black mx-auto lg:mx-0"
-                />
-                <div className="flex flex-col items-center lg:items-start">
-                    <h1 className="inline-block rounded-lg border-2 border-[#353535] p-1 text-[24px] sm:text-[30px]">
-                        {title}
-                    </h1>
-                    <p className="font-[600] text-[16px] sm:text-[20px] text-justify mt-2 sm:mt-4">
-                        {description}
-                    </p>
-                </div>
-            </div>
-        </section>
-    );
+export default function LogoSection({ image, title, description }: LogoSectionProps) {
+  return (
+    <motion.section
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      transition={{ duration: 0.8 }}
+      viewport={{ once: true }}
+      className="mx-auto max-w-7xl py-16 px-4 sm:px-6 lg:px-8"
+    >
+      <div className="text-center mb-12">
+        <h2 className="text-4xl sm:text-5xl font-bold text-gray-800 relative inline-block">
+          Logo Philosophy
+          <span className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-gray-800 to-gray-400 transform -translate-y-2"></span>
+        </h2>
+      </div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.3 }}
+        viewport={{ once: true }}
+        className="flex flex-col lg:flex-row items-center gap-10 mt-10"
+      >
+        <div className="relative w-[250px] h-[250px] flex-shrink-0">
+          <div className="absolute inset-0 bg-gradient-to-br from-gray-700 to-gray-900 rounded-2xl transform rotate-3"></div>
+          <Image
+            src={image || "/placeholder.svg"}
+            alt={`${title}'s logo`}
+            height={250}
+            width={250}
+            className="relative z-10 h-[250px] w-[250px] object-contain p-4 rounded-2xl bg-black"
+          />
+        </div>
+
+        <div className="flex flex-col items-center lg:items-start space-y-6 max-w-2xl">
+          <h3 className="inline-block rounded-lg border-2 border-gray-800 px-6 py-3 text-2xl sm:text-3xl font-bold bg-gradient-to-r from-gray-800 to-gray-700 text-white">
+            {title}
+          </h3>
+          <p className="text-lg sm:text-xl text-gray-700 leading-relaxed">{description}</p>
+        </div>
+      </motion.div>
+    </motion.section>
+  )
 }
+

@@ -1,22 +1,39 @@
-import React from "react";
+"use client"
+import { motion } from "framer-motion"
 
 interface AboutProps {
-    content: string;
+  content: string
 }
 
 function About({ content }: AboutProps) {
-    return (
-        <section className="flex flex-col items-center justify-center px-4 py-8 sm:py-12 lg:py-16">
-            <h1 className="text-center text-[40px] font-[700] text-[#353535] sm:text-[50px]">
-                About
-            </h1>
-            <div className="w-full max-w-7xl">
-                <article className="py-6 text-justify text-[18px] font-[600] text-[#353535] sm:py-8 sm:text-[20px] md:py-10 md:text-[22px] lg:text-[25px]">
-                    {content}
-                </article>
-            </div>
-        </section>
-    );
+  return (
+    <motion.section
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8 }}
+      viewport={{ once: true }}
+      className="flex flex-col items-center justify-center px-4 py-16 sm:py-20 lg:py-24"
+    >
+      <div className="max-w-7xl mx-auto">
+        <div className="text-center mb-12">
+          <h2 className="text-4xl sm:text-5xl font-bold text-gray-800 relative inline-block">
+            About
+            <span className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-gray-800 to-gray-400 transform -translate-y-2"></span>
+          </h2>
+        </div>
+
+        <motion.article
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+          viewport={{ once: true }}
+          className="prose prose-lg md:prose-xl lg:prose-2xl max-w-none text-gray-700 font-medium leading-relaxed"
+        >
+          {content}
+        </motion.article>
+      </div>
+    </motion.section>
+  )
 }
 
-export default About;
+export default About
