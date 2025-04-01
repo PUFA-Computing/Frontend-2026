@@ -1,34 +1,31 @@
-
-import React from "react";
+import type React from "react"
+import { Check, Target } from "lucide-react"
 
 interface ListVisionAndMissionProps {
-   selectedContent: string;
-   visionContent: string[];
-   missionContent: string[];
+  content: string[]
+  type: "vision" | "mission"
 }
 
-const ListVisionAndMissionCard: React.FC<ListVisionAndMissionProps> = ({
-   selectedContent,
-   visionContent,
-   missionContent,
-}) => {
-   const contentToDisplay =
-      selectedContent === "vision" ? visionContent : missionContent;
+const ListVisionAndMissionCard: React.FC<ListVisionAndMissionProps> = ({ content, type }) => {
+  return (
+    <div className="space-y-4">
+      {content.map((item, index) => (
+        <div key={index} className="flex items-start gap-3">
+          {type === "mission" ? (
+            <div className="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/10">
+              <Target className="h-3 w-3 text-primary" />
+            </div>
+          ) : (
+            <div className="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/10">
+              <Check className="h-3 w-3 text-primary" />
+            </div>
+          )}
+          <span className="text-gray-700">{item}</span>
+        </div>
+      ))}
+    </div>
+  )
+}
 
-   const listClassName =
-      selectedContent === "vision"
-         ? "space-y-2 px-10 py-2 text-justify text-[#6B7280] md:px-6 md:text-sm lg:text-base"
-         : "list-disc space-y-2 px-10 py-2 text-justify text-[#6B7280] md:px-6 md:text-sm lg:text-base";
+export default ListVisionAndMissionCard
 
-   return (
-      <div className="max-w-[50rem] rounded-2xl border border-[#3C99DC] bg-white px-5">
-         <ul className={listClassName}>
-            {contentToDisplay.map((item, index) => (
-               <li key={index}>{item}</li>
-            ))}
-         </ul>
-      </div>
-   );
-};
-
-export default ListVisionAndMissionCard;

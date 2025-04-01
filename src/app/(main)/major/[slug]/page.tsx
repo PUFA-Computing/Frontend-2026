@@ -1,93 +1,87 @@
-import Image from "next/image";
-import ListCard from "@/components/major/ListCard";
-import LectureCard from "@/components/major/LectureCard";
-import VnMSection from "@/components/major/VnMSection";
-import { majorPage } from "@/lib/page";
-import { redirect } from "next/navigation";
-
+// Import the new LecturersSection component
+import Image from "next/image"
+import ListCard from "@/components/major/ListCard"
+import VnMSection from "@/components/major/VnMSection"
+import LecturersSection from "@/components/major/LectureSection"
+import { majorPage } from "@/lib/page"
+import { redirect } from "next/navigation"
+import { Badge } from "@/components/ui/badge"
+import { BookOpen, GraduationCap } from "lucide-react"
 
 interface StudyProgramPageProps {
-    params: { slug: string };
+  params: { slug: string }
 }
+
 export default function StudyProgramPage({ params }: StudyProgramPageProps) {
-    const { slug } = params;
+  const { slug } = params
 
-    const programData = majorPage.find((program) => program.slug === slug);
+  const programData = majorPage.find((program) => program.slug === slug)
 
-    if (!programData) {
-        if (typeof window !== 'undefined') {
-           redirect("/404")
-        }
-        return null;
-    }
+  if (!programData) {
+    redirect("/404")
+  }
 
-    const {
-        image,
-        vision,
-        mission,
-        profession,
-        description,
-        lecturers,
-    } = programData;
+  const { image, vision, mission, profession, description, lecturers, name } = programData
 
-    const deanAndHead = lecturers.filter(
-        (lecture) =>
-            lecture.position === "Head of Study Program" ||
-            lecture.position === "Dean Faculty of Computing"
-    );
+  // Transform lecturers data to match the new LecturersSection component
+  const formattedLecturers = lecturers.map((lecturer, index) => ({
+    id: `lecturer-${index}`,
+    name: lecturer.name,
+    position: lecturer.position || "Lecturer",
+    image: lecturer.image.src,
+    isChief: lecturer.position === "Head of Study Program" || lecturer.position === "Dean Faculty of Computing",
+  }))
 
-    const otherLecturers = lecturers.filter(
-        (lecture) =>
-            lecture.position !== "Dean Faculty of Computing" &&
-            lecture.position !== "Head of Study Program"
-    );
+  return (
+    <section className="flex flex-col items-center pb-24">
+      {/* Hero Section */}
+      <div className="relative w-full">
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/70 z-10 rounded-b-3xl" />
+        <Image
+          width={1920}
+          height={600}
+          src={image || "/placeholder.svg"}
+          alt={programData.name}
+          className="w-full h-[50vh] object-cover rounded-b-3xl"
+          priority
+        />
+        <div className="absolute bottom-0 left-0 right-0 z-20 p-8 md:p-12 text-white">
+          <div className="container mx-auto">
+            <Badge className="mb-4 bg-primary hover:bg-primary/90">Study Program</Badge>
+            <h1 className="text-3xl md:text-5xl font-bold mb-2">{name}</h1>
+            <p className="text-white/80 max-w-2xl">{description.split(" ").slice(0, 20).join(" ")}...</p>
+          </div>
+        </div>
+      </div>
 
-    return (
-        <section className="flex flex-col items-center space-y-12 p-6 md:px-[10rem]">
-            <Image
-                width={1280}
-                height={500}
-                src={image}
-                alt={programData.name}
-                className="rounded-lg bg-blue-400"
-            />
-            {/* study program description */}
-            <div className="space-y-8">
-                <h1 className="font-[600]">About Study Program</h1>
-                <h1 className="text-justify leading-7">{description}</h1>
+      <div className="container mx-auto px-4 md:px-6">
+        {/* About Section */}
+        <div className="bg-white rounded-2xl p-6 md:p-8 shadow-lg border border-gray-100 my-16">
+          <div className="flex items-center gap-2 mb-6">
+            <BookOpen className="h-5 w-5 text-primary" />
+            <h2 className="text-2xl font-bold">About Study Program</h2>
+          </div>
+          <p className="text-gray-700 leading-relaxed">{description}</p>
+        </div>
+
+        {/* Career and Vision/Mission Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+          <div className="bg-white rounded-2xl p-6 md:p-8 shadow-lg border border-gray-100 h-full">
+            <div className="flex items-center gap-2 mb-6">
+              <GraduationCap className="h-5 w-5 text-primary" />
+              <h2 className="text-2xl font-bold">Future Field and Career</h2>
             </div>
-            {/* profession and future career part  */}
-            <div className="flex w-full flex-col justify-between gap-8 md:flex-row">
-                <div className="space-y-4">
-                    <h1 className="font-[600]">Future Field and Career</h1>
-                    <ListCard content={profession} />
-                </div>
-                <VnMSection missionContent={mission} visionContent={vision} />
-            </div>
-            {/* big lecturers */}
-            <div className="flex flex-col gap-8">
-                <h1 className="font-[600]">Lecturers</h1>
-                <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
-                    {deanAndHead.map((lecture, index) => (
-                        <LectureCard
-                            key={index}
-                            image={lecture.image.src}
-                            name={lecture.name}
-                            position={lecture.position}
-                        />
-                    ))}
-                </div>
-            </div>
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-5">
-                {otherLecturers.map((lecture, index) => (
-                    <LectureCard
-                        key={index}
-                        image={lecture.image.src}
-                        name={lecture.name}
-                        position={lecture.position}
-                    />
-                ))}
-            </div>
-        </section>
-    );
+            <ListCard content={profession} />
+          </div>
+
+          <div className="bg-white rounded-2xl p-6 md:p-8 shadow-lg border border-gray-100 h-full">
+            <VnMSection missionContent={mission} visionContent={vision} />
+          </div>
+        </div>
+
+        {/* Replace the old lecturers section with the new component */}
+        <LecturersSection lecturers={formattedLecturers} />
+      </div>
+    </section>
+  )
 }

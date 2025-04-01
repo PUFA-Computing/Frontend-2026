@@ -1,5 +1,6 @@
-import Image from "next/image";
-import React from "react";
+import Image from "next/image"
+import type React from "react"
+import { Card, CardContent } from "@/components/ui/card"
 
 /**
  * Props for the LectureCard component.
@@ -38,26 +39,22 @@ interface LectureCardProps {
  */
 const LectureCard: React.FC<LectureCardProps> = ({ image, name, position }) => {
     return (
-        <div className="rounded-xl duration-300 hover:scale-110 hover:shadow-xl">
-            <div className="relative aspect-[3/4] w-full rounded-lg overflow-hidden">
-                <Image
-                    className="object-fit"
-                    src={image}
-                    alt={`${name}'s photo`}
-                    height={1280}
-                    width={720}
-                />
-            </div>
-            <div className="p-2">
-                <h3 className="text-lg font-medium leading-6 text-gray-900">
-                    {name}
-                </h3>
-                <h1 className="text-[18px] font-[500] text-[#0C8CE9]">
-                    {position}
-                </h1>
-            </div>
+      <Card className="overflow-hidden transition-all duration-300 hover:shadow-lg hover:translate-y-[-5px] group">
+        <div className="relative aspect-[3/4] w-full overflow-hidden">
+          <Image
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            src={image || "/placeholder.svg"}
+            alt={`${name}'s photo`}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          />
         </div>
-    );
-};
-
-export default LectureCard;
+        <CardContent className="p-4">
+          <h3 className="font-semibold text-lg">{name}</h3>
+          {position && <p className="text-primary font-medium text-sm mt-1">{position}</p>}
+        </CardContent>
+      </Card>
+    )
+  }
+  
+  export default LectureCard
