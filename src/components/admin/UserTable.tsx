@@ -10,6 +10,15 @@ function UserTable({
     onEditClick: (user: User) => void;
     onViewVerification: (verificationInfo: any) => void;
 }) {
+    console.log('UserTable received users:', users);
+    if (!users || users.length === 0) {
+        return (
+            <div className="text-center py-12">
+                <p className="text-gray-500">No users found.</p>
+            </div>
+        );
+    }
+
     return (
         <div className="px-4 sm:px-6 lg:px-8">
             <div className="sm:flex sm:items-center">

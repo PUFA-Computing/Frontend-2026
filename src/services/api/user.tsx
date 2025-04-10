@@ -2,6 +2,22 @@ import axios, { AxiosError } from "axios";
 import { API_USER } from "@/config/config";
 import Event from "@/models/event";
 import User from "@/models/user";
+import { dummyUsers } from "@/data/dummy/users";
+
+export const GetAllUsers = async (accessToken?: string): Promise<User[]> => {
+    try {
+        // Using dummy data instead of API call
+        console.log('GetAllUsers - dummyUsers:', dummyUsers);
+        if (!Array.isArray(dummyUsers)) {
+            console.error('dummyUsers is not an array:', dummyUsers);
+            return [];
+        }
+        return dummyUsers;
+    } catch (error) {
+        console.error('Error in GetAllUsers:', error);
+        return [];
+    }
+};
 
 /**
  * Fetches the user profile data from the API.
@@ -12,22 +28,33 @@ import User from "@/models/user";
  * @example
  * const user = await GetUserProfile('userId', 'token');
  */
-export async function GetUserProfile(userId: string, token: string) {
-    try {
-        const response = await axios.get(`${API_USER}/${userId}`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
-        return response.data?.data;
-    } catch (error) {
-        if (error instanceof AxiosError) {
-            console.log(error.response);
-        } else {
-            console.log(error);
-        }
-        throw error;
+// previous fetching, currently we use dummy fetching
+// export async function GetUserProfile(userId: string, token: string) {
+//     try {
+//         const response = await axios.get(`${API_USER}/${userId}`, {
+//             headers: {
+//                 Authorization: `Bearer ${token}`,
+//             },
+//         });
+//         return response.data?.data;
+//     } catch (error) {
+//         if (error instanceof AxiosError) {
+//             console.log(error.response);
+//         } else {
+//             console.log(error);
+//         }
+//         throw error;
+//     }
+// }
+
+export async function GetUserProfile(userId: string, token?: string): Promise<User | null> {
+    // Using dummy data instead of API call
+    const user = dummyUsers.find(u => u.id === userId);
+    if (!user) {
+        console.error("User not found");
+        return null;
     }
+    return user;
 }
 
 /**
@@ -45,6 +72,47 @@ export async function GetUserProfile(userId: string, token: string) {
  * @example
  * const user = await UpdateUserProfile('username', 'first_name', 'middle_name', 'last_name', 'email', 'major', 'year', 'accessToken');
  */
+// previous updating user profile, currently we use update with dummy
+// export async function UpdateUserProfile(
+//     username: string,
+//     first_name: string,
+//     middle_name: string,
+//     last_name: string,
+//     email: string,
+//     major: string,
+//     year: string,
+//     gender: string,
+//     date_of_birth: Date,
+//     accessToken: string
+// ) {
+//     try {
+//         const response = await axios.put(
+//             `${API_USER}/edit`,
+//             {
+//                 username,
+//                 first_name,
+//                 middle_name,
+//                 last_name,
+//                 email,
+//                 major,
+//                 gender,
+//                 year,
+//                 date_of_birth,
+//             },
+//             {
+//                 headers: {
+//                     Authorization: `Bearer ${accessToken}`,
+//                 },
+//             }
+//         );
+
+//         return response.data.data;
+//     } catch (error) {
+//         console.log(error);
+//         throw error;
+//     }
+// }
+
 export async function UpdateUserProfile(
     username: string,
     first_name: string,
@@ -56,33 +124,32 @@ export async function UpdateUserProfile(
     gender: string,
     date_of_birth: Date,
     accessToken: string
-) {
-    try {
-        const response = await axios.put(
-            `${API_USER}/edit`,
-            {
-                username,
-                first_name,
-                middle_name,
-                last_name,
-                email,
-                major,
-                gender,
-                year,
-                date_of_birth,
-            },
-            {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            }
-        );
-
-        return response.data.data;
-    } catch (error) {
-        console.log(error);
-        throw error;
+): Promise<User | null> {
+    // Using dummy data - find user by email since we don't have userId
+    const userIndex = dummyUsers.findIndex(u => u.email === email);
+    if (userIndex === -1) {
+        console.error("User not found");
+        return null;
     }
+
+    // Update the user in our dummy data
+    const updatedUser = {
+        ...dummyUsers[userIndex],
+        username,
+        first_name,
+        middle_name,
+        last_name,
+        email,
+        major,
+        gender,
+        year,
+        date_of_birth,
+        updated_at: new Date().toISOString()
+    };
+
+    // In a real app, we would persist this change
+    dummyUsers[userIndex] = updatedUser;
+    return updatedUser;
 }
 
 /**
@@ -94,24 +161,46 @@ export async function UpdateUserProfile(
  * @example
  * const user = await UpdatePassword('newPassword', 'accessToken');
  */
-export async function UpdatePassword(password: string, accessToken: string) {
-    try {
-        const response = await axios.put(
-            `${API_USER}/edit`,
-            {
-                password,
-            },
-            {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            }
-        );
-        return response.data.data;
-    } catch (error) {
-        console.log(error);
-        throw error;
+
+// previous updating user password, currently we use update with dummy
+// export async function UpdatePassword(password: string, accessToken: string) {
+//     try {
+//         const response = await axios.put(
+//             `${API_USER}/edit`,
+//             {
+//                 password,
+//             },
+//             {
+//                 headers: {
+//                     Authorization: `Bearer ${accessToken}`,
+//                 },
+//             }
+//         );
+//         return response.data.data;
+//     } catch (error) {
+//         console.log(error);
+//         throw error;
+//     }
+// }
+
+export async function UpdatePassword(userId: string, password: string, accessToken: string): Promise<User | null> {
+    // Using dummy data
+    const userIndex = dummyUsers.findIndex(u => u.id === userId);
+    if (userIndex === -1) {
+        console.error("User not found");
+        return null;
     }
+
+    // Update the password in our dummy data
+    const updatedUser = {
+        ...dummyUsers[userIndex],
+        password: password, // In a real app, this would be hashed
+        updated_at: new Date().toISOString()
+    };
+
+    // In a real app, we would persist this change
+    dummyUsers[userIndex] = updatedUser;
+    return updatedUser;
 }
 
 /**
