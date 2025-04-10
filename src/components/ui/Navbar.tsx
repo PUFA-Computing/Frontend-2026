@@ -341,7 +341,7 @@ export default function Navbar() {
           </div>
 
           {/* Mobile Menu Button */}
-          <button
+          {/* <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className={`fixed right-4 top-4 z-50 rounded p-2 text-white hover:text-gray-300 lg:hidden ${!isMenuOpen ? "opacity-0" : "opacity-100"}`}
           >
@@ -353,7 +353,7 @@ export default function Navbar() {
                 d={isMobileMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}
               />
             </svg>
-          </button>
+          </button> */}
         </nav>
 
         {/* Mobile Menu */}

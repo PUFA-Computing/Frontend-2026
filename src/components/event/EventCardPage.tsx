@@ -3,7 +3,15 @@ import type Event from "@/models/event"
 import Link from "next/link"
 import { Calendar, Users } from "lucide-react"
 
-export default function EventCardPage({ event }: { event: Event }) {
+interface EventCardPageProps {
+  event?: Event
+}
+
+export default function EventCardPage({ event }: EventCardPageProps) {
+  if (!event) {
+    return null
+  }
+
   const calculateDaysLeft = (endDate: Date) => {
     const today = new Date()
     const differenceInTime = endDate.getTime() - today.getTime()

@@ -13,7 +13,8 @@ export default async function AdminLayout({
     children: React.ReactNode;
 }) {
     const session = await getSessionServer();
-    if (!session) return redirect("/auth/signin");
+    // Temporarily disabled authentication check for development
+    // if (!session) return redirect("/auth/signin");
 
     const teams = [
         {

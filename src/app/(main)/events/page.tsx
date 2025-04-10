@@ -12,19 +12,23 @@ export const dynamic = "force-dynamic"
 
 export default async function EventsPage() {
   const events = await fetchEvents()
-
   if (!events) return <div>Failed to fetch data...</div>
 
   const today: Date = new Date()
 
-  // Upcoming events sorted by end date and equal or greater than today
-  const upcomingEvents = events
+  // Sort all events by end date first
+  const sortedEvents = events.sort((a, b) => 
+    a.end_date.getTime() - b.end_date.getTime()
+  )
+
+  // Get upcoming events (first 2)
+  const upcomingEvents = sortedEvents
     .filter((event) => event.end_date.getTime() >= today.getTime())
-    .sort((a, b) => a.end_date.getTime() - b.end_date.getTime())
     .slice(0, 2)
 
-  // All event sorted by end date exclude the first 2 upcoming events
-  const allEvents = events.sort((a, b) => a.end_date.getTime() - b.end_date.getTime()).slice(2)
+  // Get remaining events without excluding any
+  const allEvents = sortedEvents
+    .filter((event) => !upcomingEvents.includes(event))
 
   const truncateDescription = (description: string) => {
     if (description.length > 100) {
@@ -103,7 +107,7 @@ export default async function EventsPage() {
         {/* Upcoming Events Timeline */}
         <div className="mb-6 mt-16 flex items-center">
           <Clock className="mr-2 h-6 w-6 text-indigo-600" />
-          <h2 className="text-2xl font-bold text-gray-900">Upcoming Events Timeline</h2>
+          <h2 className="text-2xl font-bold text-gray-900">Events Timeline</h2>
         </div>
 
         <div className="rounded-xl bg-white p-6 shadow-md">

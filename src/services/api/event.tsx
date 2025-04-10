@@ -2,6 +2,8 @@ import axios from "axios";
 import Event from "../../models/event";
 import { API_EVENT } from "@/config/config";
 import FormData from "form-data";
+import { dummyEvents } from "@/lib/dummy/events";
+
 
 /**
  * An object that caches event data by slug.
@@ -15,28 +17,31 @@ const eventCache: { [key: string]: Event } = {};
  * @throws {Error} If an error occurs during the API request.
  */
 export const fetchEvents = async (): Promise<Event[]> => {
-    try {
-        const response = await axios.get(API_EVENT);
+    // try {
+    //     const response = await axios.get(API_EVENT);
         
-        // Pastikan response.data ada dan memiliki properti data
-        const eventData = response.data?.data || [];
+    //     // Pastikan response.data ada dan memiliki properti data
+    //     const eventData = response.data?.data || [];
 
-        // Pastikan eventData adalah array sebelum mapping
-        if (Array.isArray(eventData)) {
-            return eventData.map(event => ({
-                ...event,
-                start_date: new Date(event.start_date),
-                end_date: new Date(event.end_date),
-                created_at: new Date(event.created_at),
-                updated_at: new Date(event.updated_at || event.created_at)
-            }));
-        }
+    //     // Pastikan eventData adalah array sebelum mapping
+    //     if (Array.isArray(eventData)) {
+    //         return eventData.map(event => ({
+    //             ...event,
+    //             start_date: new Date(event.start_date),
+    //             end_date: new Date(event.end_date),
+    //             created_at: new Date(event.created_at),
+    //             updated_at: new Date(event.updated_at || event.created_at)
+    //         }));
+    //     }
 
-        return [];
-    } catch (error) {
-        console.error("Error fetching events:", error);
-        return []; // Return array kosong jika terjadi error
-    }
+    //     return [];
+    // } catch (error) {
+    //     console.error("Error fetching events:", error);
+    //     return []; // Return array kosong jika terjadi error
+    // }
+
+    // use dummy data
+    return dummyEvents;
 };
 
 /**
@@ -47,32 +52,39 @@ export const fetchEvents = async (): Promise<Event[]> => {
  * @param eventSlug
  */
 export const fetchEventBySlug = async (eventSlug: string): Promise<Event> => {
-    try {
-        // Check if the event is already cached
-        if (eventCache[eventSlug]) {
-            return eventCache[eventSlug];
-        }
+    // try {
+    //     // Check if the event is already cached
+    //     if (eventCache[eventSlug]) {
+    //         return eventCache[eventSlug];
+    //     }
 
-        // Make a GET request to the API endpoint
-        const response = await axios.get(`${API_EVENT}/${eventSlug}`);
+    //     // Make a GET request to the API endpoint
+    //     const response = await axios.get(`${API_EVENT}/${eventSlug}`);
 
-        // Extract the event data from the response
-        const eventData = response.data?.data;
-        eventData.start_date = new Date(eventData.start_date);
-        eventData.end_date = new Date(eventData.end_date);
-        eventData.created_at = new Date(eventData.created_at);
-        eventData.updated_at = new Date(eventData.updated_at);
+    //     // Extract the event data from the response
+    //     const eventData = response.data?.data;
+    //     eventData.start_date = new Date(eventData.start_date);
+    //     eventData.end_date = new Date(eventData.end_date);
+    //     eventData.created_at = new Date(eventData.created_at);
+    //     eventData.updated_at = new Date(eventData.updated_at);
 
-        // Cache the event data
-        eventCache[eventSlug] = eventData;
+    //     // Cache the event data
+    //     eventCache[eventSlug] = eventData;
 
-        // Return the Event object
-        return eventData as Event;
-    } catch (error) {
-        // Log an error message and rethrow the error
-        console.error(`Error fetching event with slug ${eventSlug}`, error);
-        throw error;
+    //     // Return the Event object
+    //     return eventData as Event;
+    // } catch (error) {
+    //     // Log an error message and rethrow the error
+    //     console.error(`Error fetching event with slug ${eventSlug}`, error);
+    //     throw error;
+    // }
+
+    //use dummt data
+    const event = dummyEvents.find(e => e.slug === eventSlug);
+    if (!event) {
+        throw new Error("Event not found");
     }
+    return event;
 };
 
 interface EventCreation {

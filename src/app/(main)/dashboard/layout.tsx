@@ -12,13 +12,14 @@ export default async function DashboardLayout({
     children: React.ReactNode;
 }) {
     const session = await getSessionServer();
-    if (!session) return redirect("/auth/signin");
+    // Temporarily disabled authentication check for development
+    // if (!session) return redirect("/auth/signin");
 
     return (
         <DashobardContextProvider>
             <div className="flex h-screen">
                 {/* Sidebar */}
-                {session.user && <DashboardSidebar />}
+                {session?.user && <DashboardSidebar />}
 
                 {/* Main content */}
 

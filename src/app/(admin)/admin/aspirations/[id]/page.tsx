@@ -3,6 +3,7 @@ import { GetAspirationById } from "@/services/api/aspiration";
 import { useParams } from "next/navigation";
 import ReplyAspirationsPage from "@/app/(admin)/admin/aspirations/[id]/_components/ReplyAspirationsPage";
 import { useEffect, useState } from "react";
+import Aspirations from "@/models/aspiration";
 
 export default function ReplyPage() {
     const params = useParams<{ id: string }>();
@@ -10,13 +11,13 @@ export default function ReplyPage() {
     const id = parseInt(params.id, 10);
     console.log(id);
 
-    const [aspiration, setAspiration] = useState(null);
+    const [aspiration, setAspiration] = useState<Aspirations | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         GetAspirationById(id)
             .then((data) => {
-                setAspiration(data.data);
+                setAspiration(data);
                 setLoading(false);
             })
             .catch((error) => {
