@@ -59,7 +59,8 @@ export default function LoginForm() {
                     setError(res.error);
                 }
             } else if (res?.ok) {
-                window.location.reload();
+                // Menggunakan fungsi successLogin untuk mengarahkan ke dashboard
+                successLogin(res);
             }
         } catch (error: any) {
             await Swal.fire({
@@ -69,7 +70,7 @@ export default function LoginForm() {
                 showConfirmButton: false,
                 timer: 5000,
             });
-            setError(error.response.data.message);
+            setError(error.response?.data?.message || "Login failed");
         } finally {
             setIsLoading(false);
         }
@@ -83,7 +84,9 @@ export default function LoginForm() {
             showConfirmButton: false,
             timer: 2000,
         }).then(() => {
-            router.push("/dashboard");
+            // Menggunakan window.location.href untuk navigasi yang lebih kuat
+            // daripada router.push() yang mungkin tidak menggantikan halaman saat ini
+            window.location.href = "/dashboard";
         });
     };
 

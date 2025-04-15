@@ -12,8 +12,8 @@ export default async function DashboardLayout({
     children: React.ReactNode;
 }) {
     const session = await getSessionServer();
-    // Temporarily disabled authentication check for development
-    // if (!session) return redirect("/auth/signin");
+    // Memastikan pengguna sudah login untuk mengakses halaman dashboard
+    if (!session) return redirect("/auth/signin");
 
     return (
         <DashobardContextProvider>

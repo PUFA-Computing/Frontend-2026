@@ -48,13 +48,21 @@ export const GetAllUsers = async (accessToken?: string): Promise<User[]> => {
 // }
 
 export async function GetUserProfile(userId: string, token?: string): Promise<User | null> {
-    // Using dummy data instead of API call
-    const user = dummyUsers.find(u => u.id === userId);
-    if (!user) {
-        console.error("User not found");
-        return null;
+    try {
+        const response = await axios.get(`${API_USER}/${userId}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return response.data?.data;
+    } catch (error) {
+        if (error instanceof AxiosError) {
+            console.log(error.response);
+        } else {
+            console.log(error);
+        }
+        throw error;
     }
-    return user;
 }
 
 /**
