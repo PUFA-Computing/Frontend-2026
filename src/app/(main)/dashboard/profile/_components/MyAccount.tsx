@@ -62,32 +62,95 @@ export default function MyAccount() {
     // Fetch user data
     useEffect(() => {
         const fetchData = async () => {
-            if (session.data == null) {
+            // Hanya lanjutkan jika session sudah authenticated
+            if (session.status !== "authenticated") {
+                console.log("Session not authenticated yet", session.status);
+                // Jika session belum siap, set loading ke false agar tidak infinite loading
+                if (session.status === "unauthenticated") {
+                    setLoading(false);
+                }
                 return;
             }
+            
+            // Jika session.data tidak ada atau tidak lengkap, gunakan data dari session.data.user langsung
+            if (!session.data?.user) {
+                console.log("No session.data.user available");
+                setLoading(false);
+                return;
+            }
+            
             try {
-                const userData = await GetUserProfile(
-                    session.data.user.id,
-                    session.data.user.access_token
-                );
-                setUserData(userData);
-                setUsername(userData.username);
-                setFirstName(userData.first_name);
+                console.log("Session data available:", session.data.user);
+                
+                // Gunakan data dari session langsung jika tersedia
+                const userData = session.data.user;
+                
+                // Set state dengan data dari session
+                setUsername(userData.username || "");
+                setFirstName(userData.first_name || "");
                 setMiddleName(userData.middle_name || "");
-                setLastName(userData.last_name);
-                setEmail(userData.email);
-                setMajor(userData.major);
-                setBatch(userData.year);
-                setGender(userData.gender);
-                setDateOfBirth(userData.date_of_birth);
+                setLastName(userData.last_name || "");
+                setEmail(userData.email || "");
+                setMajor(userData.major || "");
+                setBatch(userData.year || "");
+                setGender(userData.gender || "");
+                // Konversi date_of_birth dari string ke Date jika diperlukan
+                if (userData.date_of_birth) {
+                    try {
+                        // Coba konversi ke Date apapun tipe datanya
+                        const dateObj = new Date(userData.date_of_birth);
+                        // Periksa apakah tanggal valid
+                        if (!isNaN(dateObj.getTime())) {
+                            setDateOfBirth(dateObj);
+                        } else {
+                            console.warn("Invalid date format:", userData.date_of_birth);
+                            setDateOfBirth(undefined);
+                        }
+                    } catch (error) {
+                        console.error("Error converting date:", error);
+                        setDateOfBirth(undefined);
+                    }
+                } else {
+                    setDateOfBirth(undefined);
+                }
+                
+                // Jika ada access_token, coba ambil data terbaru dari API
+                if (userData.id && userData.access_token) {
+                    console.log("Fetching fresh user data from API");
+                    try {
+                        const freshUserData = await GetUserProfile(
+                            userData.id,
+                            userData.access_token
+                        );
+                        
+                        if (freshUserData) {
+                            console.log("Fresh user data fetched successfully", freshUserData);
+                            setUserData(freshUserData);
+                            setUsername(freshUserData.username || "");
+                            setFirstName(freshUserData.first_name || "");
+                            setMiddleName(freshUserData.middle_name || "");
+                            setLastName(freshUserData.last_name || "");
+                            setEmail(freshUserData.email || "");
+                            setMajor(freshUserData.major || "");
+                            setBatch(freshUserData.year || "");
+                            setGender(freshUserData.gender || "");
+                            setDateOfBirth(freshUserData.date_of_birth || undefined);
+                        }
+                    } catch (apiError) {
+                        console.error("Error fetching fresh user data from API:", apiError);
+                        // Tetap gunakan data dari session jika API gagal
+                    }
+                }
+                
                 setLoading(false);
             } catch (error) {
-                console.error("Error fetching user data:", error);
+                console.error("Error processing user data:", error);
+                setLoading(false);
             }
         };
 
-        fetchData().then((r) => r);
-    }, [session]);
+        fetchData();
+    }, [session.status, session.data]);
 
     const handleProfilePictureChange = (
         e: React.ChangeEvent<HTMLInputElement>
@@ -100,15 +163,26 @@ export default function MyAccount() {
 
     const handleProfilePictureUpload = async () => {
         if (profilePicture) {
-            if (!session.data) {
+            // Periksa apakah session sudah authenticated dan memiliki data user yang lengkap
+            if (session.status !== "authenticated" || !session.data?.user?.access_token) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Authentication Error",
+                    text: "You need to be logged in to upload a profile picture",
+                    showConfirmButton: true,
+                });
                 return;
             }
+            
             try {
                 const updatedUser = await uploadProfilePicture(
                     profilePicture,
                     session.data.user.access_token
                 );
-                setUserData(updatedUser);
+                
+                // Konversi null menjadi undefined jika diperlukan untuk menghindari error tipe data
+                const safeUpdatedUser = updatedUser || undefined;
+                setUserData(safeUpdatedUser);
                 setProfilePicture(null);
 
                 await Swal.fire({
@@ -131,28 +205,45 @@ export default function MyAccount() {
     };
 
     const handleSave = async () => {
-        if (!session.data) {
+        // Periksa apakah session sudah authenticated dan memiliki data user yang lengkap
+        if (session.status !== "authenticated" || !session.data?.user?.access_token) {
+            Swal.fire({
+                icon: "error",
+                title: "Authentication Error",
+                text: "You need to be logged in to update your profile",
+                showConfirmButton: true,
+            });
             return;
         }
+        
         if (!dateOfBirth) {
-          console.error("Date of birth is required");
-          return;
-      }
+            Swal.fire({
+                icon: "error",
+                title: "Validation Error",
+                text: "Date of birth is required",
+                showConfirmButton: true,
+            });
+            return;
+        }
+        
         try {
+            // UpdateUserProfile membutuhkan 10 parameter sesuai dengan definisi di user.tsx
             const updatedUser = await UpdateUserProfile(
-                username,
-                firstName,
-                middleName,
-                lastName,
-                email,
-                major,
-                batch,
-                gender,
-                dateOfBirth,
-                session.data.user.access_token
+                username,       // username
+                firstName,      // first_name
+                middleName,     // middle_name
+                lastName,       // last_name
+                email,          // email
+                major,          // major
+                batch,          // year
+                gender,         // gender
+                dateOfBirth,    // date_of_birth
+                session.data.user.access_token // accessToken
             );
-
-            setUserData(updatedUser);
+            
+            // Konversi null menjadi undefined jika diperlukan untuk menghindari error tipe data
+            const safeUpdatedUser = updatedUser || undefined;
+            setUserData(safeUpdatedUser);
 
             await Swal.fire({
                 icon: "success",
@@ -160,10 +251,15 @@ export default function MyAccount() {
                 showConfirmButton: false,
                 timer: 1500,
             });
-
-            window.location.reload();
         } catch (error) {
-            console.error("Error updating user profile:", error);
+            console.error("Error updating profile:", error);
+            await Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "Failed to update profile",
+                showConfirmButton: false,
+                timer: 1500,
+            });
         }
     };
 

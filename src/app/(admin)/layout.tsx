@@ -13,8 +13,8 @@ export default async function AdminLayout({
     children: React.ReactNode;
 }) {
     const session = await getSessionServer();
-    // Temporarily disabled authentication check for development
-    // if (!session) return redirect("/auth/signin");
+    // Memastikan pengguna sudah login untuk mengakses halaman admin
+    if (!session) return redirect("/auth/signin");
 
     const teams = [
         {
@@ -57,8 +57,10 @@ export default async function AdminLayout({
         { name: "Your profile", href: "/../dashboard/profile" },
     ];
 
-    if (session?.user.role_id === 2 || session?.user.role_id === 8) {
-        return redirect("/");
+    // Memastikan hanya pengguna dengan role admin yang dapat mengakses halaman admin
+    // Role 1 adalah admin, role lain akan diarahkan ke halaman dashboard
+    if (session?.user.role_id !== 1) {
+        return redirect("/dashboard");
     }
 
     return (

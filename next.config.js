@@ -2,7 +2,11 @@
 const nextConfig = {
   output: "standalone",
   images: {
-    domains: ["sg.pufacomputing.live", "id.pufacomputing.live"],
+    domains: [
+      "sg.pufacomputing.live", 
+      "id.pufacomputing.live",
+      "api.dicebear.com"
+    ],
   },
   httpAgentOptions: {
       keepAlive: false,
