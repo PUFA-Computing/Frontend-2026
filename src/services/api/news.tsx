@@ -1,62 +1,46 @@
 import axios from "axios";
 import News from "../../models/news";
 import { API_NEWS } from "@/config/config";
-import { dummyNews } from "@/lib/dummy/news";
 
 const newsCache: { [key: string]: News } = {};
 
 export const fetchNews = async (): Promise<News[]> => {
-    // try {
-    //     const response = await axios.get(API_NEWS);
-    //     const newsData = response.data?.data || [];
-        
-    //     // Pastikan newsData adalah array sebelum mapping
-    //     if (Array.isArray(newsData)) {
-    //         return newsData.map(news => ({
-    //             ...news,
-    //             publish_date: new Date(news.publish_date),
-    //             created_at: new Date(news.created_at),
-    //             updated_at: new Date(news.updated_at || news.created_at)
-    //         }));
-    //     }
-        
-    //     return [];
-    // } catch (error) {
-    //     console.error("Error fetching news:", error);
-    //     return [];
-    // }
-    
-    // use dummy data
-    return dummyNews;
+    try {
+        const response = await axios.get(API_NEWS);
+        const newsData = response.data?.data || [];
+        newsData.publish_date = new Date(newsData.publish_date);
+        newsData.created_at = new Date(newsData.created_at);
+        newsData.updated_at = new Date(newsData.updated_at);
+
+        newsCache[newsData.slug] = newsData;
+
+        return newsData as News[];
+    } catch (error) {
+        console.error("Error fetching news", error);
+        throw error;
+    }
 };
 
 export const fetchNewsBySlug = async (newsSlug: string): Promise<News> => {
-    // try {
-    //     if (newsCache[newsSlug]) {
-    //         return newsCache[newsSlug];
-    //     }
+    try {
+        if (newsCache[newsSlug]) {
+            return newsCache[newsSlug];
+        }
 
-    //     const response = await axios.get(`${API_NEWS}/${newsSlug}`);
+        const response = await axios.get(`${API_NEWS}/${newsSlug}`);
 
-    //     const newsData = response.data?.data;
-    //     newsData.publish_date = new Date(newsData.publish_date);
-    //     newsData.created_at = new Date(newsData.created_at);
-    //     newsData.updated_at = new Date(newsData.updated_at);
+        const newsData = response.data?.data;
+        newsData.publish_date = new Date(newsData.publish_date);
+        newsData.created_at = new Date(newsData.created_at);
+        newsData.updated_at = new Date(newsData.updated_at);
 
-    //     newsCache[newsSlug] = newsData;
+        newsCache[newsSlug] = newsData;
 
-    //     return newsData as News;
-    // } catch (error) {
-    //     console.error("Error fetching news", error);
-    //     throw error;
-    // }
-
-    // use dummy data
-    const news = dummyNews.find(n => n.slug === newsSlug);
-    if (!news) {
-        throw new Error("News not found");
+        return newsData as News;
+    } catch (error) {
+        console.error("Error fetching news", error);
+        throw error;
     }
-    return news;
 };
 
 interface NewsCreation {

@@ -1,34 +1,24 @@
 import { API_ASPIRATION, API_USER } from "@/config/config";
 import axios from "axios";
 import Aspirations from "@/models/aspiration";
-import { dummyAspirations } from "@/data/dummy/aspirations";
 
 export const fetchAspirations = async (): Promise<Aspirations[]> => {
-    // try {
-    //     const response = await axios.get(API_ASPIRATION);
+    try {
+        const response = await axios.get(API_ASPIRATION);
+        let aspirationData = (response.data.data as Aspirations[]) || [];
 
-    //     // Pastikan response.data ada dan sesuai format
-    //     if (!response.data || !response.data.data) {
-    //         return [];
-    //     }
+        aspirationData = aspirationData.map((aspiration: Aspirations) => {
+            aspiration.created_at = new Date(aspiration.created_at);
+            aspiration.updated_at = new Date(aspiration.updated_at);
+            return aspiration;
+        });
 
-    //     let aspirationData = response.data.data;
-
-    //     // Pastikan aspirationData adalah array
-    //     if (!Array.isArray(aspirationData)) {
-    //         return [];
-    //     }
-
-    //     return aspirationData.map((aspiration: Aspirations) => ({
-    //         ...aspiration,
-    //         created_at: new Date(aspiration.created_at),
-    //         updated_at: new Date(aspiration.updated_at),
-    //     }));
-    // } catch (error) {
-    //     console.error("Error fetching aspirations:", error);
-    //     return []; // Return empty array instead of throwing
-    // }
-    return dummyAspirations;
+        return aspirationData as Aspirations[];
+    } catch (error) {
+        // Log an error message and rethrow the error.
+        console.error("Error fetching aspirations", error);
+        throw error;
+    }
 };
 
 export const CreateAspiration = async (
@@ -56,36 +46,122 @@ export const CreateAspiration = async (
     }
 };
 
-export const GetAspirationById = async (id: number): Promise<Aspirations | null> => {
-    // Using dummy data instead of API call
-    const aspiration = dummyAspirations.find(asp => asp.id === id);
-    if (!aspiration) {
-        console.error("Aspiration not found");
-        return null;
+export const GetAspirationById = async (id: number): Promise<Aspirations> => {
+    try {
+        const response = await axios.get(`${API_ASPIRATION}/${id}`);
+        console.log('Raw API response:', response);
+        
+        // Ekstrak data aspirasi dari respons API
+        // Periksa apakah data ada di dalam property data atau langsung di response.data
+        let aspirationData = response.data.data || response.data;
+        console.log('Extracted aspiration data:', aspirationData);
+        
+        // Jika data masih dalam bentuk string (JSON), parse dulu
+        if (typeof aspirationData === 'string') {
+            try {
+                aspirationData = JSON.parse(aspirationData);
+            } catch (e) {
+                console.error('Failed to parse aspiration data:', e);
+            }
+        }
+        
+        // Pastikan data adalah objek
+        if (!aspirationData || typeof aspirationData !== 'object') {
+            console.error('Invalid aspiration data format:', aspirationData);
+            throw new Error('Invalid aspiration data format');
+        }
+        
+        // Pastikan semua properti yang diperlukan ada
+        const aspiration: Aspirations = {
+            id: aspirationData.id || 0,
+            user_id: aspirationData.user_id || '',
+            subject: aspirationData.subject || 'No Subject',
+            message: aspirationData.message || 'No Message',
+            anonymous: aspirationData.anonymous || false,
+            organization_id: aspirationData.organization_id || 0,
+            closed: aspirationData.closed || false,
+            created_at: aspirationData.created_at ? new Date(aspirationData.created_at) : new Date(),
+            updated_at: aspirationData.updated_at ? new Date(aspirationData.updated_at) : new Date(),
+            upvote: aspirationData.upvote || 0,
+            admin_reply: aspirationData.admin_reply || '',
+            organization: aspirationData.organization || { name: 'Unknown Organization' },
+            author: {
+                name: aspirationData.author?.name || 'Anonymous',
+                profile_picture: aspirationData.author?.profile_picture || '',
+                verified: aspirationData.author?.verified || false
+            }
+        };
+        
+        console.log('Processed aspiration object:', aspiration);
+        return aspiration;
+    } catch (error) {
+        // Log an error message and rethrow the error.
+        console.error("Error fetching aspiration", error);
+        throw error;
     }
-    return aspiration;
 };
 
 export const AdminReplyAspiration = async (
-    id: number,
+    id: number | string,
     admin_reply: string,
     accessToken: string
 ) => {
     try {
+        // Ekstrak angka dari ID, pastikan hanya menggunakan digit
+        let numericId;
+        if (typeof id === 'string') {
+            // Ekstrak hanya digit dari string ID
+            const matches = id.match(/\d+/);
+            if (matches && matches[0]) {
+                numericId = parseInt(matches[0], 10);
+            } else {
+                numericId = 0; // Default jika tidak ada digit
+            }
+        } else {
+            numericId = id;
+        }
+        
+        console.log(`Sending reply to aspiration ID: ${numericId}`);
+        
+        // PENTING: Backend mengharapkan string langsung, bukan objek JSON
+        // Lihat baris 248 di backend/internal/handlers/aspirations/aspirations_handlers.go:
+        // if err := c.BindJSON(&adminReply); err != nil { ... }
+        
+        // Gunakan URL yang benar dengan ID numerik
+        const url = `${API_ASPIRATION}/${numericId}/admin_reply`;
+        console.log('Request URL:', url);
+        console.log('Request data (string):', admin_reply);
+        
+        // Kirim permintaan dengan string langsung sebagai data
         const response = await axios.post(
-            `${API_ASPIRATION}/${id}/admin_reply`,
-            admin_reply,
+            url,
+            JSON.stringify(admin_reply), // Kirim string yang sudah di-stringify
             {
                 headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${accessToken}`,
-                },
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`
+                }
             }
         );
+        
+        console.log('Response:', response.data);
         return response.data;
-    } catch (error) {
-        // Log an error message and rethrow the error.
-        console.error("Error replying to aspiration", error);
+    } catch (error: any) {
+        console.error('Error in AdminReplyAspiration:', error);
+        console.error('Error details:', error.response?.data);
+        
+        // Tampilkan error yang lebih detail untuk debugging
+        if (error.response) {
+            console.error('Status:', error.response.status);
+            console.error('Data:', error.response.data);
+            console.error('Headers:', error.response.headers);
+        } else if (error.request) {
+            console.error('Request was made but no response received');
+            console.error(error.request);
+        } else {
+            console.error('Error setting up request:', error.message);
+        }
+        
         throw error;
     }
 };

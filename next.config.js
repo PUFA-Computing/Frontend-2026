@@ -5,7 +5,8 @@ const nextConfig = {
     domains: [
       "sg.pufacomputing.live", 
       "id.pufacomputing.live",
-      "api.dicebear.com"
+      "api.dicebear.com",
+      "example.com"
     ],
   },
   httpAgentOptions: {

@@ -81,23 +81,71 @@ export default function ReplyAspirationsPage({
     const updateDate = new Date(aspiration.updated_at);
 
     const [commentText, setCommentText] = useState("");
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [success, setSuccess] = useState(false);
     const session = useSession();
 
     const handleCommentSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (!session.data) return;
+        if (!session.data) {
+            setError("You must be logged in to reply to aspirations");
+            return;
+        }
+        
+        if (!commentText.trim()) {
+            setError("Reply cannot be empty");
+            return;
+        }
+
+        setIsSubmitting(true);
+        setError(null);
 
         try {
+            // Pastikan ID aspirasi adalah angka yang valid
+            // Model Aspirations mendefinisikan id sebagai number
+            const numericId = aspiration.id;
+            
+            console.log('Submitting reply for aspiration ID:', numericId);
+            console.log('Reply text:', commentText);
+            
+            // Panggil API untuk membalas aspirasi dengan ID numerik
             await AdminReplyAspiration(
-                aspiration.id,
+                numericId,
                 commentText,
                 session.data.user.access_token
             );
 
+            console.log('Reply submitted successfully');
             setCommentText("");
-            window.location.reload();
-        } catch (error) {
-            console.error("Error creating aspiration", error);
+            setSuccess(true);
+            
+            // Reload the page after a short delay to show success message
+            setTimeout(() => {
+                window.location.reload();
+            }, 1500);
+        } catch (error: any) {
+            console.error("Error replying to aspiration:", error);
+            
+            // Tampilkan pesan error yang lebih detail
+            let errorMessage = "Failed to submit reply. Please try again.";
+            
+            if (error.response?.data) {
+                if (typeof error.response.data === 'string') {
+                    errorMessage = error.response.data;
+                } else if (error.response.data.message) {
+                    errorMessage = error.response.data.message;
+                } else if (error.response.data.error) {
+                    errorMessage = error.response.data.error;
+                }
+            } else if (error.message) {
+                errorMessage = error.message;
+            }
+                
+            console.error("Error details:", errorMessage);
+            setError(errorMessage);
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -130,16 +178,20 @@ export default function ReplyAspirationsPage({
                 </span>
             </div>
             <div className="relative flex gap-x-4">
-                <img
-                    src={aspiration.author.profile_picture}
-                    alt=""
-                    className="relative mt-3 h-6 w-6 flex-none rounded-full bg-gray-50"
-                />
+                {aspiration.author && aspiration.author.profile_picture ? (
+                    <img
+                        src={aspiration.author.profile_picture}
+                        alt=""
+                        className="relative mt-3 h-6 w-6 flex-none rounded-full bg-gray-50"
+                    />
+                ) : (
+                    <div className="relative mt-3 h-6 w-6 flex-none rounded-full bg-gray-200" />
+                )}
                 <div className="flex-auto rounded-md p-3 ring-1 ring-inset ring-gray-200">
                     <div className="flex justify-between gap-x-4">
                         <div className="py-0.5 text-xs leading-5 text-gray-500">
                             <span className="font-medium text-gray-900">
-                                {aspiration.author.name}
+                                {aspiration.author && aspiration.author.name ? aspiration.author.name : "Anonymous"}
                             </span>{" "}
                             aspirations
                         </div>
@@ -215,12 +267,22 @@ export default function ReplyAspirationsPage({
                         </div>
 
                         <div className="absolute inset-x-0 bottom-0 flex justify-between py-2 pl-3 pr-2">
-                            <div className="flex items-center space-x-5"></div>
+                            <div className="flex items-center space-x-5">
+                                {error && (
+                                    <span className="text-xs text-red-500">{error}</span>
+                                )}
+                                {success && (
+                                    <span className="text-xs text-green-500">Reply submitted successfully!</span>
+                                )}
+                            </div>
                             <button
                                 type="submit"
-                                className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                                disabled={isSubmitting}
+                                className={`rounded-md px-2.5 py-1.5 text-sm font-semibold shadow-sm ${isSubmitting 
+                                    ? 'bg-gray-200 text-gray-500 cursor-not-allowed' 
+                                    : 'bg-white text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50'}`}
                             >
-                                Comment
+                                {isSubmitting ? "Submitting..." : "Comment"}
                             </button>
                         </div>
                     </form>
