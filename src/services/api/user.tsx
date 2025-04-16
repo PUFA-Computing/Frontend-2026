@@ -1,23 +1,7 @@
 import axios, { AxiosError } from "axios";
-import { API_USER } from "@/config/config";
+import { API_USER, BASE_URL } from "@/config/config";
 import Event from "@/models/event";
 import User from "@/models/user";
-import { dummyUsers } from "@/data/dummy/users";
-
-export const GetAllUsers = async (accessToken?: string): Promise<User[]> => {
-    try {
-        // Using dummy data instead of API call
-        console.log('GetAllUsers - dummyUsers:', dummyUsers);
-        if (!Array.isArray(dummyUsers)) {
-            console.error('dummyUsers is not an array:', dummyUsers);
-            return [];
-        }
-        return dummyUsers;
-    } catch (error) {
-        console.error('Error in GetAllUsers:', error);
-        return [];
-    }
-};
 
 /**
  * Fetches the user profile data from the API.
@@ -28,26 +12,7 @@ export const GetAllUsers = async (accessToken?: string): Promise<User[]> => {
  * @example
  * const user = await GetUserProfile('userId', 'token');
  */
-// previous fetching, currently we use dummy fetching
-// export async function GetUserProfile(userId: string, token: string) {
-//     try {
-//         const response = await axios.get(`${API_USER}/${userId}`, {
-//             headers: {
-//                 Authorization: `Bearer ${token}`,
-//             },
-//         });
-//         return response.data?.data;
-//     } catch (error) {
-//         if (error instanceof AxiosError) {
-//             console.log(error.response);
-//         } else {
-//             console.log(error);
-//         }
-//         throw error;
-//     }
-// }
-
-export async function GetUserProfile(userId: string, token?: string): Promise<User | null> {
+export async function GetUserProfile(userId: string, token: string) {
     try {
         const response = await axios.get(`${API_USER}/${userId}`, {
             headers: {
@@ -80,47 +45,6 @@ export async function GetUserProfile(userId: string, token?: string): Promise<Us
  * @example
  * const user = await UpdateUserProfile('username', 'first_name', 'middle_name', 'last_name', 'email', 'major', 'year', 'accessToken');
  */
-// previous updating user profile, currently we use update with dummy
-// export async function UpdateUserProfile(
-//     username: string,
-//     first_name: string,
-//     middle_name: string,
-//     last_name: string,
-//     email: string,
-//     major: string,
-//     year: string,
-//     gender: string,
-//     date_of_birth: Date,
-//     accessToken: string
-// ) {
-//     try {
-//         const response = await axios.put(
-//             `${API_USER}/edit`,
-//             {
-//                 username,
-//                 first_name,
-//                 middle_name,
-//                 last_name,
-//                 email,
-//                 major,
-//                 gender,
-//                 year,
-//                 date_of_birth,
-//             },
-//             {
-//                 headers: {
-//                     Authorization: `Bearer ${accessToken}`,
-//                 },
-//             }
-//         );
-
-//         return response.data.data;
-//     } catch (error) {
-//         console.log(error);
-//         throw error;
-//     }
-// }
-
 export async function UpdateUserProfile(
     username: string,
     first_name: string,
@@ -132,32 +56,33 @@ export async function UpdateUserProfile(
     gender: string,
     date_of_birth: Date,
     accessToken: string
-): Promise<User | null> {
-    // Using dummy data - find user by email since we don't have userId
-    const userIndex = dummyUsers.findIndex(u => u.email === email);
-    if (userIndex === -1) {
-        console.error("User not found");
-        return null;
+) {
+    try {
+        const response = await axios.put(
+            `${API_USER}/edit`,
+            {
+                username,
+                first_name,
+                middle_name,
+                last_name,
+                email,
+                major,
+                gender,
+                year,
+                date_of_birth,
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            }
+        );
+
+        return response.data.data;
+    } catch (error) {
+        console.log(error);
+        throw error;
     }
-
-    // Update the user in our dummy data
-    const updatedUser = {
-        ...dummyUsers[userIndex],
-        username,
-        first_name,
-        middle_name,
-        last_name,
-        email,
-        major,
-        gender,
-        year,
-        date_of_birth,
-        updated_at: new Date().toISOString()
-    };
-
-    // In a real app, we would persist this change
-    dummyUsers[userIndex] = updatedUser;
-    return updatedUser;
 }
 
 /**
@@ -169,46 +94,24 @@ export async function UpdateUserProfile(
  * @example
  * const user = await UpdatePassword('newPassword', 'accessToken');
  */
-
-// previous updating user password, currently we use update with dummy
-// export async function UpdatePassword(password: string, accessToken: string) {
-//     try {
-//         const response = await axios.put(
-//             `${API_USER}/edit`,
-//             {
-//                 password,
-//             },
-//             {
-//                 headers: {
-//                     Authorization: `Bearer ${accessToken}`,
-//                 },
-//             }
-//         );
-//         return response.data.data;
-//     } catch (error) {
-//         console.log(error);
-//         throw error;
-//     }
-// }
-
-export async function UpdatePassword(userId: string, password: string, accessToken: string): Promise<User | null> {
-    // Using dummy data
-    const userIndex = dummyUsers.findIndex(u => u.id === userId);
-    if (userIndex === -1) {
-        console.error("User not found");
-        return null;
+export async function UpdatePassword(password: string, accessToken: string) {
+    try {
+        const response = await axios.put(
+            `${API_USER}/edit`,
+            {
+                password,
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            }
+        );
+        return response.data.data;
+    } catch (error) {
+        console.log(error);
+        throw error;
     }
-
-    // Update the password in our dummy data
-    const updatedUser = {
-        ...dummyUsers[userIndex],
-        password: password, // In a real app, this would be hashed
-        updated_at: new Date().toISOString()
-    };
-
-    // In a real app, we would persist this change
-    dummyUsers[userIndex] = updatedUser;
-    return updatedUser;
 }
 
 /**
@@ -246,24 +149,124 @@ export async function Logout() {
 }
 
 /**
- * Fetches the user data from the API.
+ * Fetches all users from the API using the admin endpoint.
  * @param {string} accessToken - The access token to authenticate the request.
- * @returns {Promise<User>} A promise that resolves to a User object.
+ * @returns {Promise<User[]>} A promise that resolves to an array of User objects.
  * @throws {Error} If an error occurs during the API request.
  * @example
- * const user = await GetUser('accessToken');
+ * const users = await GetUser('accessToken');
  */
-export async function GetUser(accessToken: string) {
+export async function GetUser(accessToken: string): Promise<User[]> {
     try {
-        const response = await axios.get(`${API_USER}/list`, {
+        // Use the admin endpoint to get all users
+        // The endpoint is /api/v1/admin/users based on the backend routes
+        const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
+        const response = await axios.get(`${baseUrl}/api/v1/admin/users`, {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
             },
         });
 
-        return response.data.data;
+        const data = response.data.data;
+        console.log('Admin users response:', data);
+        
+        // Ensure we always return an array
+        if (Array.isArray(data)) {
+            return data;
+        } else if (data && typeof data === 'object') {
+            // If it's a single user object, wrap it in an array
+            return [data];
+        } else {
+            // If it's neither an array nor an object, return an empty array
+            console.error('Unexpected user data format:', data);
+            return [];
+        }
     } catch (error) {
-        console.log(error);
+        console.error('Error fetching all users from admin endpoint:', error);
+        // If there's an error, let's try a fallback approach
+        try {
+            // Try to get the current user as a fallback
+            const response = await axios.get(`${API_USER}/me`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            
+            const userData = response.data.data;
+            if (userData) {
+                console.log('Fallback: Using current user data');
+                return [userData];
+            }
+            return [];
+        } catch (fallbackError) {
+            console.error('Fallback approach also failed:', fallbackError);
+            throw error; // Throw the original error
+        }
+    }
+}
+
+/**
+ * Fetches all registered users from the API by making multiple requests.
+ * This is a workaround until the backend implements a proper endpoint for fetching all users.
+ * @param {string} accessToken - The access token to authenticate the request.
+ * @returns {Promise<User[]>} A promise that resolves to an array of User objects.
+ * @throws {Error} If an error occurs during the API request.
+ * @example
+ * const allUsers = await GetAllUsers('accessToken');
+ */
+export async function GetAllUsers(accessToken: string): Promise<User[]> {
+    try {
+        // First, get the current user to have at least one user in the list
+        const currentUserResponse = await axios.get(`${API_USER}/me`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        });
+        
+        const currentUser = currentUserResponse.data.data;
+        const users: User[] = [];
+        
+        if (currentUser) {
+            users.push(currentUser);
+        }
+        
+        // Try to fetch users with sequential IDs
+        // This is a temporary solution until the backend provides a proper endpoint
+        const maxUsersToFetch = 50; // Limit to avoid too many requests
+        const startId = 1;
+        
+        const fetchPromises = [];
+        for (let i = startId; i < startId + maxUsersToFetch; i++) {
+            fetchPromises.push(
+                axios.get(`${API_USER}/${i}`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                }).then(response => {
+                    if (response.data && response.data.data) {
+                        return response.data.data;
+                    }
+                    return null;
+                }).catch(() => null) // Silently fail for non-existent users
+            );
+        }
+        
+        const results = await Promise.all(fetchPromises);
+        
+        // Add all valid users to the array, avoiding duplicates
+        results.forEach(user => {
+            if (user && user.id) {
+                // Check if this user is already in the array
+                const isDuplicate = users.some(existingUser => existingUser.id === user.id);
+                if (!isDuplicate) {
+                    users.push(user);
+                }
+            }
+        });
+        
+        return users;
+    } catch (error) {
+        console.error('Error fetching all users:', error);
         throw error;
     }
 }
