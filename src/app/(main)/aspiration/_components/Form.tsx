@@ -208,75 +208,112 @@ export default function AspirationForm() {
         { value: "5", label: "PUMA Interior Design" },
     ];
 
-    const isFormValid =
-        selectedOrganization && subject.length >= 3 && message.length >= 10;
+    // More forgiving validation logic
+    const isFormValid = selectedOrganization && subject.length > 0 && message.length > 0;
+    
+    // Debug information to help users understand validation status
+    const validationStatus = {
+        organization: selectedOrganization ? true : false,
+        subject: subject.length > 0,
+        message: message.length > 0
+    };
 
     if (!isLoggedIn) {
         return (
-            <div className="flex flex-col rounded-lg border bg-white px-4 py-4 opacity-90 shadow-lg md:px-8 md:py-8">
-                <h1 className=" text-[1.4rem] text-[#656565] md:text-[1.8rem]">
-                    Share Your Aspirations for Better Computing
-                </h1>
-                <hr className="my-8 border" />
-                <div>
-                    <h1 className="text-[1.3rem] ">Hello, Guest!</h1>
-                    <h1 className="text-[1.3rem] font-bold">
-                        Please log in to share your aspiration
-                    </h1>
+            <div className="flex flex-col overflow-hidden rounded-xl border border-gray-200 bg-white shadow-lg">
+                {/* Header */}
+                <div className="bg-gradient-to-r from-blue-600 to-indigo-700 p-6 text-white md:p-8">
+                    <h2 className="mb-2 text-2xl font-bold md:text-3xl">
+                        Share Your Aspirations
+                    </h2>
+                    <p className="text-blue-100">
+                        Help us make Computing better with your valuable feedback
+                    </p>
                 </div>
-                <hr className="my-8 border" />
-
-                <button
-                    className="flex self-center rounded-lg border-2 border-[#6B7280] px-6 py-2 shadow-sm transition-all duration-300 hover:border-white hover:bg-[#6B7280] hover:text-white md:px-16 md:py-3"
-                    onClick={() => {
-                        window.location.href = "auth/signin";
-                    }}
-                >
-                    Sign In
-                </button>
+                
+                {/* Content */}
+                <div className="flex flex-col items-center justify-center p-8 text-center md:p-12">
+                    <div className="mb-8">
+                        <h3 className="mb-2 text-xl font-semibold text-gray-800">Hello, Guest!</h3>
+                        <p className="text-gray-600">
+                            Please sign in to share your aspirations with us.
+                        </p>
+                    </div>
+                    
+                    <button
+                        className="rounded-lg bg-blue-600 px-8 py-3 font-medium text-white shadow-md transition-all hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                        onClick={() => {
+                            window.location.href = "auth/signin";
+                        }}
+                    >
+                        Sign In
+                    </button>
+                </div>
             </div>
         );
     }
 
     if (userRole === 8) {
         return (
-            <div className="flex flex-col rounded-lg border bg-white px-4 py-4 opacity-90 shadow-lg md:px-8 md:py-8">
-                <h1 className=" text-[1.4rem] text-[#656565] md:text-[1.8rem]">
-                    Share Your Aspirations for Better Computing
-                </h1>
-                <hr className="my-8 border" />
-                <div>
-                    <h1 className="text-[1.3rem] ">Hello, {userName}</h1>
-                    <h1 className="text-[1.3rem] font-bold">
-                        You are not Faculty of Computing Student and you are not
-                        authorized to use this feature
-                    </h1>
+            <div className="flex flex-col overflow-hidden rounded-xl border border-gray-200 bg-white shadow-lg">
+                {/* Header */}
+                <div className="bg-gradient-to-r from-blue-600 to-indigo-700 p-6 text-white md:p-8">
+                    <h2 className="mb-2 text-2xl font-bold md:text-3xl">
+                        Share Your Aspirations
+                    </h2>
+                    <p className="text-blue-100">
+                        Help us make Computing better with your valuable feedback
+                    </p>
                 </div>
-                <hr className="my-8 border" />
+                
+                {/* Content */}
+                <div className="flex flex-col items-center justify-center p-8 text-center md:p-12">
+                    <div className="rounded-full bg-amber-100 p-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                        </svg>
+                    </div>
+                    <div className="mt-4">
+                        <h3 className="mb-2 text-xl font-semibold text-gray-800">Hello, {userName}</h3>
+                        <p className="text-gray-600">
+                            You are not a Faculty of Computing Student and are not authorized to use this feature.
+                        </p>
+                    </div>
+                </div>
             </div>
         );
     }
 
     return (
-        <div className="flex flex-col rounded-lg border bg-white px-4 py-4 opacity-90 shadow-lg md:px-8 md:py-8">
-            <h1 className=" text-[1.4rem] text-[#656565] md:text-[1.8rem]">
-                Share Your Aspirations for Better Computing
-            </h1>
-            <hr className="my-8 border" />
-            <div>
-                <h1 className="text-[1.3rem] ">Hello, {userName}</h1>
-                <h1 className="text-[1.3rem] font-bold">
-                    Let's fill in this box!
-                </h1>
+        <div className="flex flex-col overflow-hidden rounded-xl border border-gray-200 bg-white shadow-lg">
+            {/* Form Header */}
+            <div className="bg-gradient-to-r from-blue-600 to-indigo-700 p-6 text-white md:p-8">
+                <h2 className="mb-2 text-2xl font-bold md:text-3xl">
+                    Share Your Aspirations
+                </h2>
+                <p className="text-blue-100">
+                    Help us make Computing better with your valuable feedback
+                </p>
             </div>
-            <hr className="my-8 border" />
+            
+            {/* User Greeting */}
+            <div className="border-b border-gray-100 bg-gray-50 p-4 md:p-6">
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between">
+                    <div>
+                        <p className="text-lg text-gray-600">Hello, <span className="font-medium text-gray-900">{userName}</span></p>
+                        <h3 className="text-lg font-semibold text-gray-900">
+                            Let's share your thoughts!
+                        </h3>
+                    </div>
+                </div>
+            </div>
 
-            <form onSubmit={handleSubmit} ref={formHtml}>
-                <div className="mb-6 flex flex-col gap-2">
-                    <h1 className="text-[1.1rem] font-bold">To:</h1>
-                    <p className="text-[0.9rem]">
-                        Select the organization you want to share your
-                        aspiration with:
+            <form onSubmit={handleSubmit} ref={formHtml} className="p-6 md:p-8">
+                {/* Organization Selection */}
+                <div className="mb-6">
+                    <label className="mb-2 block text-sm font-medium text-gray-700">To Organization</label>
+                    <p className="mb-2 text-sm text-gray-500">
+                        Select the organization you want to share your aspiration with
                     </p>
                     <Select
                         value={selectedOrganization}
@@ -284,72 +321,98 @@ export default function AspirationForm() {
                             setSelectedOrganization(selectedOption as any)
                         }
                         options={organizations}
-                        className="w-[100%] rounded-lg border-2 p-2"
+                        className="w-full rounded-lg"
+                        classNames={{
+                            control: () => "p-2 border-2 border-gray-300 hover:border-blue-400 focus:border-blue-500"
+                        }}
+                        placeholder="Select an organization..."
                     />
                 </div>
 
-                <div className="mb-6 flex flex-col gap-2">
-                    <h1 className="text-[1.1rem] font-bold">From:</h1>
-                    <div className="flex gap-2">
-                        <p className="text-[0.9rem]">Share it anonymously</p>
-                        <label className="inline-flex cursor-pointer items-center">
-                            <input
-                                type="checkbox"
-                                name="anonymous"
-                                className="peer sr-only"
-                                onChange={(e) => setAnonymous(e.target.checked)}
-                            />
-                            <div className="peer relative h-6 w-11 scale-90 rounded-full bg-gray-200 after:absolute after:start-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-green-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 rtl:peer-checked:after:-translate-x-full dark:border-gray-600 dark:bg-gray-700"></div>
-                            <span className="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300" />
-                        </label>
+                {/* From Section */}
+                <div className="mb-6">
+                    <div className="mb-2 flex items-center justify-between">
+                        <label className="block text-sm font-medium text-gray-700">From</label>
+                        <div className="flex items-center gap-2">
+                            <label className="relative inline-flex cursor-pointer items-center">
+                                <input
+                                    type="checkbox"
+                                    name="anonymous"
+                                    className="peer sr-only"
+                                    onChange={(e) => setAnonymous(e.target.checked)}
+                                    checked={anonymous}
+                                />
+                                <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-300"></div>
+                                <span className="ml-3 text-sm font-medium text-gray-700">Share anonymously</span>
+                            </label>
+                        </div>
                     </div>
-
-                    {/*User Name*/}
                     <input
                         type="text"
                         name="from"
-                        className="w-[100%] rounded-lg border-2 p-2"
+                        className="w-full rounded-lg border-2 border-gray-300 bg-gray-50 p-3 text-gray-700 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 disabled:cursor-not-allowed disabled:opacity-75"
                         value={userName}
                         disabled
                     />
                 </div>
 
-                <div className="mb-6 flex flex-col gap-2">
-                    <h1 className="text-[1.1rem] font-bold">Subject:</h1>
-                    <p className="text-[0.9rem]">
+                {/* Subject Field */}
+                <div className="mb-6">
+                    <label htmlFor="subject" className="mb-2 block text-sm font-medium text-gray-700">Subject</label>
+                    <p className="mb-2 text-sm text-gray-500">
                         Specific topic you want to discuss
                     </p>
                     <input
                         type="text"
+                        id="subject"
                         name="subject"
-                        className="w-[100%] rounded-lg border-2 p-2"
+                        className="w-full rounded-lg border-2 border-gray-300 p-3 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                         value={subject}
                         onChange={handleChangeSubject}
+                        placeholder="Enter the subject of your aspiration"
                     />
                 </div>
 
-                <div className="mb-6 flex flex-col gap-2">
-                    <h1 className="text-[1.1rem] font-bold">Message:</h1>
-                    <p className="text-[0.9rem]">
-                        Anything else you want to let us know:
+                {/* Message Field */}
+                <div className="mb-8">
+                    <label htmlFor="message" className="mb-2 block text-sm font-medium text-gray-700">Message</label>
+                    <p className="mb-2 text-sm text-gray-500">
+                        Share your thoughts, ideas, or suggestions in detail
                     </p>
                     <textarea
+                        id="message"
                         name="message"
-                        cols={30}
-                        rows={10}
-                        className="resize-none rounded-lg border-2 p-2"
+                        rows={6}
+                        className="w-full resize-none rounded-lg border-2 border-gray-300 p-3 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                         value={message}
                         onChange={handleChangeMessage}
+                        placeholder="Write your message here..."
                     ></textarea>
                 </div>
 
-                <button
-                    type="submit"
-                    className="flex self-center rounded-lg border-2 border-[#6B7280] px-6 py-2 shadow-sm transition-all duration-300 hover:border-white hover:bg-[#6B7280] hover:text-white md:px-16 md:py-3"
-                    disabled={!isFormValid || isLoading}
-                >
-                    {isLoading ? <Spinner size="sm" /> : "Submit"}
-                </button>
+                {/* Submit Button */}
+                <div className="flex flex-col items-center">
+                    {/* Validation feedback */}
+                    {!isFormValid && (
+                        <div className="mb-4 w-full max-w-md rounded-lg bg-amber-50 p-3 text-sm text-amber-800">
+                            <p className="font-medium">Please complete the form:</p>
+                            <ul className="mt-1 list-inside list-disc">
+                                {!validationStatus.organization && <li>Select an organization</li>}
+                                {!validationStatus.subject && <li>Enter a subject</li>}
+                                {!validationStatus.message && <li>Write your message</li>}
+                            </ul>
+                        </div>
+                    )}
+                    
+                    <button
+                        type="submit"
+                        className="flex items-center justify-center rounded-lg bg-blue-600 px-8 py-3 font-medium text-white shadow-md transition-all hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:bg-gray-400 md:px-12"
+                        disabled={isLoading}
+                    >
+                        {isLoading ? <Spinner size="sm" className="mr-2" /> : null}
+                        {isLoading ? "Submitting..." : "Submit Aspiration"}
+                    </button>
+                </div>
             </form>
         </div>
     );
