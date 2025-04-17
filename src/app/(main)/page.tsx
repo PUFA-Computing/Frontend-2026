@@ -147,7 +147,7 @@ export default async function Index() {
                     <div className="flex justify-center items-center space-x-3 mb-2">
                         <div className="w-32 h-[2px] bg-gradient-to-r from-transparent via-[#FFD700] to-transparent opacity-70"></div>
                         <h2 className="text-4xl md:text-6xl h-[80px] font-[900] text-[#1d1c20]">
-                            Computing Events
+                            CS Events
                         </h2>
                         <div className="w-32 h-[2px] bg-gradient-to-r from-transparent via-[#FFD700] to-transparent opacity-70"></div>
                     </div>

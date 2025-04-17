@@ -66,7 +66,7 @@ export default async function EventDetailsPage({ params }: EventPageProps) {
                         <div>
                             <div className="mb-2 flex items-center">
                                 <Link href="/events" className="text-indigo-200 hover:text-white hover:underline">
-                                    Computing Events
+                                    CS Events
                                 </Link>
                                 <IoIosArrowForward className="mx-2 text-indigo-200" />
                                 <span className="text-white">{event.organization}</span>
