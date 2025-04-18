@@ -5,7 +5,7 @@ import { Version } from "@/models/version";
 
 export default function Footer({ version }: { version: Version }) {
     return (
-        <footer className="mx-auto max-w-7xl bg-white pt-8">
+        <footer className="mx-auto max-w-7xl pt-8">
             <div className="container mx-auto px-6 py-12">
                 <hr className="my-4 border-gray-200 dark:border-gray-700" />
                 <div className="md:-mx-3 md:flex md:items-center md:justify-between">

@@ -26,7 +26,7 @@ export default async function Index() {
     const news = await fetchNews();
 
     return (
-        <div className="min-h-screen bg-gray-100 text-black">
+        <div className="min-h-screen text-black">
             {/* Hero Section */}
             <div 
                 className="relative h-screen"
@@ -73,13 +73,13 @@ export default async function Index() {
                 <div className="container mx-auto px-4">
                     <div className="text-center mb-12">
                         <div className="flex justify-center items-center space-x-3 mb-2">
-                            <div className="w-32 h-[2px] bg-gradient-to-r from-transparent via-[#FFD700] to-transparent opacity-70"></div>
-                            <h2 className="text-4xl md:text-6xl h-[80px] font-[900] text-[#1d1c20]">
+                            <div className="w-32 h-[2px] bg-gradient-to-r from-transparent via-[#B48322] to-transparent opacity-70"></div>
+                            <h2 className="text-4xl md:text-6xl h-[80px] font-[900] bg-clip-text text-transparent bg-gradient-to-r from-[#000000] via-[#B48322] to-[#F2B233]">
                                 Study Programs
                             </h2>
-                            <div className="w-32 h-[2px] bg-gradient-to-r from-transparent via-[#FFD700] to-transparent opacity-70"></div>
+                            <div className="w-32 h-[2px] bg-gradient-to-r from-transparent via-[#B48322] to-transparent opacity-70"></div>
                         </div>
-                        <p className="text-[#1d1c20] dark:text-[#1d1c20] text-lg md:text-xl max-w-2xl mx-auto mt-10">
+                        <p className="text-[#1d1c20] text-lg md:text-xl max-w-2xl mx-auto mt-10">
                             The Faculty of Computing has four study programs that produce qualified student graduates in their fields.
                         </p>
                     </div>
@@ -100,40 +100,42 @@ export default async function Index() {
             </section>
 
             {/* cabinet forcasion */}
-            <section className="py-16 min-h-screen container mx-auto px-4">
+            <section className="py-16 min-h-screen container mx-auto px-4 bg-gray-100">
                 <div className="container mx-auto px-4">
                     <div className="text-center mb-12">
                         <div className="flex justify-center items-center space-x-3 mb-2">
-                            <div className="w-32 h-[2px] bg-gradient-to-r from-transparent via-[#FFD700] to-transparent opacity-70"></div>
-                            <h2 className="text-4xl md:text-6xl h-[80px] font-[900] text-[#1d1c20]">
+                            <div className="w-32 h-[2px] bg-gradient-to-r from-transparent via-[#B48322] to-transparent opacity-70"></div>
+                            <h2 className="text-4xl md:text-6xl h-[80px] font-[900] bg-clip-text text-transparent bg-gradient-to-r from-[#000000] via-[#B48322] to-[#F2B233]">
                                 Cabinet 2024/2025
                             </h2>
-                            <div className="w-32 h-[2px] bg-gradient-to-r from-transparent via-[#FFD700] to-transparent opacity-70"></div>
+                            <div className="w-32 h-[2px] bg-gradient-to-r from-transparent via-[#B48322] to-transparent opacity-70"></div>
                         </div>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center max-w-7xl mx-auto">
                         <div className="w-full h-full flex justify-center">
-                            <Image
-                                src={Logo}
-                                alt="FORCASION"
-                                className="w-[80%] md:w-full max-w-[400px] object-contain"
-                            />
+                            <div className="relative group overflow-hidden rounded-full p-2 bg-gradient-to-r from-[#000000] via-[#B48322] to-[#F2B233] shadow-lg transform transition-all duration-500 hover:scale-105">
+                                <Image
+                                    src={Logo}
+                                    alt="FORCASION"
+                                    className="w-[80%] md:w-full max-w-[400px] object-contain rounded-full bg-white p-4"
+                                />
+                            </div>
                         </div>
-                        <div className="text-left space-y-6 bg-white dark:bg-neutral-100 p-8 rounded-2xl shadow-lg">
-                            <h3 className="text-2xl font-bold text-[#1d1c20]">FORCASION CABINET</h3>
-                            <p className="text-lg  text-transparent bg-clip-text bg-gradient-to-r from-[#1d1c20] via-[#FDB931] to-[#FDB931]">
+                        <div className="text-left space-y-6 bg-white p-8 rounded-2xl shadow-lg border-l-4 border-[#B48322] transform transition-all duration-500 hover:shadow-xl hover:translate-y-[-5px]">
+                            <h3 className="text-2xl font-bold text-[#000000]">FORCASION CABINET</h3>
+                            <p className="text-lg text-transparent bg-clip-text bg-gradient-to-r from-[#000000] via-[#B48322] to-[#F2B233] font-semibold">
                                 <span>"One Team, One Vision, One for Computing"</span>
                             </p>
-                            <p className=" text-lg text-[#1d1c20]">
+                            <p className="text-lg text-[#1d1c20]">
                                 We are attempting to be a bridge for the Computing Faculty in a more positive way by growing together with us.
                             </p>
                             <Link href="/cabinet/anagata">
-                                <Button className="text-decoration-none mt-10 inline-flex items-center px-6 py-3 bg-black  text-white  rounded-full hover:bg-gray-200 hover:text-black transition-colors">
+                                <Button className="text-decoration-none mt-10 inline-flex items-center px-6 py-3 bg-gradient-to-r from-[#000000] to-[#B48322] text-white rounded-full hover:from-[#B48322] hover:to-[#F2B233] hover:text-[#000000] transition-all duration-300 shadow-md">
                                     See our Cabinet
                                     <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                        </svg>
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                    </svg>
                                 </Button>
                             </Link>
                         </div>
@@ -145,11 +147,11 @@ export default async function Index() {
             <section className="py-16 container mx-auto px-4">
                 <div className="text-center mb-12">
                     <div className="flex justify-center items-center space-x-3 mb-2">
-                        <div className="w-32 h-[2px] bg-gradient-to-r from-transparent via-[#FFD700] to-transparent opacity-70"></div>
-                        <h2 className="text-4xl md:text-6xl h-[80px] font-[900] text-[#1d1c20]">
+                        <div className="w-32 h-[2px] bg-gradient-to-r from-transparent via-[#B48322] to-transparent opacity-70"></div>
+                        <h2 className="text-4xl md:text-6xl h-[80px] font-[900] bg-clip-text text-transparent bg-gradient-to-r from-[#000000] via-[#B48322] to-[#F2B233]">
                             CS Events
                         </h2>
-                        <div className="w-32 h-[2px] bg-gradient-to-r from-transparent via-[#FFD700] to-transparent opacity-70"></div>
+                        <div className="w-32 h-[2px] bg-gradient-to-r from-transparent via-[#B48322] to-transparent opacity-70"></div>
                     </div>
                     <p className="text-gray-600 mt-4 max-w-2xl mx-auto">
                         Discover the latest updates on events in our faculty.
@@ -161,7 +163,7 @@ export default async function Index() {
                 <div className="text-center mt-8">
                     <Link 
                         href="/events"
-                        className="inline-flex items-center justify-center px-6 py-3  text-[#1d1c20] rounded-full  hover:text-[#FFD700] transition-all duration-300"
+                        className="inline-flex items-center justify-center px-6 py-3 bg-[#000000] text-white rounded-full hover:bg-[#B48322] transition-all duration-300 shadow-md"
                     >
                         See all Events
                         <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -172,14 +174,14 @@ export default async function Index() {
             </section>
 
             {/* Compreciation Section */}
-            <section className="py-16 container mx-auto px-4">
+            <section className="py-16 container mx-auto px-4 bg-gray-100 rounded-3xl my-8">
                 <div className="text-center mb-12">
                     <div className="flex justify-center items-center space-x-3 mb-2">
-                        <div className="w-32 h-[2px] bg-gradient-to-r from-transparent via-[#FFD700] to-transparent opacity-70"></div>
-                        <h2 className="text-4xl md:text-6xl h-[80px] font-[900] text-[#1d1c20]">
+                        <div className="w-32 h-[2px] bg-gradient-to-r from-transparent via-[#B48322] to-transparent opacity-70"></div>
+                        <h2 className="text-4xl md:text-6xl h-[80px] font-[900] bg-clip-text text-transparent bg-gradient-to-r from-[#000000] via-[#B48322] to-[#F2B233]">
                             Compreciation
                         </h2>
-                        <div className="w-32 h-[2px] bg-gradient-to-r from-transparent via-[#FFD700] to-transparent opacity-70"></div>
+                        <div className="w-32 h-[2px] bg-gradient-to-r from-transparent via-[#B48322] to-transparent opacity-70"></div>
                     </div>
                     <p className="text-gray-600 mt-4 max-w-2xl mx-auto">
                         Showcasing innovative projects and achievements from our talented Computing students.
@@ -190,7 +192,7 @@ export default async function Index() {
                 <div className="text-center mt-8">
                     <Link 
                         href="/comprecation"
-                        className="inline-flex items-center justify-center px-6 py-3  text-[#1d1c20] rounded-full  hover:text-[#FFD700] transition-all duration-300"
+                        className="inline-flex items-center justify-center px-6 py-3 border-2 border-[#B48322] text-[#000000] font-medium rounded-full hover:bg-[#B48322] hover:text-white transition-all duration-300 shadow-md"
                     >
                         See all Compreciations
                         <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -201,38 +203,60 @@ export default async function Index() {
             </section>
 
             {/* News Section */}
-            <section className="py-16 container mx-auto px-4">
+            <section className="py-16 container mx-auto px-4 bg-gradient-to-b ">
                 <div className="text-center mb-12">
                     <div className="flex justify-center items-center space-x-3 mb-2">
-                        <div className="w-32 h-[2px] bg-gradient-to-r from-transparent via-[#FFD700] to-transparent opacity-70"></div>
-                        <h2 className="text-4xl md:text-6xl h-[80px] font-[900] text-[#1d1c20]">
+                        <div className="w-32 h-[2px] bg-gradient-to-r from-transparent via-[#B48322] to-transparent opacity-70"></div>
+                        <h2 className="text-4xl md:text-6xl h-[80px] font-[900] bg-clip-text text-transparent bg-gradient-to-r from-[#000000] via-[#B48322] to-[#F2B233]">
                             Latest Updates
                         </h2>
-                        <div className="w-32 h-[2px] bg-gradient-to-r from-transparent via-[#FFD700] to-transparent opacity-70"></div>
+                        <div className="w-32 h-[2px] bg-gradient-to-r from-transparent via-[#B48322] to-transparent opacity-70"></div>
                     </div>
                     <p className="text-gray-600 mt-4 max-w-2xl mx-auto">
                         Stay informed with the latest news, announcements, and developments in Computing Faculty.
                     </p>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-w-7xl gap-8 mx-auto px-auto ">
-                    <div className="lg:col-span-1">
-                        <NewsCardBig news={news} />
-                        <NewsCard news={news} />
+                
+                {news && news.length > 0 ? (
+                    <div className="max-w-7xl mx-auto">
+                        {/* Featured News - Top Row */}
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+                            {/* Main Featured News */}
+                            <div className="lg:col-span-1 transform transition-all duration-300 hover:scale-[1.02]">
+                                <NewsCardBig news={news.slice(0, 1)} />
+                            </div>
+                            
+                            {/* Secondary Featured News */}
+                            <div className="lg:col-span-1 grid grid-cols-1 gap-6">
+                                <div className="transform transition-all duration-300 hover:scale-[1.02]">
+                                    <NewsCardBig news={news.slice(1, 2)} />
+                                </div>
+                            </div>
+                        </div>
+                        
+                        {/* Regular News - Bottom Rows */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <div className="space-y-6">
+                                <NewsCard news={news.slice(2, 4)} />
+                            </div>
+                            <div className="space-y-6">
+                                <NewsCard news={news.slice(4, 6)} />
+                            </div>
+                            <div className="space-y-6">
+                                <NewsCard news={news.slice(6, 8)} />
+                            </div>
+                        </div>
                     </div>
-                    <div className="lg:col-span-1">
-                    <NewsCardBig news={news} />
-                        <NewsCard news={news} />
+                ) : (
+                    <div className="flex justify-center items-center h-64">
+                        <CircularProgress />
                     </div>
-                    <div className="lg:col-span-1">
-                    <NewsCardBig news={news} />
-                        <NewsCard news={news} />
-                    </div>
-
-                </div>
-                    <div className="text-center mt-8 mx-auto">
+                )}
+                
+                <div className="text-center mt-12">
                     <Link 
                         href="/news"
-                        className="inline-flex items-center justify-center px-6 py-3  text-[#1d1c20] rounded-full  hover:text-[#FFD700] transition-all duration-300"
+                        className="inline-flex items-center justify-center px-8 py-3 bg-gradient-to-r from-[#000000] to-[#B48322] text-white rounded-full hover:from-[#B48322] hover:to-[#F2B233] hover:text-[#000000] transition-all duration-300 shadow-md"
                     >
                         See all News
                         <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -243,26 +267,26 @@ export default async function Index() {
             </section>
 
             {/* store */}
-            <section className="py-16  container mx-auto px-4 ">
+            <section className="py-16 container mx-auto px-4 bg-[#000000] text-white rounded-3xl my-8">
                 <div className="container text-center mx-auto px-4">
                     <div className="text-center mb-12">
                         <div className="flex justify-center space-x-3 mb-2">
-                            <div className="w-32 h-[2px] bg-gradient-to-r from-transparent via-[#FFD700] to-transparent opacity-70"></div>
-                            <h2 className="text-4xl md:text-6xl h-[80px] font-[900] text-[#1d1c20]">
+                            <div className="w-32 h-[2px] bg-gradient-to-r from-transparent via-[#F2B233] to-transparent opacity-70"></div>
+                            <h2 className="text-4xl md:text-6xl h-[80px] font-[900] bg-clip-text text-transparent bg-gradient-to-r from-[#B48322] to-[#F2B233]">
                                 Store
                             </h2>
-                            <div className="w-32 h-[2px] bg-gradient-to-r from-transparent via-[#FFD700] to-transparent opacity-70"></div>
+                            <div className="w-32 h-[2px] bg-gradient-to-r from-transparent via-[#F2B233] to-transparent opacity-70"></div>
                         </div>
                     </div>
-                    <h1 
-                        className="text-gray-600 mt-4 max-w-2xl mx-auto text-center"
+                    <p 
+                        className="text-gray-300 mt-4 max-w-2xl mx-auto text-center"
                     >
                         Get your hands on exclusive Computer Science merchandise.
-                    </h1>
+                    </p>
 
                     <Link 
                         href="/merch"
-                        className="inline-flex items-center justify-center px-6 py-3 mt-8 text-[#1d1c20] rounded-full  hover:text-[#FFD700] transition-all duration-300"
+                        className="inline-flex items-center justify-center px-6 py-3 mt-8 bg-[#B48322] text-white rounded-full hover:bg-[#F2B233] hover:text-[#000000] transition-all duration-300 shadow-md"
                     >
                         See all merchandise
                         <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -276,11 +300,11 @@ export default async function Index() {
             <section className="py-16 container mx-auto px-4 ">
                 <div className="text-center mb-12">
                     <div className="flex justify-center items-center space-x-3 mb-2">
-                        <div className="w-32 h-[2px] bg-gradient-to-r from-transparent via-[#FFD700] to-transparent opacity-70"></div>
-                        <h2 className="text-4xl md:text-6xl h-[80px] font-[900] text-[#1d1c20]">
+                        <div className="w-32 h-[2px] bg-gradient-to-r from-transparent via-[#B48322] to-transparent opacity-70"></div>
+                        <h2 className="text-4xl md:text-6xl h-[80px] font-[900] bg-clip-text text-transparent bg-gradient-to-r from-[#000000] via-[#B48322] to-[#F2B233]">
                             FAQ
                         </h2>
-                        <div className="w-32 h-[2px] bg-gradient-to-r from-transparent via-[#FFD700] to-transparent opacity-70"></div>
+                        <div className="w-32 h-[2px] bg-gradient-to-r from-transparent via-[#B48322] to-transparent opacity-70"></div>
                     </div>
                     <p className="text-gray-600 mt-4 max-w-2xl mx-auto">
                         Find answers to common questions about Computing Faculty programs, requirements, and opportunities.
@@ -294,4 +318,5 @@ export default async function Index() {
             </section>
             {/* end */}
         </div>
-    );}
+    );
+}

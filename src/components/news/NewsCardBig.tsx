@@ -1,102 +1,66 @@
-// import News from "@/models/news";
 import Image from "next/image";
 import Link from "next/link";
-// import React from "react";
-
-// export default function NewsCardBig({ news }: { news: News[] }) {
-//     const sortedNews = news.sort((a, b) => {
-//         return (
-//             new Date(b.publish_date).getTime() -
-//             new Date(a.publish_date).getTime()
-//         );
-//     });
-
-//     const createMarkup = (htmlString: string) => {
-//         return { __html: htmlString.replace(/<[^>]*>?/gm, "") };
-//     };
-
-//     const limitedNews = sortedNews.slice(0, 1);
-
 import backgroundImg from "@/assets/backgroundimg.svg";
-import { News } from "@/lib/common.type";
+import News from "@/models/news";
 
 interface NewsCardBigProps {
     news: News[];
 }
 
 export default function NewsCardBig({ news }: NewsCardBigProps) {
-    const latestNews = news[0];
+    const latestNews = news && news.length > 0 ? news[0] : null;
+
+    // Function to create a clean excerpt from HTML content
+    const createExcerpt = (content: string) => {
+        // Remove HTML tags and get plain text
+        const plainText = content.replace(/<[^>]*>?/gm, '');
+        // Limit to 150 characters and add ellipsis if needed
+        return plainText.length > 150 ? `${plainText.substring(0, 150)}...` : plainText;
+    };
+
+    if (!latestNews) {
+        return null;
+    }
 
     return (
-        // <section>
-        // {limitedNews.map((item, index) => (
-        //     <Link href={`news/${item.slug}`} key={index}>
-        //         <article className="relative h-full overflow-hidden rounded-lg shadow transition hover:shadow-lg ">
-
-        <div className="overflow-hidden rounded-xl bg-white shadow-lg">
-            <div className="relative h-64">
+        <div className="group overflow-hidden rounded-2xl bg-white shadow-lg hover:shadow-2xl transition-all duration-500 border-l-4 border-[#B48322] border-t border-r border-b h-full transform hover:translate-y-[-5px]">
+            <div className="relative h-64 md:h-80 overflow-hidden">
                 <Image
-                    //         alt={`${item.title}'s Image`}
-                    //         src={item.thumbnail}
-                    //         width={1920}
-                    //         height={1080}
-                    //         className="absolute inset-0 h-full w-full object-cover"
-                    //     />
-                    //     <div className="relative h-full bg-gradient-to-t from-gray-900/50 to-gray-900/25 pt-32 sm:pt-48 lg:pt-64">
-                    //         <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6">
-                    //             <time className="block text-xs text-white/90">
-                    //                 {new Date(item.publish_date).toDateString()}
-                    //             </time>
-                    //             <h3 className="mt-0.5 text-lg text-white">
-                    //                 {item.title}
-                    //             </h3>
-                    //             <p
-                    //                 className="mt-2 line-clamp-3 text-sm/relaxed text-white/95"
-                    //                 dangerouslySetInnerHTML={createMarkup(
-                    //                     item.content
-                    //                 )}
-                    //             />
-                    //         </div>
-                    //     </div>
-                    // </article>
-
-                    src={latestNews?.image || backgroundImg}
-                    alt={latestNews?.title || "News Image"}
-                    className="h-full w-full object-cover"
+                    src={latestNews.thumbnail || backgroundImg}
+                    alt={latestNews.title}
+                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                     width={600}
                     height={400}
+                    priority
                 />
-            </div>
-            <div className="p-6">
-                <div className="mb-4 flex items-center gap-2">
-                    <span className="text-sm text-gray-500">
-                        {new Date(latestNews?.date).toLocaleDateString(
-                            "en-US",
-                            {
-                                year: "numeric",
-                                month: "long",
-                                day: "numeric",
-                            }
-                        )}
-                    </span>
-                    <span className="h-1 w-1 rounded-full bg-gray-500"></span>
-                    <span className="text-sm text-gray-500">
-                        {latestNews?.category}
-                    </span>
+                <div className="absolute inset-0 bg-gradient-to-t from-[#000000]/80 via-[#000000]/40 to-transparent opacity-90"></div>
+                <div className="absolute bottom-0 left-0 p-6 text-white w-full">
+                    <div className="flex items-center gap-3 mb-3">
+                        <span className="text-xs font-medium bg-gradient-to-r from-[#B48322] to-[#F2B233] text-black px-4 py-1.5 rounded-full shadow-md transform transition-transform duration-300 group-hover:scale-105">
+                            {new Date(latestNews.publish_date).toLocaleDateString("en-US", {
+                                year: "numeric", month: "short", day: "numeric"
+                            })}
+                        </span>
+                        <span className="text-xs font-medium bg-black/60 text-white px-4 py-1.5 rounded-full shadow-md backdrop-blur-sm">
+                            {latestNews.organization || "PUFA Computing"}
+                        </span>
+                    </div>
+                    <h3 className="text-2xl md:text-3xl font-bold text-white drop-shadow-md mb-2 line-clamp-2 transition-all duration-300 group-hover:translate-y-[-5px]">
+                        {latestNews.title}
+                    </h3>
                 </div>
-                <h3 className="mb-3 text-2xl font-bold text-[#1d1c20]">
-                    {latestNews?.title}
-                </h3>
-                <p className="mb-4 line-clamp-3 text-gray-600">
-                    {latestNews?.description}
+            </div>
+            <div className="p-7">
+                <p className="mb-5 line-clamp-3 text-gray-600 leading-relaxed">
+                    {createExcerpt(latestNews.content)}
                 </p>
                 <Link
-                    href={`/news/${latestNews?.id}`}
-                    className="inline-flex items-center text-[#1d1c20] transition-colors hover:text-[#FFD700]"
+                    href={`/news/${latestNews.slug}`}
+                    className="inline-flex items-center font-medium text-[#000000] transition-all duration-300 hover:text-[#B48322] group-hover:translate-x-2"
                 >
-                    Read More
+                    Read Full Article
                     <svg
-                        className="ml-2 h-4 w-4"
+                        className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -109,8 +73,6 @@ export default function NewsCardBig({ news }: NewsCardBigProps) {
                         />
                     </svg>
                 </Link>
-                {/* ))}
-        </section> */}
             </div>
         </div>
     );

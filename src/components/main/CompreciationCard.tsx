@@ -20,7 +20,7 @@ export default function CompreciationCard({
     imageUrl,
 }: CompreciationCardProps) {
     return (
-        <article className="transform overflow-hidden rounded-xl bg-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+        <article className="transform overflow-hidden rounded-xl bg-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl border-l-4 border-[#B48322]">
             <div className="relative h-48 bg-white p-4">
                 <Image
                     src={imageUrl}
@@ -33,13 +33,13 @@ export default function CompreciationCard({
             </div>
             <div className="p-6">
                 <div className="mb-2 flex items-center gap-2">
-                    <span className="rounded-full bg-[#FFD700] px-3 py-1 text-xs font-semibold text-[#1d1c20]">
+                    <span className="rounded-full bg-gradient-to-r from-[#B48322] to-[#F2B233] px-3 py-1 text-xs font-semibold text-[#000000]">
                         {major}
                     </span>
                     <span className="text-xs text-gray-500">{date}</span>
                 </div>
 
-                <h3 className="mb-2 line-clamp-2 text-xl font-bold text-[#1d1c20]">
+                <h3 className="mb-2 line-clamp-2 text-xl font-bold text-[#000000]">
                     {title}
                 </h3>
                 {/* <h3 className="mt-0.5 text-justify text-[16px] sm:text-[14px] font-semibold text-[#AF95FF]">
@@ -56,12 +56,12 @@ export default function CompreciationCard({
                 </p>
 
                 <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium text-[#FFD700]">
+                    <span className="text-sm font-medium text-[#B48322]">
                         By {name}
                     </span>
                     <Link
                         href={`/projects/${title.toLowerCase().replace(/\s+/g, "-")}`}
-                        className="inline-flex items-center text-sm text-[#1d1c20] transition-colors hover:text-[#FFD700]"
+                        className="inline-flex items-center text-sm text-[#000000] transition-colors hover:text-[#B48322]"
                     >
                         View Project
                         <svg

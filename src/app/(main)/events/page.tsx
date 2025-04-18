@@ -51,7 +51,7 @@ export default async function EventsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100">
+    <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-r from-blue-900 via-indigo-800 to-purple-900 px-4 py-24 sm:px-6 md:px-8 lg:px-16">
         {/* Decorative elements */}
@@ -119,7 +119,7 @@ export default async function EventsPage() {
       </section>
 
       {/* Event Categories */}
-      <section id="categories" className="bg-gradient-to-b from-white to-indigo-50 py-16">
+      <section id="categories" className="py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-8">
           <div className="mb-10 flex items-center">
             <div className="mr-4 rounded-full bg-indigo-100 p-2">

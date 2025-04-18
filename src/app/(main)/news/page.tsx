@@ -24,7 +24,7 @@ export default async function NewsPage() {
   const regularNews = sortedNews.slice(3)
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 pb-16">
+    <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-r from-blue-900 via-indigo-800 to-purple-900 px-4 py-20 sm:px-6 md:px-8 lg:px-16">
         {/* Decorative elements */}
