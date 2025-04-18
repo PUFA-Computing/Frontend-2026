@@ -34,6 +34,38 @@ module.exports = {
                 background: "hsl(var(--background))",
                 foreground: "hsl(var(--foreground))",
             },
+            animation: {
+                'gradient': 'gradient 8s ease infinite',
+                'ping-slow': 'ping 3s cubic-bezier(0, 0, 0.2, 1) infinite',
+                'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                'bounce-slow': 'bounce 2s infinite',
+                'slide-in-right': 'slideInRight 0.5s ease-out',
+                'slide-in-left': 'slideInLeft 0.5s ease-out',
+                'fade-in': 'fadeIn 0.5s ease-out',
+                'scale-in': 'scaleIn 0.3s ease-out',
+            },
+            keyframes: {
+                gradient: {
+                    '0%, 100%': { backgroundPosition: '0% 50%' },
+                    '50%': { backgroundPosition: '100% 50%' },
+                },
+                slideInRight: {
+                    '0%': { transform: 'translateX(100%)', opacity: 0 },
+                    '100%': { transform: 'translateX(0)', opacity: 1 },
+                },
+                slideInLeft: {
+                    '0%': { transform: 'translateX(-100%)', opacity: 0 },
+                    '100%': { transform: 'translateX(0)', opacity: 1 },
+                },
+                fadeIn: {
+                    '0%': { opacity: 0 },
+                    '100%': { opacity: 1 },
+                },
+                scaleIn: {
+                    '0%': { transform: 'scale(0.9)', opacity: 0 },
+                    '100%': { transform: 'scale(1)', opacity: 1 },
+                },
+            },
         },
     },
 };

@@ -4,15 +4,17 @@ import { createContext, useContext, useEffect, useState } from "react";
 
 interface ContextProps {
    isMenuOpen: boolean;
+   setIsMenuOpen: (value: boolean) => void;
    toggleMenu: (bool?: boolean) => void;
 }
 
 const DashboardContext = createContext<ContextProps>({
    isMenuOpen: true,
+   setIsMenuOpen: () => {},
    toggleMenu: (bool?: boolean) => {},
 });
 
-export const DashobardContextProvider = ({
+export const DashboardContextProvider = ({
    children,
 }: {
    children: React.ReactNode;
@@ -32,7 +34,7 @@ export const DashobardContextProvider = ({
 		}
    };
    return (
-      <DashboardContext.Provider value={{ isMenuOpen, toggleMenu }}>
+      <DashboardContext.Provider value={{ isMenuOpen, setIsMenuOpen, toggleMenu }}>
          {children}
       </DashboardContext.Provider>
    );
