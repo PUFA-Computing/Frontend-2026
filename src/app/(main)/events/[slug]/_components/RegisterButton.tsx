@@ -1,5 +1,4 @@
 "use client";
-import Button from "@/components/Button";
 import { API_EVENT } from "@/config/config";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -8,6 +7,7 @@ import { totalRegisteredUsers } from "@/services/api/event";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { fetchUserEvents } from "@/services/api/user";
+import { LogIn, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
 
 interface RegisterButtonProps {
     eventId: number;
@@ -174,26 +174,89 @@ export default function RegisterButton({
         }
     };
 
+    // Determine button appearance based on state
+    const getButtonAppearance = () => {
+        if (buttonRegisterText === "Loading...") {
+            return {
+                icon: <Loader2 className="mr-2 h-4 w-4 animate-spin" />,
+                bgColor: "bg-indigo-500",
+                hoverBgColor: "hover:bg-indigo-600",
+                text: "Loading..."
+            };
+        } else if (buttonRegisterText === "Registered") {
+            return {
+                icon: <CheckCircle className="mr-2 h-4 w-4" />,
+                bgColor: "bg-green-500",
+                hoverBgColor: "hover:bg-green-600",
+                text: "Registered"
+            };
+        } else if (buttonRegisterText === "Registration Closed") {
+            return {
+                icon: <AlertCircle className="mr-2 h-4 w-4" />,
+                bgColor: "bg-gray-500",
+                hoverBgColor: "hover:bg-gray-600",
+                text: "Registration Closed"
+            };
+        } else if (buttonRegisterText.toLowerCase().includes("login")) {
+            return {
+                icon: <LogIn className="mr-2 h-4 w-4" />,
+                bgColor: "bg-blue-500",
+                hoverBgColor: "hover:bg-blue-600",
+                text: "Login to Register"
+            };
+        } else {
+            return {
+                icon: null,
+                bgColor: "bg-indigo-600",
+                hoverBgColor: "hover:bg-indigo-700",
+                text: "Register Now"
+            };
+        }
+    };
+
+    const buttonAppearance = getButtonAppearance();
+
     return (
-        <div className="flex w-full flex-col items-center space-y-4 rounded-lg bg-white p-4 shadow-md">
+        <div className="w-full space-y-6">
             {!registerDisabled && (
-                <textarea
-                    placeholder="Additional Notes"
-                    className="w-5/6 rounded-lg border-[#353535] bg-white px-4 py-2 text-[#353535] focus:border-y-gray-800 focus:outline-none"
-                    onChange={(e) => setAdditionalNotes(e.target.value)}
-                />
+                <div className="space-y-2">
+                    <label htmlFor="additional-notes" className="block text-sm font-medium text-gray-700">
+                        Additional Notes
+                    </label>
+                    <textarea
+                        id="additional-notes"
+                        placeholder="Please provide any additional information that might be relevant for your registration"
+                        className="w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                        rows={4}
+                        onChange={(e) => setAdditionalNotes(e.target.value)}
+                        value={additionalNotes}
+                    />
+                    <p className="text-xs text-gray-500">
+                        This information will be visible to the event organizers.
+                    </p>
+                </div>
             )}
-            <Button
-                className={`w-5/6 rounded-lg py-2 text-white hover:text-gray-200 ${
-                    registerDisabled
-                        ? "cursor-not-allowed bg-gray-500"
-                        : "bg-gray-500 hover:bg-gray-600"
-                }`}
+            
+            <button
+                className={`flex w-full items-center justify-center rounded-lg ${buttonAppearance.bgColor} px-6 py-3 font-medium text-white shadow-md transition-all ${buttonAppearance.hoverBgColor} focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-70`}
                 onClick={handleRegister}
                 disabled={registerDisabled}
             >
-                {buttonRegisterText}
-            </Button>
+                {buttonAppearance.icon}
+                {buttonAppearance.text}
+            </button>
+            
+            {registerDisabled && buttonRegisterText === "Registered" && (
+                <div className="mt-4 rounded-lg bg-green-50 p-4 text-sm text-green-800">
+                    <div className="flex">
+                        <CheckCircle className="mr-2 h-5 w-5 flex-shrink-0 text-green-500" />
+                        <div>
+                            <p className="font-medium">Registration successful!</p>
+                            <p className="mt-1">You are registered for this event. Check your dashboard for more details.</p>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

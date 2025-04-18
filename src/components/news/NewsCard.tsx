@@ -1,97 +1,70 @@
 import Image from "next/image";
 import Link from "next/link";
-
-// export default function NewsCard({ news }: { news: News[] }) {
-//     const sortedNews = news.sort((a, b) => {
-//         return (
-//             new Date(b.publish_date).getTime() -
-//             new Date(a.publish_date).getTime()
-//         );
-//     });
-
-//     const createMarkup = (htmlString: string) => {
-//         return { __html: htmlString.replace(/<[^>]*>?/gm, "") };
-//     };
-
-//     const limitedNews = sortedNews.slice(1, 5);
-
-import { News } from "@/lib/common.type";
 import backgroundImg from "@/assets/backgroundimg.svg";
+import News from "@/models/news";
 
 interface NewsCardProps {
     news: News[];
 }
 
 export default function NewsCard({ news }: NewsCardProps) {
-    // Get all news except the first one (which is shown in NewsCardBig)
-    const otherNews = news.slice(1, 4);
+    // Function to create a clean excerpt from HTML content
+    const createExcerpt = (content: string) => {
+        // Remove HTML tags and get plain text
+        const plainText = content.replace(/<[^>]*>?/gm, '');
+        // Limit to 100 characters and add ellipsis if needed
+        return plainText.length > 100 ? `${plainText.substring(0, 100)}...` : plainText;
+    };
+
+    if (!news || news.length === 0) {
+        return null;
+    }
 
     return (
-        // <section className="grid grid-cols-2 gap-8">
-        // {limitedNews.map((item, index) => (
-        //     <Link href={`/news/${item.slug}`} key={index}>
-        //         <article className="relative h-full overflow-hidden rounded-lg shadow transition hover:shadow-lg">
-
         <div className="space-y-6">
-            {otherNews.map((item) => (
+            {news.map((item) => (
                 <div
                     key={item.id}
-                    className="flex overflow-hidden rounded-xl bg-white shadow-lg"
+                    className="group flex overflow-hidden rounded-xl bg-white shadow-md hover:shadow-xl transition-all duration-500 transform hover:scale-[1.02] border-l-4 border-[#B48322] border-t border-r border-b"
                 >
-                    <div className="relative h-32 w-32">
+                    <div className="relative h-32 w-32 md:h-40 md:w-40 overflow-hidden">
                         <Image
-                            //     alt={`${item.title}'s Photo`}
-                            //     height={1080}
-                            //     width={1920}
-                            //     src={item.thumbnail}
-                            //     className="absolute inset-0 h-full w-full object-cover"
-                            // />
-                            // <div className="relative h-full bg-gradient-to-t from-gray-900/50 to-gray-900/25 pt-32 sm:pt-48 lg:pt-64">
-                            //     <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6">
-                            //         <time className="block text-xs text-white/90">
-                            //             {new Date(item.publish_date).toDateString()}
-                            //         </time>
-                            //         <h3 className="mt-0.5 text-lg text-white">
-
-                            src={item.image || backgroundImg}
+                            src={item.thumbnail || backgroundImg}
                             alt={item.title}
-                            className="h-full w-full object-cover"
-                            width={128}
-                            height={128}
+                            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                            width={160}
+                            height={160}
                         />
+                        <div className="absolute inset-0 bg-gradient-to-tr from-black/30 to-transparent"></div>
                     </div>
-                    <div className="flex-1 p-4">
-                        <div className="mb-2 flex items-center gap-2">
-                            <span className="text-xs text-gray-500">
+                    <div className="flex-1 p-5 md:p-6">
+                        <div className="mb-2 flex items-center gap-3">
+                            <span className="text-xs font-medium bg-[#F2B233]/10 text-[#B48322] px-3 py-1 rounded-full">
                                 {new Date(item.publish_date).toLocaleDateString(
                                     "en-US",
                                     {
                                         year: "numeric",
-                                        month: "long",
+                                        month: "short",
                                         day: "numeric",
                                     }
                                 )}
                             </span>
-                            <span className="h-1 w-1 rounded-full bg-gray-500"></span>
-                            <span className="text-xs text-gray-500"></span>
+                            <span className="h-1 w-1 rounded-full bg-gray-400"></span>
+                            <span className="text-xs font-medium text-gray-600">{item.organization || "PUFA Computing"}</span>
                         </div>
-                        <h3 className="mb-2 text-lg font-bold text-[#1d1c20]">
+                        <h3 className="mb-3 text-lg font-bold text-[#000000] line-clamp-2 transition-colors duration-300 group-hover:text-[#B48322]">
                             {item.title}
                         </h3>
-                        {/* <p
-                                    className="mt-2 line-clamp-3 text-sm/relaxed text-white/95"
-                                    dangerouslySetInnerHTML={createMarkup(
-                                        item.content
-                                    )}
-                                /> */}
-
+                        <p className="mb-4 text-sm text-gray-600 line-clamp-2 leading-relaxed">
+                            {createExcerpt(item.content)}
+                        </p>
                         <Link
                             href={`/news/${item.slug}`}
-                            className="inline-flex items-center text-sm text-[#1d1c20] transition-colors hover:text-[#FFD700]"
+                            className="inline-flex items-center text-sm font-medium text-[#000000] transition-all duration-300 hover:text-[#B48322] group-hover:translate-x-1"
                         >
                             Read More
                             <svg
-                                className="ml-1 h-4 w-4"
+                                className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
                                 fill="none"
                                 stroke="currentColor"
                                 viewBox="0 0 24 24"
@@ -106,10 +79,7 @@ export default function NewsCard({ news }: NewsCardProps) {
                         </Link>
                     </div>
                 </div>
-                // </article>
-                // </Link>
             ))}
-            {/* </section> */}
         </div>
     );
 }

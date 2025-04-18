@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import { IoIosHeartEmpty, IoIosHeart } from "react-icons/io";
 import Aspiration from "@/models/aspiration";
 import { AiFillCheckCircle, AiOutlineCloseCircle } from "react-icons/ai";
+import { FaReply, FaRegClock } from "react-icons/fa";
+import { motion } from "framer-motion";
 
 type AspirationCardProps = {
     aspiration: Aspiration;
@@ -43,96 +45,104 @@ const AspirationCard: React.FC<AspirationCardProps> = ({ aspiration }) => {
     };
 
     return (
-        <div className="flex flex-col gap-4 rounded-lg border-2 border-gray-300 p-4 md:p-6">
-            <div className="flex flex-row justify-between">
-                <h1 className="break-words text-lg font-bold capitalize md:text-xl">
-                    {aspiration.subject}
-                </h1>
-                {aspiration.admin_reply && (
-                    <button
-                        onClick={toggleAdminReply}
-                        className={`md:ml-auto ${
-                            showAdminReply ? "rotate-180 duration-300" : ""
-                        }`}
-                    >
-                        <svg
-                            width="12"
-                            height="8"
-                            viewBox="0 0 12 8"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path
-                                id="Icon"
-                                fillRule="evenodd"
-                                clipRule="evenodd"
-                                d="M0.351472 0.390524C0.820101 -0.130175 1.5799 -0.130175 2.04853 0.390524L6 4.78105L9.95147 0.390524C10.4201 -0.130175 11.1799 -0.130175 11.6485 0.390524C12.1172 0.911223 12.1172 1.75544 11.6485 2.27614L6.84853 7.60948C6.3799 8.13017 5.6201 8.13017 5.15147 7.60948L0.351472 2.27614C-0.117157 1.75544 -0.117157 0.911223 0.351472 0.390524Z"
-                                fill="#6B7280"
-                            />
-                        </svg>
-                    </button>
-                )}
-            </div>
-            <p className="break-words text-justify text-[16px] font-[400] text-[#6B7280]">
-                {aspiration.message}
-            </p>
-            {showAdminReply && (
-                <p className="text-[16px] font-[400] text-[#111827]">
-                    {" "}
-                    Admin :{" "}
-                    <span className="text-[16px] font-[400] text-[#6B7280]">
-                        {" "}
-                        {aspiration.admin_reply}{" "}
-                    </span>
-                </p>
-            )}
-            <div className="flex flex-col">
-                <p className="flex items-center text-[14px] font-semibold text-[#111827]">
-                    From:{" "}
-                    {aspiration.anonymous ? (
-                        "Anonymous"
-                    ) : (
-                        <>
-                            {aspiration.author.name}
-                            {aspiration.author.verified ? (
-                                <AiFillCheckCircle
-                                    className="ml-2 text-blue-500"
-                                    title="Student ID Verified"
-                                />
-                            ) : (
-                                <AiOutlineCloseCircle
-                                    className="ml-2 text-red-500"
-                                    title="Student ID Still Not Verified"
-                                />
-                            )}
-                        </>
-                    )}
-                </p>
-                <div className="flex flex-col gap-2 text-sm md:flex-row md:justify-between">
-                    <div className="text-[#6B7280]">
-                        <p>
-                            To: {aspiration.organization.name} <span> · </span>{" "}
-                            <span>{dateConvert(aspiration.updated_at)}</span>
-                        </p>
-                    </div>
-
-                    {/* Like and Like Count TODO
-                    <div className="flex flex-row gap-4">
+        <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+            className="flex flex-col overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition-all hover:shadow-md"
+        >
+            {/* Card Header */}
+            <div className="border-b border-gray-100 bg-gradient-to-r from-gray-50 to-white p-4 md:p-5">
+                <div className="flex items-start justify-between">
+                    <h3 className="break-words text-lg font-bold capitalize text-gray-900 md:text-xl">
+                        {aspiration.subject}
+                    </h3>
+                    {aspiration.admin_reply && (
                         <button
-                            onClick={toggleLike}
-                            className="flex items-center gap-1 text-2xl text-[#6B7280] disabled:cursor-not-allowed disabled:opacity-50"
+                            onClick={toggleAdminReply}
+                            className={`ml-2 flex h-8 w-8 items-center justify-center rounded-full bg-gray-100 text-gray-600 transition-all hover:bg-blue-100 hover:text-blue-600 md:ml-4 ${showAdminReply ? "bg-blue-100 text-blue-600" : ""}`}
+                            aria-label="Toggle admin reply"
                         >
-                            {liked ? (
-                                <IoIosHeart className="text-3xl text-red-500" />
-                            ) : (
-                                <IoIosHeartEmpty className="text-3xl" />
-                            )}
-                            <span className="text-xl">{aspiration.upvote}</span>
+                            <FaReply className={`text-sm transition-transform ${showAdminReply ? "rotate-180" : ""}`} />
                         </button>
-                    </div> */}
+                    )}
                 </div>
             </div>
-        </div>
+            
+            {/* Card Body */}
+            <div className="flex-grow p-4 md:p-5">
+                <p className="mb-4 whitespace-pre-line text-gray-700">
+                    {aspiration.message}
+                </p>
+                
+                {/* Admin Reply Section */}
+                {aspiration.admin_reply && (
+                    <div className={`mt-4 overflow-hidden transition-all ${showAdminReply ? "max-h-96" : "max-h-0"}`}>
+                        <div className="rounded-lg bg-blue-50 p-4">
+                            <div className="mb-2 font-medium text-blue-800">Admin Response:</div>
+                            <p className="text-blue-700">
+                                {aspiration.admin_reply}
+                            </p>
+                        </div>
+                    </div>
+                )}
+            </div>
+            
+            {/* Card Footer */}
+            <div className="border-t border-gray-100 bg-gray-50 p-4 md:p-5">
+                <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+                    {/* Author Info */}
+                    <div className="flex items-center">
+                        <span className="mr-2 text-sm font-medium text-gray-700">From:</span>
+                        <span className="flex items-center text-sm font-medium text-gray-900">
+                            {aspiration.anonymous ? (
+                                "Anonymous"
+                            ) : (
+                                <>
+                                    {aspiration.author.name}
+                                    {aspiration.author.verified ? (
+                                        <AiFillCheckCircle
+                                            className="ml-2 text-blue-500"
+                                            title="Student ID Verified"
+                                        />
+                                    ) : (
+                                        <AiOutlineCloseCircle
+                                            className="ml-2 text-red-500"
+                                            title="Student ID Still Not Verified"
+                                        />
+                                    )}
+                                </>
+                            )}
+                        </span>
+                    </div>
+                    
+                    {/* Organization and Date */}
+                    <div className="flex items-center text-sm text-gray-500">
+                        <span className="mr-2">To: {aspiration.organization.name}</span>
+                        <span className="mx-2">•</span>
+                        <div className="flex items-center">
+                            <FaRegClock className="mr-1 text-xs" />
+                            <span>{dateConvert(aspiration.updated_at)}</span>
+                        </div>
+                    </div>
+                </div>
+                
+                {/* Like Button - Uncomment when implementing likes */}
+                {/* <div className="mt-3 flex justify-end border-t border-gray-100 pt-3 md:mt-0 md:border-0 md:pt-0">
+                    <button
+                        onClick={toggleLike}
+                        className="flex items-center gap-2 rounded-full bg-gray-100 px-4 py-2 text-gray-700 transition-all hover:bg-red-50 hover:text-red-500"
+                    >
+                        {liked ? (
+                            <IoIosHeart className="text-xl text-red-500" />
+                        ) : (
+                            <IoIosHeartEmpty className="text-xl" />
+                        )}
+                        <span className="text-sm font-medium">{aspiration.upvote}</span>
+                    </button>
+                </div> */}
+            </div>
+        </motion.div>
     );
 };
 

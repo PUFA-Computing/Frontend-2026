@@ -58,6 +58,18 @@ export async function UpdateUserProfile(
     accessToken: string
 ) {
     try {
+        console.log('Updating user profile with data:', {
+            username,
+            first_name,
+            middle_name,
+            last_name,
+            email,
+            major,
+            gender,
+            year,
+            date_of_birth: date_of_birth ? new Date(date_of_birth).toISOString() : null,
+        });
+        
         const response = await axios.put(
             `${API_USER}/edit`,
             {
@@ -69,18 +81,24 @@ export async function UpdateUserProfile(
                 major,
                 gender,
                 year,
-                date_of_birth,
+                date_of_birth: date_of_birth ? new Date(date_of_birth).toISOString() : null,
             },
             {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json'
                 },
             }
         );
 
+        console.log('Update profile response:', response.data);
         return response.data.data;
     } catch (error) {
-        console.log(error);
+        if (error instanceof AxiosError) {
+            console.error('Error updating profile:', error.response?.data || error.message);
+        } else {
+            console.error('Error updating profile:', error);
+        }
         throw error;
     }
 }

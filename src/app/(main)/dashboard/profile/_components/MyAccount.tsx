@@ -220,6 +220,46 @@ export default function MyAccount() {
             return;
         }
         
+        if (!username) {
+            Swal.fire({
+                icon: "error",
+                title: "Validation Error",
+                text: "Username is required",
+                showConfirmButton: true,
+            });
+            return;
+        }
+
+        if (!firstName) {
+            Swal.fire({
+                icon: "error",
+                title: "Validation Error",
+                text: "First name is required",
+                showConfirmButton: true,
+            });
+            return;
+        }
+
+        if (!lastName) {
+            Swal.fire({
+                icon: "error",
+                title: "Validation Error",
+                text: "Last name is required",
+                showConfirmButton: true,
+            });
+            return;
+        }
+
+        if (!email) {
+            Swal.fire({
+                icon: "error",
+                title: "Validation Error",
+                text: "Email is required",
+                showConfirmButton: true,
+            });
+            return;
+        }
+        
         if (!dateOfBirth) {
             Swal.fire({
                 icon: "error",
@@ -229,8 +269,29 @@ export default function MyAccount() {
             });
             return;
         }
+
+        // Show loading state
+        Swal.fire({
+            title: "Updating profile...",
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            },
+        });
         
         try {
+            console.log("Submitting profile update with data:", {
+                username,
+                firstName,
+                middleName,
+                lastName,
+                email,
+                major,
+                batch,
+                gender,
+                dateOfBirth: dateOfBirth ? dateOfBirth.toISOString() : null,
+            });
+
             // UpdateUserProfile membutuhkan 10 parameter sesuai dengan definisi di user.tsx
             const updatedUser = await UpdateUserProfile(
                 username,       // username
@@ -249,20 +310,35 @@ export default function MyAccount() {
             const safeUpdatedUser = updatedUser || undefined;
             setUserData(safeUpdatedUser);
 
+            // Update session data with new user information
+            if (updatedUser) {
+                // Update local state with the returned data
+                setUsername(updatedUser.username || "");
+                setFirstName(updatedUser.first_name || "");
+                setMiddleName(updatedUser.middle_name || "");
+                setLastName(updatedUser.last_name || "");
+                setEmail(updatedUser.email || "");
+                setMajor(updatedUser.major || "");
+                setBatch(updatedUser.year || "");
+                setGender(updatedUser.gender || "");
+                if (updatedUser.date_of_birth) {
+                    setDateOfBirth(new Date(updatedUser.date_of_birth));
+                }
+            }
+
             await Swal.fire({
                 icon: "success",
                 title: "Profile Updated",
-                showConfirmButton: false,
-                timer: 1500,
+                text: "Your personal information has been successfully updated",
+                showConfirmButton: true,
             });
         } catch (error) {
             console.error("Error updating profile:", error);
             await Swal.fire({
                 icon: "error",
                 title: "Error",
-                text: "Failed to update profile",
-                showConfirmButton: false,
-                timer: 1500,
+                text: typeof error === 'string' ? error : "Failed to update profile. Please try again later.",
+                showConfirmButton: true,
             });
         }
     };
