@@ -86,6 +86,51 @@ export const createNews = async (
     }
 };
 
+export const editNews = async (
+    newsID: number,
+    news: any,
+    file: File | null,
+    accessToken: string
+): Promise<News> => {
+    try {
+        const formData = new FormData();
+
+        if (file) {
+            formData.append("file", file, file.name);
+        }
+
+        const formattedNewsData = {
+            ...news,
+            publish_date: new Date(news.publish_date).toISOString(),
+        };
+
+        formData.append("data", JSON.stringify(formattedNewsData));
+
+        console.log("Editing news with ID:", newsID);
+        console.log("Formatted news data:", formattedNewsData);
+        if (file) console.log("With new thumbnail:", file.name);
+
+        // Use R2 storage consistently as per backend changes
+        const response = await axios.put(`${API_NEWS}/${newsID}/edit`, formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+                Authorization: `Bearer ${accessToken}`,
+            },
+        });
+
+        console.log("Edit news response:", response.data);
+        const newsData = response.data?.data;
+        return newsData as News;
+    } catch (error: any) {
+        console.error("Error editing news:", error);
+        if (error.response) {
+            console.error("Response data:", error.response.data);
+            console.error("Response status:", error.response.status);
+        }
+        throw error;
+    }
+};
+
 export const deleteNews = async (
     newsID: number,
     accessToken: string

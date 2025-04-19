@@ -133,7 +133,7 @@ export default function NewsTable({ news }: { news: News[] }) {
                                         <MenuItem>
                                             {({ focus }) => (
                                                 <a
-                                                    href="#"
+                                                    href={`/admin/news/edit/${news.slug}`}
                                                     className={classNames(
                                                         focus
                                                             ? "bg-gray-50"
@@ -148,24 +148,7 @@ export default function NewsTable({ news }: { news: News[] }) {
                                                 </a>
                                             )}
                                         </MenuItem>
-                                        <MenuItem>
-                                            {({ focus }) => (
-                                                <a
-                                                    href="#"
-                                                    className={classNames(
-                                                        focus
-                                                            ? "bg-gray-50"
-                                                            : "",
-                                                        "block px-3 py-1 text-sm leading-6 text-gray-900"
-                                                    )}
-                                                >
-                                                    Move
-                                                    <span className="sr-only">
-                                                        , {news.id}
-                                                    </span>
-                                                </a>
-                                            )}
-                                        </MenuItem>
+
                                         <MenuItem>
                                             {({ focus }) => (
                                                 <a
