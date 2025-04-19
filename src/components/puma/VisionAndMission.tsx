@@ -35,7 +35,7 @@ function VisionAndMission({ visi, misi }: VisionAndMissionProps) {
           <div className="md:sticky md:top-24">
             <div className="relative">
               <h2 className="text-6xl md:text-7xl font-bold text-gray-800 bg-clip-text text-transparent bg-gradient-to-br from-gray-800 to-gray-500">
-                Visi
+                Vision
               </h2>
               <div className="absolute -bottom-4 left-0 w-16 h-1 bg-gradient-to-r from-gray-800 to-transparent"></div>
             </div>
@@ -58,7 +58,7 @@ function VisionAndMission({ visi, misi }: VisionAndMissionProps) {
           <div className="md:sticky md:top-24">
             <div className="relative">
               <h2 className="text-6xl md:text-7xl font-bold text-gray-800 bg-clip-text text-transparent bg-gradient-to-br from-gray-800 to-gray-500">
-                Misi
+                Mission
               </h2>
               <div className="absolute -bottom-4 left-0 w-16 h-1 bg-gradient-to-r from-gray-800 to-transparent"></div>
             </div>
