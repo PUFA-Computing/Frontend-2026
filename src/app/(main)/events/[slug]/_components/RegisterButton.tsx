@@ -66,12 +66,15 @@ export default function RegisterButton({
                     setRegisterDisabled(false);
                 }
             } catch (error) {
-                console.log(error);
-                await Swal.fire({
-                    icon: "error",
-                    title: "Oops...",
-                    text: "Can't fetch user's events, please try again later",
-                });
+                console.log("Error fetching user events:", error);
+                // Set default state instead of showing error to user
+                if (eventStatus !== "Open") {
+                    setButtonRegisterText("Registration Closed");
+                    setRegisterDisabled(true);
+                } else {
+                    setButtonRegisterText("Register");
+                    setRegisterDisabled(false);
+                }
             }
         };
 
@@ -107,7 +110,7 @@ export default function RegisterButton({
         try {
             Swal.fire({
                 title: "Register for Event",
-                text: `Are you sure you want to register for ${eventTitle}?`,
+                text: "Are you sure you want to register for " + eventTitle + "?",
                 icon: "question",
                 showCancelButton: true,
                 confirmButtonText: "Yes",
@@ -163,7 +166,7 @@ export default function RegisterButton({
                             await Swal.fire({
                                 icon: "error",
                                 title: "Registration failed",
-                                text: `There was an error while registering for the event ${eventTitle}.`,
+                                text: "There was an error while registering for the event " + eventTitle + ".",
                             });
                         }
                     }

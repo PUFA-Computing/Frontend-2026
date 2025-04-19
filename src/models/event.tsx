@@ -40,6 +40,9 @@ interface Event {
   is_registered: boolean;
   author?: string;
   total_registered: number;
+  // Additional properties for UI enhancements
+  image?: string;
+  date?: string | Date;
 }
 
 export default Event;

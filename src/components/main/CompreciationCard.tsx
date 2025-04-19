@@ -20,52 +20,58 @@ export default function CompreciationCard({
     imageUrl,
 }: CompreciationCardProps) {
     return (
-        <article className="transform overflow-hidden rounded-xl bg-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl border-l-4 border-[#B48322]">
-            <div className="relative h-48 bg-white p-4">
+        <article className="group relative overflow-hidden rounded-lg sm:rounded-xl bg-white shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-2 h-full flex flex-col">
+            {/* Decorative gradient border */}
+            <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#B48322] to-[#F2B233]"></div>
+            
+            {/* Image container with overlay effect */}
+            <div className="relative h-48 sm:h-52 md:h-56 overflow-hidden">
                 <Image
                     src={imageUrl}
                     alt={title}
-                    className="object-contain"
+                    className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     priority
                 />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </div>
-            <div className="p-6">
-                <div className="mb-2 flex items-center gap-2">
-                    <span className="rounded-full bg-gradient-to-r from-[#B48322] to-[#F2B233] px-3 py-1 text-xs font-semibold text-[#000000]">
+            
+            {/* Content area */}
+            <div className="flex-1 p-5 sm:p-6 flex flex-col">
+                {/* Tags and date */}
+                <div className="flex flex-wrap items-center gap-2 mb-3">
+                    <span className="rounded-full bg-gradient-to-r from-[#B48322]/90 to-[#F2B233]/90 px-3 py-1 text-xs font-semibold text-white shadow-sm">
                         {major}
                     </span>
-                    <span className="text-xs text-gray-500">{date}</span>
+                    <span className="text-xs text-gray-500 bg-gray-100 px-3 py-1 rounded-full">{date}</span>
                 </div>
 
-                <h3 className="mb-2 line-clamp-2 text-xl font-bold text-[#000000]">
+                {/* Title with hover effect */}
+                <h3 className="mb-3 line-clamp-2 text-lg sm:text-xl font-bold text-gray-800 group-hover:text-[#B48322] transition-colors duration-300">
                     {title}
                 </h3>
-                {/* <h3 className="mt-0.5 text-justify text-[16px] sm:text-[14px] font-semibold text-[#AF95FF]">
-            {name}
-          </h3>
-          <div className="text-justify py-2 text-[14px] sm:text-[12px]"> */}
 
-                <p className="mb-4 line-clamp-3 text-sm text-gray-600">
+                {/* Description with improved readability */}
+                <p className="mb-4 line-clamp-3 text-sm text-gray-600 leading-relaxed flex-grow">
                     {description}
-                    {/* </div>
-          <div className="mt-2 flex flex-wrap gap-1">
-            <span className="whitespace-nowrap rounded-full border border-[#AF95FF] px-2.5 py-0.5 text-xs sm:text-sm text-[#AF95FF]">
-              {major} */}
                 </p>
 
-                <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium text-[#B48322]">
-                        By {name}
+                {/* Footer with author and link */}
+                <div className="flex items-center justify-between mt-auto pt-3 border-t border-gray-100">
+                    <span className="text-sm font-medium text-[#B48322] flex items-center">
+                        <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"></path>
+                        </svg>
+                        {name}
                     </span>
                     <Link
                         href={`/projects/${title.toLowerCase().replace(/\s+/g, "-")}`}
-                        className="inline-flex items-center text-sm text-[#000000] transition-colors hover:text-[#B48322]"
+                        className="inline-flex items-center text-sm font-medium text-gray-700 transition-all duration-300 hover:text-[#B48322] group-hover:translate-x-1"
                     >
                         View Project
                         <svg
-                            className="ml-1 h-4 w-4"
+                            className="ml-1.5 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
@@ -79,10 +85,6 @@ export default function CompreciationCard({
                         </svg>
                     </Link>
                 </div>
-                {/* <time className="mt-2 block text-left text-xs sm:text-sm text-[#A5B0BB]">
-            {" "}
-            {date}{" "}
-          </time> */}
             </div>
         </article>
     );
