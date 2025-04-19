@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -20,11 +22,18 @@ export default function EventCard({
         <div className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 border-l-4 border-[#B48322] transform hover:translate-y-[-5px]">
             <div className="relative h-48">
                 <Image
-                    src={image}
+                    src={image || "/placeholder.svg"}
                     alt={title}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full"
                     width={400}
                     height={300}
+                    style={{ objectFit: 'cover' }}
+                    onError={(e) => {
+                        // Fallback to a local image if the thumbnail fails to load
+                        const imgElement = e.currentTarget as HTMLImageElement;
+                        imgElement.src = "/placeholder.svg";
+                        console.log("Image failed to load, using fallback", image);
+                    }}
                 />
             </div>
             <div className="p-6">

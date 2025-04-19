@@ -101,11 +101,19 @@ export const createEvent = async (
 
         formData.append("file", file, file.name);
 
+        // Format dates as RFC3339 format which Go expects
+        const formatDate = (dateString: string) => {
+            const date = new Date(dateString);
+            return date.toISOString(); // Returns full ISO string with time and timezone
+        };
+
         const formattedEventData = {
             ...eventData,
-            start_date: new Date(eventData.start_date).toISOString(),
-            end_date: new Date(eventData.end_date).toISOString(),
+            start_date: formatDate(eventData.start_date),
+            end_date: formatDate(eventData.end_date),
         };
+
+        console.log('Formatted event data being sent to API:', formattedEventData);
 
         // Convert eventData to JSON string and append it with content type application/json.
         formData.append("data", JSON.stringify(formattedEventData));

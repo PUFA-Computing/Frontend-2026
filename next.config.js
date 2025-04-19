@@ -6,7 +6,10 @@ const nextConfig = {
       "sg.pufacomputing.live", 
       "id.pufacomputing.live",
       "api.dicebear.com",
-      "example.com"
+      "via.placeholder.com",
+      "example.com",
+      "ik.imagekit.io",
+      "pufacompsci.my.id"
     ],
   },
   httpAgentOptions: {
