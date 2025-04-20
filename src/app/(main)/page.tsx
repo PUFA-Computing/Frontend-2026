@@ -64,7 +64,7 @@ export default async function Index() {
 
                     <div className="mt-8 sm:mt-10 md:mt-12 w-full max-w-xs sm:max-w-lg md:max-w-2xl lg:max-w-3xl">
                         <p className="text-center text-xs sm:text-sm md:text-base leading-relaxed text-white/90 backdrop-blur-sm bg-white/5 border border-white/10 p-3 sm:p-4 md:p-5 rounded-xl shadow-xl">
-                            PUFA Computing is a dynamic organization within President University, serving as a platform for students pursuing various computing-related fields like Information Technology, Information Systems, Visual Communication Design, and Interior Design.
+                            PUFA Computing is a dynamic organization within President University, serving as a platform for students pursuing various computing-related fields like Information Technology and Information Systems.
                         </p>
                         
                         <div className="mt-6 sm:mt-8 flex justify-center">
@@ -317,8 +317,8 @@ export default async function Index() {
                                 </div>
                             </div>
                             
-                            {/* Regular News - Grid layout with equal spacing for perfect alignment */}
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mt-8">
+                            {/* Regular News - Grid layout with consistent heights */}
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
                                 <div>
                                     <NewsCard news={news.slice(2, 3)} />
                                 </div>

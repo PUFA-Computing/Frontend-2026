@@ -374,7 +374,7 @@ export const divisionPage = [
         slug: "board-of-director",
         banner: BANNER,
         description:
-            "is a representative of the highest division consisting of Chairperson, Vice Chairperson, Secretary, and Treasurer.",
+            "",
         button: [
             "LEGISLATOR",
             "annual event",
@@ -444,7 +444,7 @@ export const divisionPage = [
         slug: "art-and-sport",
         banner: BANNER,
         description:
-            "Division that focuses on developing interest and burning the arts and sports in the computing sphere.",
+            "",
         button: ["CSGO", "SOPU PREP", "COMPHEALTH", "COMPUTING SOUND"],
         member: [
             {
@@ -504,7 +504,7 @@ export const divisionPage = [
             "COMPBRAINST",
         ],
         description:
-            "is a representative of the highest division consisting of Chairperson, Vice Chairperson, Secretary, and Treasurer.",
+            "",
         banner: BANNER,
         member: [
             {
@@ -594,7 +594,7 @@ export const divisionPage = [
         division: "Entrepreneur",
         slug: "entrepreneur",
         description:
-            "is a representative of the highest division consisting of Chairperson, Vice Chairperson, Secretary, and Treasurer.",
+            "",
         button: ["COMPUTING STORE", "SPONSORSHIP", "EVENT COLLAB", "BIZINFO"],
         banner: BANNER,
         member: [
@@ -646,7 +646,7 @@ export const divisionPage = [
         button: ["COMPUTING CAREER", "SOSIAL PROJECT", "COMPARATIVE STUDY", "EVENT COLLAB"],
         banner: BANNER,
         description:
-            "is a representative of the highest division consisting of Chairperson, Vice Chairperson, Secretary, and Treasurer.",
+            "",
         member: [
              {
                 name: "Dicho Dermawan",

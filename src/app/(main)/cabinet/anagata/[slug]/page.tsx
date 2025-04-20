@@ -22,12 +22,30 @@ export default function page({ params }: CabinetProps) {
 
     const { division, description, button, banner, member } = divisionData;
 
+    // Map division slugs to their corresponding image files in the cabinet folder
+    const getImageForDivision = (slug: string) => {
+        switch(slug) {
+            case 'board-of-director': return '/images/cabinet/BOD.JPG';
+            case 'communication-and-multimedia': return '/images/cabinet/CnM.JPG';
+            case 'external-relation': return '/images/cabinet/ER.JPG';
+            case 'entrepreneur': return '/images/cabinet/Entre.JPG';
+            case 'internal-relation': return '/images/cabinet/IR.JPG';
+            case 'research-and-technology': return '/images/cabinet/RnT.JPG';
+            case 'student-development-and-competition': return '/images/cabinet/SDC.JPG';
+            case 'student-welfare-advocacy': return '/images/cabinet/SWA.JPG';
+            default: return '/placeholder.svg';
+        }
+    };
+
+    // Get the appropriate image for this division
+    const divisionImage = getImageForDivision(slug);
+
     return (
         <section>
             <Header
                 title={division}
                 description={description}
-                image={banner.src}
+                image={divisionImage}
             />
             <EventsAndWorkplan buttons={button} />
             {/* member */}
