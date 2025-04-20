@@ -1,15 +1,20 @@
 import React, { useState } from "react";
 import { PhotoIcon } from "@heroicons/react/24/solid";
 import Swal from "sweetalert2";
+import Image from "next/image";
 
 export default function UploadThumbnailForm({
     onNext,
     onPrevious,
     onThumbnailChange,
+    currentThumbnail,
+    isEdit = false,
 }: {
     onNext: () => void;
     onPrevious: () => void;
     onThumbnailChange: (file: File) => void;
+    currentThumbnail?: string;
+    isEdit?: boolean;
 }) {
     const [thumbnail, setThumbnail] = useState<File | null>(null);
 
@@ -21,7 +26,7 @@ export default function UploadThumbnailForm({
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        if (!thumbnail) {
+        if (!thumbnail && !isEdit) {
             Swal.fire({
                 icon: "error",
                 title: "Error",
@@ -43,10 +48,34 @@ export default function UploadThumbnailForm({
                 </label>
                 <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
                     <div className="text-center">
-                        <PhotoIcon
-                            className="mx-auto h-12 w-12 text-gray-300"
-                            aria-hidden="true"
-                        />
+                        {isEdit && currentThumbnail && !thumbnail ? (
+                            <div className="relative h-48 w-full mb-4">
+                                <Image
+                                    src={currentThumbnail}
+                                    alt="Current thumbnail"
+                                    layout="fill"
+                                    objectFit="cover"
+                                    className="rounded-lg"
+                                />
+                                <p className="mt-2 text-sm text-gray-600">Current thumbnail</p>
+                            </div>
+                        ) : thumbnail ? (
+                            <div className="relative h-48 w-full mb-4">
+                                <Image
+                                    src={URL.createObjectURL(thumbnail)}
+                                    alt="New thumbnail"
+                                    layout="fill"
+                                    objectFit="cover"
+                                    className="rounded-lg"
+                                />
+                                <p className="mt-2 text-sm text-gray-600">New thumbnail</p>
+                            </div>
+                        ) : (
+                            <PhotoIcon
+                                className="mx-auto h-12 w-12 text-gray-300"
+                                aria-hidden="true"
+                            />
+                        )}
                         <div className="mt-4 flex text-sm leading-6 text-gray-600">
                             <label
                                 htmlFor="file-upload"

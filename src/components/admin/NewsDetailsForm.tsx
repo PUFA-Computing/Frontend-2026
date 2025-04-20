@@ -11,6 +11,7 @@ export default function NewsDetailsForm({
     organizationOptions,
     selectedOrganization,
     onOrganizationChange,
+    isEdit = false,
 }: {
     onNext: () => void;
     formData: {
@@ -29,6 +30,7 @@ export default function NewsDetailsForm({
         id: number;
         name: string;
     }) => void;
+    isEdit?: boolean;
 }) {
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>

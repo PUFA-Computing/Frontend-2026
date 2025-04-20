@@ -94,6 +94,9 @@ export const PUMAInformaticsVnM = {
 };
 
 //content PUMA IS
+
+export const aboutContentIS = `President University Major Association of Information Systems is a unifying organization for all students registered in the Information Systems Study Program at President University, which was later shortened to PUMA Information System (IS).`;
+
 export const PUMAInformationSystem = [
     {
         division: "Board of Director",
@@ -122,13 +125,13 @@ export const PUMAInformationSystem = [
     },
 ];
 export const PUMAInformationSystemVnM = {
-    vision: "To make PUMA IS a platform for self-development, enabling students to compete and excel in both soft skills and hard skills, creating independent, innovative, and responsible PUMA and students in the fields of information technology and business, and to have a positive impact on President University and the community.",
+    vision: "Making the PUMA Information System a forum for self-development so that they can compete and excel in soft skills and hard skills, creating PUMA and students who are independent, innovative, responsible in information technology and business, and have a positive impact on President University and society.",
     mission: [
-        "Prioritizing and committing to supporting the aspirations, inspirations, interests, and talents of Information System students.",
-        "Promoting the implementation of activities that contribute positively and sustainably to information technology and its applications.",
-        "Emphasizing the importance of ethics, integrity, and responsibility in every Information System student at President University.",
-        "Building strong and close collaborative relationships with PUSC, PUSB, PUFA, all PUMAs, and CnC.",
-        "Assisting and facilitating Information System students and providing opportunities for their participation in competitions and innovative projects, so they are prepared to become future leaders in the field of Information Systems.",
+        "Providing priority and commitment in supporting the aspirations, inspiration, interests, and talents of Information Systems Study Program students.",
+        "Encourage the implementation of activities that contribute positively and sustainably to information technology and its application.",
+        "Reinforcing the importance of ethical values, integrity, and responsibility in every student in the Information Systems Study Program at President University.",
+        "Building strong and close cooperative relationships with PUSC, PUSB, PUFA, all PUMAs, and CNC.",
+        "Helping and facilitating students majoring in Information Systems and providing opportunities for student participation in competitions and innovative projects, so that they are ready to become future leaders in the field of Information Systems.",
     ],
 };
 

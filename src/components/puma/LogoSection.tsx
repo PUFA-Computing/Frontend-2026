@@ -6,7 +6,7 @@ import { motion } from "framer-motion"
 interface LogoSectionProps {
   image: string
   title: string
-  description: string
+  description: string | React.ReactNode
 }
 
 export default function LogoSection({ image, title, description }: LogoSectionProps) {
@@ -47,7 +47,7 @@ export default function LogoSection({ image, title, description }: LogoSectionPr
           <h3 className="inline-block rounded-lg border-2 border-gray-800 px-6 py-3 text-2xl sm:text-3xl font-bold bg-gradient-to-r from-gray-800 to-gray-700 text-white">
             {title}
           </h3>
-          <p className="text-lg sm:text-xl text-gray-700 leading-relaxed">{description}</p>
+          <div className="text-lg sm:text-xl text-gray-700 leading-relaxed">{description}</div>
         </div>
       </motion.div>
     </motion.section>

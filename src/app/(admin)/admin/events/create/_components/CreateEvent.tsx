@@ -29,8 +29,8 @@ export default function CreateEvent() {
     const [error, setError] = useState("");
     const [formData, setFormData] = useState<EventCreation>({
         title: "",
-        start_date: Date.toString(),
-        end_date: Date.toString(),
+        start_date: new Date().toISOString().split('T')[0], // Format as YYYY-MM-DD
+        end_date: new Date().toISOString().split('T')[0], // Format as YYYY-MM-DD
         organization_id: 0,
         description: "",
         max_registration: 0,
@@ -80,6 +80,14 @@ export default function CreateEvent() {
             !formData.max_registration
         ) {
             setError("Please fill in all fields");
+            setIsLoading(false);
+            return;
+        }
+        
+        // Validate title to ensure it can be used as a valid slug
+        if (formData.title.trim() === '' || formData.title.length < 3) {
+            setError("Title must be at least 3 characters long");
+            setIsLoading(false);
             return;
         }
 
@@ -96,11 +104,28 @@ export default function CreateEvent() {
             if (!session.data) {
                 return null;
             }
+            
+            if (!poster) {
+                setError("Please upload a poster image");
+                setIsLoading(false);
+                return;
+            }
+            
+            // Ensure dates are in the correct format for the backend (full ISO string)
+            const formattedEvent = {
+                ...event,
+                start_date: new Date(event.start_date).toISOString(),
+                end_date: new Date(event.end_date).toISOString()
+            };
+            
+            console.log("Sending event data:", formattedEvent);
+            
             const newEvent = await createEvent(
-                event,
+                formattedEvent,
                 poster as File,
                 session.data.user.access_token
             );
+            
             Swal.fire({
                 icon: "success",
                 title: "Event Created",
@@ -109,11 +134,21 @@ export default function CreateEvent() {
             });
 
             window.location.reload();
-        } catch (error) {
+        } catch (error: any) {
+            console.error("Error creating event:", error);
+            
+            let errorMessage = "An error occurred while creating the event. Please try again later.";
+            if (error.response) {
+                console.error("Server response:", error.response.data);
+                if (error.response.data && error.response.data.message) {
+                    errorMessage = error.response.data.message;
+                }
+            }
+            
             Swal.fire({
                 icon: "error",
                 title: "Failed to Create Event",
-                text: "An error occurred while creating the event. Please try again later.",
+                text: errorMessage,
                 confirmButtonText: "OK",
             });
         } finally {

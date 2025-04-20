@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image"
 import type Event from "@/models/event"
 import Link from "next/link"
@@ -30,7 +32,14 @@ export default function EventCardPage({ event }: EventCardPageProps) {
               alt={`${event.title}'s poster`}
               width={600}
               height={400}
-              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+              className="h-full w-full transition-transform duration-500 group-hover:scale-105"
+              style={{ objectFit: 'cover' }}
+              onError={(e) => {
+                // Fallback to a local image if the thumbnail fails to load
+                const imgElement = e.currentTarget as HTMLImageElement;
+                imgElement.src = "/placeholder.svg";
+                console.log("Image failed to load, using fallback", event.thumbnail);
+              }}
             />
           </div>
 
