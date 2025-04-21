@@ -78,12 +78,12 @@ export default async function Index() {
                     </div>
                     
                     {/* Scroll indicator - Hidden on very small screens */}
-                    <div className="absolute bottom-4 sm:bottom-6 md:bottom-8 left-1/2 transform -translate-x-1/2 flex-col items-center animate-bounce hidden sm:flex">
+                    <a href="#programs" className="absolute bottom-4 sm:bottom-6 md:bottom-8 left-auto transform -translate-x-1/2 flex-col items-center animate-bounce hidden sm:flex">
                         <span className="text-xs text-white/70 mb-1 sm:mb-2">Scroll Down</span>
                         <svg className="w-5 h-5 sm:w-6 sm:h-6 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
                         </svg>
-                    </div>
+                    </a>
                 </div>
             </div>
             

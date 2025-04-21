@@ -20,12 +20,12 @@ function Page() {
         logo={LOGO.src}
         title="PUMA Informatics"
         slogan='"TOGETHER WE THRIVE, UNITED WE THRIVE"'
-        cabinet="FRAGNATIOUS CABINET PERIOD 2024/2025"
+        cabinet="Kaustav CABINET PERIOD 2024/2025"
         />
         <PUMASection
         title="PUMA Informatics"
         slogan='"TOGETHER WE THRIVE, UNITED WE THRIVE"'
-        cabinet="FRAGNATIOUS CABINET PERIOD 2024/2025"
+        cabinet="Kaustav CABINET PERIOD 2024/2025"
         />
         
         {/* About Section */}
