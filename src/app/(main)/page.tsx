@@ -91,7 +91,6 @@ export default async function Index() {
             <section id="programs" className="py-16 sm:py-20 md:py-24 container mx-auto px-4 bg-gradient-to-b from-white to-gray-50">
                 <div className="container mx-auto px-4">
                     <div className="text-center mb-12 sm:mb-16 md:mb-20">
-                        <span className="inline-block px-4 py-1.5 bg-[#F2B233]/10 text-[#B48322] text-xs sm:text-sm font-medium rounded-full mb-4">Academic Excellence</span>
                         <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-[#000000] via-[#B48322] to-[#F2B233]">
                             Study Programs
                         </h2>
@@ -116,15 +115,6 @@ export default async function Index() {
                                 </div>
                             ))}
                         </Suspense>
-                    </div>
-                    
-                    <div className="mt-16 text-center">
-                        <Link href="/programs" className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white text-[#B48322] font-medium rounded-full border border-[#B48322] hover:bg-[#B48322] hover:text-white transition-all duration-300 shadow-md hover:shadow-lg">
-                            Learn More About Our Programs
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7-7 7" />
-                            </svg>
-                        </Link>
                     </div>
                 </div>
             </section>
@@ -456,15 +446,6 @@ export default async function Index() {
                                     <Faq {...faq} />
                                 </div>
                             ))}
-                        </div>
-                        
-                        <div className="mt-12 text-center">
-                            <Link href="/faq" className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white text-[#B48322] font-medium rounded-full border border-[#B48322] hover:bg-[#B48322] hover:text-white transition-all duration-300 shadow-md hover:shadow-lg">
-                                View All FAQs
-                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7-7 7" />
-                                </svg>
-                            </Link>
                         </div>
                     </div>
                 </div>
