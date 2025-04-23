@@ -57,29 +57,34 @@ export const PUMAInformatics = [
             "This division has the main task of strengthening the relationship between students and students, students and lecturers, and students and alumni.",
     },
     {
-        division: "Student Development and Competition",
-        description:
-            "SDC is a division that focuses on developing the capacity and quality of Informatics Students through competitions and serves as a forum to appreciate all the achievements that Informatics Students have attained at the end of the semester (final project).",
-    },
-    {
-        division: "Art and Sport",
-        description:
-            "PUMA IT Art and Sport Division is a division that focuses on developing interest and burning the arts and sports in the Informatics sphere. This division also in charge of organizing both arts and sports activities so that Informatics student has a place to channel their non-academics potential. ",
-    },
-    {
-        division: "Communication & design",
-        description:
-            "PUMA Informatics Communication and Design Division is the division responsible for managing, designing and editing content for PUMA Informatics social media such as Instagram, Tiktok, and Linkedin.",
-    },
-    {
-        division: "Student Welfare Advocacy",
-        description:
-            "Student Welfare Advocacy is a division in PUMA IT that has a role in bridging and serving IT students and the campus. Student Welfare Advocacy is in charge of escorting and advocating for problems experienced by IT Students including academic, social, as well as existing issues to create a secure and prosperous campus environment.",
-    },
-    {
         division: "Research and Technology",
         description:
             "Research and Technology (RnT) is a division in charge of developing creative ideas in the field of technology and sharing knowledge in the field of technology which aims to develop human resources, especially students within the campus itself.",
+    },
+    {
+        division: "STUDENT ACADEMIC & COMPETITION",
+        description:
+            "Student Academic and Competition (SAC) is a division that focuses on developing the capacity and quality of Informatics Students through academics, including discussion forums, scholarships, and competitions, and serves as a platform to appreciate all the achievements that Informatics Students have attained at the end of the semester (final project).",
+    },
+    {
+        division: "HUMAN RESOURCE & DEVELOPMENT",
+        description:
+            "Human Resource and Development (HRD) is a student division responsible for recruiting, supervising, and developing the potential of human resources among Informatics students.",
+    },
+    {
+        division: "Informative Creative Media",
+        description:
+            "Informative Creative Media(ICM) is divided into 2 sub-division which are MINFO and CREMA. Media Information (Minfo) division is a sub-division from Information and Creative MEDIA (ICM) that handles PUMA Informatics social media such as Instagram, Linkedln, WhatsApp, TikTok and youtube. Creative Media (Crema) division is responsible to in charge of creating and editing templates content to be posted on social media PUMA Informatics.",
+    },
+    {
+        division: "Student Passion Talent",
+        description:
+            "Student Passions and Talents (SPT) is a division that focuses on developing interests and nurturing passions and talents within the Informatics sphere. This division is also in charge of organizing activities related to both passions and talents, providing Informatics students with a place to channel their non-academic potential.",
+    },
+    {
+        division: "Technopreneur",
+        description:
+            "Technopreneur focuses on developing entrepreneurial skills by managing an online store offering informatics products and services with effective marketing strategies. It also provides website creation and online store management services to support PUMA Informatics programs.",
     },
 ];
 
@@ -101,27 +106,32 @@ export const PUMAInformationSystem = [
     {
         division: "Board of Director",
         description:
-            "Is a representative of the highest division consisting of Chairperson, Vice Chairperson, Secretary and Treasurer.",
+            "The Board of Directors (BoD) represents the top tier, and is comprised of the Chairperson, two Vice Chairpersons, Head of Secretariat, two Secretariat Members, Head of Treasury, and one Treasury Member.",
     },
     {
         division: "Relationship Management",
         description:
-            " Organizing activities or events related to parties inside and outside the campus to build and strengthen relationships between outside and inside the organization.",
+            "This division organizes activities and events both on and off campus to foster and strengthen relationships among students, between students and lecturers, students with alumni, other campuses, and companies.",
     },
     {
-        division: "Sport",
+        division: "Sport and Art",
         description:
-            "Being a forum for IS students to channel their interests and talents in non-academic fields and providing facilities for IS students to train their interests and talents in non-academic fields.",
+            "This division provides a space for IS students to enjoy non-academic activities like sports, e-sports, music, and more. It's all about letting students explore their interests, connect with others, and have a great time outside of their regular studies.",
     },
     {
-        division: "Communication and Design",
+        division: "Communication",
         description:
-            "Responsible for managing, designing and editing templates content for social media such as Instagram, Tiktok, and LinkedIn also handling the wall magazine of PUMA IS.",
+            "Manages our social media on Instagram, LinkedIn, TikTok, and YouTube, hosts events as MCs, provides live reports, manages sounding for systemites.",
     },
     {
         division: "Research and Development",
         description:
-            "Improving student’S knowledge and skills to enhancing human resource capabilities within the organization, and identifying students’ interests and talents, and channeling them into a competition to hone and showcase their abilities",
+            "The division focuses on helping students learn more about their subjects and develop their skills. They plan activities to make the organization more productive and encourage teamwork. They also help members grow professionally to make the organization stronger. The division finds out what students are good at and helps them join competitions to show their skills, aiming to make students excellent in what they do.",
+    },
+    {
+        division: "Multimedia, Design and Documentation",
+        description:
+            "Manages the design for our social media on Instagram, LinkedIn, TikTok, and YouTube, become a documenter in PUMA’S Event and designs content templates for social media, also produce our wall magazine, ensuring it’s engaging and informative.",
     },
 ];
 export const PUMAInformationSystemVnM = {
