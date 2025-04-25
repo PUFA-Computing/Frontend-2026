@@ -44,14 +44,14 @@ export async function CreateProject(form: unknown) {
          title: data.title,
          description: data.description,
          major: data.major,
-         teamMembers: data.teamMembers,
+         teamMembers: JSON.stringify(data.teamMembers), // Convert array to JSON string
          teamName: data.teamName,
          batch: data.batch,
          codeLink: data.codeLink,
       },
    });
    if (!putDb) {
-      return { error: "Faield to create project" };
+      return { error: "Failed to create project" };
    }
    for (const image of data.images) {
       const putImage = await db.projectImage.create({

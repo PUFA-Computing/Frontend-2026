@@ -23,7 +23,7 @@ export default async function EventsPage() {
    const upcomingEvents = pufaComputingEvents
       .filter((event) => event.end_date.getTime() >= Date.now())
       .sort((a, b) => a.end_date.getTime() - b.end_date.getTime())
-      .slice(0, 2);
+      .slice(0, 2);
 
    // All event sorted by end date exclude the first 2 upcoming events
    const allEvents = pufaComputingEvents
@@ -48,7 +48,14 @@ export default async function EventsPage() {
 
             {/* card section */}
             <div className="hidden md:block">
-               <EventCardPage events={upcomingEvents} />
+               {upcomingEvents.length > 0 ? (
+                  <EventCardPage event={upcomingEvents[0]} />
+               ) : (
+                  <div className="rounded-xl bg-white p-8 text-center shadow-md">
+                     <h3 className="text-lg font-medium text-gray-700">No upcoming events</h3>
+                     <p className="mt-2 text-gray-500">Check back later for new PUFA Computing events.</p>
+                  </div>
+               )}
             </div>
             <div className="block md:hidden">
                <EventCardPageMobile events={upcomingEvents} />

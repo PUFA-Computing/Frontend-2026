@@ -761,8 +761,6 @@ export default function MyAccount() {
                                                 control: (base) => ({
                                                     ...base,
                                                     minHeight: '44px', // Ensuring touch-friendly size
-                                                    ...base,
-                                                    minHeight: '46px',
                                                     borderColor: '#e5e7eb',
                                                     backgroundColor: 'white',
                                                     boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',

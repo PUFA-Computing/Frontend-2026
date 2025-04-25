@@ -1,15 +1,15 @@
 "use client"
 
 import { cn } from "@/lib/utils"
-import type React from "react"
-import { motion } from "framer-motion"
+import type { ReactNode } from "react"
+import { motion, HTMLMotionProps } from "framer-motion"
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  children: React.ReactNode
+interface ButtonProps extends HTMLMotionProps<"button"> {
+  children: ReactNode
   disabled?: boolean
   variant?: "primary" | "outline" | "ghost" | "link"
   size?: "sm" | "md" | "lg"
-  icon?: React.ReactNode
+  icon?: ReactNode
   iconPosition?: "left" | "right"
 }
 

@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import Button from "@/components/button"
+import Button from "@/components/Button"
 import { motion } from "framer-motion"
 import { Calendar, ArrowRight } from "lucide-react"
 

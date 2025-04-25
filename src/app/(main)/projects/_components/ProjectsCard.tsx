@@ -2,8 +2,25 @@ import { db } from "@/lib/db";
 import Image from "next/image";
 import Link from "next/link";
 
+// Define interfaces for the project data structure
+interface ProjectImage {
+  imageUrl: string;
+}
+
+interface Project {
+  id: string;
+  title: string;
+  description: string;
+  major: string;
+  teamMembers: string; // Changed from string[] to string (JSON string in DB)
+  teamName: string | null;
+  batch: string;
+  codeLink: string;
+  ProjectImage: ProjectImage[];
+}
+
 export default async function ProjectsCard() {
-   const projects = await db.project.findMany({
+   const projects: Project[] = await db.project.findMany({
       select: {
          id: true,
          title: true,
@@ -42,13 +59,13 @@ export default async function ProjectsCard() {
    //TODO: Make the image swipeable
    return (
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-         {projects.map((project) => (
+         {projects.map((project: Project) => (
             <div
                className="flex flex-col gap-4 rounded-lg border  border-black"
                key={project.id}
             >
                <div>
-                  {project.ProjectImage.map((image) => (
+                  {project.ProjectImage.map((image: ProjectImage) => (
                      <img
                         key={image.imageUrl}
                         src={image.imageUrl || "/PUComputing.png"}
@@ -62,7 +79,17 @@ export default async function ProjectsCard() {
                <div className="flex flex-grow flex-col justify-between p-3">
                   <div className="space-y-2">
                      {project.teamName && <p>Team Name: {project.teamName}</p>}
-                     <p>Members: {project.teamMembers.join(", ")}</p>
+                     <p>Members: {
+                        (() => {
+                           try {
+                              const members = JSON.parse(project.teamMembers);
+                              return Array.isArray(members) ? members.join(", ") : project.teamMembers;
+                           } catch (e) {
+                              return project.teamMembers;
+                           }
+                        })()
+                     }</p>
+
                      <p className="text-center font-semibold">
                         {project.title}
                      </p>
