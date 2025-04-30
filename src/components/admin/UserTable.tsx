@@ -1,5 +1,9 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import User from "@/models/user";
+import { MagnifyingGlassIcon, PencilIcon, UserCircleIcon, AcademicCapIcon, UserPlusIcon } from "@heroicons/react/24/outline";
+import { motion } from "framer-motion";
 
 function UserTable({
     users,
@@ -10,220 +14,211 @@ function UserTable({
     onEditClick: (user: User) => void;
     onViewVerification: (verificationInfo: any) => void;
 }) {
-    console.log('UserTable received users:', users);
+    const [searchQuery, setSearchQuery] = useState<string>("");
+    const [roleFilter, setRoleFilter] = useState<string>("all");
+    
+    // Filter users based on search query and role filter
+    const filteredUsers = users.filter(user => {
+        const userName = `${user.first_name || ''} ${user.last_name || ''}`.trim();
+        const matchesSearch = searchQuery === "" || 
+            userName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            user.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            (user.student_id && user.student_id.toLowerCase().includes(searchQuery.toLowerCase()));
+        
+        const matchesRole = roleFilter === "all" || 
+            (roleFilter === "admin" && user.role_id === 1) ||
+            (roleFilter === "user" && user.role_id === 2) ||
+            (roleFilter === "pufa" && user.role_id === 3) ||
+            (roleFilter === "puma-it" && user.role_id === 4) ||
+            (roleFilter === "puma-is" && user.role_id === 5) ||
+            (roleFilter === "puma-id" && user.role_id === 6) ||
+            (roleFilter === "puma-vcd" && user.role_id === 7);
+        
+        return matchesSearch && matchesRole;
+    });
+    
     if (!users || users.length === 0) {
         return (
-            <div className="text-center py-12">
-                <p className="text-gray-500">No users found.</p>
+            <div className="flex flex-col items-center justify-center py-12">
+                <UserCircleIcon className="h-12 w-12 text-gray-300 mb-3" />
+                <h3 className="text-lg font-medium text-gray-900">No users found</h3>
+                <p className="text-sm text-gray-500 mt-1">There are no users in the system yet</p>
             </div>
         );
     }
 
     return (
-        <div className="px-4 sm:px-6 lg:px-8">
-            <div className="sm:flex sm:items-center">
-                <div className="sm:flex-auto">
-                    <h1 className="text-base font-semibold leading-6 text-gray-900">
-                        Users
-                    </h1>
-                    <p className="mt-2 text-sm text-gray-700">
-                        A list of all the users in your account including their
-                        name, title, email and role.
-                    </p>
+        <div className="space-y-6">
+            {/* Search and filter bar */}
+            <div className="flex flex-col gap-4 sm:gap-3">
+                <div className="relative w-full">
+                    <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                        <MagnifyingGlassIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                    </div>
+                    <input
+                        type="text"
+                        className="block w-full rounded-md border-0 py-2.5 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 text-sm leading-6"
+                        placeholder="Search users by name, email or student ID..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                    />
                 </div>
-                <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-                    <button
-                        type="button"
-                        className="block rounded-md bg-pink-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-pink-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                    >
-                        <div className="flex items-center justify-center">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                strokeWidth={1.5}
-                                stroke="currentColor"
-                                className="h-6 w-6"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z"
-                                />
-                            </svg>
-                            <span className="ml-2">Add User</span>
-                        </div>
-                    </button>
-                </div>
-            </div>
-            <div className="mt-8 flow-root">
-                <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                    <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-                        <table className="min-w-full divide-y divide-gray-300">
-                            <thead>
-                                <tr>
-                                    <th
-                                        scope="col"
-                                        className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
-                                    >
-                                        Name
-                                    </th>
-                                    <th
-                                        scope="col"
-                                        className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                                    >
-                                        Information
-                                    </th>
-                                    <th
-                                        scope="col"
-                                        className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                                    >
-                                        Student ID Verified
-                                    </th>
-                                    <th
-                                        scope="col"
-                                        className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                                    >
-                                        Role
-                                    </th>
-                                    <th
-                                        scope="col"
-                                        className="relative py-3.5 pl-3 pr-4 sm:pr-0"
-                                    >
-                                        <span className="sr-only">Edit</span>
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-gray-200 bg-white">
-                                {users.map((user) => (
-                                    <tr key={user.id}>
-                                        <td className="whitespace-nowrap py-5 pl-4 pr-3 text-sm sm:pl-0">
-                                            <div className="flex items-center">
-                                                <div className="h-11 w-11 flex-shrink-0">
-                                                    <img
-                                                        className="h-11 w-11 rounded-full"
-                                                        src={
-                                                            user.profile_picture
-                                                        }
-                                                        alt=""
-                                                    />
-                                                </div>
-                                                <div className="ml-4">
-                                                    <div className="font-medium text-gray-900">
-                                                        {user.first_name}{" "}
-                                                        {user.last_name}
-                                                    </div>
-                                                    <div className="mt-1 text-gray-500">
-                                                        {user.email}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                                            <div className="text-gray-900">
-                                                {user.student_id}
-                                            </div>
-                                            <div className="mt-1 text-gray-500">
-                                                {user.major}
-                                            </div>
-                                        </td>
-                                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                                            {user.student_id_verified ? (
-                                                <span className="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800">
-                                                    Verified
-                                                </span>
-                                            ) : user.student_id_verification ? (
-                                                // Badge for pending verification and indicator new on right top of the button
-                                                <button
-                                                    onClick={() =>
-                                                        onViewVerification({
-                                                            student_id_verification:
-                                                                user.student_id_verification,
-                                                        })
-                                                    }
-                                                    className="relative inline-flex items-center rounded-full bg-yellow-100 px-2.5 py-0.5 text-xs font-medium text-yellow-800"
-                                                >
-                                                    Pending Verification
-                                                    <span className="absolute right-0 top-0 flex h-3 w-2">
-                                                        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-yellow-600 opacity-75"></span>
-                                                        <span className="relative inline-flex h-3 w-3 rounded-full bg-yellow-500"></span>
-                                                    </span>
-                                                </button>
-                                            ) : (
-                                                <span className="inline-flex items-center rounded-full bg-red-100 px-2.5 py-0.5 text-xs font-medium text-red-800">
-                                                    Not Verified
-                                                </span>
-                                            )}
-                                        </td>
-                                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                                            {user.role_id === 1 ? (
-                                                <span className="inline-flex items-center rounded-full bg-gradient-to-r from-black to-yellow-600 px-2.5 py-0.5 text-xs font-medium text-white">
-                                                    Admin
-                                                </span>
-                                            ) : user.role_id === 2 ? (
-                                                <span className="inline-flex items-center rounded-full bg-gradient-to-r from-black to-blue-600 px-2.5 py-0.5 text-xs font-medium text-white">
-                                                    Computizen
-                                                </span>
-                                            ) : user.role_id === 3 ? (
-                                                <span className="inline-flex items-center rounded-full bg-black px-2.5 py-0.5 text-xs font-medium text-white">
-                                                    PUFA Computing
-                                                </span>
-                                            ) : user.role_id === 4 ? (
-                                                <span className="inline-flex items-center rounded-full border border-gray-300 px-2.5 py-0.5 text-xs font-medium text-gray-800">
-                                                    PUMA IT
-                                                </span>
-                                            ) : user.role_id === 5 ? (
-                                                <span className="inline-flex items-center rounded-full bg-gradient-to-r from-orange-600 to-sky-600 px-2.5 py-0.5 text-xs font-medium text-white">
-                                                    PUMA IS
-                                                </span>
-                                            ) : user.role_id === 6 ? (
-                                                <span className="inline-flex items-center rounded-full bg-gradient-to-r from-black to-red-600 px-2.5 py-0.5 text-xs font-medium text-white">
-                                                    PUMA ID
-                                                </span>
-                                            ) : user.role_id === 7 ? (
-                                                <span className="inline-flex items-center rounded-full bg-gradient-to-r from-blue-600 to-yellow-500 px-2.5 py-0.5 text-xs font-medium text-white">
-                                                    PUMA VCD
-                                                </span>
-                                            ) : (
-                                                <span className="inline-flex items-center rounded-full bg-gradient-to-r from-black to-pink-500 px-2.5 py-0.5 text-xs font-medium text-white">
-                                                    Guest
-                                                </span>
-                                            )}
-                                        </td>
-                                        <td className="relative whitespace-nowrap py-5 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-                                            <button
-                                                onClick={() =>
-                                                    onEditClick(user)
-                                                }
-                                                className="text-pink-600 hover:text-pink-900"
-                                            >
-                                                <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    fill="none"
-                                                    viewBox="0 0 24 24"
-                                                    strokeWidth={1.5}
-                                                    stroke="currentColor"
-                                                    className="h-6 w-6"
-                                                >
-                                                    <path
-                                                        strokeLinecap="round"
-                                                        strokeLinejoin="round"
-                                                        d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
-                                                    />
-                                                </svg>
-
-                                                <span className="sr-only">
-                                                    , {user.id}
-                                                </span>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                
+                <div className="flex flex-col sm:flex-row gap-3 w-full">
+                    <div className="w-full sm:w-auto sm:flex-1">
+                        <select
+                            className="block w-full rounded-md border-0 py-2.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-blue-600 text-sm leading-6"
+                            value={roleFilter}
+                            onChange={(e) => setRoleFilter(e.target.value)}
+                        >
+                            <option value="all">All Roles</option>
+                            <option value="admin">Admin</option>
+                            <option value="user">User</option>
+                            <option value="pufa">PUFA Computing</option>
+                            <option value="puma-it">PUMA IT</option>
+                            <option value="puma-is">PUMA IS</option>
+                            <option value="puma-id">PUMA ID</option>
+                            <option value="puma-vcd">PUMA VCD</option>
+                        </select>
+                    </div>
+                    <div className="w-full sm:w-auto">
+                        <button
+                            type="button"
+                            className="w-full sm:w-auto inline-flex items-center justify-center rounded-md bg-blue-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 transition-colors"
+                        >
+                            <UserPlusIcon className="h-5 w-5 mr-1.5" />
+                            Add User
+                        </button>
                     </div>
                 </div>
             </div>
+            
+            <div className="flex justify-between items-center">
+                <div>
+                    <h2 className="text-base font-semibold text-gray-900">User Directory</h2>
+                    <p className="text-sm text-gray-500 mt-1">Showing {filteredUsers.length} of {users.length} users</p>
+                </div>
+            </div>
+            {filteredUsers.length > 0 ? (
+                <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+                    {filteredUsers.map((user) => (
+                        <motion.div
+                            key={user.id}
+                            className="bg-white overflow-hidden rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300"
+                            whileHover={{ y: -2 }}
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.2 }}
+                        >
+                            <div className="p-4 sm:p-5">
+                                <div className="flex items-start justify-between">
+                                    <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
+                                        <div className="h-10 w-10 flex-shrink-0 overflow-hidden rounded-full bg-gray-100">
+                                            {user.profile_picture ? (
+                                                <img 
+                                                    src={user.profile_picture} 
+                                                    alt={`${user.first_name || ''} ${user.last_name || ''}`.trim()} 
+                                                    className="h-full w-full object-cover"
+                                                />
+                                            ) : (
+                                                <div className="h-full w-full flex items-center justify-center bg-blue-100 text-blue-600">
+                                                    <UserCircleIcon className="h-6 w-6" />
+                                                </div>
+                                            )}
+                                        </div>
+                                        <div className="min-w-0 flex-1">
+                                            <h3 className="text-base font-semibold text-gray-900 line-clamp-1">{`${user.first_name || ''} ${user.last_name || ''}`.trim()}</h3>
+                                            <p className="text-sm text-gray-500 truncate">{user.email}</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <button
+                                        onClick={() => onEditClick(user)}
+                                        className="rounded-full p-1.5 text-gray-500 hover:bg-gray-100 hover:text-blue-600 transition-colors flex-shrink-0 ml-2"
+                                    >
+                                        <PencilIcon className="h-5 w-5" />
+                                    </button>
+                                </div>
+                                
+                                <div className="mt-3 sm:mt-4 space-y-2">
+                                    {/* Role badge */}
+                                    <div className="flex flex-wrap gap-1">
+                                        {user.role_id === 1 ? (
+                                            <span className="inline-flex items-center rounded-full bg-purple-100 px-2.5 py-0.5 text-xs font-medium text-purple-800 border border-purple-200">
+                                                Admin
+                                            </span>
+                                        ) : user.role_id === 2 ? (
+                                            <span className="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800 border border-gray-200">
+                                                User
+                                            </span>
+                                        ) : user.role_id === 3 ? (
+                                            <span className="inline-flex items-center rounded-full bg-black px-2.5 py-0.5 text-xs font-medium text-white border border-gray-800">
+                                                PUFA Computing
+                                            </span>
+                                        ) : user.role_id === 4 ? (
+                                            <span className="inline-flex items-center rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 px-2.5 py-0.5 text-xs font-medium text-white">
+                                                PUMA IT
+                                            </span>
+                                        ) : user.role_id === 5 ? (
+                                            <span className="inline-flex items-center rounded-full bg-gradient-to-r from-orange-600 to-sky-600 px-2.5 py-0.5 text-xs font-medium text-white">
+                                                PUMA IS
+                                            </span>
+                                        ) : user.role_id === 6 ? (
+                                            <span className="inline-flex items-center rounded-full bg-gradient-to-r from-black to-red-600 px-2.5 py-0.5 text-xs font-medium text-white">
+                                                PUMA ID
+                                            </span>
+                                        ) : user.role_id === 7 ? (
+                                            <span className="inline-flex items-center rounded-full bg-gradient-to-r from-blue-600 to-yellow-500 px-2.5 py-0.5 text-xs font-medium text-white">
+                                                PUMA VCD
+                                            </span>
+                                        ) : (
+                                            <span className="inline-flex items-center rounded-full bg-gradient-to-r from-black to-pink-500 px-2.5 py-0.5 text-xs font-medium text-white">
+                                                Guest
+                                            </span>
+                                        )}
+                                    </div>
+                                    
+                                    {/* Student ID verification */}
+                                    {user.student_id && (
+                                        <div className="flex flex-wrap items-center gap-2 mt-2">
+                                            <div className="inline-flex items-center gap-1 min-w-0">
+                                                <AcademicCapIcon className="h-4 w-4 flex-shrink-0 text-gray-400" />
+                                                <span className="text-sm text-gray-600 truncate">{user.student_id}</span>
+                                            </div>
+                                            
+                                            {user.student_id_verified ? (
+                                                <span className="inline-flex items-center rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-800">
+                                                    Verified
+                                                </span>
+                                            ) : (
+                                                <button
+                                                    onClick={() => {
+                                                        if (user.student_id_verification) {
+                                                            onViewVerification({
+                                                                student_id_verification: user.student_id_verification
+                                                            });
+                                                        }
+                                                    }}
+                                                    className="inline-flex items-center rounded-full bg-yellow-100 px-2 py-0.5 text-xs font-medium text-yellow-800 hover:bg-yellow-200 transition-colors"
+                                                    disabled={!user.student_id_verification}
+                                                >
+                                                    Verify
+                                                </button>
+                                            )}
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        </motion.div>
+                    ))}
+                </div>
+            ) : (
+                <div className="flex flex-col items-center justify-center py-12 bg-white rounded-xl border border-gray-200 shadow-sm mt-4">
+                    <UserCircleIcon className="h-12 w-12 text-gray-300 mb-3" />
+                    <h3 className="text-lg font-medium text-gray-900">No users found</h3>
+                    <p className="text-sm text-gray-500 mt-1">Try changing your search query or filter</p>
+                </div>
+            )}
         </div>
     );
 }

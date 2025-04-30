@@ -7,6 +7,7 @@ import User from "@/models/user";
 import EditUserModal from "@/app/(admin)/admin/users/_components/EditUserModal";
 import ViewVerificationModal from "@/app/(admin)/admin/users/_components/ViewStudentVerificationModal";
 import { useSession } from "next-auth/react";
+import { UsersIcon } from "@heroicons/react/24/outline";
 
 export default function UsersList() {
 	const session = useSession();
@@ -147,12 +148,35 @@ export default function UsersList() {
     };
 
     return (
-        <div>
-            <UserTable
-                users={users}
-                onEditClick={openModal}
-                onViewVerification={openVerificationModal}
-            />
+        <div className="space-y-6">
+            <div className="flex items-center gap-2 sm:gap-3">
+                <div className="p-2 bg-blue-100 rounded-lg flex-shrink-0">
+                    <UsersIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
+                </div>
+                <div className="min-w-0">
+                    <Title 
+                        title="User Management" 
+                        subtitle="View and manage user accounts and permissions"
+                    />
+                </div>
+            </div>
+            
+            <div className="bg-white p-4 sm:p-6 rounded-xl border border-gray-200 shadow-sm">
+                {users.length === 0 ? (
+                    <div className="flex flex-col items-center justify-center py-12">
+                        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mb-4"></div>
+                        <h3 className="text-lg font-medium text-gray-900">Loading users...</h3>
+                        <p className="text-sm text-gray-500 mt-1">Please wait while we fetch the user data</p>
+                    </div>
+                ) : (
+                    <UserTable
+                        users={users}
+                        onEditClick={openModal}
+                        onViewVerification={openVerificationModal}
+                    />
+                )}
+            </div>
+            
             {selectedUser && (
                 <EditUserModal user={selectedUser} onClose={closeModal} />
             )}
