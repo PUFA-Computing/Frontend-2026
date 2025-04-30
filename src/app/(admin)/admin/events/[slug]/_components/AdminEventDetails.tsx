@@ -7,6 +7,7 @@ import {
     deleteEvent,
     fetchEventBySlug,
     updateEvent,
+    createEvent,
 } from "@/services/api/event";
 import Event from "@/models/event";
 import Swal from "sweetalert2";
@@ -79,15 +80,36 @@ export default function EventDetails() {
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         if (event) {
-            setEvent((prevEvent) =>
-                prevEvent ? { ...prevEvent, [name]: value } : null
-            );
+            // Special handling for date fields to ensure proper date format
+            if (name === 'start_date' || name === 'end_date') {
+                // Create a date object with the value from the date input
+                // and preserve the time portion from the original date
+                const originalDate = new Date(name === 'start_date' ? event.start_date : event.end_date);
+                const [year, month, day] = value.split('-').map(Number);
+                
+                // Create a new date with the selected date but keep original time
+                const newDate = new Date(originalDate);
+                newDate.setFullYear(year);
+                newDate.setMonth(month - 1); // Month is 0-indexed in JavaScript
+                newDate.setDate(day);
+                
+                setEvent((prevEvent) =>
+                    prevEvent ? { ...prevEvent, [name]: newDate } : null
+                );
+            } else {
+                // For non-date fields, update normally
+                setEvent((prevEvent) =>
+                    prevEvent ? { ...prevEvent, [name]: value } : null
+                );
+            }
         }
     };
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
-            setNewPoster(e.target.files[0]);
+            const file = e.target.files[0];
+            console.log('New poster file selected:', file.name, file.size, 'bytes');
+            setNewPoster(file);
         }
     };
 
@@ -139,54 +161,135 @@ export default function EventDetails() {
     };
 
     const handleSave = async () => {
-        if (!session.data) {
-            return null;
-        }
-        if (event) {
-            try {
-                setSaving(true);
+        if (!event) return;
 
-                // Create a FormData object to handle the event data and poster image
-                const formData = new FormData();
-                if (newPoster) {
-                    formData.append("file", newPoster, newPoster.name);
-                }
+        setSaving(true);
 
-                const eventData: EventCreation = {
-                    title: event.title,
-                    start_date: new Date(event.start_date).toISOString(),
-                    end_date: new Date(event.end_date).toISOString(),
-                    organization_id: event.organization_id,
-                    description: event.description,
-                    max_registration: event.max_registration,
-                };
-
-                formData.append("data", JSON.stringify(eventData));
-
-                await updateEvent(
-                    event.id.toString(),
-                    eventData,
-                    newPoster!,
-                    session.data.user.access_token
-                );
-
-                await Swal.fire({
-                    icon: "success",
-                    title: "Event Updated",
-                    showConfirmButton: false,
-                    timer: 1500,
-                });
-                router.push("/admin/events");
-            } catch (error) {
-                console.error("Error updating event:", error);
-                await Swal.fire({
-                    icon: "error",
-                    title: "Error",
-                    text: "Error updating event",
-                });
-            } finally {
-                setSaving(false);
+        try {
+            // Validate required fields
+            if (!event.title || !event.start_date || !event.end_date) {
+                throw new Error("Please fill in all required fields");
             }
+
+            // Ensure dates are properly formatted with time component
+            // The backend expects dates in full ISO format with time and timezone
+            const formatDateWithTime = (date: Date | string) => {
+                const dateObj = new Date(date);
+                // Ensure the date is valid before formatting
+                if (isNaN(dateObj.getTime())) {
+                    console.error('Invalid date:', date);
+                    // Return current date as fallback
+                    return new Date().toISOString();
+                }
+                return dateObj.toISOString();
+            };
+
+            // Log the dates for debugging
+            console.log('Original start_date:', event.start_date);
+            console.log('Original end_date:', event.end_date);
+            console.log('Formatted start_date:', formatDateWithTime(event.start_date));
+            console.log('Formatted end_date:', formatDateWithTime(event.end_date));
+
+            const eventData = {
+                title: event.title,
+                start_date: formatDateWithTime(event.start_date),
+                end_date: formatDateWithTime(event.end_date),
+                organization_id: event.organization_id,
+                description: event.description,
+                max_registration: event.max_registration,
+            };
+
+            console.log('Updating event with data:', eventData);
+            
+            // Create a FormData object for the request
+            const formData = new FormData();
+            formData.append('data', JSON.stringify(eventData));
+            
+            // Handle file upload
+            if (newPoster) {
+                console.log('Adding new poster file:', newPoster.name, newPoster.size, 'bytes', newPoster.type);
+                // Explicitly set the file name and content type
+                formData.append('file', newPoster, newPoster.name);
+            } else {
+                console.log('No new poster file');
+                // Add a dummy empty file to satisfy multipart requirement
+                // Make sure this matches what the backend expects for empty files
+                const emptyBlob = new Blob([""], { type: "text/plain" });
+                formData.append("file", emptyBlob, "empty.txt");
+            }
+            
+            // Use direct fetch API for more control
+            const apiUrl = `http://localhost:8080/api/v1/event/${event.id}/edit`;
+            console.log('Making direct PATCH request to:', apiUrl);
+            
+            const response = await fetch(apiUrl, {
+                method: 'PATCH',
+                headers: {
+                    'Authorization': `Bearer ${session.data?.user.access_token || ''}`,
+                    // Don't set Content-Type for multipart/form-data
+                },
+                body: formData
+            });
+            
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error('Server response error:', response.status, errorText);
+                throw new Error(`Server returned ${response.status}: ${errorText}`);
+            }
+            
+            const result = await response.json();
+            console.log('Update result:', result);
+            
+            // Force refresh the image by reloading the event data
+            if (slug) {
+                try {
+                    // Add a cache-busting parameter to force reload
+                    const timestamp = new Date().getTime();
+                    const updatedEvent = await fetchEventBySlug(slug as string);
+                    
+                    // Update the event with the new data including the new image URL
+                    if (updatedEvent && updatedEvent.thumbnail) {
+                        // Add a timestamp to the thumbnail URL to prevent caching
+                        const cacheBustedUrl = updatedEvent.thumbnail.includes('?') 
+                            ? `${updatedEvent.thumbnail}&t=${timestamp}` 
+                            : `${updatedEvent.thumbnail}?t=${timestamp}`;
+                            
+                        setEvent({
+                            ...updatedEvent,
+                            thumbnail: cacheBustedUrl
+                        });
+                        
+                        console.log('Event refreshed with new thumbnail:', cacheBustedUrl);
+                    } else {
+                        setEvent(updatedEvent);
+                    }
+                } catch (refreshError) {
+                    console.error('Error refreshing event data:', refreshError);
+                }
+            }
+            
+            await Swal.fire({
+                icon: "success",
+                title: "Event Updated",
+                text: "Changes saved successfully!",
+                showConfirmButton: true,
+                timer: 2000,
+            });
+            
+            // Redirect after a short delay to allow the user to see the success message
+            setTimeout(() => {
+                router.push("/admin/events");
+            }, 2000);
+            
+        } catch (error) {
+            console.error("Error updating event:", error);
+            await Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "Error updating event. Please check console for details.",
+            });
+        } finally {
+            setSaving(false);
         }
     };
 
@@ -349,7 +452,15 @@ export default function EventDetails() {
                                                     .toISOString()
                                                     .split("T")[0]
                                             }
-                                            onChange={handleInputChange}
+                                            onChange={(e) => {
+                                                const value = e.target.value;
+                                                if (value) {
+                                                    // Create a new date with the selected date but keep time at noon
+                                                    const [year, month, day] = value.split('-').map(Number);
+                                                    const newDate = new Date(year, month - 1, day, 12, 0, 0);
+                                                    setEvent(prev => prev ? {...prev, start_date: newDate} : null);
+                                                }
+                                            }}
                                         />
                                     </div>
                                     <div>
@@ -364,7 +475,15 @@ export default function EventDetails() {
                                                     .toISOString()
                                                     .split("T")[0]
                                             }
-                                            onChange={handleInputChange}
+                                            onChange={(e) => {
+                                                const value = e.target.value;
+                                                if (value) {
+                                                    // Create a new date with the selected date but keep time at noon
+                                                    const [year, month, day] = value.split('-').map(Number);
+                                                    const newDate = new Date(year, month - 1, day, 12, 0, 0);
+                                                    setEvent(prev => prev ? {...prev, end_date: newDate} : null);
+                                                }
+                                            }}
                                         />
                                     </div>
                                     <div>
@@ -397,13 +516,15 @@ export default function EventDetails() {
                                         <div className="flex justify-center">
                                             <Image
                                                 src={
-                                                    event.thumbnail ||
-                                                    "https://sg.pufacomputing.live/Assets/male.jpeg"
+                                                    event.thumbnail 
+                                                    ? `${event.thumbnail}?t=${new Date().getTime()}` 
+                                                    : "https://sg.pufacomputing.live/Assets/male.jpeg"
                                                 }
                                                 alt={`${event.title} Poster`}
-                                                className="h-72  w-56 rounded-lg"
+                                                className="h-72 w-56 rounded-lg"
                                                 width={480}
                                                 height={240}
+                                                unoptimized={true} // Disable Next.js image optimization to prevent caching
                                             />
                                         </div>
                                     </div>

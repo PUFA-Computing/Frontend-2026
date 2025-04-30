@@ -143,7 +143,7 @@ export const createEvent = async (
  *
  * @param {string} eventId The ID of the event to update.
  * @param {Event} eventData The updated data for the event.
- * @param file The image file for the event.
+ * @param file The image file for the event (optional).
  * @param accessToken The access token for the user.
  * @returns {Promise<Event>} A promise that resolves to the updated Event object.
  * @throws {Error} If an error occurs during the API request.
@@ -151,26 +151,42 @@ export const createEvent = async (
 export const updateEvent = async (
     eventId: string,
     eventData: EventCreation,
-    file: File,
+    file: File | null,
     accessToken: string
 ): Promise<Event> => {
     try {
+        console.log('updateEvent called with:', { eventId, eventData, hasFile: !!file });
+        
         const formData = new FormData();
 
-        formData.append("file", file, file.name);
-
+        // Format dates properly
         const formattedEventData = {
             ...eventData,
             start_date: new Date(eventData.start_date).toISOString(),
             end_date: new Date(eventData.end_date).toISOString(),
         };
 
-        // Convert eventData to JSON string and append it with content type application/json.
+        // Convert eventData to JSON string and append it with content type application/json
         formData.append("data", JSON.stringify(formattedEventData));
+        
+        // Only append file if it exists
+        if (file) {
+            formData.append("file", file, file.name);
+            console.log('File appended to form data:', file.name);
+        } else {
+            console.log('No file provided for update');
+            // Add a dummy empty file to satisfy the multipart requirement
+            // This is a workaround for backends that expect a file field even if empty
+            const emptyBlob = new Blob([""], { type: "text/plain" });
+            formData.append("file", emptyBlob, "empty.txt");
+        }
 
-        // Make a PUT request to the API endpoint.
-        const response = await axios.put(
-            `${API_EVENT}/${eventId}/update`,
+        // The backend expects a PATCH request to /:eventID/edit
+        console.log('Making PATCH request to:', `${API_EVENT}/${eventId}/edit`);
+        
+        // Make a PATCH request to the API endpoint
+        const response = await axios.patch(
+            `${API_EVENT}/${eventId}/edit`,
             formData,
             {
                 headers: {
@@ -180,14 +196,18 @@ export const updateEvent = async (
             }
         );
 
-        // Extract the updated event data from the response.
+        console.log('Update response:', response.data);
+        
+        // Extract the updated event data from the response
         const updatedEventData = response.data?.data;
 
-        // Return the updated Event object.
+        // Return the updated Event object
         return updatedEventData as Event;
-    } catch (error) {
-        // Log an error message and rethrow the error.
-        console.error(`Error updating event with ID ${eventId}`, error);
+    } catch (error: any) {
+        // Log an error message with detailed information
+        console.error(`Error updating event with ID ${eventId}:`, error);
+        console.error('Response data:', error.response?.data);
+        console.error('Status:', error.response?.status);
         throw error;
     }
 };

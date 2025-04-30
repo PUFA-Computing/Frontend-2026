@@ -28,8 +28,8 @@ function EventTable({ events }: { events: Event[] }) {
                         <div className="flex gap-x-4">
                             <img
                                 className="h-20 w-12 rounded-lg object-cover"
-                                src={event.thumbnail}
-                                alt=""
+                                src={`${event.thumbnail}?t=${new Date().getTime()}`}
+                                alt={`${event.title} thumbnail`}
                             />
                             <div className="min-w-0 flex-auto">
                                 <p className="text-sm font-semibold leading-6 text-gray-900">

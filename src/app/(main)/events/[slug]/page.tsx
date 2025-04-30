@@ -95,7 +95,8 @@ export default async function EventDetailsPage({ params }: EventPageProps) {
                                         layout="fill"
                                         objectFit="cover"
                                         className="transition-transform duration-500 hover:scale-105"
-                                        src={event.thumbnail}
+                                        src={`${event.thumbnail}?t=${new Date().getTime()}`}
+                                        unoptimized={true} // Disable Next.js image optimization to prevent caching
                                     />
                                 </div>
                             </div>

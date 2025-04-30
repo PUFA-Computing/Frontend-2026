@@ -26,12 +26,13 @@ export default function EventCard({
             {/* Event image with overlay and badge */}
             <div className="relative h-48 sm:h-52 md:h-56 overflow-hidden">
                 <Image
-                    src={image || "/placeholder.svg"}
+                    src={typeof image === 'string' ? `${image}?t=${new Date().getTime()}` : image || "/placeholder.svg"}
                     alt={title}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     width={500}
                     height={300}
                     style={{ objectFit: 'cover' }}
+                    unoptimized={true} // Disable Next.js image optimization to prevent caching
                     onError={(e) => {
                         // Fallback to a local image if the thumbnail fails to load
                         const imgElement = e.currentTarget as HTMLImageElement;
