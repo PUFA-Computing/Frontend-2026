@@ -90,7 +90,7 @@ export default async function AdminLayout({
                 <div className="lg:pl-72">
                     <Header userNavigation={userNavigation} />
 
-                    <main className="py-10 bg-[#f7f7f78e]">
+                    <main className="py-6 bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
                         <div className="px-4 sm:px-6 lg:px-8">{children}</div>
                     </main>
                 </div>

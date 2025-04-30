@@ -12,6 +12,7 @@ import React from "react";
 import { Cog6ToothIcon } from "@heroicons/react/24/outline";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 interface Team {
     name: string;
@@ -70,67 +71,88 @@ const Sidebar = ({ teams }: SidebarProps) => {
         <nav className="flex flex-1 flex-col overflow-hidden">
             <ul role="list" className="flex flex-1 flex-col gap-y-7">
                 <li>
-                    <ul role="list" className="-mx-2 space-y-1">
-                        {navigation.map((item) => (
-                            <li key={item.name}>
-                                <Link
-                                    href={item.href}
-                                    className={classNames(
-                                        currentPath === item.href
-                                            ? "bg-gray-800 text-white"
-                                            : "text-gray-400 hover:bg-gray-800 hover:text-white",
-                                        "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6"
-                                    )}
-                                >
-                                    <item.icon
-                                        className="h-6 w-6 shrink-0"
-                                        aria-hidden="true"
-                                    />
-                                    {item.name}
-                                </Link>
-                            </li>
-                        ))}
+                    <ul role="list" className="space-y-2 px-1">
+                        {navigation.map((item) => {
+                            const isActive = currentPath === item.href;
+                            return (
+                                <li key={item.name}>
+                                    <Link
+                                        href={item.href}
+                                        className={classNames(
+                                            isActive
+                                                ? "bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-md"
+                                                : "text-gray-300 hover:bg-gray-800/60 hover:text-white",
+                                            "group relative flex items-center gap-x-3 rounded-lg p-2.5 text-sm font-medium leading-6 transition-all duration-150 ease-in-out"
+                                        )}
+                                    >
+                                        {isActive && (
+                                            <motion.span
+                                                layoutId="sidebar-indicator"
+                                                className="absolute left-0 top-0 bottom-0 w-1 bg-blue-400 rounded-full"
+                                                initial={{ opacity: 0 }}
+                                                animate={{ opacity: 1 }}
+                                                transition={{ duration: 0.2 }}
+                                            />
+                                        )}
+                                        <item.icon
+                                            className={classNames(
+                                                isActive ? "text-white" : "text-gray-400 group-hover:text-white",
+                                                "h-5 w-5 shrink-0 transition-colors duration-150"
+                                            )}
+                                            aria-hidden="true"
+                                        />
+                                        <span className="truncate">{item.name}</span>
+                                    </Link>
+                                </li>
+                            );
+                        })}
                     </ul>
                 </li>
-                <li>
-                    <div className="text-xs font-semibold leading-6 text-gray-400">
+                <li className="mt-2">
+                    <div className="text-xs font-semibold leading-6 text-gray-400 px-3 mb-2 uppercase tracking-wider">
                         Your teams
                     </div>
-                    <ul role="list" className="-mx-2 mt-2 space-y-1">
-                        {teams.map((team) => (
-                            <li key={team.name}>
-                                <a
-                                    href={team.href}
-                                    className={classNames(
-                                        currentPath === team.href
-                                            ? "bg-gray-800 text-white"
-                                            : "text-gray-400 hover:bg-gray-800 hover:text-white",
-                                        "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6"
-                                    )}
-                                >
-                                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 text-[0.625rem] font-medium text-gray-400 group-hover:text-white">
-                                        {team.initial}
-                                    </span>
-                                    <span className="truncate">
-                                        {team.name}
-                                    </span>
-                                </a>
-                            </li>
-                        ))}
+                    <ul role="list" className="mt-1 space-y-1.5 px-1">
+                        {teams.map((team) => {
+                            const isActive = currentPath === team.href;
+                            return (
+                                <li key={team.name}>
+                                    <a
+                                        href={team.href}
+                                        className={classNames(
+                                            isActive
+                                                ? "bg-gray-800 text-white"
+                                                : "text-gray-400 hover:bg-gray-700/50 hover:text-white",
+                                            "group flex items-center gap-x-3 rounded-md p-2 text-sm font-medium leading-6 transition-all duration-150"
+                                        )}
+                                    >
+                                        <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md border border-gray-700 bg-gray-800/80 text-[0.625rem] font-medium text-gray-400 group-hover:text-white group-hover:border-gray-500 transition-colors">
+                                            {team.initial}
+                                        </span>
+                                        <span className="truncate">
+                                            {team.name}
+                                        </span>
+                                    </a>
+                                </li>
+                            );
+                        })}
                     </ul>
                 </li>
-                <li className="mt-auto">
+                <li className="mt-auto mb-4">
                     <Link
                         href="/admin/settings"
                         className={classNames(
                             usePathname() === "/admin/settings"
-                                ? "bg-gray-800 text-white"
-                                : "text-gray-400 hover:bg-gray-800 hover:text-white",
-                            "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6"
+                                ? "bg-gray-800 text-white shadow-md"
+                                : "text-gray-400 hover:bg-gray-800/60 hover:text-white",
+                            "group flex gap-x-3 rounded-md p-2.5 text-sm font-medium leading-6 transition-all duration-150 border border-gray-800 hover:border-gray-700 mx-1"
                         )}
                     >
                         <Cog6ToothIcon
-                            className="h-6 w-6 shrink-0"
+                            className={classNames(
+                                usePathname() === "/admin/settings" ? "text-white" : "text-gray-400 group-hover:text-white",
+                                "h-5 w-5 shrink-0 transition-colors duration-150"
+                            )}
                             aria-hidden="true"
                         />
                         Settings
