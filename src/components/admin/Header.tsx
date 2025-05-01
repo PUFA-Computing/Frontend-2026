@@ -15,6 +15,7 @@ import {
 import { useAdminDashboardContext } from "@/context/AdminDashboardContext";
 import { useSession } from "next-auth/react";
 import { GetUserProfile } from "@/services/api/user";
+import { signOut } from "next-auth/react";
 
 interface UserNavigation {
     name: string;
@@ -27,6 +28,10 @@ interface HeaderProps {
 
 function classNames(...classes: any[]) {
     return classes.filter(Boolean).join(" ");
+}
+
+const handleLogout = () => {
+    signOut()
 }
 
 const Header = ({ userNavigation }: HeaderProps) => {
@@ -154,15 +159,15 @@ const Header = ({ userNavigation }: HeaderProps) => {
                                 <div className="border-t border-gray-100 mt-1 pt-1">
                                     <MenuItem>
                                         {({ focus }) => (
-                                            <a
-                                                href="/auth/signout"
+                                            <button
+                                                onClick={handleLogout}
                                                 className={classNames(
                                                     focus ? "bg-gray-50" : "",
-                                                    "block px-4 py-2 text-sm leading-6 text-red-600 hover:bg-red-50 transition-colors duration-150"
+                                                    "px-4 py-2 text-sm leading-6 text-red-600 hover:bg-red-50 transition-colors duration-150"
                                                 )}
                                             >
                                                 Sign out
-                                            </a>
+                                            </button>
                                         )}
                                     </MenuItem>
                                 </div>

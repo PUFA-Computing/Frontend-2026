@@ -11,7 +11,7 @@ WORKDIR /app
 
 # Install dependencies based on the preferred package manager
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
-RUN pnpm install --frozen-lockfile
+RUN pnpm install
 
 # 2. Rebuild the source code only when needed
 FROM base AS builder
@@ -19,6 +19,8 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
+# Generate Prisma client
+RUN npx prisma generate
 # This will do the trick, use the corresponding env file for each environment.
 RUN pnpm run build
 

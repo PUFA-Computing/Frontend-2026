@@ -41,3 +41,5 @@ public/uploads/*
 .env.production
 .env
 
+# docker ignore
+/docker/production/docker-compose.yml

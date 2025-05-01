@@ -22,7 +22,8 @@ export async function GET(request: NextRequest) {
          ".js": "application/javascript",
          ".json": "application/json",
          ".png": "image/png",
-         ".jpg": "image/jpeg",
+         ".jpg": "image/jpg",
+         ".JPG": "image/jpeg",
          ".gif": "image/gif",
          ".svg": "image/svg+xml",
          // Add more content types as needed

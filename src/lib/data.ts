@@ -247,78 +247,78 @@ export const PUMAInteriorDesignVnM = {
 
 // Content of Cabinet
 // ANS Images
-import RIZWAN_ANS from "@/assets/member/ans/maulana-rizwan-ahmad.jpg";
+import RIZWAN_ANS from "@/assets/member/ans/maulana-rizwan-ahmad.JPG";
 import NAJLA_ANS from "@/assets/member/ans/najla-rifa-nur-asjad.jpg";
-import ABRAM_ANS from "@/assets/member/ans/abram-pesuma-sitorus.jpg";
-import TIMOTHY_ANS from "@/assets/member/ans/timothy-alessandro-maybrave-mait.jpg";
-import AULIA_ANS from "@/assets/member/ans/marsha-aulia-rizky.jpg";
-import NADA_ANS from "@/assets/member/ans/nada-kamelia.jpg";
+import ABRAM_ANS from "@/assets/member/ans/abram-pesuma-sitorus.JPG";
+import TIMOTHY_ANS from "@/assets/member/ans/timothy-alessandro-maybrave-mait.JPG";
+import AULIA_ANS from "@/assets/member/ans/marsha-aulia-rizky.JPG";
+import NADA_ANS from "@/assets/member/ans/nada-kamelia.JPG";
 
 // BOD Images
-import BIMASENA_BOD from "@/assets/member/bod/bimasena-yudhaprawira.jpg";
-import GEORGE_BOD from "@/assets/member/bod/george-elver-andrew-tamba.jpg";
+import BIMASENA_BOD from "@/assets/member/bod/bimasena-yudhaprawira.JPG";
+import GEORGE_BOD from "@/assets/member/bod/george-elver-andrew-tamba.JPG";
 import DIAN_BOD from "@/assets/member/bod/dian-vania-jessicha-rondonuwu.jpg";
-import IRENE_BOD from "@/assets/member/bod/veronica-irene-tanumihadja.jpg";
-import JHON_BOD from "@/assets/member/bod/joao-zinho-franklin-saldanha.jpg";
-import EILEEN_BOD from  "@/assets/member/bod/eileen-daneaya.jpg";
-import NABILA_BOD from  "@/assets/member/bod/fasya-nabila-salim.jpg";
+import IRENE_BOD from "@/assets/member/bod/veronica-irene-tanumihadja.JPG";
+import JHON_BOD from "@/assets/member/bod/joao-zinho-franklin-saldanha.JPG";
+import EILEEN_BOD from  "@/assets/member/bod/eileen-daneaya.JPG";
+import NABILA_BOD from  "@/assets/member/bod/fasya-nabila-salim.JPG";
 
 // COMMDESS Images
-import KEZIA_COMMDESS from "@/assets/member/comm/kezia-vanesa-joseph.jpg";
-import SALSA_COMMDESS from "@/assets/member/comm/salsa-nabila -putri-widiana.jpg";
-import REYNER_COMMDESS from "@/assets/member/comm/reyne-orlando-winata.jpg";
-import NASWA_COMMDESS from "@/assets/member/comm/shakiva-naswa-crescensia.jpg";
-import WIEWIEN_COMMDESS from "@/assets/member/comm/wiewien-tancaniago.jpg";
-import KADEK_COMMDESS from "@/assets/member/comm/kadek-widyana-dharma-dirgayusa.jpg";
-import RAFA_COMMDESS from "@/assets/member/comm/rafa-basia-hanif.jpg";
-import ANGEL_COMMDESS from "@/assets/member/comm/tessalonika-angeline-purba.jpg";
+import KEZIA_COMMDESS from "@/assets/member/comm/kezia-vanesa-joseph.JPG";
+import SALSA_COMMDESS from "@/assets/member/comm/salsa-nabila -putri-widiana.JPG";
+import REYNER_COMMDESS from "@/assets/member/comm/reyne-orlando-winata.JPG";
+import NASWA_COMMDESS from "@/assets/member/comm/shakiva-naswa-crescensia.JPG";
+import WIEWIEN_COMMDESS from "@/assets/member/comm/wiewien-tancaniago.JPG";
+import KADEK_COMMDESS from "@/assets/member/comm/kadek-widyana-dharma-dirgayusa.JPG";
+import RAFA_COMMDESS from "@/assets/member/comm/rafa-basia-hanif.JPG";
+import ANGEL_COMMDESS from "@/assets/member/comm/tessalonika-angeline-purba.JPG";
 import NAILAH_COMMDESS from "@/assets/member/comm/nailah-septiani-putri.jpg";
 import RICARDA_COMMDESS from "@/assets/member/comm/ricarda-sebastian-hutagalung.jpg";
-import KAILA_COMMDESS from "@/assets/member/comm/kaila-annisa-syafitri.jpg";
+import KAILA_COMMDESS from "@/assets/member/comm/kaila-annisa-syafitri.JPG";
 
 // ENTRE Images
-import ARIZAL_ENTRE from "@/assets/member/entre/arizal-anru.jpg";
+import ARIZAL_ENTRE from "@/assets/member/entre/arizal-anru.JPG";
 import BELVA_ENTRE from "@/assets/member/entre/belva-tabitha.jpg";
-import GLORYA_ENTRE from "@/assets/member/entre/glorya-estetica-br-munte.jpg";
-import MELVI_ENTRE from "@/assets/member/entre/melvi-yendra.jpg";
-import AHDA_ENTRE from "@/assets/member/entre/muhammad-ahda-briliantama.jpg";
+import GLORYA_ENTRE from "@/assets/member/entre/glorya-estetica-br-munte.JPG";
+import MELVI_ENTRE from "@/assets/member/entre/melvi-yendra.JPG";
+import AHDA_ENTRE from "@/assets/member/entre/muhammad-ahda-briliantama.JPG";
 
 // ER Images
 import DICHO_ER from "@/assets/member/er/dicho-dermawan.jpg";
 import DAFFA_ER from "@/assets/member/er/daffa-athallah-hade.jpg";
-import AHS_ER from "@/assets/member/er/aisyah-hafizhah-sayoga.jpg";
-import EJI_ER from "@/assets/member/er/alfadzri-abhipraya.jpg";
-import LINTAR_ER from "@/assets/member/er/dimas-lintar-ramadhan.jpg";
-import MAULIDAH_ER from "@/assets/member/er/maulidah-barakbah.jpg";
+import AHS_ER from "@/assets/member/er/aisyah-hafizhah-sayoga.JPG";
+import EJI_ER from "@/assets/member/er/alfadzri-abhipraya.JPG";
+import LINTAR_ER from "@/assets/member/er/dimas-lintar-ramadhan.JPG";
+import MAULIDAH_ER from "@/assets/member/er/maulidah-barakbah.JPG";
 
 // IR Images
-import ADELIA_IR from "@/assets/member/ir/adelia-zhafira-puspasari.jpg";
-import CARINA_IR from "@/assets/member/ir/ajeng-miftahul-carina.jpg";
-import KEVIN_IR from "@/assets/member/ir/kevin-alexander-papu.jpg";
-import PUSRI_IR from "@/assets/member/ir/pusri-ananda-handa.jpg";
-import ARMALIA_IR from "@/assets/member/ir/putri-armalia.jpg";
+import ADELIA_IR from "@/assets/member/ir/adelia-zhafira-puspasari.JPG";
+import CARINA_IR from "@/assets/member/ir/ajeng-miftahul-carina.JPG";
+import KEVIN_IR from "@/assets/member/ir/kevin-alexander-papu.JPG";
+import PUSRI_IR from "@/assets/member/ir/pusri-ananda-handa.JPG";
+import ARMALIA_IR from "@/assets/member/ir/putri-armalia.JPG";
 
 // RNT Images
 import ALDI_RNT from "@/assets/member/rnt/muhamad-aldi-apriansyah.jpg";
-import ARKA_RNT from "@/assets/member/rnt/arka-pradipa-dwi-santoso.jpg";
+import ARKA_RNT from "@/assets/member/rnt/arka-pradipa-dwi-santoso.JPG";
 import SIDIQ_RNT from "@/assets/member/rnt/ahmad-akbar-sidiq-n.jpg";
-import ABYAN_RNT from "@/assets/member/rnt/muhammad-praditya-abyan.jpg";
-import RIZKI_RNT from "@/assets/member/rnt/rizki-adi-prasetyo.jpg";
-import DARRELL_RNT from "@/assets/member/rnt/darrell-rafa-alamsyah.jpg";
-import AUDINA_RNT from "@/assets/member/rnt/fauziah-audina-hapsari.jpg";
+import ABYAN_RNT from "@/assets/member/rnt/muhammad-praditya-abyan.JPG";
+import RIZKI_RNT from "@/assets/member/rnt/rizki-adi-prasetyo.JPG";
+import DARRELL_RNT from "@/assets/member/rnt/darrell-rafa-alamsyah.JPG";
+import AUDINA_RNT from "@/assets/member/rnt/fauziah-audina-hapsari.JPG";
 
 // SDC Images
-import ALYSIA_SDC from "@/assets/member/sdc/alysia-dapyaraka.jpg";
-import GERALD_SDC from "@/assets/member/sdc/gerald-darryl-joseph-manurung.jpg";
-import UMAYAH_SDC from "@/assets/member/sdc/nor-umayah.jpg";
-import ZAHRA_SDC from "@/assets/member/sdc/sheny-ayu-zahra.jpg";
-import ZASTALIE_SDC from "@/assets/member/sdc/suri-agatha-zastalie-lumban-tobing.jpg";
+import ALYSIA_SDC from "@/assets/member/sdc/alysia-dapyaraka.JPG";
+import GERALD_SDC from "@/assets/member/sdc/gerald-darryl-joseph-manurung.JPG";
+import UMAYAH_SDC from "@/assets/member/sdc/nor-umayah.JPG";
+import ZAHRA_SDC from "@/assets/member/sdc/sheny-ayu-zahra.JPG";
+import ZASTALIE_SDC from "@/assets/member/sdc/suri-agatha-zastalie-lumban-tobing.JPG";
 
 // SWA Images
-import ELMIRA_SWA from "@/assets/member/swa/elmira-jacinda-wahid.jpg";
-import HANSON_SWA from "@/assets/member/swa/hanson-samuel-timothy.jpg";
-import FARIS_SWA from "@/assets/member/swa/muhammad-faris-sakhi-ashari.jpg";
-import KARTIKA_SWA from "@/assets/member/swa/putu-kartika-widya-arjentinia.jpg";
+import ELMIRA_SWA from "@/assets/member/swa/elmira-jacinda-wahid.JPG";
+import HANSON_SWA from "@/assets/member/swa/hanson-samuel-timothy.JPG";
+import FARIS_SWA from "@/assets/member/swa/muhammad-faris-sakhi-ashari.JPG";
+import KARTIKA_SWA from "@/assets/member/swa/putu-kartika-widya-arjentinia.JPG";
 
 // Exporting Images
 export const ANSImages = {
