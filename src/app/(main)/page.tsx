@@ -49,7 +49,7 @@ export default async function Index() {
                         {/* Decorative elements */}
                         <div className="absolute -top-4 sm:-top-6 md:-top-8 left-1/2 transform -translate-x-1/2 w-16 sm:w-20 md:w-24 h-1 bg-gradient-to-r from-transparent via-[#FFD700] to-transparent opacity-70"></div>
                         
-                        <h1 className="mb-2 sm:mb-3 text-center text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-[#FFD700] via-white to-[#FFD700] drop-shadow-[0_2px_10px_rgba(255,215,0,0.3)]">
+                        <h1 className="mb-2 sm:mb-3 font-hero text-center text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-[#FFD700] via-white to-[#FFD700] drop-shadow-[0_2px_10px_rgba(255,215,0,0.3)]">
                             <span className="block">PUFA</span>
                             <span className="block">CompSci 25.</span>
                         </h1>
@@ -91,7 +91,7 @@ export default async function Index() {
             <section id="programs" className="py-16 sm:py-20 md:py-24 container mx-auto px-4 bg-gradient-to-b from-white to-gray-50">
                 <div className="container mx-auto px-4">
                     <div className="text-center mb-12 sm:mb-16 md:mb-20">
-                        <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-[#000000] via-[#B48322] to-[#F2B233]">
+                        <h2 className="font-hero text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-[#000000] via-[#B48322] to-[#F2B233]">
                             Study Programs
                         </h2>
                         <div className="w-24 h-1 bg-gradient-to-r from-[#B48322] to-[#F2B233] mx-auto mb-6"></div>
@@ -128,7 +128,7 @@ export default async function Index() {
                     
                     <div className="text-center mb-16">
                         <span className="inline-block px-4 py-1.5 bg-[#B48322]/10 text-[#B48322] text-xs sm:text-sm font-medium rounded-full mb-4">Leadership</span>
-                        <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-[#000000] via-[#B48322] to-[#F2B233]">
+                        <h2 className="font-hero text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-[#000000] via-[#B48322] to-[#F2B233]">
                             Cabinet 2024/2025
                         </h2>
                         <div className="w-24 h-1 bg-gradient-to-r from-[#B48322] to-[#F2B233] mx-auto mb-6"></div>
@@ -195,8 +195,8 @@ export default async function Index() {
                 <div className="container mx-auto px-2 sm:px-4 relative">
                     <div className="text-center mb-8 sm:mb-10 md:mb-12 lg:mb-16">
                         <span className="inline-block px-3 sm:px-4 py-1 sm:py-1.5 bg-[#B48322]/10 text-[#B48322] text-xs sm:text-sm font-medium rounded-full mb-3 sm:mb-4">What's Happening</span>
-                        <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold tracking-tight mb-4 sm:mb-6 bg-clip-text text-transparent bg-gradient-to-r from-[#000000] via-[#B48322] to-[#F2B233]">
-                            Computing Events
+                        <h2 className="font-hero text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold tracking-tight mb-4 sm:mb-6 bg-clip-text text-transparent bg-gradient-to-r from-[#000000] via-[#B48322] to-[#F2B233]">
+                            CS Events
                         </h2>
                         <div className="w-16 sm:w-20 md:w-24 h-1 bg-gradient-to-r from-[#B48322] to-[#F2B233] mx-auto mb-4 sm:mb-6"></div>
                         <p className="text-gray-600 max-w-xs sm:max-w-sm md:max-w-lg lg:max-w-xl mx-auto text-xs sm:text-sm md:text-base lg:text-lg">
@@ -241,7 +241,7 @@ export default async function Index() {
                 <div className="container mx-auto px-2 sm:px-4 relative">
                     <div className="text-center mb-8 sm:mb-10 md:mb-12 lg:mb-16">
                         <span className="inline-block px-3 sm:px-4 py-1 sm:py-1.5 bg-[#B48322]/10 text-[#B48322] text-xs sm:text-sm font-medium rounded-full mb-3 sm:mb-4">Student Showcase</span>
-                        <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold tracking-tight mb-4 sm:mb-6 bg-clip-text text-transparent bg-gradient-to-r from-[#000000] via-[#B48322] to-[#F2B233]">
+                        <h2 className="font-hero text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold tracking-tight mb-4 sm:mb-6 bg-clip-text text-transparent bg-gradient-to-r from-[#000000] via-[#B48322] to-[#F2B233]">
                             Compreciation
                         </h2>
                         <div className="w-16 sm:w-20 md:w-24 h-1 bg-gradient-to-r from-[#B48322] to-[#F2B233] mx-auto mb-4 sm:mb-6"></div>
@@ -277,7 +277,7 @@ export default async function Index() {
                 <div className="container mx-auto px-2 sm:px-4 relative">
                     <div className="text-center mb-8 sm:mb-10 md:mb-12 lg:mb-16">
                         <span className="inline-block px-3 sm:px-4 py-1 sm:py-1.5 bg-[#B48322]/10 text-[#B48322] text-xs sm:text-sm font-medium rounded-full mb-3 sm:mb-4">Stay Informed</span>
-                        <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold tracking-tight mb-4 sm:mb-6 bg-clip-text text-transparent bg-gradient-to-r from-[#000000] via-[#B48322] to-[#F2B233]">
+                        <h2 className="font-hero text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold tracking-tight mb-4 sm:mb-6 bg-clip-text text-transparent bg-gradient-to-r from-[#000000] via-[#B48322] to-[#F2B233]">
                             Latest Updates
                         </h2>
                         <div className="w-16 sm:w-20 md:w-24 h-1 bg-gradient-to-r from-[#B48322] to-[#F2B233] mx-auto mb-4 sm:mb-6"></div>
@@ -353,8 +353,8 @@ export default async function Index() {
                 <div className="container mx-auto px-4 relative">
                     <div className="text-center mb-12 sm:mb-16">
                         <span className="inline-block px-4 py-1.5 bg-[#F2B233]/20 text-[#F2B233] text-xs sm:text-sm font-medium rounded-full mb-4">Merchandise</span>
-                        <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-[#B48322] to-[#F2B233]">
-                            PUFA Store
+                        <h2 className="font-hero text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-[#B48322] to-[#F2B233]">
+                            CS Store
                         </h2>
                         <div className="w-24 h-1 bg-gradient-to-r from-[#B48322] to-[#F2B233] mx-auto mb-6"></div>
                         <p className="text-gray-300 max-w-xl mx-auto text-center text-sm sm:text-base md:text-lg">
@@ -430,7 +430,7 @@ export default async function Index() {
                 <div className="container mx-auto px-4 relative">
                     <div className="text-center mb-16">
                         <span className="inline-block px-4 py-1.5 bg-[#B48322]/10 text-[#B48322] text-xs sm:text-sm font-medium rounded-full mb-4">Got Questions?</span>
-                        <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-[#000000] via-[#B48322] to-[#F2B233]">
+                        <h2 className="font-hero text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-[#000000] via-[#B48322] to-[#F2B233]">
                             Frequently Asked Questions
                         </h2>
                         <div className="w-24 h-1 bg-gradient-to-r from-[#B48322] to-[#F2B233] mx-auto mb-6"></div>

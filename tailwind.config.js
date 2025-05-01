@@ -25,6 +25,10 @@ module.exports = {
             black: "900",
         },
         extend: {
+            fontFamily: {
+                custom: ['var(--font-custom)'],
+                hero: ['var(--font-hero)'],
+            },
             backgroundImage: {
                 "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
                 "gradient-conic":

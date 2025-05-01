@@ -1,9 +1,36 @@
 import "./globals.css";
-import { Poppins } from "next/font/google";
+import localFont from "next/font/local";
 import Providers from "@/components/Loading";
 import AuthProvider from "@/components/AuthProvider";
 
-const poppins = Poppins({ weight: "400", subsets: ["latin"] });
+// Define your main custom font
+const customFont = localFont({ 
+  src: [
+    {
+      path: '../../public/fonts/Geist-Regular.otf',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: '../../public/fonts/Geist-Bold.otf',
+      weight: '700',
+      style: 'normal',
+    }
+  ],
+  variable: '--font-custom',
+});
+
+// Define hero font for specific elements
+const heroFonts = localFont({ 
+  src: [
+    {
+      path: '../../public/fonts/BebasNeue-Regular.ttf',
+      weight: '400',
+      style: 'normal',
+    },
+  ],
+  variable: '--font-hero',
+});
 
 export const metadata = {
     title: {
@@ -19,8 +46,8 @@ export default function RootLayout({
     children: React.ReactNode;
 }) {
     return (
-        <html lang="en">
-            <body className={poppins.className}>
+        <html lang="en" className={`${customFont.variable} ${heroFonts.variable}`}>
+            <body className={customFont.className}>
                 <AuthProvider>
                     <Providers children={children} />
                 </AuthProvider>

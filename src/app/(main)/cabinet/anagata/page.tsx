@@ -36,7 +36,7 @@ export default function Page() {
                     </div>
                     
                     {/* Heading with modern typography */}
-                    <h1 className="mb-4 text-4xl sm:text-5xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#000000] via-[#B48322] to-[#F2B233] text-center">
+                    <h1 className="font-hero mb-4 text-4xl sm:text-5xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#000000] via-[#B48322] to-[#F2B233] text-center">
                         FORCASION CABINET
                     </h1>
                     
@@ -56,7 +56,7 @@ export default function Page() {
                     {/* Section header */}
                     <div className="text-center mb-16">
                         <span className="inline-block px-4 py-1.5 bg-[#B48322]/10 text-[#B48322] text-xs sm:text-sm font-medium rounded-full mb-4">Our Purpose</span>
-                        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-[#000000] via-[#B48322] to-[#F2B233]">
+                        <h2 className="font-hero text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-[#000000] via-[#B48322] to-[#F2B233]">
                             Vision & Mission
                         </h2>
                         <div className="w-24 h-1 bg-gradient-to-r from-[#B48322] to-[#F2B233] mx-auto mb-6"></div>
@@ -128,7 +128,7 @@ export default function Page() {
           {/* Section header with modern styling */}
           <div className="text-center mb-16">
             <span className="inline-block px-4 py-1.5 bg-[#B48322]/10 text-[#B48322] text-xs sm:text-sm font-medium rounded-full mb-4">Team Structure</span>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-[#000000] via-[#B48322] to-[#F2B233]">
+            <h2 className="font-hero text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-[#000000] via-[#B48322] to-[#F2B233]">
               Our Divisions
             </h2>
             <div className="w-24 h-1 bg-gradient-to-r from-[#B48322] to-[#F2B233] mx-auto mb-6"></div>
@@ -393,7 +393,7 @@ export default function Page() {
       {/* Timeline Section */}
       <section id="timeline" className="py-20">
         <div className="container mx-auto px-4">
-          <h2 className="mb-12 text-center text-3xl font-bold text-amber-400 sm:text-4xl">Event Timeline</h2>
+          <h2 className="font-hero mb-12 text-center text-3xl font-bold text-amber-400 sm:text-4xl">Event Timeline</h2>
 
           <div className="grid gap-8 md:grid-cols-3">
             <div className="md:sticky md:top-24 md:self-start">

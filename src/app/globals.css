@@ -2,13 +2,48 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Custom Font Declaration */
+@font-face {
+  font-family: 'CustomFont';
+  src: url('/fonts/Geist-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'CustomFont';
+  src: url('/fonts/Geist-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Special Font Declaration - Update with your actual font files */
+@font-face {
+  font-family: 'HeroFont';
+  src: url('/fonts/BebasNeue-Regular.ttf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Hide scrollbar */
 ::-webkit-scrollbar {
   width: 0;
 }
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Add custom utility class for the special font */
+.font-hero {
+  font-family: var(--font-hero);
+}
+
+.font-custom {
+  font-family: var(--font-custom);
 }
 
 @layer utilities {
@@ -54,6 +89,7 @@ body {
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+    --font-special: 'SpecialFont';
   }
   .dark {
     --background: 0 0% 3.9%;
@@ -99,7 +135,6 @@ body {
     @apply bg-background text-foreground;
     color: rgb(var(--foreground-rgb));
     background: rgb(var(--background-rgb));
-    overflow-x: hidden;
   }
 }
 
@@ -190,4 +225,3 @@ html {
 .swiper-slide {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-
