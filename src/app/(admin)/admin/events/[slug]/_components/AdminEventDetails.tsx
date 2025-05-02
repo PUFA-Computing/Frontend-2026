@@ -219,7 +219,7 @@ export default function EventDetails() {
             }
             
             // Use direct fetch API for more control
-            const apiUrl = `http://localhost:8080/api/v1/event/${event.id}/edit`;
+            const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/v1/event/${event.id}/edit`;
             console.log('Making direct PATCH request to:', apiUrl);
             
             const response = await fetch(apiUrl, {

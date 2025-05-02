@@ -134,6 +134,8 @@ export const authOptions: NextAuthOptions = {
             return { ...token, ...user };
         },
     },
+    // Make sure the secret is set
+    secret: process.env.NEXTAUTH_SECRET,
 };
 
 export async function getSessionServer() {

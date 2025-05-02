@@ -18,9 +18,17 @@ FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+
+# Ensure environment variables are set with defaults if not provided
+ARG NEXT_PUBLIC_API_URL=http://compsci.president.ac.id
 ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
+
+# Install sharp for image optimization
+RUN pnpm add sharp
+
 # Generate Prisma client
 RUN npx prisma generate
+
 # This will do the trick, use the corresponding env file for each environment.
 RUN pnpm run build
 
@@ -40,13 +48,11 @@ COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
-
 USER nextjs
 
 EXPOSE 3000
 
 ENV PORT 3000
-
 ENV HOSTNAME "0.0.0.0"
 
 CMD ["node", "server.js"]
