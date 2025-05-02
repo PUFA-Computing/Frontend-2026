@@ -1,4 +1,5 @@
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
+import apiClient from "./apiClient";
 import { API_USER, BASE_URL } from "@/config/config";
 import Event from "@/models/event";
 import User from "@/models/user";
@@ -14,7 +15,7 @@ import User from "@/models/user";
  */
 export async function GetUserProfile(userId: string, token: string) {
     try {
-        const response = await axios.get(`${API_USER}/${userId}`, {
+        const response = await apiClient.get(`${API_USER}/${userId}`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
@@ -70,7 +71,7 @@ export async function UpdateUserProfile(
             date_of_birth: date_of_birth ? new Date(date_of_birth).toISOString() : null,
         });
         
-        const response = await axios.put(
+        const response = await apiClient.put(
             `${API_USER}/edit`,
             {
                 username,
@@ -114,7 +115,7 @@ export async function UpdateUserProfile(
  */
 export async function UpdatePassword(password: string, accessToken: string) {
     try {
-        const response = await axios.put(
+        const response = await apiClient.put(
             `${API_USER}/edit`,
             {
                 password,
@@ -141,7 +142,7 @@ export async function UpdatePassword(password: string, accessToken: string) {
  */
 export async function DeleteUserProfile() {
     try {
-        const response = await axios.delete(`${API_USER}/delete`);
+        const response = await apiClient.delete(`${API_USER}/delete`);
         return response.data.data;
     } catch (error) {
         console.log(error);
@@ -158,7 +159,7 @@ export async function DeleteUserProfile() {
  */
 export async function Logout() {
     try {
-        const response = await axios.post(`${API_USER}/logout`);
+        const response = await apiClient.post(`${API_USER}/logout`);
         return response.data.data;
     } catch (error) {
         console.log(error);
@@ -179,7 +180,7 @@ export async function GetUser(accessToken: string): Promise<User[]> {
         // Use the admin endpoint to get all users
         // The endpoint is /api/v1/admin/users based on the backend routes
         const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
-        const response = await axios.get(`${baseUrl}/api/v1/admin/users`, {
+        const response = await apiClient.get(`${baseUrl}/api/v1/admin/users`, {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
             },
@@ -204,7 +205,7 @@ export async function GetUser(accessToken: string): Promise<User[]> {
         // If there's an error, let's try a fallback approach
         try {
             // Try to get the current user as a fallback
-            const response = await axios.get(`${API_USER}/me`, {
+            const response = await apiClient.get(`${API_USER}/me`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -235,7 +236,7 @@ export async function GetUser(accessToken: string): Promise<User[]> {
 export async function GetAllUsers(accessToken: string): Promise<User[]> {
     try {
         // First, get the current user to have at least one user in the list
-        const currentUserResponse = await axios.get(`${API_USER}/me`, {
+        const currentUserResponse = await apiClient.get(`${API_USER}/me`, {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
             },
@@ -256,7 +257,7 @@ export async function GetAllUsers(accessToken: string): Promise<User[]> {
         const fetchPromises = [];
         for (let i = startId; i < startId + maxUsersToFetch; i++) {
             fetchPromises.push(
-                axios.get(`${API_USER}/${i}`, {
+                apiClient.get(`${API_USER}/${i}`, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                     },
@@ -299,7 +300,7 @@ export async function GetAllUsers(accessToken: string): Promise<User[]> {
  */
 export async function fetchUserEvents(accessToken: string): Promise<Event[]> {
     try {
-        const response = await axios.get(`${API_USER}/registered-events`, {
+        const response = await apiClient.get(`${API_USER}/registered-events`, {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
             },
@@ -335,7 +336,7 @@ export async function adminUpdateUser(
     accessToken: string | undefined
 ): Promise<User> {
     try {
-        const response = await axios.put(
+        const response = await apiClient.put(
             `${API_USER}/${userId}/update-user`,
             {
                 role_id: roleID,
@@ -372,7 +373,7 @@ export async function uploadProfilePicture(file: File, accessToken: string) {
         const formData = new FormData();
         formData.append("profile_picture", file);
 
-        const response = await axios.post(
+        const response = await apiClient.post(
             `${API_USER}/upload-profile-picture`,
             formData,
             {
@@ -400,7 +401,7 @@ export async function uploadProfilePicture(file: File, accessToken: string) {
  */
 export async function Enable2FA(session: string) {
     try {
-        const response = await axios.post(
+        const response = await apiClient.post(
             `${API_USER}/2fa/enable`,
             {},
             {
@@ -434,7 +435,7 @@ interface Verify2FAProps {
 
 export async function Verify2FA({ passcode, accessToken }: Verify2FAProps) {
     try {
-        const response = await axios.post(
+        const response = await apiClient.post(
             `${API_USER}/2fa/verify`,
             {
                 code: passcode,
@@ -465,7 +466,7 @@ export async function Verify2FA({ passcode, accessToken }: Verify2FAProps) {
 
 export async function Toggle2FA(accessToken: string, enable: boolean) {
     try {
-        const response = await axios.post(
+        const response = await apiClient.post(
             `${API_USER}/2fa/toggle`,
             {
                 enable: enable,
@@ -488,7 +489,7 @@ export async function VerifyStudentID(file: File, accessToken: string) {
         const formData = new FormData();
         formData.append("student_id", file);
 
-        const response = await axios.post(
+        const response = await apiClient.post(
             `${API_USER}/upload-student-id`,
             formData,
             {

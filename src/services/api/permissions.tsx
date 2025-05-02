@@ -1,9 +1,9 @@
-import axios from "axios";
+import apiClient from "./apiClient";
 import { API_PERMISSION, API_ROLE } from "@/config/config";
 
 export async function getPermission(accessToken: string) {
     try {
-        const response = await axios.get(`${API_PERMISSION}/list`, {
+        const response = await apiClient.get(`${API_PERMISSION}/list`, {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
             },
@@ -25,7 +25,7 @@ export async function assignPermissionToRole(
     roleID: number
 ) {
     try {
-        const response = await axios.post(
+        const response = await apiClient.post(
             `${API_PERMISSION}/assign/${roleID}`,
             data,
             {

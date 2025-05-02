@@ -1,9 +1,9 @@
 import { API_ROLE, API_USER } from "@/config/config";
-import axios from "axios";
+import apiClient from "./apiClient";
 
 export async function GetRoles(accessToken: string) {
     try {
-        const response = await axios.get(`${API_ROLE}`, {
+        const response = await apiClient.get(`${API_ROLE}`, {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
             },

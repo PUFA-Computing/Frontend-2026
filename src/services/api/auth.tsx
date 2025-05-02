@@ -1,4 +1,4 @@
-import axios from "axios";
+import apiClient from "./apiClient";
 import {
     API_FORGOT_PASSWORD,
     API_LOGIN,
@@ -35,7 +35,7 @@ export const Login = async (
     }
 
     try {
-        const response = await axios.post(API_LOGIN, data, {
+        const response = await apiClient.post(API_LOGIN, data, {
             withCredentials: true,
         });
         return response.data;
@@ -54,7 +54,7 @@ export const Login = async (
  */
 export const Logout = async () => {
     try {
-        const response = await axios.post(
+        const response = await apiClient.post(
             API_LOGOUT,
             {},
             {
@@ -94,7 +94,7 @@ export const Logout = async () => {
  */
 export const Register = async (user: User) => {
     try {
-        const response = await axios.post(
+        const response = await apiClient.post(
             API_REGISTER,
             {
                 username: user.username,
@@ -129,7 +129,7 @@ export const ForgotPassword = async (
     };
 
     try {
-        const response = await axios.post(API_FORGOT_PASSWORD, data, {
+        const response = await apiClient.post(API_FORGOT_PASSWORD, data, {
             withCredentials: true,
         });
         return response.data;
@@ -141,7 +141,7 @@ export const ForgotPassword = async (
 
 export const ForgotPasswordRequest = async (email: string) => {
     try {
-        const response = await axios.post(`${API_FORGOT_PASSWORD}/request`, {
+        const response = await apiClient.post(`${API_FORGOT_PASSWORD}/request`, {
             email: email,
         });
         return response.data;
@@ -153,7 +153,7 @@ export const ForgotPasswordRequest = async (email: string) => {
 
 export async function UpdatePassword(password: string, accessToken: string) {
     try {
-        const response = await axios.put(
+        const response = await apiClient.put(
             API_UPDATE_PASSWORD,
             {
                 "password": password,

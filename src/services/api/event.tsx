@@ -1,4 +1,4 @@
-import axios from "axios";
+import apiClient from "./apiClient";
 import Event from "../../models/event";
 import { API_EVENT } from "@/config/config";
 import FormData from "form-data";
@@ -17,7 +17,7 @@ const eventCache: { [key: string]: Event } = {};
 export const fetchEvents = async (): Promise<Event[]> => {
     try {
         // Make a GET request to the API endpoint.
-        const response = await axios.get(API_EVENT);
+        const response = await apiClient.get(API_EVENT);
         // const response = await axios.get(`${API_EVENT}/?slug=`);
 
         // Extract event data from the response.
@@ -52,7 +52,7 @@ export const fetchEventBySlug = async (eventSlug: string): Promise<Event> => {
         }
 
         // Make a GET request to the API endpoint
-        const response = await axios.get(`${API_EVENT}/${eventSlug}`);
+        const response = await apiClient.get(`${API_EVENT}/${eventSlug}`);
 
         // Extract the event data from the response
         const eventData = response.data?.data;
@@ -119,7 +119,7 @@ export const createEvent = async (
         formData.append("data", JSON.stringify(formattedEventData));
 
         // Make a POST request to the API endpoint.
-        const response = await axios.post(`${API_EVENT}/create`, formData, {
+        const response = await apiClient.post(`${API_EVENT}/create`, formData, {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
                 "Content-Type": "multipart/form-data",
@@ -185,7 +185,7 @@ export const updateEvent = async (
         console.log('Making PATCH request to:', `${API_EVENT}/${eventId}/edit`);
         
         // Make a PATCH request to the API endpoint
-        const response = await axios.patch(
+        const response = await apiClient.patch(
             `${API_EVENT}/${eventId}/edit`,
             formData,
             {
@@ -226,7 +226,7 @@ export const deleteEvent = async (
 ): Promise<void> => {
     try {
         // Make a DELETE request to the API endpoint.
-        await axios.delete(`${API_EVENT}/${eventId}/delete`, {
+        await apiClient.delete(`${API_EVENT}/${eventId}/delete`, {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
             },
@@ -245,7 +245,7 @@ export const fetchUsersRegistered = async (
 ) => {
     try {
         // Make a GET request to the API endpoint
-        const response = await axios.get(
+        const response = await apiClient.get(
             `${API_EVENT}/${eventId}/registered-users`,
             {
                 headers: {
@@ -269,7 +269,7 @@ export const fetchUsersRegistered = async (
 export const totalRegisteredUsers = async (eventId: number) => {
     try {
         // Make a GET request to the API endpoint
-        const response = await axios.get(
+        const response = await apiClient.get(
             `${API_EVENT}/${eventId}/total-participant`
         );
 

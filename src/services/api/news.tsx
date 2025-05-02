@@ -1,4 +1,4 @@
-import axios from "axios";
+import apiClient from "./apiClient";
 import News from "../../models/news";
 import { API_NEWS } from "@/config/config";
 
@@ -6,7 +6,7 @@ const newsCache: { [key: string]: News } = {};
 
 export const fetchNews = async (): Promise<News[]> => {
     try {
-        const response = await axios.get(API_NEWS);
+        const response = await apiClient.get(API_NEWS);
         const newsData = response.data?.data || [];
         newsData.publish_date = new Date(newsData.publish_date);
         newsData.created_at = new Date(newsData.created_at);
@@ -27,7 +27,7 @@ export const fetchNewsBySlug = async (newsSlug: string): Promise<News> => {
             return newsCache[newsSlug];
         }
 
-        const response = await axios.get(`${API_NEWS}/${newsSlug}`);
+        const response = await apiClient.get(`${API_NEWS}/${newsSlug}`);
 
         const newsData = response.data?.data;
         newsData.publish_date = new Date(newsData.publish_date);
@@ -70,7 +70,7 @@ export const createNews = async (
         console.log(formattedNewsData);
         console.log(file);
 
-        const response = await axios.post(`${API_NEWS}/create`, formData, {
+        const response = await apiClient.post(`${API_NEWS}/create`, formData, {
             headers: {
                 "Content-Type": "multipart/form-data",
                 Authorization: `Bearer ${accessToken}`,
@@ -111,7 +111,7 @@ export const editNews = async (
         if (file) console.log("With new thumbnail:", file.name);
 
         // Use R2 storage consistently as per backend changes
-        const response = await axios.put(`${API_NEWS}/${newsID}/edit`, formData, {
+        const response = await apiClient.put(`${API_NEWS}/${newsID}/edit`, formData, {
             headers: {
                 "Content-Type": "multipart/form-data",
                 Authorization: `Bearer ${accessToken}`,
@@ -136,7 +136,7 @@ export const deleteNews = async (
     accessToken: string
 ): Promise<void> => {
     try {
-        await axios.delete(`${API_NEWS}/${newsID}/delete`, {
+        await apiClient.delete(`${API_NEWS}/${newsID}/delete`, {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
             },

@@ -1,10 +1,10 @@
 import { API_ASPIRATION, API_USER } from "@/config/config";
-import axios from "axios";
+import apiClient from "./apiClient";
 import Aspirations from "@/models/aspiration";
 
 export const fetchAspirations = async (): Promise<Aspirations[]> => {
     try {
-        const response = await axios.get(API_ASPIRATION);
+        const response = await apiClient.get(API_ASPIRATION);
         let aspirationData = (response.data.data as Aspirations[]) || [];
 
         aspirationData = aspirationData.map((aspiration: Aspirations) => {
@@ -32,7 +32,7 @@ export const CreateAspiration = async (
     accessToken: string
 ) => {
     try {
-        const response = await axios.post(`${API_ASPIRATION}/create`, data, {
+        const response = await apiClient.post(`${API_ASPIRATION}/create`, data, {
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${accessToken}`,
@@ -48,7 +48,7 @@ export const CreateAspiration = async (
 
 export const GetAspirationById = async (id: number): Promise<Aspirations> => {
     try {
-        const response = await axios.get(`${API_ASPIRATION}/${id}`);
+        const response = await apiClient.get(`${API_ASPIRATION}/${id}`);
         console.log('Raw API response:', response);
         
         // Ekstrak data aspirasi dari respons API
@@ -133,7 +133,7 @@ export const AdminReplyAspiration = async (
         console.log('Request data (string):', admin_reply);
         
         // Kirim permintaan dengan string langsung sebagai data
-        const response = await axios.post(
+        const response = await apiClient.post(
             url,
             JSON.stringify(admin_reply), // Kirim string yang sudah di-stringify
             {
