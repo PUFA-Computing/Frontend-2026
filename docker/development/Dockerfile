@@ -20,7 +20,7 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 # Ensure environment variables are set with defaults if not provided
-ARG NEXT_PUBLIC_API_URL=http://compsci.president.ac.id
+ARG NEXT_PUBLIC_API_URL=https://compsci.president.ac.id
 ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
 
 # Install sharp for image optimization
