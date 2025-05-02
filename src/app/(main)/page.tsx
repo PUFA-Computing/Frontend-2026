@@ -64,7 +64,7 @@ export default async function Index() {
 
                     <div className="mt-8 sm:mt-10 md:mt-12 w-full max-w-xs sm:max-w-lg md:max-w-2xl lg:max-w-3xl">
                         <p className="text-center text-xs sm:text-sm md:text-base leading-relaxed text-white/90 backdrop-blur-sm bg-white/5 border border-white/10 p-3 sm:p-4 md:p-5 rounded-xl shadow-xl">
-                            PUFA Computing is a dynamic organization within President University, serving as a platform for students pursuing various computing-related fields like Information Technology and Information Systems.
+                            PUFA Computer Science is a dynamic organization within President University, serving as a platform for students pursuing various computing-related fields like Information Technology and Information Systems.
                         </p>
                         
                         <div className="mt-6 sm:mt-8 flex justify-center">
@@ -96,7 +96,7 @@ export default async function Index() {
                         </h2>
                         <div className="w-24 h-1 bg-gradient-to-r from-[#B48322] to-[#F2B233] mx-auto mb-6"></div>
                         <p className="text-gray-600 text-sm sm:text-base md:text-lg max-w-xl mx-auto">
-                            The Faculty of Computing offers four distinct study programs, each designed to produce qualified graduates ready to excel in their respective fields.
+                            The Faculty of Computer Science offers 2 distinct study programs, each designed to produce qualified graduates ready to excel in their respective fields.
                         </p>
                     </div>
 
@@ -160,10 +160,10 @@ export default async function Index() {
                             <div className="bg-white p-8 sm:p-10 rounded-2xl shadow-xl border-l-4 border-[#B48322] transform transition-all duration-500 hover:shadow-2xl hover:translate-y-[-5px]">
                                 <h3 className="text-2xl sm:text-3xl font-bold text-[#000000] mb-4">FORCASION CABINET</h3>
                                 <p className="text-xl sm:text-2xl text-transparent bg-clip-text bg-gradient-to-r from-[#000000] via-[#B48322] to-[#F2B233] font-semibold mb-6">
-                                    <span>"One Team, One Vision, One for Computing"</span>
+                                    <span>"One Team, One Vision, One for Computer Science"</span>
                                 </p>
                                 <p className="text-base sm:text-lg text-gray-700 leading-relaxed mb-8">
-                                    We are committed to being a positive bridge for the Computing Faculty, fostering growth and collaboration within our community. Our cabinet works tirelessly to create opportunities for students to develop their skills and build meaningful connections.
+                                    We are committed to being a positive bridge for the Computer Science Faculty, fostering growth and collaboration within our community. Our cabinet works tirelessly to create opportunities for students to develop their skills and build meaningful connections.
                                 </p>
                                 <Link href="/cabinet/anagata">
                                     <Button className="w-full sm:w-auto text-decoration-none inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-[#000000] to-[#B48322] text-white rounded-xl hover:from-[#B48322] hover:to-[#F2B233] hover:text-[#000000] transition-all duration-300 shadow-lg hover:shadow-xl text-base sm:text-lg font-medium">
@@ -200,7 +200,7 @@ export default async function Index() {
                         </h2>
                         <div className="w-16 sm:w-20 md:w-24 h-1 bg-gradient-to-r from-[#B48322] to-[#F2B233] mx-auto mb-4 sm:mb-6"></div>
                         <p className="text-gray-600 max-w-xs sm:max-w-sm md:max-w-lg lg:max-w-xl mx-auto text-xs sm:text-sm md:text-base lg:text-lg">
-                            Join us for exciting events, workshops, and activities organized by the Computing Faculty.
+                            Join us for exciting events, workshops, and activities organized by the our Faculty.
                         </p>
                     </div>
                     
@@ -246,7 +246,7 @@ export default async function Index() {
                         </h2>
                         <div className="w-16 sm:w-20 md:w-24 h-1 bg-gradient-to-r from-[#B48322] to-[#F2B233] mx-auto mb-4 sm:mb-6"></div>
                         <p className="text-gray-600 max-w-xs sm:max-w-sm md:max-w-lg lg:max-w-xl mx-auto text-xs sm:text-sm md:text-base lg:text-lg">
-                            Celebrating the innovative projects and remarkable achievements from our talented Computing students.
+                            Celebrating the innovative projects and remarkable achievements from our talented CS students.
                         </p>
                     </div>
                     
@@ -254,17 +254,7 @@ export default async function Index() {
                         <CompreciationCards />
                     </div>
 
-                    <div className="text-center mt-8 sm:mt-10 md:mt-12">
-                        <Link 
-                            href="/comprecation"
-                            className="group inline-flex items-center justify-center gap-1 sm:gap-2 px-5 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-4 bg-white text-[#B48322] text-sm sm:text-base font-medium rounded-lg sm:rounded-xl border border-[#B48322] sm:border-2 hover:bg-[#B48322] hover:text-white transition-all duration-300 shadow-md sm:shadow-lg hover:shadow-xl"
-                        >
-                            Explore All Compreciations
-                            <svg className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7-7 7" />
-                            </svg>
-                        </Link>
-                    </div>
+                    
                 </div>
             </section>
 
@@ -282,7 +272,7 @@ export default async function Index() {
                         </h2>
                         <div className="w-16 sm:w-20 md:w-24 h-1 bg-gradient-to-r from-[#B48322] to-[#F2B233] mx-auto mb-4 sm:mb-6"></div>
                         <p className="text-gray-600 max-w-xs sm:max-w-sm md:max-w-lg lg:max-w-xl mx-auto text-xs sm:text-sm md:text-base lg:text-lg">
-                            Stay informed with the latest news, announcements, and developments in the Computing Faculty.
+                            Stay informed with the latest news, announcements, and developments in the Computer Science Faculty.
                         </p>
                     </div>
                     
@@ -357,66 +347,32 @@ export default async function Index() {
                             CS Store
                         </h2>
                         <div className="w-24 h-1 bg-gradient-to-r from-[#B48322] to-[#F2B233] mx-auto mb-6"></div>
-                        <p className="text-gray-300 max-w-xl mx-auto text-center text-sm sm:text-base md:text-lg">
+                        <p className="text-gray-600 max-w-xl mx-auto text-center text-sm sm:text-base md:text-lg">
                             Get your hands on exclusive Computer Science merchandise, designed with pride for our community.
                         </p>
                     </div>
-
-                    {/* Featured products preview */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 max-w-6xl mx-auto mb-12">
-                        {/* Product Card 1 */}
-                        <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl overflow-hidden group hover:bg-white/10 transition-all duration-300 shadow-xl">
-                            <div className="h-48 bg-gradient-to-br from-[#B48322]/20 to-[#F2B233]/20 flex items-center justify-center p-4">
-                                <div className="w-32 h-32 bg-[#F2B233] rounded-full flex items-center justify-center text-black font-bold text-xl group-hover:scale-110 transition-transform duration-300">
-                                    PUFA Tee
-                                </div>
-                            </div>
-                            <div className="p-5">
-                                <h3 className="text-[#F2B233] font-semibold text-lg mb-2">PUFA T-Shirt</h3>
-                                <p className="text-gray-300 text-sm mb-4">Premium quality t-shirt with the PUFA Computing logo.</p>
-                                <p className="text-white font-bold">Rp 120.000</p>
-                            </div>
-                        </div>
-                        
-                        {/* Product Card 2 */}
-                        <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl overflow-hidden group hover:bg-white/10 transition-all duration-300 shadow-xl">
-                            <div className="h-48 bg-gradient-to-br from-[#B48322]/20 to-[#F2B233]/20 flex items-center justify-center p-4">
-                                <div className="w-32 h-32 bg-[#B48322] rounded-full flex items-center justify-center text-white font-bold text-xl group-hover:scale-110 transition-transform duration-300">
-                                    Hoodie
-                                </div>
-                            </div>
-                            <div className="p-5">
-                                <h3 className="text-[#F2B233] font-semibold text-lg mb-2">PUFA Hoodie</h3>
-                                <p className="text-gray-300 text-sm mb-4">Comfortable hoodie perfect for those coding nights.</p>
-                                <p className="text-white font-bold">Rp 250.000</p>
-                            </div>
-                        </div>
-                        
-                        {/* Product Card 3 */}
-                        <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl overflow-hidden group hover:bg-white/10 transition-all duration-300 shadow-xl">
-                            <div className="h-48 bg-gradient-to-br from-[#B48322]/20 to-[#F2B233]/20 flex items-center justify-center p-4">
-                                <div className="w-32 h-32 bg-white rounded-full flex items-center justify-center text-[#000000] font-bold text-xl group-hover:scale-110 transition-transform duration-300">
-                                    Tumbler
-                                </div>
-                            </div>
-                            <div className="p-5">
-                                <h3 className="text-[#F2B233] font-semibold text-lg mb-2">PUFA Tumbler</h3>
-                                <p className="text-gray-300 text-sm mb-4">Keep your drinks hot or cold with our branded tumbler.</p>
-                                <p className="text-white font-bold">Rp 85.000</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="text-center">
-                        <Link 
-                            href="/merch"
-                            className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-[#B48322] to-[#F2B233] text-black font-medium rounded-xl hover:from-[#F2B233] hover:to-[#B48322] transition-all duration-300 shadow-lg hover:shadow-[#F2B233]/20 hover:shadow-xl text-base sm:text-lg"
-                        >
-                            Explore All Merchandise
-                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7-7 7" />
+                    
+                    {/* Coming Soon Message */}
+                    <div className="flex flex-col items-center justify-center py-16 px-4 max-w-4xl mx-auto mb-12 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl overflow-hidden shadow-xl">
+                        <div className="w-24 h-24 bg-gradient-to-br from-[#B48322] to-[#F2B233] rounded-full flex items-center justify-center mb-8 animate-pulse">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                             </svg>
-                        </Link>
+                        </div>
+                        
+                        <h3 className="text-2xl md:text-3xl font-bold text-center mb-4 bg-clip-text text-transparent bg-gradient-to-r from-[#B48322] to-[#F2B233]">
+                            Merchandise Coming Soon!
+                        </h3>
+                        
+                        <p className="text-gray-600 text-center max-w-md mb-8">
+                            We're designing awesome PUFA Comp Sci merchandise for our community. Stay tuned for exclusive t-shirts, hoodies, and more!
+                        </p>
+                        
+                        <div className="flex space-x-2 justify-center">
+                            <div className="w-3 h-3 rounded-full bg-[#B48322] animate-bounce"></div>
+                            <div className="w-3 h-3 rounded-full bg-[#D49C28] animate-bounce delay-75"></div>
+                            <div className="w-3 h-3 rounded-full bg-[#F2B233] animate-bounce delay-150"></div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -435,7 +391,7 @@ export default async function Index() {
                         </h2>
                         <div className="w-24 h-1 bg-gradient-to-r from-[#B48322] to-[#F2B233] mx-auto mb-6"></div>
                         <p className="text-gray-600 max-w-xl mx-auto text-sm sm:text-base md:text-lg">
-                            Find answers to common questions about Computing Faculty programs, requirements, and opportunities.
+                            Find answers to common questions about CS Faculty programs, requirements, and opportunities.
                         </p>
                     </div>
                     

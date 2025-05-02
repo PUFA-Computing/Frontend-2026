@@ -3,118 +3,27 @@ import { db } from "@/lib/db";
 import Logo from "@/assets/backgroundimg.svg";
 
 export default async function CompreciationCards() {
-    // Sample data until database is connected
-    const sampleProjects = [
-        {
-            id: 1,
-            title: "DreamScape AR",
-            description:
-                "A game that helps visualize campus performance and provides recommendations for improvement using augmented reality technology.",
-            createdAt: new Date("2023-11-28"),
-            major: "Informatics",
-            teamMembers: ["Fatimah & Amelia"],
-            imageUrl: Logo,
-        },
-        {
-            id: 2,
-            title: "Desa Harapan",
-            description:
-                "A system designed to monitor and enhance village performance through data-driven insights and community engagement.",
-            createdAt: new Date("2023-12-01"),
-            major: "Information Systems",
-            teamMembers: ["Guido Sijabok"],
-            imageUrl: Logo,
-        },
-        {
-            id: 3,
-            title: "EcoVision",
-            description:
-                "An innovative platform that promotes environmental awareness through interactive visualization and real-time data analysis.",
-            createdAt: new Date("2023-12-05"),
-            major: "Visual Communication Design",
-            teamMembers: ["Sarah & Team"],
-            imageUrl: Logo,
-        },
-    ];
-    // const projects = ({
-    //     select: {
-    //        id: true,
-    //        title: true,
-    //        description: true,
-    //        createdAt: true,
-    //        major: true,
-    //        teamMembers: true,
-    //        ProjectImage: {
-    //           select: {
-    //              imageUrl: true,
-    //           },
-    //        },
-    //     },
-    //     take: 3,
-    //     orderBy: {
-    //        createdAt: "desc",
-    //     },
-    //  });
-
-    const dateConvert = (date: Date) => {
-        const months = [
-            // "Jan",
-            // "Feb",
-            // "Mar",
-            // "Apr",
-            // "May",
-            // "Jun",
-            // "Jul",
-            // "Aug",
-            // "Sep",
-            // "Oct",
-            // "Nov",
-            // "Dec",
-
-            "Jan",
-            "Feb",
-            "Mar",
-            "Apr",
-            "May",
-            "Jun",
-            "Jul",
-            "Aug",
-            "Sep",
-            "Oct",
-            "Nov",
-            "Dec",
-        ];
-        return `${date.getDate().toString().padStart(2, "0")} ${
-            months[date.getMonth()]
-            // } ${date.getFullYear().toString().padStart(2, "0")}`;
-        } ${date.getFullYear()}`;
-    };
-
     return (
-        // <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-        // {/*{projects.map((project) => (*/}
-        // {/*   <CompreciationCard*/}
-        // {/*      key={project.id}*/}
-        // {/*      date={dateConvert(project.createdAt)}*/}
-        // {/*      title={project.title}*/}
-        // {/*      name={project.teamMembers[0]}*/}
-        // {/*      description={project.description}*/}
-        // {/*      major={project.major}*/}
-        // {/*   />*/}
-        // {/*))}*/}
-
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {sampleProjects.map((project) => (
-                <CompreciationCard
-                    key={project.id}
-                    date={dateConvert(project.createdAt)}
-                    title={project.title}
-                    name={project.teamMembers[0]}
-                    description={project.description}
-                    major={project.major}
-                    imageUrl={project.imageUrl}
-                />
-            ))}
+        <div className="flex flex-col items-center justify-center py-16 px-4">
+            <div className="w-24 h-24 bg-gradient-to-br from-[#B48322] to-[#F2B233] rounded-full flex items-center justify-center mb-8 animate-pulse">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                </svg>
+            </div>
+            
+            <h3 className="text-2xl md:text-3xl font-bold text-center mb-4 bg-clip-text text-transparent bg-gradient-to-r from-[#B48322] to-[#F2B233]">
+                Coming Soon!
+            </h3>
+            
+            <p className="text-gray-600 text-center max-w-md mb-8">
+                We're working on showcasing amazing projects from our talented Computing students. Check back soon to see the innovative work from our community!
+            </p>
+            
+            <div className="flex space-x-2 justify-center">
+                <div className="w-3 h-3 rounded-full bg-[#B48322] animate-bounce"></div>
+                <div className="w-3 h-3 rounded-full bg-[#D49C28] animate-bounce delay-75"></div>
+                <div className="w-3 h-3 rounded-full bg-[#F2B233] animate-bounce delay-150"></div>
+            </div>
         </div>
     );
 }
