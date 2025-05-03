@@ -7,14 +7,30 @@ const newsCache: { [key: string]: News } = {};
 export const fetchNews = async (): Promise<News[]> => {
     try {
         const response = await apiClient.get(API_NEWS);
-        const newsData = response.data?.data || [];
-        newsData.publish_date = new Date(newsData.publish_date);
-        newsData.created_at = new Date(newsData.created_at);
-        newsData.updated_at = new Date(newsData.updated_at);
+        const newsDataArray = response.data?.data || [];
 
-        newsCache[newsData.slug] = newsData;
+        // Process each news item in the array
+        const processedNews = newsDataArray.map((newsItem: any) => {
+            // Only process date fields if they exist
+            if (newsItem.publish_date) {
+                newsItem.publish_date = new Date(newsItem.publish_date);
+            }
+            if (newsItem.created_at) {
+                newsItem.created_at = new Date(newsItem.created_at);
+            }
+            if (newsItem.updated_at) {
+                newsItem.updated_at = new Date(newsItem.updated_at);
+            }
 
-        return newsData as News[];
+            // Cache the news item if it has a slug
+            if (newsItem.slug) {
+                newsCache[newsItem.slug] = newsItem;
+            }
+
+            return newsItem;
+        });
+
+        return processedNews as News[];
     } catch (error) {
         console.error("Error fetching news", error);
         throw error;

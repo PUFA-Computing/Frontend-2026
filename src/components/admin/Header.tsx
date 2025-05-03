@@ -65,25 +65,9 @@ const Header = ({ userNavigation }: HeaderProps) => {
             />
 
             <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
-                <form className="relative flex flex-1" action="#" method="GET">
-                    <label htmlFor="search-field" className="sr-only">
-                        Search
-                    </label>
-                    <div className="relative w-full max-w-md">
-                        <MagnifyingGlassIcon
-                            className="pointer-events-none absolute inset-y-0 left-3 h-full w-5 text-gray-400"
-                            aria-hidden="true"
-                        />
-                        <input
-                            id="search-field"
-                            className="block h-9 w-full rounded-full border border-gray-200 bg-gray-50/70 py-0 pl-10 pr-4 text-gray-900 placeholder:text-gray-500 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 disabled:cursor-not-allowed sm:text-sm transition-all duration-200"
-                            placeholder="Search in admin panel..."
-                            type="search"
-                            name="search"
-                            disabled
-                        />
-                    </div>
-                </form>
+                <div className="relative flex flex-1">
+                    
+                </div>
                 <div className="flex items-center gap-x-4 lg:gap-x-6">
                     <button
                         type="button"

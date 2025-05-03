@@ -131,71 +131,117 @@ export default function RegisteredEvents() {
             </div>
 
             {filteredEvents.length > 0 ? (
-                <div className="overflow-x-auto">
-                    <table className="min-w-full divide-y divide-gray-200">
-                        <thead className="bg-gray-50">
-                            <tr>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                                    Event
-                                </th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                                    Organization
-                                </th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                                    Status
-                                </th>
-                                <th scope="col" className="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-gray-500">
-                                    Actions
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-gray-200 bg-white">
-                            {filteredEvents.map((event, index) => (
-                                <motion.tr 
-                                    key={event.id} 
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.3, delay: index * 0.05 }}
-                                    whileHover={{ backgroundColor: "#f9fafb" }}
-                                    className="group cursor-pointer transition-colors duration-150"
-                                >
-                                    <td className="whitespace-nowrap px-6 py-4">
-                                        <div className="flex items-center">
-                                            <div className="h-10 w-10 flex-shrink-0 overflow-hidden rounded-md bg-gray-100">
-                                                {(event.image || event.thumbnail) ? (
-                                                    <img src={event.image || event.thumbnail} alt={event.title} className="h-full w-full object-cover" />
-                                                ) : (
-                                                    <div className="flex h-full w-full items-center justify-center bg-indigo-100 text-indigo-500">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                                            <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
-                                                        </svg>
-                                                    </div>
-                                                )}
+                <div>
+                    {/* Desktop view - Table */}
+                    <div className="hidden md:block overflow-x-auto">
+                        <table className="min-w-full divide-y divide-gray-200">
+                            <thead className="bg-gray-50">
+                                <tr>
+                                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                                        Event
+                                    </th>
+                                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                                        Organization
+                                    </th>
+                                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                                        Status
+                                    </th>
+                                    <th scope="col" className="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-gray-500">
+                                        Actions
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody className="bg-white divide-y divide-gray-200">
+                                {filteredEvents.map((event, index) => (
+                                    <motion.tr 
+                                        key={`desktop-${event.id || index}`}
+                                        className="group hover:bg-gray-50 transition-colors duration-150"
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ duration: 0.3, delay: index * 0.05 }}
+                                    >
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            <div className="flex items-center">
+                                                <div className="flex-shrink-0 h-10 w-10">
+                                                    {event.thumbnail ? (
+                                                        <img className="h-10 w-10 rounded-full object-cover" src={event.thumbnail} alt={event.title} />
+                                                    ) : (
+                                                        <div className="h-10 w-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-500">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                                                <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
+                                                            </svg>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                                <div className="ml-4">
+                                                    <div className="text-sm font-medium text-gray-900">{event.title}</div>
+                                                    <div className="text-sm text-gray-500">{new Date(event.date || event.start_date || Date.now()).toLocaleDateString()}</div>
+                                                </div>
                                             </div>
-                                            <div className="ml-4">
-                                                <div className="text-sm font-medium text-gray-900">{event.title}</div>
-                                                <div className="text-sm text-gray-500">{new Date(event.date || event.start_date || Date.now()).toLocaleDateString()}</div>
-                                            </div>
+                                        </td>
+                                        <td className="whitespace-nowrap px-6 py-4">
+                                            <div className="text-sm text-gray-900">{event.organization}</div>
+                                        </td>
+                                        <td className="whitespace-nowrap px-6 py-4">
+                                            <EventStatusDashboard status={event.status} />
+                                        </td>
+                                        <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
+                                            <Link href={`/events/${event.slug}`} className="text-indigo-600 hover:text-indigo-900 mr-4">View</Link>
+                                            <button className="text-gray-600 hover:text-gray-900 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                                    <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
+                                                </svg>
+                                            </button>
+                                        </td>
+                                    </motion.tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    {/* Mobile view - Cards */}
+                    <div className="md:hidden space-y-4 px-4">
+                        {filteredEvents.map((event, index) => (
+                            <motion.div 
+                                key={`mobile-${event.id || index}`}
+                                className="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-200"
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.3, delay: index * 0.05 }}
+                            >
+                                <div className="p-4">
+                                    <div className="flex items-center">
+                                        <div className="flex-shrink-0 h-12 w-12">
+                                            {event.thumbnail ? (
+                                                <img className="h-12 w-12 rounded-full object-cover" src={event.thumbnail} alt={event.title} />
+                                            ) : (
+                                                <div className="h-12 w-12 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-500">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+                                                        <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
+                                                    </svg>
+                                                </div>
+                                            )}
                                         </div>
-                                    </td>
-                                    <td className="whitespace-nowrap px-6 py-4">
-                                        <div className="text-sm text-gray-900">{event.organization}</div>
-                                    </td>
-                                    <td className="whitespace-nowrap px-6 py-4">
+                                        <div className="ml-4 flex-1">
+                                            <h3 className="text-base font-medium text-gray-900">{event.title}</h3>
+                                            <div className="text-sm text-gray-500">{new Date(event.date || event.start_date || Date.now()).toLocaleDateString()}</div>
+                                        </div>
                                         <EventStatusDashboard status={event.status} />
-                                    </td>
-                                    <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
-                                        <Link href={`/events/${event.slug}`} className="text-indigo-600 hover:text-indigo-900 mr-4">View</Link>
-                                        <button className="text-gray-600 hover:text-gray-900 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
-                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                                <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
-                                            </svg>
-                                        </button>
-                                    </td>
-                                </motion.tr>
-                            ))}
-                        </tbody>
-                    </table>
+                                    </div>
+                                    
+                                    <div className="mt-3 pt-3 border-t border-gray-100 flex justify-between items-center">
+                                        <div className="text-sm text-gray-600">{event.organization}</div>
+                                        <Link 
+                                            href={`/events/${event.slug}`} 
+                                            className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                        >
+                                            View Details
+                                        </Link>
+                                    </div>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </div>
                 </div>
             ) : (
                 <div className="flex flex-col items-center justify-center py-12">

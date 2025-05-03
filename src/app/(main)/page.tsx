@@ -66,15 +66,6 @@ export default async function Index() {
                         <p className="text-center text-xs sm:text-sm md:text-base leading-relaxed text-white/90 backdrop-blur-sm bg-white/5 border border-white/10 p-3 sm:p-4 md:p-5 rounded-xl shadow-xl">
                             PUFA Computer Science is a dynamic organization within President University, serving as a platform for students pursuing various computing-related fields like Information Technology and Information Systems.
                         </p>
-                        
-                        <div className="mt-6 sm:mt-8 flex justify-center">
-                            <a href="#programs" className="group flex items-center justify-center gap-1 sm:gap-2 px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 md:py-3 bg-gradient-to-r from-[#FFD700]/90 to-[#B48322]/90 text-black text-sm sm:text-base font-medium rounded-full hover:from-[#FFD700] hover:to-[#B48322] transition-all duration-300 shadow-lg hover:shadow-[#FFD700]/20 hover:shadow-xl">
-                                Explore Programs
-                                <svg className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7-7 7" />
-                                </svg>
-                            </a>
-                        </div>
                     </div>
                     
                     {/* Scroll indicator - Hidden on very small screens */}
