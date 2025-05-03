@@ -7,6 +7,7 @@ import { DashboardContextProvider } from "./_components/DashboardContext";
 import DashboardContent from "./_components/DashboardContent";
 import Link from "next/link";
 import Image from "next/image";
+import ComputingLogo from "@/assets/PUComSci.png";
 
 export default async function DashboardLayout({
     children,
@@ -20,23 +21,25 @@ export default async function DashboardLayout({
     return (
         <DashboardContextProvider>
             <div className="flex min-h-screen bg-gradient-to-br from-gray-50 to-white transition-all duration-300">
-                {/* Logo */}
-                <Link href="/" className="fixed left-4 sm:left-6 top-4 z-[60] transition-all duration-300 hover:scale-105">
-                    <Image
-                        src="/logo.png"
-                        alt="PUFA Logo"
-                        width={48}
-                        height={48}
-                        className="h-10 w-10 sm:h-12 sm:w-12 rounded-md object-contain shadow-md transition-all duration-300 hover:shadow-lg"
-                    />
-                </Link>
 
                 {/* Sidebar */}
                 {session?.user && <DashboardSidebar />}
 
                 {/* Main content */}
                 <div className="flex-1 transition-all duration-500 ease-in-out animate-fade-in">
-                    <div className="flex h-14 sm:h-16 items-center justify-end border-b border-gray-200 bg-white px-4 sm:px-6 shadow-sm transition-all duration-300">
+                    <div className="flex h-14 sm:h-16 items-center justify-between border-b border-gray-200 bg-white px-4 sm:px-6 shadow-sm transition-all duration-300">
+                        {/* Logo */}
+                        <Link href="/" className="transition-all duration-300 hover:opacity-80">
+                            <div className="relative bg-white rounded-md shadow-sm transition-all duration-300 hover:shadow-md">
+                                <Image
+                                    src={ComputingLogo}
+                                    alt="Computing Logo"
+                                    width={40}
+                                    height={40}
+                                    className="h-8 w-8 sm:h-10 sm:w-10 object-contain"
+                                />
+                            </div>
+                        </Link>
                         {session?.user && (
                             <div className="flex items-center gap-2 sm:gap-3 animate-fade-in">
                                 <span className="hidden sm:inline-block text-sm font-medium text-gray-700">
