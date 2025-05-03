@@ -20,8 +20,24 @@ export default function UploadThumbnailForm({
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0] || null;
-        setThumbnail(file);
-        onThumbnailChange(file as File);
+        
+        if (file) {
+            // Check file size - 10MB limit
+            const maxSize = 10 * 1024 * 1024; // 10MB in bytes
+            
+            if (file.size > maxSize) {
+                Swal.fire({
+                    icon: "error",
+                    title: "File Too Large",
+                    text: "The image file is too large. Maximum size allowed is 10MB.",
+                });
+                e.target.value = ""; // Reset the input
+                return;
+            }
+            
+            setThumbnail(file);
+            onThumbnailChange(file as File);
+        }
     };
 
     const handleSubmit = (e: React.FormEvent) => {
