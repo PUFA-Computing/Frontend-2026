@@ -1,14 +1,14 @@
 export const BASE_URL = 'https://compsci.president.ac.id/api/v1';
-export const API_LOGIN = BASE_URL + "/auth/login/";
-export const API_LOGOUT = BASE_URL + "/auth/logout/";
-export const API_REGISTER = BASE_URL + "/auth/register/";
+export const API_LOGIN = BASE_URL + "/auth/login";
+export const API_LOGOUT = BASE_URL + "/auth/logout";
+export const API_REGISTER = BASE_URL + "/auth/register";
 export const API_USER = BASE_URL + "/user";
-export const API_EVENT = BASE_URL + "/event/";
-export const API_NEWS = BASE_URL + "/news/";
-export const API_ASPIRATION = BASE_URL + "/aspirations/";
+export const API_EVENT = BASE_URL + "/event";
+export const API_NEWS = BASE_URL + "/news";
+export const API_ASPIRATION = BASE_URL + "/aspirations";
 export const API_VERIFY_EMAIL = BASE_URL + "/auth/verify-email?token=";
-export const API_ROLE = BASE_URL + "/roles/";
-export const API_PERMISSION = BASE_URL + "/permissions/";
-export const API_VERSION = BASE_URL + "/version/";
-export const API_FORGOT_PASSWORD = BASE_URL + "/auth/forgot-password/"
-export const API_UPDATE_PASSWORD = BASE_URL + "/user/change-password/"
+export const API_ROLE = BASE_URL + "/roles";
+export const API_PERMISSION = BASE_URL + "/permissions";
+export const API_VERSION = BASE_URL + "/version";
+export const API_FORGOT_PASSWORD = BASE_URL + "/auth/forgot-password"
+export const API_UPDATE_PASSWORD = BASE_URL + "/user/change-password"
