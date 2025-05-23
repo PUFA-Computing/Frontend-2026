@@ -61,7 +61,7 @@ export default function Footer({ version }: { version: Version }) {
                                 className="text-[#DADADA] transition-colors duration-300 hover:text-gray-500"
                             />
                         </Link>
-                        <Link href="https://www.instagram.com/pufacomputing">
+                        <Link href="https://www.instagram.com/pucompsci">
                             <FaInstagram
                                 size={25}
                                 className="text-[#DADADA] transition-colors duration-300 hover:text-gray-500"

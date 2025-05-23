@@ -292,69 +292,6 @@ export default function SecurityPage() {
                             </form>
                         </div>
                     </div>
-                    
-                    {/* Recent Activity Card */}
-                    <div className="overflow-hidden rounded-lg md:rounded-2xl bg-white shadow-md transition-all duration-300 hover:shadow-xl transform hover:translate-y-[-4px] focus-within:ring-2 focus-within:ring-[#02ABF3]/50 md:col-span-2">
-                        <div className="border-b border-gray-100 bg-white p-5">
-                            <div className="flex items-center justify-between">
-                                <div className="flex items-center">
-                                    <div className="mr-4 flex h-10 w-10 items-center justify-center rounded-full bg-blue-50 text-[#02ABF3]">
-                                        <FaHistory />
-                                    </div>
-                                    <h3 className="text-gray-700">Recent Login Activity</h3>
-                                </div>
-                                <span className="rounded-full bg-blue-100 px-3 py-1 text-xs text-blue-600">Last 30 days</span>
-                            </div>
-                        </div>
-                        
-                        <div className="p-6">
-                            <div className="overflow-x-auto rounded-lg border border-gray-200 animate-fade-in" style={{animationDelay: '0.3s'}}>
-                                <table className="min-w-full divide-y divide-gray-200" aria-label="Login activity history">
-                                    <thead className="bg-gray-50">
-                                        <tr>
-                                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Date & Time</th>
-                                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Location</th>
-                                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Device</th>
-                                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Status</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody className="divide-y divide-gray-200 bg-white">
-                                        <tr>
-                                            <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">April 18, 2025 15:10</td>
-                                            <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">Jakarta, Indonesia</td>
-                                            <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">Chrome on Windows</td>
-                                            <td className="whitespace-nowrap px-6 py-4 text-sm">
-                                                <span className="rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800">Current</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">April 15, 2025 09:45</td>
-                                            <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">Jakarta, Indonesia</td>
-                                            <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">Chrome on Windows</td>
-                                            <td className="whitespace-nowrap px-6 py-4 text-sm">
-                                                <span className="rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800">Successful</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">April 10, 2025 14:22</td>
-                                            <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">Jakarta, Indonesia</td>
-                                            <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">Safari on macOS</td>
-                                            <td className="whitespace-nowrap px-6 py-4 text-sm">
-                                                <span className="rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800">Successful</span>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div className="mt-4 text-right">
-                                <button 
-                                    className="text-sm font-medium text-[#02ABF3] hover:text-[#0288c5] focus:outline-none focus:ring-2 focus:ring-[#02ABF3]/30 rounded px-2 py-1 transition-all duration-300 hover:bg-[#02ABF3]/10"
-                                    aria-label="View all login activity">
-                                    View all activity →
-                                </button>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </section>

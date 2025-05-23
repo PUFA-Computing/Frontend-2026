@@ -6,7 +6,11 @@ const newsCache: { [key: string]: News } = {};
 
 export const fetchNews = async (): Promise<News[]> => {
     try {
-        const response = await apiClient.get(API_NEWS);
+        // Make sure we're using the correct URL format with trailing slash
+        const url = API_NEWS.endsWith('/') ? API_NEWS : `${API_NEWS}/`;
+        console.log(`Fetching news from: ${url}`);
+        
+        const response = await apiClient.get(url);
         const newsDataArray = response.data?.data || [];
 
         // Process each news item in the array
@@ -33,29 +37,47 @@ export const fetchNews = async (): Promise<News[]> => {
         return processedNews as News[];
     } catch (error) {
         console.error("Error fetching news", error);
-        throw error;
+        // Return empty array instead of throwing to prevent page from crashing
+        return [];
     }
 };
 
-export const fetchNewsBySlug = async (newsSlug: string): Promise<News> => {
+export const fetchNewsBySlug = async (newsSlug: string): Promise<News | null> => {
     try {
         if (newsCache[newsSlug]) {
             return newsCache[newsSlug];
         }
 
-        const response = await apiClient.get(`${API_NEWS}/${newsSlug}`);
+        // Make sure we're using the correct URL format
+        const baseUrl = API_NEWS.endsWith('/') ? API_NEWS : `${API_NEWS}/`;
+        const url = `${baseUrl}${newsSlug}`;
+        console.log(`Fetching news by slug from: ${url}`);
+        
+        const response = await apiClient.get(url);
 
         const newsData = response.data?.data;
-        newsData.publish_date = new Date(newsData.publish_date);
-        newsData.created_at = new Date(newsData.created_at);
-        newsData.updated_at = new Date(newsData.updated_at);
+        if (!newsData) {
+            console.error('No data returned from API');
+            return null;
+        }
+        
+        // Only process date fields if they exist
+        if (newsData.publish_date) {
+            newsData.publish_date = new Date(newsData.publish_date);
+        }
+        if (newsData.created_at) {
+            newsData.created_at = new Date(newsData.created_at);
+        }
+        if (newsData.updated_at) {
+            newsData.updated_at = new Date(newsData.updated_at);
+        }
 
         newsCache[newsSlug] = newsData;
 
         return newsData as News;
     } catch (error) {
-        console.error("Error fetching news", error);
-        throw error;
+        console.error("Error fetching news by slug", error);
+        return null;
     }
 };
 

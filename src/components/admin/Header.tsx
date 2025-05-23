@@ -40,12 +40,12 @@ const Header = ({ userNavigation }: HeaderProps) => {
     const [userProfile, setUserProfile] = useState<any>(null);
 
     useEffect(() => {
+        // Use the session data directly instead of making an API call
         if (session.data?.user) {
-            GetUserProfile(session.data.user.id, session.data.user.access_token)
-                .then((data) => setUserProfile(data))
-                .catch((error) => console.error(error));
+            setUserProfile(session.data.user);
+            console.log('Using session user data:', session.data.user);
         }
-    }, [session]);
+    }, [session.data?.user]);
 
     return (
         <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white/80 backdrop-blur-md px-4 shadow-md sm:gap-x-6 sm:px-6 lg:px-8">

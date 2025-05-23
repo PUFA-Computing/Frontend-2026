@@ -4,10 +4,11 @@ import CardSecondaryNewsPage from "@/components/news/CardSecondaryNewsPage"
 import CardNormalNewsPage from "@/components/news/CardNormalNewsPage"
 import { Suspense } from "react"
 import { CircularProgress } from "@/components/ui/CircularProgress"
-import { Newspaper, Clock, Archive, Search, TrendingUp, Filter, ChevronRight } from "lucide-react"
+import { Newspaper, Clock, Archive, Search, TrendingUp, Filter, ChevronRight, Calendar, Tag, BookOpen } from "lucide-react"
 import Link from "next/link"
+import NewsAllSection from "@/components/news/NewsAllSection"
 
-export const revalidate = 60
+const revalidate = 60
 export const dynamic = "force-dynamic"
 
 export default async function NewsPage() {
@@ -45,7 +46,7 @@ export default async function NewsPage() {
               The latest news about research, technology, achievements, and campus life.
             </p>
             
-            <div className="relative">
+            {/* <div className="relative">
               <div className="flex w-full max-w-lg items-center rounded-full bg-white/10 px-4 py-2 backdrop-blur-sm">
                 <Search className="mr-2 h-5 w-5 text-indigo-100" />
                 <input 
@@ -54,7 +55,7 @@ export default async function NewsPage() {
                   className="w-full bg-transparent text-white placeholder-indigo-200 focus:outline-none"
                 />
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </section>
@@ -113,18 +114,10 @@ export default async function NewsPage() {
                 <p className="text-gray-600">Browse our complete collection of articles</p>
               </div>
             </div>
-            
-            <div className="hidden items-center space-x-2 md:flex">
-              <select className="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
-                <option>Most Recent</option>
-                <option>Most Popular</option>
-                <option>Oldest First</option>
-              </select>
-            </div>
           </div>
 
           <Suspense fallback={<CircularProgress />}>
-            <CardNormalNewsPage news={regularNews} />
+            <NewsAllSection allNews={sortedNews} />
           </Suspense>
         </div>
       </div>

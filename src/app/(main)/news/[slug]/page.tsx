@@ -93,7 +93,7 @@ export default async function NewsDetailsPage({
                         <div className="rounded-xl bg-white p-6 shadow-lg md:p-8">
                             {/* Social Sharing */}
                             <div className="mb-8 flex items-center justify-between border-b border-gray-100 pb-6">
-                                <div className="flex items-center space-x-4">
+                                {/* <div className="flex items-center space-x-4">
                                     <button className="flex items-center space-x-1 rounded-full bg-blue-50 px-3 py-1 text-xs font-medium text-blue-600 hover:bg-blue-100">
                                         <ThumbsUp className="h-3.5 w-3.5" />
                                         <span>Like</span>
@@ -102,7 +102,7 @@ export default async function NewsDetailsPage({
                                         <Bookmark className="h-3.5 w-3.5" />
                                         <span>Save</span>
                                     </button>
-                                </div>
+                                </div> */}
                                 
                                 <ShareButton title={news.title} />
                             </div>

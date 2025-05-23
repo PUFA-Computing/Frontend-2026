@@ -118,7 +118,6 @@ export default async function Index() {
                     <div className="absolute bottom-0 left-0 w-96 h-96 bg-[#B48322]/5 rounded-full blur-3xl -z-10"></div>
                     
                     <div className="text-center mb-16">
-                        <span className="inline-block px-4 py-1.5 bg-[#B48322]/10 text-[#B48322] text-xs sm:text-sm font-medium rounded-full mb-4">Leadership</span>
                         <h2 className="font-hero text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-[#000000] via-[#B48322] to-[#F2B233]">
                             Cabinet 2024/2025
                         </h2>
@@ -166,12 +165,6 @@ export default async function Index() {
                                 </Link>
                             </div>
                             
-                            <div className="flex flex-wrap gap-4 justify-center sm:justify-start">
-                                <span className="px-4 py-2 bg-[#F2B233]/10 text-[#B48322] rounded-full text-sm font-medium">Leadership</span>
-                                <span className="px-4 py-2 bg-[#F2B233]/10 text-[#B48322] rounded-full text-sm font-medium">Teamwork</span>
-                                <span className="px-4 py-2 bg-[#F2B233]/10 text-[#B48322] rounded-full text-sm font-medium">Innovation</span>
-                                <span className="px-4 py-2 bg-[#F2B233]/10 text-[#B48322] rounded-full text-sm font-medium">Excellence</span>
-                            </div>
                         </div>
                     </div>
                 </div>

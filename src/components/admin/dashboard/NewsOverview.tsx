@@ -104,7 +104,11 @@ export default function NewsOverview({ news }: NewsOverviewProps) {
                 <div className="ml-3">
                   <h4 className="text-sm font-medium text-gray-800 line-clamp-1">{item.title}</h4>
                   <p className="text-xs text-gray-500 mt-1">
-                    {new Date(item.publish_date).toLocaleDateString()}
+                    {new Date(item.publish_date).toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'numeric',
+                      day: 'numeric'
+                    })}
                   </p>
                 </div>
               </div>
