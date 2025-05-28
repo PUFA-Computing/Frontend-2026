@@ -178,57 +178,6 @@ export const majorPage = [
         ],
     },
     {
-        name: "Interior Design",
-        slug: "interior-design",
-        image: IDBANNER,
-        vision: [
-            "Becoming the leading Visual Communication Design program in Indonesia in 2022, being able to compete globally, to adapt to advancement in computer technology and the new media of visual communication in the preservation of the richness of 'Nusantara’s Visual culture'.",
-        ],
-        mission: [
-            "To perform high-quality education and teaching in informatics that focuses in the field of informatics or other relevant sectors",
-            "To carry out research and improvement in science and in the development of science, tools, or technology related to the study of informatics.",
-            "To carry out social service and empowerment in the field of informatics or other relevant sectors.",
-            "To cooperate with industries, companies, government, and other institutions in the field of informatics or other relevant sectors.",
-            "To promote the spirit of entrepreneurship for students focusing on Startup Business related to and supported by information technology.",
-        ],
-        profession: [
-            "Interior Designers",
-            "Interior Contractors",
-            "Furniture Designers",
-            "Product Designers",
-            "Environmental designers",
-            "Interior Design Lecturers",
-            "Interior Researchers",
-            "Interior Writers",
-            "Interior Design Trainers",
-            "Interior 3D Visualizers",
-        ],
-        description:
-            "The Interior Design Study Program aims to educate students to create a positive influence through both the creative process and the engineering process. On how to produce technical design in a space based on the principles of robustness, usability, and beauty. The scope of learning interior design science covers the scale of a single simple building to a high-complexity building. President University's Interior Design Study Program is designed to instill the values of global competitiveness, interdisciplinary thinking, entrepreneurial spirit, and to also impart information technology skills in its students.",
-        lecturers: [
-            {
-                name: "Ir. Rila Mandala, M.Eng., Ph.D",
-                position: "Dean Faculty of Computing",
-                image: RILA_IT,
-            },
-            {
-                name: "Afina Nisa Aulia, S.Ds., M.Ds",
-                position: "Lecturer",
-                image: AFINA_ID,
-            },
-            {
-                name: "Drs. Prabu Wardono, M.Ds., Ph.D",
-                position: "Lecturer",
-                image: PRABU_ID,
-            },
-            {
-                name: "Pratiwi Purnama Suradhuhita., S.T., M.Ars",
-                position: "Head of Study Program",
-                image: PRATIWI_ID,
-            },
-        ],
-    },
-    {
         name: "Visual Communication Design",
         slug: "visual-communication-design",
         image: VCDBANNER,

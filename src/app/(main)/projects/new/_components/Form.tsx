@@ -31,14 +31,6 @@ export default function ProjectForm() {
          name: "Information System",
          category: "Computing",
       },
-      {
-         name: "Visual Communication Design",
-         category: "Computing",
-      },
-      {
-         name: "Interior Design",
-         category: "Computing",
-      },
    ];
 
    const majorCategories = Array.from(

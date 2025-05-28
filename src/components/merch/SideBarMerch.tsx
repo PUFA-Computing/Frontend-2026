@@ -14,8 +14,6 @@ export default function SideBarMerch() {
       { value: "pufa_computing", label: "PUFA Computing" },
       { value: "puma_informatics", label: "PUMA Informatics" },
       { value: "puma_is", label: "PUMA Information System" },
-      { value: "puma_vcd", label: "PUMA VCD" },
-      { value: "puma_id", label: "PUMA Interior Design" },
    ];
 
    const checkboxData: CheckboxItem[] = [

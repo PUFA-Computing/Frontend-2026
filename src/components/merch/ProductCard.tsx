@@ -23,15 +23,10 @@ const ConditionalStyle = (organization: string) => {
             border: "green-500",
             text: "green-500",
          };
-      case "PUMA Interior Design":
+      case "PUMA Information System":
          return {
             border: "blue-500",
             text: "blue-500",
-         };
-      case "PUMA VCD":
-         return {
-            border: "purple-500",
-            text: "purple-500",
          };
       default:
          return {

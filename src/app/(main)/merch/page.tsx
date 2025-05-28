@@ -54,13 +54,7 @@ export default function MerchPage() {
          imageUrl: "../comingsoon.jpg",
          price: 100000,
          title: "Computing Varsity",
-         organization: "PUMA Interior Design",
-      },
-      {
-         imageUrl: "../comingsoon.jpg",
-         price: 100000,
-         title: "Computing Varsity",
-         organization: "PUMA VCD",
+         organization: "PUMA Information System",
       },
       {
          imageUrl: "../comingsoon.jpg",
@@ -78,13 +72,7 @@ export default function MerchPage() {
          imageUrl: "../comingsoon.jpg",
          price: 100000,
          title: "Computing Varsity",
-         organization: "PUMA Interior Design",
-      },
-      {
-         imageUrl: "../comingsoon.jpg",
-         price: 100000,
-         title: "Computing Varsity",
-         organization: "PUMA VCD",
+         organization: "PUMA Information System",
       },
    ];
    return (

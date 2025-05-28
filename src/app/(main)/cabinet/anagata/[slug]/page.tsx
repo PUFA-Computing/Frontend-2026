@@ -31,7 +31,7 @@ export default function page({ params }: CabinetProps) {
             case 'entrepreneur': return '/images/cabinet/Entre.JPG';
             case 'internal-relation': return '/images/cabinet/IR.JPG';
             case 'art-and-sport': return '/images/cabinet/ANS.JPG';
-            case 'research-and-technology': return '/images/cabinet/RnT.PNG';
+            case 'research-and-technology': return '/images/cabinet/RnT.png';
             case 'student-development-and-competition': return '/images/cabinet/SDC.JPG';
             case 'student-welfare-advocacy': return '/images/cabinet/SWA.JPG';
             default: return '/placeholder.svg';
