@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import Script from "next/script";
 import Image from "next/image";
 import bghomepage from "@/assets/newbghomepage.jpg";
 import Link from "next/link";
@@ -19,14 +20,54 @@ import { CircularProgress } from "@/components/ui/CircularProgress";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 
+// Import metadata untuk halaman utama
+export { metadata } from "./page.metadata";
+
 export const revalidate = 600;
 export const dynamic = "force-dynamic";
 
 export default async function Index() {
     const news = await fetchNews();
 
+    // Schema.org untuk halaman utama (Organization dan WebSite)
+    const homeSchema = [
+        {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "PUFA Computer Science",
+            "url": "https://compsci.president.ac.id",
+            "logo": "https://compsci.president.ac.id/images/logo.png",
+            "sameAs": [
+                "https://www.instagram.com/pufacomputing",
+                "https://www.linkedin.com/company/pufa-computing"
+            ],
+            "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Cikarang",
+                "addressRegion": "West Java",
+                "addressCountry": "Indonesia"
+            }
+        },
+        {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "url": "https://compsci.president.ac.id",
+            "name": "PUFA Computer Science - President University",
+            "description": "Official Computer Science organization at President University",
+            "potentialAction": {
+                "@type": "SearchAction",
+                "target": "https://compsci.president.ac.id/search?q={search_term_string}",
+                "query-input": "required name=search_term_string"
+            }
+        }
+    ];
+
     return (
         <div className="min-h-screen text-black">
+            {/* Add Schema.org JSON-LD */}
+            <Script id="home-schema" type="application/ld+json">
+                {JSON.stringify(homeSchema)}
+            </Script>
             {/* Hero Section */}
             <div className="relative min-h-[100svh] w-full overflow-hidden">
                 {/* Background Image with Modern Overlay */}

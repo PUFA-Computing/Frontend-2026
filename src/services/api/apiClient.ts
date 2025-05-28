@@ -12,7 +12,7 @@ apiClient.interceptors.request.use(async (config) => {
   // If we're in a server environment (inside the container)
   if (isServer && config.url) {
     // Replace the domain with direct container access
-    config.url = config.url.replace('https://compsci.president.ac.id/api/v1', 'http://backend:8080/api/v1');
+    config.url = config.url.replace('https://compsci.president.ac.id/api/v1', 'http://localhost:8080/api/v1');
     console.log(`Using internal API URL: ${config.url}`);
   }
   

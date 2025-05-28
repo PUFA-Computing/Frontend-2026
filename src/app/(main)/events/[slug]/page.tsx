@@ -8,6 +8,51 @@ import Seperator from "@/components/Seperator";
 import RegisterButton from "./_components/RegisterButton";
 import ShareButton from "./_components/ShareButton";
 import { Calendar, MapPin, Users, Clock, ArrowLeft } from "lucide-react";
+import type { Metadata } from "next";
+
+// Generate dynamic metadata for each event page
+export async function generateMetadata(
+    { params }: { params: { slug: string } }
+): Promise<Metadata> {
+    // Fetch event data
+    const event = await fetchEventBySlug(params.slug);
+    
+    if (!event) {
+        return {
+            title: "Event Not Found",
+            description: "The requested event could not be found."
+        };
+    }
+    
+    // Format date for description
+    const formattedStartDate = event.start_date.toLocaleDateString("en-US", {
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+    });
+    
+    return {
+        title: event.title,
+        description: `${event.title} - ${event.organization} event on ${formattedStartDate}. ${event.description.substring(0, 155)}...`,
+        alternates: {
+            canonical: `/events/${event.slug}`,
+        },
+        openGraph: {
+            title: event.title,
+            description: `${event.organization} presents ${event.title} on ${formattedStartDate}`,
+            type: "website", // Changed from "event" to "website" as per OpenGraph specs
+            url: `https://compsci.president.ac.id/events/${event.slug}`,
+            images: [
+                {
+                    url: event.thumbnail,
+                    width: 800,
+                    height: 600,
+                    alt: event.title
+                }
+            ],
+        }
+    };
+}
 
 const description = (description: string) => {
     const lines = description.split("\n");
@@ -43,8 +88,54 @@ export default async function EventDetailsPage({ params }: EventPageProps) {
         registrationColor = "text-yellow-500";
     }
 
+    // Format dates for schema markup
+    const formattedStartDate = event.start_date.toISOString();
+    const formattedEndDate = event.end_date.toISOString();
+    
+    // Schema.org Event markup for structured data
+    const eventSchema = {
+        "@context": "https://schema.org",
+        "@type": "Event",
+        "name": event.title,
+        "startDate": formattedStartDate,
+        "endDate": formattedEndDate,
+        "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+        "eventStatus": "https://schema.org/EventScheduled",
+        "location": {
+            "@type": "Place",
+            "name": "Faculty of Computing, President University",
+            "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Cikarang",
+                "addressRegion": "West Java",
+                "addressCountry": "Indonesia"
+            }
+        },
+        "image": event.thumbnail,
+        "description": event.description,
+        "organizer": {
+            "@type": "Organization",
+            "name": event.organization,
+            "url": "https://compsci.president.ac.id"
+        },
+        "offers": {
+            "@type": "Offer",
+            "availability": event.total_registered < event.max_registration ? 
+                "https://schema.org/InStock" : 
+                "https://schema.org/SoldOut",
+            "priceCurrency": "IDR",
+            "price": 0,
+            "validFrom": formattedStartDate
+        }
+    };
+    
     return (
         <div className="min-h-screen">
+            {/* Add Schema.org JSON-LD */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(eventSchema) }}
+            />
             {/* Header Section */}
             <section className="relative overflow-hidden bg-gradient-to-r from-blue-900 via-indigo-800 to-purple-900 px-4 py-16 sm:px-6 md:px-8 lg:px-16">
                 {/* Decorative elements */}

@@ -444,7 +444,7 @@ export const divisionPage = [
         banner: BANNER,
         description:
             "",
-        button: ["CSGO", "SOPU PREP", "COMPHEALTH", "COMPUTING SOUND"],
+        button: ["CSGO", "COMPHEALTH", "COMPUTING SOUND"],
         member: [
             {
                 name: "Najla Rifa Nur Asjad",

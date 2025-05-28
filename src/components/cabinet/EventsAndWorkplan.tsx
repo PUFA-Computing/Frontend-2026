@@ -71,8 +71,7 @@ export default function EventsAndWorkplan({ buttons }: EventsAndWorkplanProps) {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.3 }}
             >
-              Explore our upcoming events and activities planned for this year. Click on any event to learn more about
-              it.
+              Explore our upcoming events and activities planned for this year.SOP
             </motion.p>
           </div>
 
@@ -90,7 +89,7 @@ export default function EventsAndWorkplan({ buttons }: EventsAndWorkplanProps) {
                   size="lg"
                   className="w-full text-center justify-center group"
                   onClick={() => setActiveButton(index)}
-                  icon={<ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />}
+                  // icon={<ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />}
                 >
                   <span className="font-medium">{button}</span>
                 </Button>

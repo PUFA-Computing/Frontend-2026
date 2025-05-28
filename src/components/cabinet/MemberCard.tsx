@@ -112,17 +112,6 @@ const MemberCard: React.FC<MemberCardProps> = ({ image, name, position, instagra
             <h3 className="font-semibold text-lg text-slate-800 mb-1">{name}</h3>
             <p className="text-sm text-slate-500 hidden md:block">{position}</p>
           </div>
-
-          {/* View profile button */}
-          <motion.div className="mt-4 text-center" whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
-            <Link
-              href="#"
-              className="inline-flex items-center justify-center text-sm text-green-600 hover:text-green-700 font-medium"
-            >
-              <span>View Profile</span>
-              <ExternalLink className="ml-1 w-3 h-3" />
-            </Link>
-          </motion.div>
         </div>
       </div>
     </motion.div>

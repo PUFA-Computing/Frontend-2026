@@ -1,12 +1,66 @@
 import { fetchNews, fetchNewsBySlug } from "@/services/api/news";
 import NewsCard from "@/components/news/NewsCard";
-import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import React, { Suspense } from "react";
 import { CircularProgress } from "@/components/ui/CircularProgress";
 import { Calendar, Clock, User, ArrowLeft, Share2, Bookmark, ThumbsUp } from "lucide-react";
 import ShareButton from "../../events/[slug]/_components/ShareButton";
+import OptimizedImage from "@/components/ui/OptimizedImage";
+import { Metadata } from "next";
+
+// Generate dynamic metadata for each news article
+export async function generateMetadata(
+    { params }: { params: { slug: string } }
+): Promise<Metadata> {
+    // Fetch news data
+    const news = await fetchNewsBySlug(params.slug);
+    
+    if (!news) {
+        return {
+            title: "News Not Found",
+            description: "The requested news article could not be found."
+        };
+    }
+    
+    // Format date for description
+    const formattedDate = new Date(news.publish_date).toLocaleDateString("en-US", {
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+    });
+    
+    // Create a clean excerpt for the description
+    const plainTextContent = news.content
+        .replace(/<[^>]*>/g, '') // Remove HTML tags
+        .substring(0, 160) // Limit to 160 characters
+        .trim();
+    
+    return {
+        title: news.title,
+        description: `${plainTextContent}... - Published on ${formattedDate} by ${news.author}`,
+        alternates: {
+            canonical: `/news/${news.slug}`,
+        },
+        openGraph: {
+            title: news.title,
+            description: plainTextContent,
+            type: "article",
+            url: `https://compsci.president.ac.id/news/${news.slug}`,
+            images: [
+                {
+                    url: news.thumbnail,
+                    width: 1200,
+                    height: 630,
+                    alt: news.title
+                }
+            ],
+            publishedTime: new Date(news.publish_date).toISOString(),
+            authors: [news.author],
+            section: news.organization,
+        }
+    };
+}
 
 interface NewsDetailsPageProps {
     params: { slug: string };
@@ -24,6 +78,36 @@ export default async function NewsDetailsPage({
     if (!news) {
         return redirect("/404");
     }
+    
+    // Format dates for schema markup
+    const formattedPublishDate = new Date(news.publish_date).toISOString();
+    
+    // Schema.org Article markup for structured data
+    const articleSchema = {
+        "@context": "https://schema.org",
+        "@type": "NewsArticle",
+        "headline": news.title,
+        "datePublished": formattedPublishDate,
+        "dateModified": formattedPublishDate,
+        "author": {
+            "@type": "Person",
+            "name": news.author
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": news.organization || "PUFA Computing",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://compsci.president.ac.id/images/logo.png"
+            }
+        },
+        "image": news.thumbnail,
+        "description": news.content.replace(/<[^>]*>/g, '').substring(0, 160),
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": `https://compsci.president.ac.id/news/${news.slug}`
+        }
+    };
 
     const createMarkup = (htmlString: string) => {
         return { __html: htmlString };
@@ -31,6 +115,11 @@ export default async function NewsDetailsPage({
 
     return (
         <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100">
+            {/* Add Schema.org JSON-LD */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+            />
             {/* Hero Section */}
             <section className="relative overflow-hidden bg-gradient-to-r from-blue-900 via-indigo-800 to-purple-900 px-4 py-16 sm:px-6 md:px-8 lg:px-16">
                 {/* Decorative elements */}
@@ -77,15 +166,27 @@ export default async function NewsDetailsPage({
                 <div className="grid grid-cols-1 gap-10 lg:grid-cols-3 lg:gap-12">
                     {/* Main Content */}
                     <div className="lg:col-span-2">
-                        {/* Featured Image */}
+                        {/* Featured Image - Optimized for SEO and Core Web Vitals */}
                         <div className="mb-8 overflow-hidden rounded-xl">
                             <div className="relative aspect-video w-full overflow-hidden">
-                                <Image
+                                <OptimizedImage
                                     className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
                                     src={news.thumbnail}
                                     layout="fill"
-                                    alt={`${news.title}'s Photo`}
+                                    alt={news.title}
+                                    priority={true} // Prioritize LCP image
+                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 75vw, 1200px"
                                 />
+                            </div>
+                            {/* Add publication date for SEO */}
+                            <div className="mt-2 text-xs text-gray-500">
+                                <time dateTime={new Date(news.publish_date).toISOString()}>
+                                    Published: {new Date(news.publish_date).toLocaleDateString("en-US", {
+                                        day: "numeric",
+                                        month: "long",
+                                        year: "numeric"
+                                    })}
+                                </time>
                             </div>
                         </div>
                         
@@ -164,7 +265,7 @@ export default async function NewsDetailsPage({
                                         <Link key={item.id} href={`/news/${item.slug}`} className="group block">
                                             <div className="flex items-start space-x-3">
                                                 <div className="relative h-16 w-16 flex-shrink-0 overflow-hidden rounded-lg">
-                                                    <Image
+                                                    <OptimizedImage
                                                         src={item.thumbnail}
                                                         layout="fill"
                                                         objectFit="cover"

@@ -1,0 +1,12 @@
+# Allow all web crawlers
+User-agent: *
+Allow: /
+
+# Disallow crawling of admin and authentication pages
+Disallow: /admin/
+Disallow: /login
+Disallow: /signup
+Disallow: /dashboard
+
+# Sitemap location
+Sitemap: https://compsci.president.ac.id/sitemap.xml
