@@ -1,4 +1,4 @@
-import Image from "next/image"
+import OptimizedImage from "@/components/ui/OptimizedImage"
 import type Event from "@/models/event"
 import Link from "next/link"
 import { Calendar, Clock, Users } from "lucide-react"
@@ -36,12 +36,13 @@ export default function EventCardPageMobile({ events }: { events: Event[] }) {
           <Link key={event.id} href={`/events/${event.slug}`}>
             <div className="overflow-hidden rounded-xl bg-white shadow-md transition-all duration-300 hover:shadow-xl">
               <div className="relative">
-                <Image
+                <OptimizedImage
                   src={event.thumbnail || "/placeholder.svg?height=300&width=600"}
                   className="h-48 w-full object-cover"
                   alt={`${event.title}'s poster`}
                   width={600}
                   height={300}
+                  performanceMode={true}
                 />
 
                 <div className="absolute right-3 top-3">

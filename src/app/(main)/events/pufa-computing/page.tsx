@@ -4,7 +4,7 @@ import EventCardPage from "@/components/event/EventCardPage"
 import EventCardPageMobile from "@/components/event/EventCardMobile"
 import PosterCardEventPage from "@/components/event/PosterCardEventPage"
 import { Calendar, Database, Clock, ChevronLeft, ChevronRight, MapPin } from "lucide-react"
-import Image from "next/image"
+import OptimizedImage from "@/components/ui/OptimizedImage"
 import Link from "next/link"
 
 export const metadata: Metadata = {
@@ -86,12 +86,14 @@ export default async function EventsPage() {
               {/* Image section - larger on desktop */}
               <div className="relative md:col-span-2 lg:col-span-1">
                 <div className="aspect-[4/3] h-full w-full md:aspect-auto">
-                  <Image
+                  <OptimizedImage
                     src={upcomingEvents[0]?.thumbnail || "/placeholder.svg?height=600&width=800"}
                     alt={upcomingEvents[0]?.title || "Event image"}
                     width={800}
                     height={600}
                     className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    priority={true}
+                    placeholder="blur"
                   />
                 </div>
                 <div className="absolute right-4 top-4">
@@ -168,12 +170,13 @@ export default async function EventsPage() {
                   <div className="h-full overflow-hidden rounded-xl bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
                     <div className="relative">
                       <div className="aspect-[4/3] overflow-hidden">
-                        <Image
+                        <OptimizedImage
                           height={300}
                           width={400}
                           className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                           src={event?.thumbnail || "/placeholder.svg?height=300&width=400"}
                           alt={event?.title || "Event image"}
+                          performanceMode={true}
                         />
                       </div>
                       

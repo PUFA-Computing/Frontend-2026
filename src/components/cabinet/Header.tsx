@@ -1,6 +1,6 @@
 "use client"
 
-import Image from "next/image"
+import OptimizedImage from "@/components/ui/OptimizedImage"
 import { useEffect, useState } from "react"
 import { motion } from "framer-motion"
 import { ChevronRight } from "lucide-react"
@@ -80,13 +80,16 @@ export default function Header({ title, description, image }: HeaderProps) {
             animate={isLoaded ? { opacity: 1, scale: 1 } : {}}
             transition={{ duration: 0.7, delay: 0.4 }}
           >
-            <div className="relative z-20 rounded-lg overflow-hidden shadow-2xl">
-              <Image
+            <div className="relative z-20 rounded-lg overflow-hidden shadow-2xl" style={{ minHeight: '400px' }}>
+              <OptimizedImage
                 src={image || "/placeholder.svg"}
                 alt={`${title} Division`}
                 width={1080}
                 height={720}
-                className="w-full h-auto object-cover rounded-lg"
+                className="w-full h-full object-contain rounded-lg"
+                priority={true}
+                placeholder="blur"
+                sizes="(max-width: 768px) 100vw, 50vw"
               />
 
               {/* Overlay gradient */}
