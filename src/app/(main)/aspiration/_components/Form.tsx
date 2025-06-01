@@ -204,8 +204,6 @@ export default function AspirationForm() {
         { value: "1", label: "PUFA Computing" },
         { value: "2", label: "PUMA Informatics" },
         { value: "3", label: "PUMA Information System" },
-        { value: "4", label: "PUMA VCD" },
-        { value: "5", label: "PUMA Interior Design" },
     ];
 
     // More forgiving validation logic

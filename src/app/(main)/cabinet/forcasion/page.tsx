@@ -163,14 +163,14 @@ export default function Page() {
                       title: "Board of Director",
                       description:
                         "Is a representative of the highest division consisting of Chairperson, Vice Chairperson, Secretary and Treasurer.",
-                      link: "anagata/board-of-director",
+                      link: "forcasion/board-of-director",
                       color: "from-[#B48322] to-[#F2B233]",
                       icon: "👑"
                     },
                     {
                       title: "External Relations",
                       description: "This division organize activities or events related to parties outside the campus. To build relationships with the community, other campus and companies. It also have purpose to share knowledge and experience with each other.",
-                      link: "anagata/external-relation",
+                      link: "forcasion/external-relation",
                       color: "from-[#B48322] to-[#F2B233]",
                       icon: "🤝"
                     },
@@ -178,7 +178,7 @@ export default function Page() {
                       title: "Internal Relations",
                       description:
                         "This division has the main task of strengthening the relationship between students and students, students and lecturers, students and alumni and PUMA - PUFA",
-                      link: "anagata/internal-relation",
+                      link: "forcasion/internal-relation",
                       color: "from-[#B48322] to-[#F2B233]",
                       icon: "🏛️"
                     },
@@ -186,7 +186,7 @@ export default function Page() {
                       title: "Art and Sport",
                       description:
                         "Is a division that focuses on developing interest and burning the arts and sports in the computing sphere. This division also in charge of organizing both arts and sports activities so that computizens has a place to channel their non-academics potential.",
-                      link: "anagata/art-and-sport",
+                      link: "forcasion/art-and-sport",
                       color: "from-[#B48322] to-[#F2B233]",
                       icon: "🎨"
                     },
@@ -194,7 +194,7 @@ export default function Page() {
                       title: "Communication and Multimedia",
                       description:
                         "Is a division that handles PUFA Computing social media such as Instagram, LinkedIn, LINE OA, and youtube. Multimedia division is responsible to in charge of creating and editing templates content to be posted on social media PUFA Computing.",
-                      link: "anagata/communication-and-multimedia",
+                      link: "forcasion/communication-and-multimedia",
                       color: "from-[#B48322] to-[#F2B233]",
                       icon: "📱"
                     },
@@ -231,7 +231,7 @@ export default function Page() {
                       title: "Research and Technology",
                       description:
                         "Is a division in charge of developing creative ideas in the field of technology and sharing knowledge in the field of technology which aims to develop human resources, especially students within the campus itself.",
-                      link: "anagata/research-and-technology",
+                      link: "forcasion/research-and-technology",
                       color: "from-[#B48322] to-[#F2B233]",
                       icon: "💡"
                     },
@@ -239,7 +239,7 @@ export default function Page() {
                       title: "Student Development and Competition",
                       description:
                         "Is a division that focuses on improving the quality and optimizing the potential of Computizen in academic field, with the hope that it can have high competitiveness and contribute fully to the Faculty of Computing, President University, and Indonesia. ",
-                      link: "anagata/student-development-and-competition",
+                      link: "forcasion/student-development-and-competition",
                       color: "from-[#B48322] to-[#F2B233]",
                       icon: "🚀"
                     },
@@ -247,7 +247,7 @@ export default function Page() {
                       title: "Student Welfare Advocacy",
                       description:
                         "Is a division that serves as a bridge between Computizens (students) and the campus (faculty).SWA is responsible for accommodating aspirations and suggestions, as well as assisting and defending problems experienced by Computizens.",
-                      link: "anagata/student-welfare-advocacy",
+                      link: "forcasion/student-welfare-advocacy",
                       color: "from-[#B48322] to-[#F2B233]",
                       icon: "⚖️"
                     },
@@ -255,7 +255,7 @@ export default function Page() {
                       title: "Entrepreneurship",
                       description:
                         "Is a new division at PUFA Computing this cabinet, this division aims to develop computizens interests and talents in entrepreneurship and business.",
-                      link: "anagata/entrepreneur",
+                      link: "forcasion/entrepreneur",
                       color: "from-[#B48322] to-[#F2B233]",
                       icon: "💼"
                     },
@@ -295,14 +295,14 @@ export default function Page() {
                 title: "Board of Director",
                 description:
                   "Is a representative of the highest division consisting of Chairperson, Vice Chairperson, Secretary and Treasurer.",
-                link: "anagata/board-of-director",
+                link: "forcasion/board-of-director",
                 color: "from-[#B48322] to-[#F2B233]",
                 icon: "👑"
               },
               {
                 title: "External Relations",
                 description: "This division organize activities or events related to parties outside the campus. To build relationships with the community, other campus and companies. It also have purpose to share knowledge and experience with each other.",
-                link: "anagata/external-relation",
+                link: "forcasion/external-relation",
                 color: "from-[#B48322] to-[#F2B233]",
                 icon: "🤝"
               },
@@ -310,7 +310,7 @@ export default function Page() {
                 title: "Internal Relations",
                 description:
                   "This division has the main task of strengthening the relationship between students and students, students and lecturers, students and alumni and PUMA - PUFA",
-                link: "anagata/internal-relation",
+                link: "forcasion/internal-relation",
                 color: "from-[#B48322] to-[#F2B233]",
                 icon: "🏛️"
               },
@@ -318,7 +318,7 @@ export default function Page() {
                 title: "Art and Sport",
                 description:
                   "Is a division that focuses on developing interest and burning the arts and sports in the computing sphere. This division also in charge of organizing both arts and sports activities so that computizens has a place to channel their non-academics potential.",
-                link: "anagata/art-and-sport",
+                link: "forcasion/art-and-sport",
                 color: "from-[#B48322] to-[#F2B233]",
                 icon: "🎨"
               },
@@ -326,7 +326,7 @@ export default function Page() {
                 title: "Communication and Multimedia",
                 description:
                   "Is a division that handles PUFA Computing social media such as Instagram, LinkedIn, LINE OA, and youtube. Multimedia division is responsible to in charge of creating and editing templates content to be posted on social media PUFA Computing.",
-                link: "anagata/communication-and-multimedia",
+                link: "forcasion/communication-and-multimedia",
                 color: "from-[#B48322] to-[#F2B233]",
                 icon: "📱"
               },
@@ -334,7 +334,7 @@ export default function Page() {
                 title: "Research and Technology",
                 description:
                   "Is a division in charge of developing creative ideas in the field of technology and sharing knowledge in the field of technology which aims to develop human resources, especially students within the campus itself.",
-                link: "anagata/research-and-technology",
+                link: "forcasion/research-and-technology",
                 color: "from-[#B48322] to-[#F2B233]",
                 icon: "💡"
               },
@@ -342,7 +342,7 @@ export default function Page() {
                 title: "Student Development and Competition",
                 description:
                   "Is a division that focuses on improving the quality and optimizing the potential of Computizen in academic field, with the hope that it can have high competitiveness and contribute fully to the Faculty of Computing, President University, and Indonesia. ",
-                link: "anagata/student-development-and-competition",
+                link: "forcasion/student-development-and-competition",
                 color: "from-[#B48322] to-[#F2B233]",
                 icon: "🚀"
               },
@@ -350,7 +350,7 @@ export default function Page() {
                 title: "Student Welfare Advocacy",
                 description:
                   "Is a division that serves as a bridge between Computizens (students) and the campus (faculty).SWA is responsible for accommodating aspirations and suggestions, as well as assisting and defending problems experienced by Computizens.",
-                link: "anagata/student-welfare-advocacy",
+                link: "forcasion/student-welfare-advocacy",
                 color: "from-[#B48322] to-[#F2B233]",
                 icon: "⚖️"
               },
@@ -358,7 +358,7 @@ export default function Page() {
                 title: "Entrepreneurship",
                 description:
                   "Entrepreneurship is a new division at PUFA Computing this cabinet, this division aims to develop computizens interests and talents in entrepreneurship and business.",
-                link: "anagata/entrepreneur",
+                link: "forcasion/entrepreneur",
                 color: "from-[#B48322] to-[#F2B233]",
                 icon: "💼"
               },

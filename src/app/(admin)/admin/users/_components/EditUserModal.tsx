@@ -74,8 +74,6 @@ function EditUserModal({ user, onClose }: { user: User; onClose: () => void }) {
                         <option value="3">PUFA Computing</option>
                         <option value="4">PUMA IT</option>
                         <option value="5">PUMA IS</option>
-                        <option value="6">PUMA ID</option>
-                        <option value="7">PUMA VCD</option>
                         <option value="8">Guest</option>
                     </select>
                 </div>

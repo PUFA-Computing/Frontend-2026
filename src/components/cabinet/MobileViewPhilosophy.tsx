@@ -6,12 +6,12 @@ export default function MobileViewPhilosophy() {
       <div className="block md:hidden">
          <div className="grid grid-cols-1 gap-y-10">
             <LogoPhilosophyCard
-               image="/logo/anagataLetterA.svg"
+               image="/logo/forcasionLetterA.svg"
                title="Letter A"
                description="To strengthen relationships with faculty, PUFA Computing members, Computizens, PUSB, PUSC, all PUMA, Academic Communities, Alumni, and CnC."
             />
             <LogoPhilosophyCard
-               image="/logo/anagataBridge.svg"
+               image="/logo/forcasionBridge.svg"
                title="Bridge & 25 Pillars"
                description=" A bridge means PUFA Computing as an intermediary for
                      computing faculty to achieve a bright future. 25 Pillars
@@ -19,7 +19,7 @@ export default function MobileViewPhilosophy() {
                      HoD, and VoD."
             />
             <LogoPhilosophyCard
-               image="/logo/anagataSun.svg"
+               image="/logo/forcasionSun.svg"
                title="SUN"
                description="The brilliant sun represents a bright future for the
                      computing faculty, with 9 sides of sunshine representing

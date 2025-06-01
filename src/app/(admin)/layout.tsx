@@ -38,20 +38,6 @@ export default async function AdminLayout({
             initial: "PUMA",
             current: false,
         },
-        {
-            id: 4,
-            name: "PUMA Visual Communication Design",
-            href: "#",
-            initial: "PUMA",
-            current: false,
-        },
-        {
-            id: 5,
-            name: "PUMA Interior Design",
-            href: "#",
-            initial: "PUMA",
-            current: false,
-        },
     ];
     const userNavigation = [
         { name: "Your profile", href: "/../dashboard/profile" },

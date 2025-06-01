@@ -54,8 +54,6 @@ export default function ReviewCreateForm({
                         { id: 1, name: "PUFA Computing" },
                         { id: 2, name: "PUMA IT" },
                         { id: 3, name: "PUMA IS" },
-                        { id: 4, name: "PUMA ID" },
-                        { id: 5, name: "PUMA VCD" },
                     ]}
                     getOptionLabel={(option) => option.name}
                     getOptionValue={(option) => option.id.toString()}

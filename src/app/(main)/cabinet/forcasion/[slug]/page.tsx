@@ -49,7 +49,6 @@ export default function page({ params }: CabinetProps) {
                 image={divisionImage}
             />
             <EventsAndWorkplan buttons={button} />
-            {/* member */}
             <SwiperCard members={member} />
         </section>
     );

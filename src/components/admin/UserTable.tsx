@@ -77,8 +77,6 @@ function UserTable({
                             <option value="pufa">PUFA Computing</option>
                             <option value="puma-it">PUMA IT</option>
                             <option value="puma-is">PUMA IS</option>
-                            <option value="puma-id">PUMA ID</option>
-                            <option value="puma-vcd">PUMA VCD</option>
                         </select>
                     </div>
                     <div className="w-full sm:w-auto">
@@ -162,14 +160,6 @@ function UserTable({
                                         ) : user.role_id === 5 ? (
                                             <span className="inline-flex items-center rounded-full bg-gradient-to-r from-orange-600 to-sky-600 px-2.5 py-0.5 text-xs font-medium text-white">
                                                 PUMA IS
-                                            </span>
-                                        ) : user.role_id === 6 ? (
-                                            <span className="inline-flex items-center rounded-full bg-gradient-to-r from-black to-red-600 px-2.5 py-0.5 text-xs font-medium text-white">
-                                                PUMA ID
-                                            </span>
-                                        ) : user.role_id === 7 ? (
-                                            <span className="inline-flex items-center rounded-full bg-gradient-to-r from-blue-600 to-yellow-500 px-2.5 py-0.5 text-xs font-medium text-white">
-                                                PUMA VCD
                                             </span>
                                         ) : (
                                             <span className="inline-flex items-center rounded-full bg-gradient-to-r from-black to-pink-500 px-2.5 py-0.5 text-xs font-medium text-white">

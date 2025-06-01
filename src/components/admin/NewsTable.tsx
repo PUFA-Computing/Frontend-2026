@@ -20,8 +20,6 @@ const organizationColors: any = {
     "PUFA Computing": "bg-gray-900 text-white border-gray-800",
     "PUMA IT": "bg-purple-100 text-purple-800 border-purple-200",
     "PUMA IS": "bg-orange-100 text-orange-800 border-orange-200",
-    "PUMA ID": "bg-blue-100 text-blue-800 border-blue-200",
-    "PUMA VCD": "bg-green-100 text-green-800 border-green-200",
 };
 
 function classNames(...classes: string[]): string {

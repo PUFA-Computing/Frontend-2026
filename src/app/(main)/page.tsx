@@ -196,7 +196,7 @@ export default async function Index() {
                                 <p className="text-base sm:text-lg text-gray-700 leading-relaxed mb-8">
                                     We are committed to being a positive bridge for the Computer Science Faculty, fostering growth and collaboration within our community. Our cabinet works tirelessly to create opportunities for students to develop their skills and build meaningful connections.
                                 </p>
-                                <Link href="/cabinet/anagata">
+                                <Link href="/cabinet/forcasion">
                                     <Button className="w-full sm:w-auto text-decoration-none inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-[#000000] to-[#B48322] text-white rounded-xl hover:from-[#B48322] hover:to-[#F2B233] hover:text-[#000000] transition-all duration-300 shadow-lg hover:shadow-xl text-base sm:text-lg font-medium">
                                         Meet Our Cabinet
                                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -19,8 +19,6 @@ const organizationOptions = [
     { value: 1, label: "PUFA Computing" },
     { value: 2, label: "PUMA Informatics" },
     { value: 3, label: "PUMA Information System" },
-    { value: 4, label: "PUMA Visual Communication Design" },
-    { value: 5, label: "PUMA Interior Design" },
 ];
 
 export default function CreateEvent() {

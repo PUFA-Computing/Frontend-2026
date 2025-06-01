@@ -71,14 +71,6 @@ export default function EditNewsTabs({ news }: { news: News }) {
             id: 3,
             name: "PUMA IS",
         },
-        {
-            id: 4,
-            name: "PUMA ID",
-        },
-        {
-            id: 5,
-            name: "PUMA VCD",
-        },
     ];
 
     const [selectedOrganization, setSelectedOrganization] = useState(

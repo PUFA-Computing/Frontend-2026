@@ -56,8 +56,6 @@ export default function EventDetails() {
         { value: 1, label: "PUFA Computing" },
         { value: 2, label: "PUMA IT" },
         { value: 3, label: "PUMA IS" },
-        { value: 4, label: "PUMA ID" },
-        { value: 5, label: "PUMA VCD" },
     ];
 
     useEffect(() => {

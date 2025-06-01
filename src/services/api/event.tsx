@@ -16,22 +16,41 @@ const eventCache: { [key: string]: Event } = {};
  */
 export const fetchEvents = async (): Promise<Event[]> => {
     try {
-        // Make a GET request to the API endpoint.
-        const response = await apiClient.get(API_EVENT);
-        // const response = await axios.get(`${API_EVENT}/?slug=`);
-
-        // Extract event data from the response.
-        const eventData = response.data?.data || [];
-        eventData.forEach((event: Event) => {
-            event.start_date = new Date(event.start_date);
-            event.end_date = new Date(event.end_date);
-            event.created_at = new Date(event.created_at);
-            event.updated_at = new Date(event.updated_at);
+        // Make a GET request to the API endpoint with a timeout
+        const response = await apiClient.get(API_EVENT, {
+            timeout: 8000 // 8 second timeout specifically for events
         });
-        // Return the array of Event objects.
-        return eventData as Event[];
+
+        // Extract event data from the response with proper validation
+        const eventData = response.data?.data || [];
+        
+        // Validate and process each event
+        const processedEvents = eventData.map((event: Event) => {
+            try {
+                return {
+                    ...event,
+                    start_date: new Date(event.start_date || Date.now()),
+                    end_date: new Date(event.end_date || Date.now()),
+                    created_at: new Date(event.created_at || Date.now()),
+                    updated_at: new Date(event.updated_at || Date.now())
+                };
+            } catch (parseError) {
+                console.error("Error parsing event dates", parseError, event);
+                // Return event with fallback dates if parsing fails
+                return {
+                    ...event,
+                    start_date: new Date(),
+                    end_date: new Date(),
+                    created_at: new Date(),
+                    updated_at: new Date()
+                };
+            }
+        });
+        
+        // Return the array of processed Event objects
+        return processedEvents as Event[];
     } catch (error) {
-        // Log an error message and rethrow the error.
+        // Log an error message and rethrow the error
         console.error("Error fetching events", error);
         throw error;
     }
