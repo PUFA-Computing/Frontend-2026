@@ -4,3 +4,4 @@ export default function Page() {
   // PUMA Visual Communication Design events no longer exists
   notFound();
 }
+
