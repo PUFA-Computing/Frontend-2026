@@ -165,3 +165,71 @@ export const AdminReplyAspiration = async (
         throw error;
     }
 };
+
+export const DeleteAspiration = async (id: number | string, accessToken: string): Promise<{ success: boolean; message: string }> => {
+    try {
+        let numericId: number;
+        
+        // Convert string ID to number if needed
+        if (typeof id === 'string') {
+            // Extract numeric part if it's a string like "aspiration-123"
+            const match = id.match(/\d+/);
+            if (match) {
+                numericId = parseInt(match[0], 10);
+            } else {
+                numericId = 0;
+            }
+        } else {
+            numericId = id;
+        }
+        
+        console.log(`Deleting aspiration with ID: ${numericId}`);
+        
+        // The full URL will be: http://localhost:8080/api/v1/aspirations/{id}/delete
+        const response = await apiClient.delete(`/aspirations/${numericId}/delete`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        });
+        
+        return { success: true, message: "Aspiration deleted successfully" };
+    } catch (error: any) {
+        console.error("Error in DeleteAspiration:", error);
+        
+        // Log detailed error information for debugging
+        console.error("Error response:", error.response);
+        console.error("Error status:", error.response?.status);
+        console.error("Error data:", error.response?.data);
+        
+        // Check for foreign key constraint violation in various error formats
+        const errorMessage = error.response?.data?.message;
+        const errorString = typeof errorMessage === 'string' 
+            ? errorMessage 
+            : Array.isArray(errorMessage) 
+                ? errorMessage[0] 
+                : JSON.stringify(error.response?.data);
+                
+        console.log("Processed error string:", errorString);
+        
+        // Check for foreign key constraint in the error message
+        if (error.response?.status === 500 && 
+            errorString && 
+            (errorString.includes("foreign key constraint") || 
+             errorString.includes("FK") || 
+             errorString.includes("reference") || 
+             errorString.includes("aspirations_upvote"))) {
+            
+            console.log("Foreign key constraint violation detected!");
+            return { 
+                success: false, 
+                message: "This aspiration cannot be deleted because it has upvotes. Please contact the administrator to remove the upvotes first."
+            };
+        }
+        
+        // Return a generic error message for other errors
+        return { 
+            success: false, 
+            message: error.response?.data?.message?.[0] || "An error occurred while deleting the aspiration"
+        };
+    }
+};

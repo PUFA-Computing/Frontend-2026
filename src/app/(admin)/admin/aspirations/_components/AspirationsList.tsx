@@ -8,9 +8,13 @@ import {
     MagnifyingGlassIcon,
     FunnelIcon,
     ArrowTopRightOnSquareIcon,
+    TrashIcon,
 } from "@heroicons/react/24/outline";
 import Aspiration from "@/models/aspiration";
 import { useState } from "react";
+import { DeleteAspiration } from "@/services/api/aspiration";
+import { useSession } from "next-auth/react";
+import { toast } from "react-hot-toast";
 import { motion } from "framer-motion";
 
 export default function AspirationsList({
@@ -18,11 +22,14 @@ export default function AspirationsList({
 }: {
     aspirations: Aspiration[];
 }) {
+    const { data: session } = useSession();
+    const [localAspirations, setLocalAspirations] = useState<Aspiration[]>(aspirations);
     const [searchQuery, setSearchQuery] = useState<string>("");
     const [statusFilter, setStatusFilter] = useState<string>("all");
+    const [deletingId, setDeletingId] = useState<number | null>(null);
 
     // Filter aspirations based on search query and status filter
-    const filteredAspirations = aspirations.filter(aspiration => {
+    const filteredAspirations = localAspirations.filter(aspiration => {
         const matchesSearch = searchQuery === "" || 
             aspiration.subject.toLowerCase().includes(searchQuery.toLowerCase()) ||
             aspiration.author.name.toLowerCase().includes(searchQuery.toLowerCase());
@@ -44,6 +51,42 @@ export default function AspirationsList({
         });
     };
 
+    // Handle delete aspiration
+    const handleDeleteAspiration = async (id: number) => {
+        
+        if (!session || !session.user) {
+            toast.error("You must be logged in to delete an aspiration");
+            return;
+        }
+        
+        const accessToken = (session as any).user?.access_token || '';
+        
+        // Show confirmation dialog
+        if (!window.confirm("Are you sure you want to delete this aspiration? This action cannot be undone.")) {
+            return;
+        }
+        
+        setDeletingId(id);
+        
+        try {
+            const result = await DeleteAspiration(id, accessToken);
+            
+            if (result.success) {
+                // Remove the deleted aspiration from the local state
+                setLocalAspirations(localAspirations.filter(aspiration => aspiration.id !== id));
+                toast.success(result.message);
+            } else {
+                // Show error message from the API
+                toast.error(result.message);
+            }
+        } catch (error: any) {
+            console.error("Error deleting aspiration:", error);
+            toast.error("Failed to delete aspiration. Please try again.");
+        } finally {
+            setDeletingId(null);
+        }
+    };
+    
     return (
         <div className="space-y-6">
             {/* Search and filter bar */}
@@ -145,8 +188,29 @@ export default function AspirationsList({
                                     </div>
                                 </div>
                                 
-                                {/* View button */}
-                                <div className="mt-4 flex justify-end">
+                                {/* Action buttons */}
+                                <div className="mt-4 flex justify-end space-x-2">
+                                    <button
+                                        onClick={() => handleDeleteAspiration(aspiration.id)}
+                                        className="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-red-600 shadow-sm ring-1 ring-inset ring-red-300 hover:bg-red-50 transition-colors disabled:bg-gray-100 disabled:text-gray-400 disabled:ring-gray-200"
+                                        aria-label="Delete aspiration"
+                                        disabled={deletingId === aspiration.id}
+                                    >
+                                        {deletingId === aspiration.id ? (
+                                            <>
+                                                <svg className="animate-spin h-4 w-4 mr-1.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                </svg>
+                                                Deleting...
+                                            </>
+                                        ) : (
+                                            <>
+                                                Delete
+                                                <TrashIcon className="h-4 w-4 ml-1.5" />
+                                            </>
+                                        )}
+                                    </button>
                                     <a
                                         href={`./aspirations/${aspiration.id}`}
                                         className="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-blue-600 shadow-sm ring-1 ring-inset ring-blue-300 hover:bg-blue-50 transition-colors"

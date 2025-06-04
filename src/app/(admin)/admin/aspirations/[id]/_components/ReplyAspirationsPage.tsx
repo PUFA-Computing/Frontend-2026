@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from "react";
-import { CheckCircleIcon } from "@heroicons/react/24/solid";
+import { CheckCircleIcon, TrashIcon } from "@heroicons/react/24/solid";
 import {
     FaceFrownIcon,
     FaceSmileIcon,
@@ -18,8 +18,10 @@ import {
     Transition,
 } from "@headlessui/react";
 import Aspirations from "@/models/aspiration";
-import { AdminReplyAspiration } from "@/services/api/aspiration";
+import { AdminReplyAspiration, DeleteAspiration } from "@/services/api/aspiration";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { toast } from "react-hot-toast";
 
 const moods = [
     {
@@ -75,6 +77,7 @@ export default function ReplyAspirationsPage({
 }: {
     aspiration: Aspirations;
 }) {
+    const router = useRouter();
     const [selected, setSelected] = useState(moods[5]);
 
     const date = new Date(aspiration.created_at);
@@ -84,11 +87,45 @@ export default function ReplyAspirationsPage({
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState(false);
-    const session = useSession();
+    const [isDeleting, setIsDeleting] = useState(false);
+    const { data: session } = useSession();
+
+    const handleDeleteAspiration = async () => {
+        if (!session) {
+            toast.error("You must be logged in to delete an aspiration");
+            return;
+        }
+        
+        // Show confirmation dialog
+        if (!window.confirm("Are you sure you want to delete this aspiration? This action cannot be undone.")) {
+            return;
+        }
+        
+        setIsDeleting(true);
+        
+        try {
+            const accessToken = (session as any).user?.access_token || '';
+            const result = await DeleteAspiration(aspiration.id, accessToken);
+            
+            if (result.success) {
+                toast.success(result.message);
+                // Redirect back to aspirations list
+                router.push("/admin/aspirations");
+            } else {
+                // Show error message from the API
+                toast.error(result.message);
+            }
+        } catch (error: any) {
+            console.error("Error deleting aspiration:", error);
+            toast.error("Failed to delete aspiration. Please try again.");
+        } finally {
+            setIsDeleting(false);
+        }
+    };
 
     const handleCommentSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (!session.data) {
+        if (!session) {
             setError("You must be logged in to reply to aspirations");
             return;
         }
@@ -110,10 +147,11 @@ export default function ReplyAspirationsPage({
             console.log('Reply text:', commentText);
             
             // Panggil API untuk membalas aspirasi dengan ID numerik
+            const accessToken = (session as any).user?.access_token || '';
             await AdminReplyAspiration(
                 numericId,
                 commentText,
-                session.data.user.access_token
+                accessToken
             );
 
             console.log('Reply submitted successfully');
@@ -151,31 +189,41 @@ export default function ReplyAspirationsPage({
 
     return (
         <>
-            {/*Title*/}
+            {/*Title and Actions*/}
             <div className="mb-9 flex items-center justify-between pl-11">
                 <h1 className="text-2xl font-semibold text-gray-900">
                     {aspiration.subject}
                 </h1>
-                <span
-                    className={classNames(
-                        aspiration.closed
-                            ? "bg-green-100 text-green-800"
-                            : "bg-red-100 text-red-800",
-                        "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium"
-                    )}
-                >
-                    {aspiration.closed ? (
-                        <>
-                            <CheckCircleIcon
-                                className="mr-1.5 h-4 w-4"
-                                aria-hidden="true"
-                            />
-                            Closed
-                        </>
-                    ) : (
-                        "Open"
-                    )}
-                </span>
+                <div className="flex items-center space-x-3">
+                    <span
+                        className={classNames(
+                            aspiration.closed
+                                ? "bg-green-100 text-green-800"
+                                : "bg-red-100 text-red-800",
+                            "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium"
+                        )}
+                    >
+                        {aspiration.closed ? (
+                            <>
+                                <CheckCircleIcon
+                                    className="mr-1.5 h-4 w-4"
+                                    aria-hidden="true"
+                                />
+                                Closed
+                            </>
+                        ) : (
+                            "Open"
+                        )}
+                    </span>
+                    <button
+                        onClick={handleDeleteAspiration}
+                        disabled={isDeleting}
+                        className="inline-flex items-center rounded-md bg-red-50 px-3 py-2 text-sm font-semibold text-red-700 shadow-sm hover:bg-red-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                        <TrashIcon className="h-4 w-4 mr-1.5" aria-hidden="true" />
+                        {isDeleting ? "Deleting..." : "Delete"}
+                    </button>
+                </div>
             </div>
             <div className="relative flex gap-x-4">
                 {aspiration.author && aspiration.author.profile_picture ? (

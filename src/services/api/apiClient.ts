@@ -2,13 +2,7 @@
 import axios from 'axios';
 
 // Create an API client with better error handling and timeout settings
-const apiClient = axios.create({
-  timeout: 10000, // 10 second timeout
-  headers: {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json'
-  }
-});
+const apiClient = axios.create();
 
 // Determine if we're running on the server (in the container) or client (in browser)
 const isServer = typeof window === 'undefined';
