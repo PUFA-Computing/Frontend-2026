@@ -42,7 +42,7 @@ export const majorPage = [
         slug: "informatics",
         image: ITBANNER,
         vision: [
-            "Becoming the center of excellence for informatics higher education and research in Indonesia, able to compete globally, and play an active role in supporting the industry.",
+            "To be recognized as Indonesia's premier center for informatics education by 2025, producing skilled graduates who lead technological innovation, drive industry growth, and solve complex global challenges through computing excellence.",
         ],
         mission: [
             "To perform high-quality education and teaching in informatics that focuses in the field of informatics or other relevant sectors",
@@ -52,17 +52,20 @@ export const majorPage = [
             "To promote the spirit of entrepreneurship for students focusing on Startup Business related to and supported by information technology.",
         ],
         profession: [
-            "Professional IT",
-            "Professional Programmer",
-            "Database Engineer",
-            "Network and Security Specialist",
-            "Multimedia Designer and Animator",
-            "IT Manager",
-            "Technopreneur",
-            "Researcher and Scientist",
+            "Software Engineer",
+            "Full-Stack Developer",
+            "Mobile App Developer",
+            "Data Scientist",
+            "AI/Machine Learning Engineer",
+            "Cloud Solutions Architect",
+            "Cybersecurity Specialist",
+            "DevOps Engineer",
+            "IT Project Manager",
+            "Tech Entrepreneur",
+            "Research Scientist",
         ],
         description:
-            "Informatics are concerned with issues related to advocating for users and meeting their needs within an organizational and societal context through the selection, creation, application, integration, and administration of computing technologies, including the installation of networks; network administration and security; the design of web pages; the development of multimedia resources; the installation of communication components; the oversight of e-mail systems; and the planning and management of the technology lifecycle by which an organization’s technology is maintained, upgraded, and replaced.",
+            "Informatics is a modern and dynamic field focused on developing innovative computing solutions to meet real-world challenges. Our program provides comprehensive training in core computer science principles, software development, artificial intelligence, data science, cybersecurity, and emerging technologies. Students gain hands-on experience through industry-relevant projects, internship opportunities, and collaborative research. Our curriculum is regularly updated to reflect the latest technological advancements, ensuring graduates are well-prepared for the rapidly evolving tech industry. Join us to develop the technical expertise and creative problem-solving skills needed for a successful career in technology.",
         lecturers: [
             {
                 name: "Ir. Rila Mandala, M.Eng., Ph.D",
@@ -126,7 +129,7 @@ export const majorPage = [
         slug: "information-system",
         image: ISBANNER,
         vision: [
-            "In the year 2022 to become the center of education and development of science and technology of information systems that excel in Indonesia, able to compete globally, and play an active role in supporting the industry.",
+            "To be Indonesia's leading information systems education center by 2025, developing business-savvy technology professionals who drive digital innovation and create sustainable value for organizations globally.",
         ],
         mission: [
             "Organizing education and teaching in the field of science and technology of information systems, especially in enterprise-level, which are of high quality.",
@@ -135,15 +138,19 @@ export const majorPage = [
             "Cooperating with industries, companies, government, and other institutions in the field of information systems, especially at the enterprise level.",
         ],
         profession: [
-            "CIO (Chief Information Officer)",
-            "Database Administrator",
-            "System Analyst",
-            "Information System Project Manager",
-            "Information System Auditor",
-            "Network Designer",
+            "Business Systems Analyst",
+            "IT Project Manager",
+            "Enterprise Architect",
+            "Business Intelligence Analyst",
+            "Data Analyst/Manager",
+            "ERP Consultant",
+            "IT Consultant",
+            "Information Security Manager",
+            "Digital Transformation Specialist",
+            "CIO/IT Director (career growth)",
         ],
         description:
-            "Information System Study Program has strong connections with information science, computer science, business, and technology as well as with project management. Bachelor in Information Systems cover topics such as: programming, databases, computer network, business process analysis, information system project management, accounting, enterprise resource planning, enterprise system, information system analysis and design, testing and implementation, e-commerce, e-business software technologies, web, and interactive media design.",
+            "The Information System program bridges technology and business needs, preparing students to design and implement digital solutions that optimize organizational performance. Our curriculum combines technical skills with business acumen, covering database management, business analytics, enterprise systems, digital transformation, and IT project leadership. Students learn through practical case studies, industry projects, and internships with leading companies. Our program emphasizes both technical expertise and soft skills, including communication, teamwork, and problem-solving abilities essential for IT professionals. Graduates emerge ready to help organizations leverage technology for competitive advantage in today's digital economy.",
         lecturers: [
             {
                 name: "Ir. Rila Mandala, M.Eng., Ph.D",

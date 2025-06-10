@@ -3,10 +3,11 @@ import Image from "next/image"
 import ListCard from "@/components/major/ListCard"
 import VnMSection from "@/components/major/VnMSection"
 import LecturersSection from "@/components/major/LectureSection"
+import UpdateNotice from "@/components/major/UpdateNotice"
 import { majorPage } from "@/lib/page"
 import { redirect } from "next/navigation"
 import { Badge } from "@/components/ui/badge"
-import { BookOpen, GraduationCap } from "lucide-react"
+import { BookOpen, GraduationCap, Info } from "lucide-react"
 
 interface StudyProgramPageProps {
   params: { slug: string }
@@ -55,8 +56,13 @@ export default function StudyProgramPage({ params }: StudyProgramPageProps) {
       </div>
 
       <div className="container mx-auto px-4 md:px-6">
+        {/* Information Update Notice */}
+        <div className="my-8">
+          <UpdateNotice />
+        </div>
+        
         {/* About Section */}
-        <div className="bg-white rounded-2xl p-6 md:p-8 shadow-lg border border-gray-100 my-16">
+        <div className="bg-white rounded-2xl p-6 md:p-8 shadow-lg border border-gray-100 my-8">
           <div className="flex items-center gap-2 mb-6">
             <BookOpen className="h-5 w-5 text-primary" />
             <h2 className="text-2xl font-bold">About Study Program</h2>
@@ -80,7 +86,15 @@ export default function StudyProgramPage({ params }: StudyProgramPageProps) {
         </div>
 
         {/* Replace the old lecturers section with the new component */}
-        <LecturersSection lecturers={formattedLecturers} />
+        <div className="mb-4">
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4 flex items-center">
+            <div className="bg-blue-100 p-1.5 rounded-full mr-3">
+              <Info className="h-4 w-4 text-blue-600" />
+            </div>
+            <p className="text-sm text-blue-700">Faculty information may not reflect the current academic year. We're working to update this section.</p>
+          </div>
+          <LecturersSection lecturers={formattedLecturers} />
+        </div>
       </div>
     </section>
   )

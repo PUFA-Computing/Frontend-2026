@@ -21,9 +21,9 @@ export const FaqData = [
             "(President University Faculty Association) Is the new association of the faculty of Computer Science and stands as a faculty BEM. PUFA is The new Rectorate decree has stated that every faculty has to have their own association and all major has to have their own PUMA. PUFA Computer Science acts as the highest association in the Computer Science faculty and as a supervisor for all of the PUMA under PUFA Computer Science.",
     },
     {
-        title: "Why is there is no more PUMA Computer Science?",
+        title: "Why is there is no more PUFA Computing?",
         content:
-            "Now PUMA Computer Science has been separated into 2 different organizations, which are PUMA Informatics and PUMA IS.",
+            "Since our faculty name has changed from Computing to Computer Science, the association name has also changed from PUFA Computing to PUFA Computer Science.",
     },
     {
         title: "How many majors are there in the faculty of Computer Science?",

@@ -55,7 +55,7 @@ export default function Footer({ version }: { version: Version }) {
                     </div>
 
                     <div className="mt-6 flex flex-row items-center justify-center space-x-4 md:ml-auto md:flex-row md:space-y-0">
-                        <Link href="https://www.linkedin.com/company/pumacomputing/">
+                        <Link href="https://www.linkedin.com/company/pufa-computerscience/">
                             <FaLinkedin
                                 size={25}
                                 className="text-[#DADADA] transition-colors duration-300 hover:text-gray-500"

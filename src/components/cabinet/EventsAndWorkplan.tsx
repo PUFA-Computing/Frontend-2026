@@ -71,7 +71,7 @@ export default function EventsAndWorkplan({ buttons }: EventsAndWorkplanProps) {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.3 }}
             >
-              Explore our upcoming events and activities planned for this year.SOP
+              Explore our upcoming events and activities planned for this year.
             </motion.p>
           </div>
 
