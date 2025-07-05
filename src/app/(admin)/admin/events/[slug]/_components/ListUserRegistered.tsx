@@ -26,6 +26,8 @@ export default function ListUserRegistered({
                     eventId,
                     session.data.user.access_token
                 );
+                // Debug: Log fetched users to see file_path values
+                console.log("Fetched users with file paths:", fetchedUsers);
                 setUsers(fetchedUsers);
                 setLoading(false);
             } catch (error) {
@@ -66,9 +68,20 @@ export default function ListUserRegistered({
                     </svg>
                     Registered Users
                 </h2>
-                <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
-                    {users.length} {users.length === 1 ? 'user' : 'users'}
-                </span>
+                <div className="flex items-center gap-3">
+                    <a 
+                        href={`/admin/events/${eventId}/registrations`}
+                        className="inline-flex items-center gap-1 text-sm font-medium text-indigo-600 hover:text-indigo-800 transition-colors bg-indigo-50 hover:bg-indigo-100 px-3 py-1 rounded-md"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                        </svg>
+                        View Registration Files
+                    </a>
+                    <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
+                        {users.length} {users.length === 1 ? 'user' : 'users'}
+                    </span>
+                </div>
             </div>
             
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -94,10 +107,7 @@ export default function ListUserRegistered({
                         </div>
                         <div className="min-w-0 flex-1">
                             <div className="focus:outline-none">
-                                <span
-                                    className="absolute inset-0"
-                                    aria-hidden="true"
-                                />
+                                {/* Removed absolute inset-0 span that was blocking clicks */}
                                 <p className="text-sm font-medium text-gray-900">
                                     {user.first_name} {user.last_name}
                                     {user.major && (
@@ -117,12 +127,38 @@ export default function ListUserRegistered({
                                     {user.email}
                                 </p>
                             </div>
-                            {user.additional_notes && (
+                            {(user.additional_notes || user.file_path) && (
                                 <div className="mt-2 text-sm text-gray-500 bg-gray-50 p-2 rounded-md border border-gray-100">
-                                    <span className="font-medium text-gray-700 block mb-1">
-                                        Notes:
-                                    </span>
-                                    {user.additional_notes}
+                                    {user.additional_notes && (
+                                        <>
+                                            <span className="font-medium text-gray-700 block mb-1">
+                                                Notes:
+                                            </span>
+                                            <p className="mb-2">{user.additional_notes}</p>
+                                        </>
+                                    )}
+                                    {user.file_path && (
+                                        <div className="flex items-center gap-2 mt-3">
+                                            {/* Menggunakan Link yang lebih direct dan jelas */}
+                                            <a 
+                                                href={user.file_path}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                onClick={(e) => {e.stopPropagation(); console.log('File link clicked:', user.file_path);}}
+                                                className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md flex items-center gap-2 transition-all duration-200 shadow-md hover:shadow-lg active:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 cursor-pointer z-10 relative"
+                                                aria-label="View uploaded file"
+                                                title="Click to view the uploaded file"
+                                            >
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                                                </svg>
+                                                View Uploaded File
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 ml-1">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                                                </svg>
+                                            </a>
+                                        </div>
+                                    )}
                                 </div>
                             )}
                         </div>

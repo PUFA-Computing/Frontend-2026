@@ -105,8 +105,7 @@ export default function CreateNewsTabs() {
             !formData.title ||
             !formData.content ||
             !formData.publish_date ||
-            !formData.organization_id ||
-            !thumbnail
+            !formData.organization_id
         ) {
             Swal.fire({
                 icon: "error",

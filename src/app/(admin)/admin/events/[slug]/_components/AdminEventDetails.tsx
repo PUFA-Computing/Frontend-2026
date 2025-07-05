@@ -20,6 +20,8 @@ import Select from "react-select";
 import { Spinner } from "@nextui-org/spinner";
 import { EventCreation } from "@/app/(admin)/admin/events/create/_components/CreateEvent";
 import Picker from "react-datepicker";
+import Link from "next/link";
+import { ClipboardListIcon, FileTextIcon, UsersIcon } from "lucide-react";
 
 const tabs = [
     { name: "Event Details", key: "eventDetails" },
@@ -384,8 +386,16 @@ export default function EventDetails() {
                         </div>
                     </div>
 
-                    {/*Button Delete Event*/}
-                    <div className="flex justify-end px-4 mb-4">
+                    {/*Button Actions*/}
+                    <div className="flex justify-end px-4 mb-4 gap-3">
+                        <Link href={`/admin/events/${event?.id}/registrations`} className="inline-flex">
+                            <Button
+                                className="border border-indigo-500 bg-indigo-500 px-6 py-2 text-white hover:bg-white hover:text-indigo-500 rounded-lg shadow-sm transition-all duration-200 flex items-center gap-2"
+                            >
+                                <ClipboardListIcon className="w-5 h-5" />
+                                View Registrations & Files
+                            </Button>
+                        </Link>
                         <Button
                             onClick={handleDelete}
                             className="border border-red-500 bg-red-500 px-6 py-2 text-white hover:bg-white hover:text-red-500 rounded-lg shadow-sm transition-all duration-200 flex items-center gap-2"
@@ -402,8 +412,8 @@ export default function EventDetails() {
                             <div className="rounded-xl border border-gray-200 bg-white shadow-md overflow-hidden">
                                 <div className="bg-gradient-to-r from-blue-50 to-blue-100 px-6 py-4 flex items-center justify-between">
                                     <p className="text-lg font-medium text-gray-800 flex items-center gap-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-blue-500">
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z" />
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5 text-blue-500">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
                                         </svg>
                                         Event Details
                                     </p>
@@ -660,7 +670,7 @@ export default function EventDetails() {
                             ) : (
                                 <>
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 3.75H6.912a2.25 2.25 0 0 0-2.15 1.588L2.35 13.177a2.25 2.25 0 0 0-.1.661V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338a2.25 2.25 0 0 0-2.15-1.588H15M2.25 13.5h3.86a2.25 2.25 0 0 1 2.012 1.244l.256.512a2.25 2.25 0 0 0 2.013 1.244h3.218a2.25 2.25 0 0 0 2.013-1.244l.256-.512a2.25 2.25 0 0 1 2.013-1.244h3.859M12 3v8.25m0 0-3-3m3 3 3-3" />
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 3.75H6.912a2.25 2.25 0 0 0-2.15 1.588L2.35 13.177a2.25 2.25 0 0 0-.1.661V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338a2.25 2.25 0 0 0-2.15-1.588H9M2.25 13.5h3.86a2.25 2.25 0 0 1 2.012 1.244l.256.512a2.25 2.25 0 0 0 2.013 1.244h3.218a2.25 2.25 0 0 0 2.013-1.244l.256-.512a2.25 2.25 0 0 1 2.013-1.244h3.859M12 3v8.25m0 0-3-3m3 3 3-3" />
                                     </svg>
                                     Save Changes
                                 </>

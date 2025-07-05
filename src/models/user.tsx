@@ -20,6 +20,7 @@ interface User {
     institution_name?: string;
     gender?: string;
     additional_notes?: string;
+    file_path?: string;
     twofa_enabled?: boolean;
     twofa_image?: string;
     twofa_secret?: string;

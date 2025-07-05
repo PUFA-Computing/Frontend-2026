@@ -1,13 +1,13 @@
 "use client";
 import { API_EVENT } from "@/config/config";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Swal from "sweetalert2";
 import { totalRegisteredUsers } from "@/services/api/event";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { fetchUserEvents } from "@/services/api/user";
-import { LogIn, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
+import { LogIn, CheckCircle, AlertCircle, Loader2, Upload, FileText } from "lucide-react";
 
 interface RegisterButtonProps {
     eventId: number;
@@ -25,6 +25,9 @@ export default function RegisterButton({
     const [registerDisabled, setRegisterDisabled] = useState(false);
     const [buttonRegisterText, setButtonRegisterText] = useState("Loading...");
     const [additionalNotes, setAdditionalNotes] = useState("");
+    const [selectedFile, setSelectedFile] = useState<File | null>(null);
+    const [fileError, setFileError] = useState<string>("");
+    const fileInputRef = useRef<HTMLInputElement>(null);
     const { data: session, status } = useSession();
     const router = useRouter();
 
@@ -81,6 +84,40 @@ export default function RegisterButton({
         userEvents();
     }, [status, session]);
 
+    // Handle file selection
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setFileError("");
+        const file = e.target.files?.[0];
+        
+        if (!file) {
+            setSelectedFile(null);
+            return;
+        }
+        
+        // Validate file type
+        const allowedTypes = ['application/pdf', 'image/jpeg', 'image/png', 'image/jpg'];
+        if (!allowedTypes.includes(file.type)) {
+            setFileError("Please upload a PDF or image file (JPEG, PNG)");
+            setSelectedFile(null);
+            if (fileInputRef.current) {
+                fileInputRef.current.value = "";
+            }
+            return;
+        }
+        
+        // Validate file size (max 5MB)
+        if (file.size > 5 * 1024 * 1024) {
+            setFileError("File size must be less than 5MB");
+            setSelectedFile(null);
+            if (fileInputRef.current) {
+                fileInputRef.current.value = "";
+            }
+            return;
+        }
+        
+        setSelectedFile(file);
+    };
+
     const handleRegister = async () => {
         if (eventStatus !== "Open") {
             await Swal.fire({
@@ -119,14 +156,22 @@ export default function RegisterButton({
                 if (result.isConfirmed) {
                     try {
                         const accessToken = session?.user.access_token;
+                        
+                        // Create FormData instead of JSON
+                        const formData = new FormData();
+                        formData.append("additional_notes", additionalNotes);
+                        
+                        // Add file if selected
+                        if (selectedFile) {
+                            formData.append("file", selectedFile);
+                        }
+                        
                         const response = await axios.post(
                             `${API_EVENT}/${eventId}/register`,
-                            {
-                                additional_notes: additionalNotes,
-                            },
+                            formData,
                             {
                                 headers: {
-                                    "Content-Type": "application/json",
+                                    // Don't set Content-Type, axios will set it with boundary for FormData
                                     Authorization: `Bearer ${accessToken}`,
                                 },
                             }
@@ -222,22 +267,62 @@ export default function RegisterButton({
     return (
         <div className="w-full space-y-6">
             {!registerDisabled && (
-                <div className="space-y-2">
-                    <label htmlFor="additional-notes" className="block text-sm font-medium text-gray-700">
-                        Additional Notes
-                    </label>
-                    <textarea
-                        id="additional-notes"
-                        placeholder="Please provide any additional information that might be relevant for your registration"
-                        className="w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
-                        rows={4}
-                        onChange={(e) => setAdditionalNotes(e.target.value)}
-                        value={additionalNotes}
-                    />
-                    <p className="text-xs text-gray-500">
-                        This information will be visible to the event organizers.
-                    </p>
-                </div>
+                <>
+                    <div className="space-y-2">
+                        <label htmlFor="additional-notes" className="block text-sm font-medium text-gray-700">
+                            Additional Notes
+                        </label>
+                        <textarea
+                            id="additional-notes"
+                            placeholder="Please provide any additional information that might be relevant for your registration"
+                            className="w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                            rows={4}
+                            onChange={(e) => setAdditionalNotes(e.target.value)}
+                            value={additionalNotes}
+                        />
+                        <p className="text-xs text-gray-500">
+                            This information will be visible to the event organizers.
+                        </p>
+                    </div>
+                    
+                    <div className="space-y-2">
+                        <label htmlFor="file-upload" className="block text-sm font-medium text-gray-700">
+                            Upload Document (Optional)
+                        </label>
+                        <div className="flex items-center justify-center w-full">
+                            <label htmlFor="file-upload" className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
+                                <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                                    <Upload className="w-8 h-8 mb-2 text-gray-500" />
+                                    {selectedFile ? (
+                                        <div className="flex items-center">
+                                            <FileText className="w-4 h-4 mr-2 text-indigo-600" />
+                                            <p className="text-sm text-gray-700 truncate max-w-xs">{selectedFile.name}</p>
+                                        </div>
+                                    ) : (
+                                        <>
+                                            <p className="mb-1 text-sm text-gray-500"><span className="font-semibold">Click to upload</span> or drag and drop</p>
+                                            <p className="text-xs text-gray-500">PDF or Image (max 5MB)</p>
+                                        </>
+                                    )}
+                                </div>
+                                <input 
+                                    id="file-upload" 
+                                    type="file" 
+                                    className="hidden" 
+                                    accept=".pdf,.jpg,.jpeg,.png"
+                                    onChange={handleFileChange}
+                                    ref={fileInputRef}
+                                />
+                            </label>
+                        </div>
+                        {fileError && (
+                            <p className="text-xs text-red-500">{fileError}</p>
+                        )}
+                        <p className="text-xs text-gray-500">
+                            Upload any supporting documents required for this event (e.g., ID, certification, etc.)
+                        </p>
+                    </div>
+                </>
             )}
             
             <button

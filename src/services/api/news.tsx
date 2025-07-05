@@ -90,13 +90,16 @@ interface NewsCreation {
 
 export const createNews = async (
     news: NewsCreation,
-    file: File,
+    file: File | null,
     accessToken: string
 ): Promise<News> => {
     try {
         const formData = new FormData();
 
-        formData.append("file", file, file.name);
+        // Only append file if it exists
+        if (file) {
+            formData.append("file", file, file.name);
+        }
 
         const formattedNewsData = {
             ...news,

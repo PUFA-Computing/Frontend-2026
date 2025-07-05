@@ -42,14 +42,7 @@ export default function UploadThumbnailForm({
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        if (!thumbnail && !isEdit) {
-            Swal.fire({
-                icon: "error",
-                title: "Error",
-                text: "Please upload a thumbnail image.",
-            }).then((r) => r.isConfirmed && window.scrollTo(0, 0));
-            return;
-        }
+        // Thumbnail is now optional, so we proceed regardless
         onNext();
     };
 
@@ -63,6 +56,9 @@ export default function UploadThumbnailForm({
                     Cover photo
                 </label>
                 <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+                    <div className="text-sm text-gray-500 absolute top-0 right-0 mt-2 mr-2">
+                        (Optional)
+                    </div>
                     <div className="text-center">
                         {isEdit && currentThumbnail && !thumbnail ? (
                             <div className="relative h-48 w-full mb-4">

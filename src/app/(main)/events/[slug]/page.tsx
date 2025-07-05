@@ -216,14 +216,6 @@ export default async function EventDetailsPage({ params }: EventPageProps) {
                                     </div>
                                     
                                     <div className="flex items-start">
-                                        <MapPin className="mr-3 mt-0.5 h-5 w-5 text-indigo-600" />
-                                        <div>
-                                            <p className="text-sm font-medium text-gray-900">Location</p>
-                                            <p className="text-sm text-gray-600">Faculty of Computing</p>
-                                        </div>
-                                    </div>
-                                    
-                                    <div className="flex items-start">
                                         <Users className="mr-3 mt-0.5 h-5 w-5 text-indigo-600" />
                                         <div>
                                             <p className="text-sm font-medium text-gray-900">Organizer</p>
