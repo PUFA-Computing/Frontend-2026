@@ -22,13 +22,26 @@ export default function ListUserRegistered({
                 return;
             }
             try {
-                const fetchedUsers = await fetchUsersRegistered(
+                const fetchedUsers: User[] = await fetchUsersRegistered(
                     eventId,
                     session.data.user.access_token
                 );
-                // Debug: Log fetched users to see file_path values
-                console.log("Fetched users with file paths:", fetchedUsers);
-                setUsers(fetchedUsers);
+                // Process file paths for each user
+                const processedUsers: User[] = fetchedUsers.map((user: User) => {
+                    if (user && user.file_path) {
+                        // Split file paths by comma and trim spaces
+                        user.file_paths = user.file_path.split(',')
+                            .map((path: string) => path?.trim() || '')
+                            .filter((path: string) => path !== '');
+                    } else {
+                        user.file_paths = [];
+                    }
+                    return user;
+                });
+                
+                // Debug: Log processed users with file paths
+                console.log("Processed users with file paths:", processedUsers);
+                setUsers(processedUsers);
                 setLoading(false);
             } catch (error) {
                 console.error("Error fetching users:", error);
@@ -37,6 +50,113 @@ export default function ListUserRegistered({
         };
         getUsers().then((r) => r);
     }, [eventId, session.data]);
+
+    // Function to get file type from URL or filename
+    const getFileType = (url: string): 'image' | 'pdf' | 'zip' | 'unknown' => {
+        // Extract filename from URL
+        const fileName = getFileName(url);
+        
+        // Check for image extensions
+        if (/\.(jpg|jpeg|png|gif|bmp|webp)$/i.test(fileName)) {
+            return 'image';
+        }
+        
+        // Check for PDF extension
+        if (/\.pdf$/i.test(fileName)) {
+            return 'pdf';
+        }
+        
+        // Check for ZIP extension
+        if (/\.zip$/i.test(fileName)) {
+            return 'zip';
+        }
+        
+        // If no extension matches or can't determine, check content type in URL if available
+        if (url.includes('image/jpeg') || url.includes('image/jpg') || url.includes('image/png')) {
+            return 'image';
+        }
+        
+        if (url.includes('application/pdf')) {
+            return 'pdf';
+        }
+        
+        if (url.includes('application/zip')) {
+            return 'zip';
+        }
+        
+        // If we still can't determine, look for patterns in the filename
+        if (fileName.includes('.jpg') || fileName.includes('.jpeg') || fileName.includes('.png')) {
+            return 'image';
+        }
+        
+        if (fileName.includes('.pdf')) {
+            return 'pdf';
+        }
+        
+        if (fileName.includes('.zip')) {
+            return 'zip';
+        }
+        
+        // Default to unknown if we can't determine the type
+        return 'unknown';
+    };
+
+    // Function to get file extension from URL
+    const getFileExtension = (url: string): string => {
+        if (!url) return '';
+        const fileName = getFileName(url);
+        const parts = fileName.split('.');
+        if (parts.length > 1) {
+            return parts[parts.length - 1].toLowerCase();
+        }
+        return '';
+    };
+
+    // Function to get file name from URL
+    const getFileName = (url: string): string => {
+        if (!url) return 'unknown';
+        const parts = url.split('/');
+        return parts[parts.length - 1] || 'unknown';
+    };
+
+    // Function to get a descriptive label for the file
+    const getFileLabel = (filePath: string, index: number): string => {
+        const fileType = getFileType(filePath);
+        const fileName = getFileName(filePath);
+        const extension = getFileExtension(filePath);
+        
+        // Try to extract date from filename if it contains timestamp
+        let dateInfo = '';
+        const timestampMatch = fileName.match(/(\d{13})/); // Look for 13-digit timestamp
+        if (timestampMatch) {
+            const timestamp = parseInt(timestampMatch[1]);
+            if (!isNaN(timestamp)) {
+                const date = new Date(timestamp);
+                if (date.toString() !== 'Invalid Date') {
+                    dateInfo = ` (${date.toLocaleDateString()})`;
+                }
+            }
+        }
+        
+        // Extract sequence number from filename if it exists
+        let seqNumber = index + 1;
+        const seqMatch = fileName.match(/\.(\d+)\.[^.]+$/); // Look for pattern like .1.jpg, .2.pdf
+        if (seqMatch) {
+            seqNumber = parseInt(seqMatch[1]);
+        }
+        
+        // Return descriptive label based on file type
+        switch (fileType) {
+            case 'image':
+                return `Image #${seqNumber}${extension ? ` (.${extension})` : ''}${dateInfo}`;
+            case 'pdf':
+                return `PDF #${seqNumber}${dateInfo}`;
+            case 'zip':
+                return `Zip #${seqNumber}${dateInfo}`;
+            default:
+                return `File #${seqNumber}${extension ? ` (.${extension})` : ''}${dateInfo}`;
+        }
+    };
 
     if (loading) {
         return (
@@ -64,7 +184,9 @@ export default function ListUserRegistered({
             <div className="mb-4 flex items-center justify-between">
                 <h2 className="text-lg font-medium text-gray-900 flex items-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-blue-500">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-blue-500">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
+                        </svg>
                     </svg>
                     Registered Users
                 </h2>
@@ -113,12 +235,12 @@ export default function ListUserRegistered({
                                 </p>
                                 <p className="truncate text-sm text-gray-500 flex items-center gap-1">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 0-2.25 2.25h-15a2.25 2.25 0 0 0-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
                                     </svg>
                                     {user.email}
                                 </p>
                             </div>
-                            {(user.additional_notes || user.file_path) && (
+                            {(user.additional_notes || user.file_paths && user.file_paths.length > 0) && (
                                 <div className="mt-2 text-sm text-gray-500 bg-gray-50 p-2 rounded-md border border-gray-100">
                                     {user.additional_notes && (
                                         <>
@@ -128,26 +250,75 @@ export default function ListUserRegistered({
                                             <p className="mb-2">{user.additional_notes}</p>
                                         </>
                                     )}
-                                    {user.file_path && (
-                                        <div className="flex items-center gap-2 mt-3">
-                                            {/* Menggunakan Link yang lebih direct dan jelas */}
-                                            <a 
-                                                href={user.file_path}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                onClick={(e) => {e.stopPropagation(); console.log('File link clicked:', user.file_path);}}
-                                                className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md flex items-center gap-2 transition-all duration-200 shadow-md hover:shadow-lg active:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 cursor-pointer z-10 relative"
-                                                aria-label="View uploaded file"
-                                                title="Click to view the uploaded file"
-                                            >
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
-                                                </svg>
-                                                View Uploaded File
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 ml-1">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
-                                                </svg>
-                                            </a>
+                                    {user.file_paths && user.file_paths.length > 0 && (
+                                        <div className="mt-3">
+                                            <h4 className="text-sm font-semibold text-gray-700 mb-2">Uploaded Files:</h4>
+                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                                {user && user.file_paths && Array.isArray(user.file_paths) && user.file_paths.map((filePath: string, index: number) => {
+                                                    if (!filePath) return null;
+                                                    
+                                                    const fileType: 'image' | 'pdf' | 'zip' | 'unknown' = getFileType(filePath);
+                                                    const fileName: string = getFileName(filePath);
+                                                    const fileLabel: string = getFileLabel(filePath, index);
+                                                    
+                                                    return (
+                                                        <a 
+                                                            key={index}
+                                                            href={filePath}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            onClick={(e) => {e.stopPropagation(); console.log('File link clicked:', filePath);}}
+                                                            className="flex items-center p-2 bg-white border border-gray-200 rounded-lg hover:bg-blue-50 transition-all duration-200 group relative"
+                                                            aria-label={`View file ${index + 1}`}
+                                                            title={`Click to view: ${fileName}`}
+                                                        >
+                                                            <div className="flex-shrink-0 mr-3">
+                                                                {fileType === 'image' ? (
+                                                                    <div className="relative w-12 h-12 rounded-md overflow-hidden border border-gray-200">
+                                                                        <Image 
+                                                                            src={filePath}
+                                                                            alt={fileLabel}
+                                                                            fill
+                                                                            className="object-cover"
+                                                                        />
+                                                                    </div>
+                                                                ) : fileType === 'pdf' ? (
+                                                                    <div className="w-12 h-12 flex items-center justify-center bg-red-100 rounded-md">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-red-600">
+                                                                            <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                                                                        </svg>
+                                                                    </div>
+                                                                ) : fileType === 'zip' ? (
+                                                                    <div className="w-12 h-12 flex items-center justify-center bg-yellow-100 rounded-md">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-yellow-600">
+                                                                            <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m8.25 3v6.75m0-6.75h-3.75m3.75 0h3.75" />
+                                                                        </svg>
+                                                                    </div>
+                                                                ) : (
+                                                                    <div className="w-12 h-12 flex items-center justify-center bg-gray-100 rounded-md">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-gray-600">
+                                                                            <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                                                                        </svg>
+                                                                    </div>
+                                                                )}
+                                                            </div>
+                                                            <div className="flex-1 min-w-0">
+                                                                <p className="text-sm font-medium text-gray-900 truncate">
+                                                                    {fileLabel}
+                                                                </p>
+                                                                <p className="text-xs text-gray-500">
+                                                                    {fileType.charAt(0).toUpperCase() + fileType.slice(1)} File
+                                                                </p>
+                                                            </div>
+                                                            <div className="flex-shrink-0 ml-2">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-blue-600 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                                                                </svg>
+                                                            </div>
+                                                        </a>
+                                                    );
+                                                })}
+                                            </div>
                                         </div>
                                     )}
                                 </div>

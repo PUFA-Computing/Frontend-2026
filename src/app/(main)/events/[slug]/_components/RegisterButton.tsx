@@ -25,7 +25,7 @@ export default function RegisterButton({
     const [registerDisabled, setRegisterDisabled] = useState(false);
     const [buttonRegisterText, setButtonRegisterText] = useState("Loading...");
     const [additionalNotes, setAdditionalNotes] = useState("");
-    const [selectedFile, setSelectedFile] = useState<File | null>(null);
+    const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
     const [fileError, setFileError] = useState<string>("");
     const [isSubmitting, setIsSubmitting] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -88,35 +88,58 @@ export default function RegisterButton({
     // Handle file selection
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFileError("");
-        const file = e.target.files?.[0];
+        const files = e.target.files;
         
-        if (!file) {
-            setSelectedFile(null);
+        if (!files || files.length === 0) {
             return;
         }
         
-        // Validate file type
+        // Convert FileList to array for easier processing
+        const newFiles = Array.from(files);
+        
+        // Calculate total size including existing files
+        const totalSize = [...selectedFiles, ...newFiles].reduce((sum, file) => sum + file.size, 0);
+        if (totalSize > 20 * 1024 * 1024) {
+            setFileError("Total file size must be less than 20MB");
+            return;
+        }
+        
+        // Validate each file
+        let hasError = false;
         const allowedTypes = ['application/pdf', 'image/jpeg', 'image/png', 'image/jpg', 'application/zip', 'application/x-zip-compressed'];
-        if (!allowedTypes.includes(file.type)) {
-            setFileError("Please upload a PDF, ZIP, or image file (JPEG, PNG)");
-            setSelectedFile(null);
-            if (fileInputRef.current) {
-                fileInputRef.current.value = "";
+        
+        // Validate each new file type and individual size
+        for (const file of newFiles) {
+            if (!allowedTypes.includes(file.type)) {
+                setFileError("All files must be PDF, ZIP, or image files (JPEG, PNG)");
+                hasError = true;
+                break;
             }
+            
+            // Individual file size limit (10MB)
+            if (file.size > 10 * 1024 * 1024) {
+                setFileError("Each file must be less than 10MB");
+                hasError = true;
+                break;
+            }
+        }
+        
+        if (hasError) {
             return;
         }
         
-        // Validate file size (max 5MB)
-        if (file.size > 10 * 1024 * 1024) {
-            setFileError("File size must be less than 5MB");
-            setSelectedFile(null);
-            if (fileInputRef.current) {
-                fileInputRef.current.value = "";
-            }
-            return;
-        }
+        // Add new files to existing files
+        setSelectedFiles(prev => [...prev, ...newFiles]);
         
-        setSelectedFile(file);
+        // Reset file input so the same file can be selected again if needed
+        if (fileInputRef.current) {
+            fileInputRef.current.value = "";
+        }
+    };
+
+    // Remove a file from the selected files
+    const handleRemoveFile = (indexToRemove: number) => {
+        setSelectedFiles(prev => prev.filter((_, index) => index !== indexToRemove));
     };
 
     const handleRegister = async () => {
@@ -163,10 +186,10 @@ export default function RegisterButton({
                         const formData = new FormData();
                         formData.append("additional_notes", additionalNotes);
                         
-                        // Add file if selected
-                        if (selectedFile) {
-                            formData.append("file", selectedFile);
-                        }
+                        // Add multiple files if selected
+                        selectedFiles.forEach((file, index) => {
+                            formData.append(`files`, file);
+                        });
                         
                         const response = await axios.post(
                             `${API_EVENT}/${eventId}/register`,
@@ -300,30 +323,72 @@ export default function RegisterButton({
                     
                     <div className="space-y-2">
                         <label htmlFor="file-upload" className="block text-sm font-medium text-gray-700">
-                            Upload Document (Optional)
+                            Upload Documents (Optional)
                         </label>
+                        
+                        {/* Display selected files */}
+                        {selectedFiles.length > 0 && (
+                            <div className="mb-3">
+                                <p className="text-sm font-medium text-gray-700 mb-2">
+                                    {selectedFiles.length} {selectedFiles.length === 1 ? 'file' : 'files'} selected:
+                                </p>
+                                <ul className="space-y-2 max-h-40 overflow-y-auto border border-gray-200 rounded-lg p-2">
+                                    {selectedFiles.map((file, index) => (
+                                        <li key={index} className="flex items-center justify-between bg-gray-50 p-2 rounded">
+                                            <div className="flex items-center">
+                                                {file.type.includes('image') ? (
+                                                    <img 
+                                                        src={URL.createObjectURL(file)} 
+                                                        alt={file.name} 
+                                                        className="w-8 h-8 object-cover rounded mr-2"
+                                                        onLoad={() => URL.revokeObjectURL(URL.createObjectURL(file))}
+                                                    />
+                                                ) : file.type.includes('pdf') ? (
+                                                    <FileText className="w-6 h-6 mr-2 text-red-500" />
+                                                ) : file.type.includes('zip') ? (
+                                                    <FileText className="w-6 h-6 mr-2 text-yellow-500" />
+                                                ) : (
+                                                    <FileText className="w-6 h-6 mr-2 text-indigo-500" />
+                                                )}
+                                                <div>
+                                                    <p className="text-sm font-medium text-gray-700 truncate max-w-[200px]">
+                                                        {file.name}
+                                                    </p>
+                                                    <p className="text-xs text-gray-500">
+                                                        {(file.size / 1024).toFixed(1)} KB
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <button 
+                                                type="button"
+                                                onClick={() => handleRemoveFile(index)}
+                                                className="text-red-500 hover:text-red-700 p-1 rounded-full hover:bg-red-50"
+                                                disabled={isSubmitting}
+                                            >
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                                    <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                                                </svg>
+                                            </button>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
+                        
+                        {/* Upload area */}
                         <div className="flex items-center justify-center w-full">
                             <label 
                                 htmlFor="file-upload" 
-                                className={`flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg ${isSubmitting ? 'cursor-not-allowed bg-gray-100' : 'cursor-pointer bg-gray-50 hover:bg-gray-100'}`}
+                                className={`flex flex-col items-center justify-center w-full h-24 border-2 border-gray-300 border-dashed rounded-lg ${isSubmitting ? 'cursor-not-allowed bg-gray-100' : 'cursor-pointer bg-gray-50 hover:bg-gray-100'}`}
                             >
-                                <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                                    <Upload className={`w-8 h-8 mb-2 ${isSubmitting ? 'text-gray-400' : 'text-gray-500'}`} />
-                                    {selectedFile ? (
-                                        <div className="flex items-center">
-                                            <FileText className="w-4 h-4 mr-2 text-indigo-600" />
-                                            <p className="text-sm text-gray-700 truncate max-w-xs">{selectedFile.name}</p>
-                                        </div>
-                                    ) : (
-                                        <>
-                                            <p className={`mb-1 text-sm ${isSubmitting ? 'text-gray-400' : 'text-gray-500'}`}>
-                                                <span className="font-semibold">Click to upload</span> or drag and drop
-                                            </p>
-                                            <p className={`text-xs ${isSubmitting ? 'text-gray-400' : 'text-gray-500'}`}>
-                                                PDF, ZIP or Image (max 5MB)
-                                            </p>
-                                        </>
-                                    )}
+                                <div className="flex flex-col items-center justify-center pt-4 pb-4">
+                                    <Upload className={`w-6 h-6 mb-1 ${isSubmitting ? 'text-gray-400' : 'text-gray-500'}`} />
+                                    <p className={`text-sm ${isSubmitting ? 'text-gray-400' : 'text-gray-500'}`}>
+                                        <span className="font-semibold">Click to add more files</span> or drag and drop
+                                    </p>
+                                    <p className={`text-xs ${isSubmitting ? 'text-gray-400' : 'text-gray-500'}`}>
+                                        PDF, ZIP or Image (max 10MB per file, 20MB total)
+                                    </p>
                                 </div>
                                 <input 
                                     id="file-upload" 
@@ -333,6 +398,7 @@ export default function RegisterButton({
                                     onChange={handleFileChange}
                                     ref={fileInputRef}
                                     disabled={isSubmitting}
+                                    multiple
                                 />
                             </label>
                         </div>
