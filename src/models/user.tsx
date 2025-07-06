@@ -26,4 +26,5 @@ interface User {
     twofa_secret?: string;
 }
 
+export type { User };
 export default User;

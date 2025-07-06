@@ -46,7 +46,7 @@ export default function MyAccount() {
     const [lastName, setLastName] = useState<string>("");
     const [email, setEmail] = useState<string>("");
     const [dateOfBirth, setDateOfBirth] = useState<Date | undefined>(
-        userData?.date_of_birth
+	userData?.date_of_birth ? new Date(userData.date_of_birth) : undefined
     );
     const [major, setMajor] = useState<string>("");
     const [batch, setBatch] = useState<string>("");
@@ -608,7 +608,7 @@ export default function MyAccount() {
                                             label="Middle Name (optional)"
                                             type="text"
                                             value={middleName}
-                                            placeholder={userData?.middle_name}
+					    placeholder={userData?.middle_name || ''}
                                             onChange={(e) => setMiddleName(e.target.value)}
                                             className="w-full rounded-lg border-gray-200 bg-white px-4 py-3 text-gray-700 shadow-sm transition-all focus:border-[#02ABF3] focus:ring-[#02ABF3]/30 group-hover:border-gray-300 min-h-[44px]"
                                         />

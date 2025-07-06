@@ -1,12 +1,11 @@
 "use client";
 import React, { useState } from "react";
-import { Register } from "@/services/api/auth";
+import { Register, RegisterUserType } from "@/services/api/auth";
 import Swal from "sweetalert2";
-import { AxiosError, AxiosResponse } from "axios";
-import User from "@/models/user";
+import { AxiosError } from "axios";
+import type User from "@/models/user";
 import Seperator from "@/components/Seperator";
 import Link from "next/link";
-import user from "@/models/user";
 import { Spinner } from "@nextui-org/spinner";
 
 // Type for error response
@@ -67,6 +66,7 @@ export default function RegisterForm() {
                 title: "Invalid Email",
                 text: "Please enter a valid email address",
             });
+            setIsLoading(false);
             return;
         }
         // Check if the password valid
@@ -76,6 +76,7 @@ export default function RegisterForm() {
                 title: "Invalid Password",
                 text: "Password must be at least 8 characters long and contain at least 1 numeric digit.",
             });
+            setIsLoading(false);
             return;
         }
 
@@ -86,6 +87,7 @@ export default function RegisterForm() {
                 title: "Invalid Student ID",
                 text: "Student ID must be 12 digits long and start with 3 digits of major, 4 digits of batch, 5 digits of id",
             });
+            setIsLoading(false);
             return;
         }
 
@@ -99,13 +101,14 @@ export default function RegisterForm() {
                     title: "Invalid Student ID",
                     text: "You are not eligible to register as a Computizen",
                 });
+                setIsLoading(false);
                 return;
             }
         }
 
         try {
             // Construct user object based on form data
-            const user: User = {
+            const user: RegisterUserType = {
                 username: `${formData.get("firstName") as string}.${
                     formData.get("lastName") as string
                 }`.toLowerCase(),
@@ -115,6 +118,8 @@ export default function RegisterForm() {
                 password: password,
                 student_id: studentId,
                 year: formData.get("batch") as string,
+                role_id: 2,
+                student_id_verified: false,
             };
 
             const response = await Register(user);
@@ -179,7 +184,7 @@ export default function RegisterForm() {
                             Hello, Computizens!
                         </p>
                         <p className="text-lg font-semibold md:text-lg">
-                            Let’s Create an Account
+                            Let's Create an Account
                         </p>
                     </div>
                     <div className="flex space-x-2">
@@ -350,8 +355,6 @@ export default function RegisterForm() {
                                 placeholder="Universitas Perdana Mentri"
                                 required
                                 name="institution"
-                                // value={institution}
-                                // onChange={(e) => setInstitution(e.target.value)}
                             />
                         </div>
                     )}
@@ -364,11 +367,7 @@ export default function RegisterForm() {
                         className="w-full transform rounded-lg bg-blue-500 px-6 py-3 text-sm font-medium capitalize tracking-wide text-white transition-colors duration-300 hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50"
                         disabled={isLoading}
                     >
-                        {isLoading ? (
-                            <Spinner size="sm" /> // Show spinner when loading
-                        ) : (
-                            "Register"
-                        )}
+                        {isLoading ? <Spinner size="sm" /> : "Register"}
                     </button>
                 </div>
                 <h1 className="pt-1 text-center font-[400] text-[#475467] text-[0.875] md:pt-3">
@@ -381,3 +380,4 @@ export default function RegisterForm() {
         </section>
     );
 }
+

@@ -9,6 +9,18 @@ import {
 import User from "@/models/user";
 import { string } from "zod";
 
+
+export interface RegisterUserType {
+    username: string;
+    first_name: string;
+    last_name: string;
+    email: string;
+    password: string;
+    student_id: string;
+    year: string;
+    role_id?: number;
+}
+
 /**
  * Logs the user into the system.
  * @param {string} username - The username of the user.
@@ -92,7 +104,21 @@ export const Logout = async () => {
  * };
  * const response = await Register(user);
  */
-export const Register = async (user: User) => {
+
+// Define a specific type for registration to avoid type conflicts
+export interface RegisterUserType {
+    username: string;
+    first_name: string;
+    last_name: string;
+    email: string;
+    password: string;
+    student_id: string;
+    year: string;
+    role_id?: number;
+    student_id_verified?: boolean;
+}
+
+export const Register = async (user: RegisterUserType) => {
     try {
         const response = await apiClient.post(
             API_REGISTER,

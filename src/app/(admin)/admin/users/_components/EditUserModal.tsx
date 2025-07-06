@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 
 function EditUserModal({ user, onClose }: { user: User; onClose: () => void }) {
     const [role, setRole] = useState(user.role_id);
-    const [status, setStatus] = useState(user.student_id_verified);
+    const [status, setStatus] = useState(user.student_id_verified || false);
 
     const handleRoleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setRole(Number(event.target.value));

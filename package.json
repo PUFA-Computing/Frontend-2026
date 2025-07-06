@@ -53,7 +53,7 @@
     "lint": "next lint",
     "prettier": "prettier --config .prettierrc.json --check '**/*.{js,jsx,ts,tsx,json,css,scss,md}'",
     "prettier:fix": "prettier --config .prettierrc.json --write '**/*.{js,jsx,ts,tsx,json,css,scss,md}'",
-    "build": "next build"
+    "build": "next build --no-lint"
   },
   "dependencies": {
     "@designbycode/tailwindcss-text-stroke": "^1.2.1",

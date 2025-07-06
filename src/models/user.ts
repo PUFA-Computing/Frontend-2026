@@ -3,6 +3,7 @@ interface User {
   username: string;
   first_name: string;
   last_name: string;
+password: string;
   email: string;
   student_id: string;
   major: string;
@@ -15,6 +16,7 @@ interface User {
   institution_name?: string;
   gender: string;
   additional_notes?: string;
+student_id_verified: boolean;
   file_path?: string;
   file_paths?: string[]; 
   twofa_enabled: boolean;

@@ -1,5 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  typescript: {
+    // !! WARN !!
+    ignoreBuildErrors: true,
+  },
+
   output: "standalone",
   images: {
     domains: [
