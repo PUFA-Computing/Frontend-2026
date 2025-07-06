@@ -388,14 +388,6 @@ export default function EventDetails() {
 
                     {/*Button Actions*/}
                     <div className="flex justify-end px-4 mb-4 gap-3">
-                        <Link href={`/admin/events/${event?.id}/registrations`} className="inline-flex">
-                            <Button
-                                className="border border-indigo-500 bg-indigo-500 px-6 py-2 text-white hover:bg-white hover:text-indigo-500 rounded-lg shadow-sm transition-all duration-200 flex items-center gap-2"
-                            >
-                                <ClipboardListIcon className="w-5 h-5" />
-                                View Registrations & Files
-                            </Button>
-                        </Link>
                         <Button
                             onClick={handleDelete}
                             className="border border-red-500 bg-red-500 px-6 py-2 text-white hover:bg-white hover:text-red-500 rounded-lg shadow-sm transition-all duration-200 flex items-center gap-2"
