@@ -27,6 +27,7 @@ export default function RegisterButton({
     const [additionalNotes, setAdditionalNotes] = useState("");
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [fileError, setFileError] = useState<string>("");
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
     const { data: session, status } = useSession();
     const router = useRouter();
@@ -95,9 +96,9 @@ export default function RegisterButton({
         }
         
         // Validate file type
-        const allowedTypes = ['application/pdf', 'image/jpeg', 'image/png', 'image/jpg'];
+        const allowedTypes = ['application/pdf', 'image/jpeg', 'image/png', 'image/jpg', 'application/zip', 'application/x-zip-compressed'];
         if (!allowedTypes.includes(file.type)) {
-            setFileError("Please upload a PDF or image file (JPEG, PNG)");
+            setFileError("Please upload a PDF, ZIP, or image file (JPEG, PNG)");
             setSelectedFile(null);
             if (fileInputRef.current) {
                 fileInputRef.current.value = "";
@@ -106,7 +107,7 @@ export default function RegisterButton({
         }
         
         // Validate file size (max 5MB)
-        if (file.size > 5 * 1024 * 1024) {
+        if (file.size > 10 * 1024 * 1024) {
             setFileError("File size must be less than 5MB");
             setSelectedFile(null);
             if (fileInputRef.current) {
@@ -155,6 +156,7 @@ export default function RegisterButton({
             }).then(async (result) => {
                 if (result.isConfirmed) {
                     try {
+                        setIsSubmitting(true);
                         const accessToken = session?.user.access_token;
                         
                         // Create FormData instead of JSON
@@ -214,17 +216,27 @@ export default function RegisterButton({
                                 text: "There was an error while registering for the event " + eventTitle + ".",
                             });
                         }
+                    } finally {
+                        setIsSubmitting(false);
                     }
                 }
             });
         } catch (error: any) {
             console.log(error);
+            setIsSubmitting(false);
         }
     };
 
     // Determine button appearance based on state
     const getButtonAppearance = () => {
-        if (buttonRegisterText === "Loading...") {
+        if (isSubmitting) {
+            return {
+                icon: <Loader2 className="mr-2 h-4 w-4 animate-spin" />,
+                bgColor: "bg-indigo-500",
+                hoverBgColor: "hover:bg-indigo-500",
+                text: "Registering..."
+            };
+        } else if (buttonRegisterText === "Loading...") {
             return {
                 icon: <Loader2 className="mr-2 h-4 w-4 animate-spin" />,
                 bgColor: "bg-indigo-500",
@@ -279,6 +291,7 @@ export default function RegisterButton({
                             rows={4}
                             onChange={(e) => setAdditionalNotes(e.target.value)}
                             value={additionalNotes}
+                            disabled={isSubmitting}
                         />
                         <p className="text-xs text-gray-500">
                             This information will be visible to the event organizers.
@@ -290,9 +303,12 @@ export default function RegisterButton({
                             Upload Document (Optional)
                         </label>
                         <div className="flex items-center justify-center w-full">
-                            <label htmlFor="file-upload" className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
+                            <label 
+                                htmlFor="file-upload" 
+                                className={`flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg ${isSubmitting ? 'cursor-not-allowed bg-gray-100' : 'cursor-pointer bg-gray-50 hover:bg-gray-100'}`}
+                            >
                                 <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                                    <Upload className="w-8 h-8 mb-2 text-gray-500" />
+                                    <Upload className={`w-8 h-8 mb-2 ${isSubmitting ? 'text-gray-400' : 'text-gray-500'}`} />
                                     {selectedFile ? (
                                         <div className="flex items-center">
                                             <FileText className="w-4 h-4 mr-2 text-indigo-600" />
@@ -300,8 +316,12 @@ export default function RegisterButton({
                                         </div>
                                     ) : (
                                         <>
-                                            <p className="mb-1 text-sm text-gray-500"><span className="font-semibold">Click to upload</span> or drag and drop</p>
-                                            <p className="text-xs text-gray-500">PDF or Image (max 5MB)</p>
+                                            <p className={`mb-1 text-sm ${isSubmitting ? 'text-gray-400' : 'text-gray-500'}`}>
+                                                <span className="font-semibold">Click to upload</span> or drag and drop
+                                            </p>
+                                            <p className={`text-xs ${isSubmitting ? 'text-gray-400' : 'text-gray-500'}`}>
+                                                PDF, ZIP or Image (max 5MB)
+                                            </p>
                                         </>
                                     )}
                                 </div>
@@ -309,9 +329,10 @@ export default function RegisterButton({
                                     id="file-upload" 
                                     type="file" 
                                     className="hidden" 
-                                    accept=".pdf,.jpg,.jpeg,.png"
+                                    accept=".pdf,.jpg,.jpeg,.png,.zip"
                                     onChange={handleFileChange}
                                     ref={fileInputRef}
+                                    disabled={isSubmitting}
                                 />
                             </label>
                         </div>
@@ -328,7 +349,7 @@ export default function RegisterButton({
             <button
                 className={`flex w-full items-center justify-center rounded-lg ${buttonAppearance.bgColor} px-6 py-3 font-medium text-white shadow-md transition-all ${buttonAppearance.hoverBgColor} focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-70`}
                 onClick={handleRegister}
-                disabled={registerDisabled}
+                disabled={registerDisabled || isSubmitting}
             >
                 {buttonAppearance.icon}
                 {buttonAppearance.text}
