@@ -6,7 +6,8 @@ import {
 	HomeIcon,
 	UsersIcon,
 	NewspaperIcon,
-    EnvelopeIcon
+    EnvelopeIcon,
+    TrophyIcon
 } from "@heroicons/react/24/outline";
 import React from "react";
 import { Cog6ToothIcon } from "@heroicons/react/24/outline";
@@ -65,6 +66,11 @@ const Sidebar = ({ teams }: SidebarProps) => {
             name: "Email",
             href: "/admin/email",
             icon: EnvelopeIcon,
+        },
+        {
+            name: "CSML",
+            href: "/admin/votes",
+            icon: TrophyIcon,
         },
     ];
     return (
