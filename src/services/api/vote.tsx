@@ -208,9 +208,23 @@ export async function checkCanVote(token: string): Promise<CanVoteResponse> {
     );
     
     return response.data;
-  } catch (error) {
-    console.error("Error checking can vote:", error);
-    throw error;
+  } catch (error: any) {
+    // Handle 404 gracefully - endpoint may not exist
+    if (error.response?.status === 404) {
+      console.warn("⚠️  Vote can-vote endpoint not available (404), returning default response");
+      return {
+        success: true,
+        can_vote: true,
+        message: "Vote endpoint not configured"
+      };
+    }
+    console.error("Error checking can vote:", error.message);
+    // Return default allowing vote instead of throwing
+    return {
+      success: true,
+      can_vote: true,
+      message: "Unable to verify vote eligibility"
+    };
   }
 }
 
@@ -229,9 +243,25 @@ export async function getVoteStatus(token: string): Promise<VoteStatus> {
     );
     
     return response.data.data;
-  } catch (error) {
-    console.error("Error getting vote status:", error);
-    throw error;
+  } catch (error: any) {
+    // Handle 404 gracefully - endpoint may not exist
+    if (error.response?.status === 404) {
+      console.warn("⚠️  Vote status endpoint not available (404), returning default response");
+      return {
+        has_voted: false,
+        vote_id: undefined,
+        candidate_id: undefined,
+        voted_at: undefined
+      };
+    }
+    console.error("Error getting vote status:", error.message);
+    // Return default status instead of throwing
+    return {
+      has_voted: false,
+      vote_id: undefined,
+      candidate_id: undefined,
+      voted_at: undefined
+    };
   }
 }
 

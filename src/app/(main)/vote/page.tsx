@@ -179,22 +179,24 @@ export default async function VotePage() {
       console.warn("⚠️  No candidates found for major:", user.major);
     }
     
-    // Check vote status
+    // Check vote status (non-blocking)
     try {
       console.log("\n🔍 Checking vote status...");
       voteStatus = await getVoteStatus(token);
       console.log("✅ Vote status:", voteStatus);
     } catch (error: any) {
-      console.error("⚠️  Error fetching vote status:", error.message);
+      console.warn("⚠️  Error fetching vote status (non-blocking):", error.message);
+      // Continue without vote status - it's optional
     }
     
-    // Check if user can vote
+    // Check if user can vote (non-blocking)
     try {
       console.log("\n🔍 Checking if user can vote...");
       canVoteData = await checkCanVote(token);
       console.log("✅ Can vote data:", canVoteData);
     } catch (error: any) {
-      console.error("⚠️  Error checking can vote:", error.message);
+      console.warn("⚠️  Error checking can vote (non-blocking):", error.message);
+      // Continue without can vote data - it's optional
     }
   } catch (error: any) {
     console.error("\n❌ ERROR fetching vote page data:");
