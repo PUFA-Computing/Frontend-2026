@@ -3,7 +3,7 @@ import axios from 'axios';
 
 // Create an API client with better error handling and timeout settings
 const apiClient = axios.create({
-  timeout: 10000, // 10 second default timeout
+  timeout: 30000, // 30 second default timeout
 });
 
 // Determine if we're running on the server (in the container) or client (in browser)
