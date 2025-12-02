@@ -9,7 +9,7 @@ export const fetchNews = async (): Promise<News[]> => {
         // Make sure we're using the correct URL format with trailing slash
         const url = API_NEWS.endsWith('/') ? API_NEWS : `${API_NEWS}/`;
         console.log(`Fetching news from: ${url}`);
-
+        
         const response = await apiClient.get(url);
         const newsDataArray = response.data?.data || [];
 
@@ -52,7 +52,7 @@ export const fetchNewsBySlug = async (newsSlug: string): Promise<News | null> =>
         const baseUrl = API_NEWS.endsWith('/') ? API_NEWS : `${API_NEWS}/`;
         const url = `${baseUrl}${newsSlug}`;
         console.log(`Fetching news by slug from: ${url}`);
-
+        
         const response = await apiClient.get(url);
 
         const newsData = response.data?.data;
@@ -60,7 +60,7 @@ export const fetchNewsBySlug = async (newsSlug: string): Promise<News | null> =>
             console.error('No data returned from API');
             return null;
         }
-
+        
         // Only process date fields if they exist
         if (newsData.publish_date) {
             newsData.publish_date = new Date(newsData.publish_date);
