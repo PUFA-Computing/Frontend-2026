@@ -9,14 +9,13 @@ let fetchNewsErrorLogged = false;
 let lastNewsError = 0;
 const ERROR_THROTTLE_MS = 60000; // Only log errors once per minute
 
-// Validate URL before making requests
-function isValidUrl(url: string): boolean {
-    try {
-        new URL(url);
-        return true;
-    } catch {
+// Simple validation - just check if URL exists and is not empty
+function isValidApiUrl(url: string | undefined): boolean {
+    if (!url || url.trim() === '') {
         return false;
     }
+    // Check if it starts with http:// or https:// OR is a valid path
+    return url.startsWith('http://') || url.startsWith('https://') || url.startsWith('/');
 }
 
 export const fetchNews = async (): Promise<News[]> => {
@@ -25,10 +24,10 @@ export const fetchNews = async (): Promise<News[]> => {
         const url = API_NEWS.endsWith('/') ? API_NEWS : `${API_NEWS}/`;
 
         // Validate URL
-        if (!isValidUrl(url)) {
+        if (!isValidApiUrl(url)) {
             const now = Date.now();
             if (!fetchNewsErrorLogged || now - lastNewsError > ERROR_THROTTLE_MS) {
-                console.error("Invalid API_NEWS URL:", url);
+                console.error("Invalid or missing API_NEWS URL:", url);
                 fetchNewsErrorLogged = true;
                 lastNewsError = now;
             }
@@ -105,10 +104,10 @@ export const fetchNewsBySlug = async (newsSlug: string): Promise<News | null> =>
         const url = `${baseUrl}${newsSlug}`;
 
         // Validate URL
-        if (!isValidUrl(url)) {
+        if (!isValidApiUrl(url)) {
             const now = Date.now();
             if (!fetchNewsBySlugErrorLogged || now - lastSlugError > ERROR_THROTTLE_MS) {
-                console.error("Invalid news by slug URL:", url);
+                console.error("Invalid or missing news by slug URL:", url);
                 fetchNewsBySlugErrorLogged = true;
                 lastSlugError = now;
             }

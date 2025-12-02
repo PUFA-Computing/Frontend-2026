@@ -4,22 +4,21 @@ import { API_VERSION } from "@/config/config";
 let versionErrorLogged = false;
 let changelogErrorLogged = false;
 
-// Validate URL before making requests
-function isValidUrl(url: string): boolean {
-    try {
-        new URL(url);
-        return true;
-    } catch {
+// Simple validation - just check if URL exists and is not empty
+function isValidApiUrl(url: string | undefined): boolean {
+    if (!url || url.trim() === '') {
         return false;
     }
+    // Check if it starts with http:// or https:// OR is a valid path
+    return url.startsWith('http://') || url.startsWith('https://') || url.startsWith('/');
 }
 
 export default async function GetVersion() {
     try {
         // Validate the URL first
-        if (!isValidUrl(API_VERSION)) {
+        if (!isValidApiUrl(API_VERSION)) {
             if (!versionErrorLogged) {
-                console.error("Invalid API_VERSION URL:", API_VERSION);
+                console.error("Invalid or missing API_VERSION URL:", API_VERSION);
                 versionErrorLogged = true;
             }
             return null;
@@ -81,9 +80,9 @@ export async function GetChangeLog(): Promise<ChangelogResponse | null> {
         const changelogUrl = `${API_VERSION}/changelog`;
 
         // Validate the URL first
-        if (!isValidUrl(changelogUrl)) {
+        if (!isValidApiUrl(changelogUrl)) {
             if (!changelogErrorLogged) {
-                console.error("Invalid changelog URL:", changelogUrl);
+                console.error("Invalid or missing changelog URL:", changelogUrl);
                 changelogErrorLogged = true;
             }
             return null;
