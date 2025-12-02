@@ -1,68 +1,26 @@
 import { API_VERSION } from "@/config/config";
-
-// Cache error states to prevent spam
-let versionErrorLogged = false;
-let changelogErrorLogged = false;
-
-// Simple validation - just check if URL exists and is not empty
-function isValidApiUrl(url: string | undefined): boolean {
-    if (!url || url.trim() === '') {
-        return false;
-    }
-    // Check if it starts with http:// or https:// OR is a valid path
-    return url.startsWith('http://') || url.startsWith('https://') || url.startsWith('/');
-}
+import axios from "axios";
 
 export default async function GetVersion() {
     try {
-        // Validate the URL first
-        if (!isValidApiUrl(API_VERSION)) {
-            if (!versionErrorLogged) {
-                console.error("Invalid or missing API_VERSION URL:", API_VERSION);
-                versionErrorLogged = true;
+        const response = await fetch(API_VERSION, {
+            cache: 'no-store',
+            next: { revalidate: 0 }
+        });
+
+        // Check if response is ok (status 200-299)
+        if (!response.ok) {
+            if (response.status === 404) {
+                console.error(`HTTP ${response.status}: Not Found - Version endpoint does not exist`);
+            } else {
+                console.error(`Failed to fetch version: HTTP ${response.status}: ${response.statusText}`);
             }
             return null;
         }
 
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
-
-        const response = await fetch(API_VERSION, {
-            signal: controller.signal,
-            headers: {
-                'Accept': 'application/json',
-            },
-        });
-
-        clearTimeout(timeoutId);
-
-        // Check if response is OK
-        if (!response.ok) {
-            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-        }
-
-        // Check content type
-        const contentType = response.headers.get("content-type");
-        if (!contentType || !contentType.includes("application/json")) {
-            throw new Error(`Expected JSON but received ${contentType}`);
-        }
-
-        const data = await response.json();
-        versionErrorLogged = false; // Reset error flag on success
-        return data;
+        return await response.json();
     } catch (error) {
-        if (!versionErrorLogged) {
-            if (error instanceof Error) {
-                if (error.name === 'AbortError') {
-                    console.error("Version fetch timeout - API took too long to respond");
-                } else {
-                    console.error("Failed to fetch version:", error.message);
-                }
-            } else {
-                console.error("Failed to fetch version:", error);
-            }
-            versionErrorLogged = true;
-        }
+        console.error("Failed to fetch version:", error);
         return null;
     }
 }
@@ -77,56 +35,13 @@ export interface ChangelogResponse {
 
 export async function GetChangeLog(): Promise<ChangelogResponse | null> {
     try {
-        const changelogUrl = `${API_VERSION}/changelog`;
-
-        // Validate the URL first
-        if (!isValidApiUrl(changelogUrl)) {
-            if (!changelogErrorLogged) {
-                console.error("Invalid or missing changelog URL:", changelogUrl);
-                changelogErrorLogged = true;
-            }
-            return null;
+        const response = await fetch(`${API_VERSION}/changelog`);
+        if (!response.status) {
+            throw new Error('Failed to fetch');
         }
-
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
-
-        const response = await fetch(changelogUrl, {
-            signal: controller.signal,
-            headers: {
-                'Accept': 'application/json',
-            },
-        });
-
-        clearTimeout(timeoutId);
-
-        // Check if response is OK
-        if (!response.ok) {
-            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-        }
-
-        // Check content type
-        const contentType = response.headers.get("content-type");
-        if (!contentType || !contentType.includes("application/json")) {
-            throw new Error(`Expected JSON but received ${contentType}`);
-        }
-
-        const data = await response.json();
-        changelogErrorLogged = false; // Reset error flag on success
-        return data;
+        return await response.json();
     } catch (error) {
-        if (!changelogErrorLogged) {
-            if (error instanceof Error) {
-                if (error.name === 'AbortError') {
-                    console.error("Changelog fetch timeout - API took too long to respond");
-                } else {
-                    console.error("Failed to fetch changelog:", error.message);
-                }
-            } else {
-                console.error("Failed to fetch changelog:", error);
-            }
-            changelogErrorLogged = true;
-        }
+        console.error("Failed to fetch log : ", error);
         return null;
     }
 }

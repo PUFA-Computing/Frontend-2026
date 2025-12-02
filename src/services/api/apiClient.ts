@@ -3,7 +3,9 @@ import axios from 'axios';
 
 // Create an API client with better error handling and timeout settings
 const apiClient = axios.create({
-  timeout: 10000, // 10 second default timeout (reduced to fail faster)
+  timeout: 10000, // 10 second default timeout (reduced from 30s for faster failure detection)
+  // Allow absolute URLs for backend communication
+  validateStatus: (status) => status < 500, // Don't throw on 4xx errors
 });
 
 // Determine if we're running on the server (in the container) or client (in browser)
@@ -45,12 +47,32 @@ apiClient.interceptors.request.use(
 
 // Intercept responses for better error handling
 apiClient.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    // Handle 404 errors gracefully
+    if (response.status === 404) {
+      console.warn(`Resource not found (404): ${response.config.url}`);
+    }
+    return response;
+  },
   (error) => {
+    const url = error.config?.url || 'unknown URL';
+
     if (error.code === 'ECONNABORTED') {
-      console.error('Request timeout:', error.config.url);
+      console.error(`Request timeout: ${url}`);
+      console.error('News API timeout - Please check if the backend is running');
     } else if (error.code === 'ENOTFOUND') {
-      console.error('Backend not found. Make sure backend is running on:', error.config.url);
+      console.error(`Backend not found. Make sure backend is running on: ${url}`);
+    } else if (error.response) {
+      // Server responded with error status
+      const { status, statusText } = error.response;
+      if (status === 404) {
+        console.warn(`API endpoint not found (404): ${url}`);
+      } else if (status >= 500) {
+        console.error(`Server error (${status} ${statusText}): ${url}`);
+      }
+    } else if (error.request) {
+      // Request was made but no response received
+      console.error(`No response received from: ${url}`);
     }
 
     return Promise.reject(error);

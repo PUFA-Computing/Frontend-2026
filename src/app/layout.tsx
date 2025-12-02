@@ -4,33 +4,40 @@ import Providers from "@/components/Loading";
 import AuthProvider from "@/components/AuthProvider";
 
 // Define your main custom font
-const customFont = localFont({ 
-  src: [
-    {
-      path: '../../public/fonts/Geist-Regular.otf',
-      weight: '400',
-      style: 'normal',
-    },
-    {
-      path: '../../public/fonts/Geist-Bold.otf',
-      weight: '700',
-      style: 'normal',
-    }
-  ],
-  variable: '--font-custom',
+const customFont = localFont({
+    src: [
+        {
+            path: '../../public/fonts/Geist-Regular.otf',
+            weight: '400',
+            style: 'normal',
+        },
+        {
+            path: '../../public/fonts/Geist-Bold.otf',
+            weight: '700',
+            style: 'normal',
+        }
+    ],
+    variable: '--font-custom',
 });
 
 // Define hero font for specific elements
-const heroFonts = localFont({ 
-  src: [
-    {
-      path: '../../public/fonts/BebasNeue-Regular.ttf',
-      weight: '400',
-      style: 'normal',
-    },
-  ],
-  variable: '--font-hero',
+const heroFonts = localFont({
+    src: [
+        {
+            path: '../../public/fonts/BebasNeue-Regular.ttf',
+            weight: '400',
+            style: 'normal',
+        },
+    ],
+    variable: '--font-hero',
 });
+
+// Viewport configuration - separate from metadata as required in Next.js 14+
+export const viewport = {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 5,
+};
 
 export const metadata = {
     title: {
@@ -59,7 +66,7 @@ export const metadata = {
         type: "website",
         images: [
             {
-                url: "/images/og-image.jpg", // Make sure this image exists or update the path
+                url: "/images/og-image.jpg",
                 width: 1200,
                 height: 630,
                 alt: "PUFA Computer Science",
@@ -70,12 +77,7 @@ export const metadata = {
         card: "summary_large_image",
         title: "PUFA Computer Science - President University",
         description: "Official Computer Science organization at President University",
-        images: ["/images/og-image.jpg"], // Make sure this image exists or update the path
-    },
-    viewport: {
-        width: "device-width",
-        initialScale: 1,
-        maximumScale: 5,
+        images: ["/images/og-image.jpg"],
     },
     robots: {
         index: true,

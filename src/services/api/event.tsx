@@ -23,7 +23,7 @@ export const fetchEvents = async (): Promise<Event[]> => {
 
         // Extract event data from the response with proper validation
         const eventData = response.data?.data || [];
-        
+
         // Validate and process each event
         const processedEvents = eventData.map((event: Event) => {
             try {
@@ -46,13 +46,20 @@ export const fetchEvents = async (): Promise<Event[]> => {
                 };
             }
         });
-        
+
         // Return the array of processed Event objects
         return processedEvents as Event[];
-    } catch (error) {
-        // Log an error message and rethrow the error
-        console.error("Error fetching events", error);
-        throw error;
+    } catch (error: any) {
+        // Log detailed error information
+        if (error.response?.status === 404) {
+            console.error("Events endpoint not found (404). Backend may not have this endpoint yet.");
+        } else if (error.code === 'ECONNABORTED') {
+            console.error("Events API request timed out");
+        } else {
+            console.error("Error fetching events", error);
+        }
+        // Return empty array instead of throwing to prevent page crash
+        return [];
     }
 };
 
@@ -175,7 +182,7 @@ export const updateEvent = async (
 ): Promise<Event> => {
     try {
         console.log('updateEvent called with:', { eventId, eventData, hasFile: !!file });
-        
+
         const formData = new FormData();
 
         // Format dates properly
@@ -187,7 +194,7 @@ export const updateEvent = async (
 
         // Convert eventData to JSON string and append it with content type application/json
         formData.append("data", JSON.stringify(formattedEventData));
-        
+
         // Only append file if it exists
         if (file) {
             formData.append("file", file, file.name);
@@ -202,7 +209,7 @@ export const updateEvent = async (
 
         // The backend expects a PATCH request to /:eventID/edit
         console.log('Making PATCH request to:', `${API_EVENT}/${eventId}/edit`);
-        
+
         // Make a PATCH request to the API endpoint
         const response = await apiClient.patch(
             `${API_EVENT}/${eventId}/edit`,
@@ -216,7 +223,7 @@ export const updateEvent = async (
         );
 
         console.log('Update response:', response.data);
-        
+
         // Extract the updated event data from the response
         const updatedEventData = response.data?.data;
 
