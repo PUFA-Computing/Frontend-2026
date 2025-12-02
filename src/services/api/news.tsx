@@ -4,13 +4,46 @@ import { API_NEWS } from "@/config/config";
 
 const newsCache: { [key: string]: News } = {};
 
+// Cache error states to prevent spam
+let fetchNewsErrorLogged = false;
+let lastNewsError = 0;
+const ERROR_THROTTLE_MS = 60000; // Only log errors once per minute
+
+// Validate URL before making requests
+function isValidUrl(url: string): boolean {
+    try {
+        new URL(url);
+        return true;
+    } catch {
+        return false;
+    }
+}
+
 export const fetchNews = async (): Promise<News[]> => {
     try {
         // Make sure we're using the correct URL format with trailing slash
         const url = API_NEWS.endsWith('/') ? API_NEWS : `${API_NEWS}/`;
-        console.log(`Fetching news from: ${url}`);
-        
-        const response = await apiClient.get(url);
+
+        // Validate URL
+        if (!isValidUrl(url)) {
+            const now = Date.now();
+            if (!fetchNewsErrorLogged || now - lastNewsError > ERROR_THROTTLE_MS) {
+                console.error("Invalid API_NEWS URL:", url);
+                fetchNewsErrorLogged = true;
+                lastNewsError = now;
+            }
+            return [];
+        }
+
+        // Only log in development
+        if (process.env.NODE_ENV === 'development') {
+            console.log(`Fetching news from: ${url}`);
+        }
+
+        const response = await apiClient.get(url, {
+            timeout: 10000, // Reduce timeout to 10 seconds
+        });
+
         const newsDataArray = response.data?.data || [];
 
         // Process each news item in the array
@@ -34,13 +67,32 @@ export const fetchNews = async (): Promise<News[]> => {
             return newsItem;
         });
 
+        // Reset error flag on success
+        fetchNewsErrorLogged = false;
         return processedNews as News[];
-    } catch (error) {
-        console.error("Error fetching news", error);
+    } catch (error: any) {
+        const now = Date.now();
+        // Only log errors once per minute to prevent spam
+        if (!fetchNewsErrorLogged || now - lastNewsError > ERROR_THROTTLE_MS) {
+            if (error.code === 'ECONNABORTED') {
+                console.error("News API timeout - Please check if the backend is running");
+            } else if (error.response) {
+                console.error(`News API HTTP ${error.response.status}:`, error.response.statusText);
+            } else if (error.request) {
+                console.error("News API - No response received from server");
+            } else {
+                console.error("News API error:", error.message || error);
+            }
+            fetchNewsErrorLogged = true;
+            lastNewsError = now;
+        }
         // Return empty array instead of throwing to prevent page from crashing
         return [];
     }
 };
+
+let fetchNewsBySlugErrorLogged = false;
+let lastSlugError = 0;
 
 export const fetchNewsBySlug = async (newsSlug: string): Promise<News | null> => {
     try {
@@ -51,16 +103,33 @@ export const fetchNewsBySlug = async (newsSlug: string): Promise<News | null> =>
         // Make sure we're using the correct URL format
         const baseUrl = API_NEWS.endsWith('/') ? API_NEWS : `${API_NEWS}/`;
         const url = `${baseUrl}${newsSlug}`;
-        console.log(`Fetching news by slug from: ${url}`);
-        
-        const response = await apiClient.get(url);
+
+        // Validate URL
+        if (!isValidUrl(url)) {
+            const now = Date.now();
+            if (!fetchNewsBySlugErrorLogged || now - lastSlugError > ERROR_THROTTLE_MS) {
+                console.error("Invalid news by slug URL:", url);
+                fetchNewsBySlugErrorLogged = true;
+                lastSlugError = now;
+            }
+            return null;
+        }
+
+        // Only log in development
+        if (process.env.NODE_ENV === 'development') {
+            console.log(`Fetching news by slug from: ${url}`);
+        }
+
+        const response = await apiClient.get(url, {
+            timeout: 10000, // Reduce timeout to 10 seconds
+        });
 
         const newsData = response.data?.data;
         if (!newsData) {
             console.error('No data returned from API');
             return null;
         }
-        
+
         // Only process date fields if they exist
         if (newsData.publish_date) {
             newsData.publish_date = new Date(newsData.publish_date);
@@ -74,9 +143,25 @@ export const fetchNewsBySlug = async (newsSlug: string): Promise<News | null> =>
 
         newsCache[newsSlug] = newsData;
 
+        // Reset error flag on success
+        fetchNewsBySlugErrorLogged = false;
         return newsData as News;
-    } catch (error) {
-        console.error("Error fetching news by slug", error);
+    } catch (error: any) {
+        const now = Date.now();
+        // Only log errors once per minute to prevent spam
+        if (!fetchNewsBySlugErrorLogged || now - lastSlugError > ERROR_THROTTLE_MS) {
+            if (error.code === 'ECONNABORTED') {
+                console.error(`News by slug timeout for "${newsSlug}"`);
+            } else if (error.response) {
+                console.error(`News by slug HTTP ${error.response.status} for "${newsSlug}"`);
+            } else if (error.request) {
+                console.error(`News by slug - No response for "${newsSlug}"`);
+            } else {
+                console.error(`News by slug error for "${newsSlug}":`, error.message || error);
+            }
+            fetchNewsBySlugErrorLogged = true;
+            lastSlugError = now;
+        }
         return null;
     }
 };
