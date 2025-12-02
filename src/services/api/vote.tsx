@@ -154,7 +154,17 @@ import {
   VoteStatusResponse,
 } from "@/models/vote";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api/v1";
+// Ensure API_BASE_URL always has /api/v1 suffix
+const getVoteApiUrl = () => {
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api/v1";
+  // If baseUrl doesn't end with /api/v1, append it
+  if (!baseUrl.includes('/api/v1')) {
+    return `${baseUrl}/api/v1`;
+  }
+  return baseUrl;
+};
+
+const API_BASE_URL = getVoteApiUrl();
 
 /**
  * Cast a vote (authenticated, year 2025 only)
@@ -164,6 +174,7 @@ export async function castVote(
   token: string
 ): Promise<CastVoteResponse> {
   try {
+    console.log("🗳️  Casting vote for candidate:", candidateId);
     const payload: CastVoteRequest = {
       candidate_id: candidateId,
     };
@@ -179,9 +190,10 @@ export async function castVote(
       }
     );
     
+    console.log("✅ Vote cast successfully");
     return response.data;
   } catch (error: any) {
-    console.error("Error casting vote:", error);
+    console.error("❌ Error casting vote:", error.message);
     
     // Extract error message from backend
     const errorMessage =
