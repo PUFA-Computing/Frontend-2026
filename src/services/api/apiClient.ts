@@ -13,15 +13,15 @@ const apiClient = axios.create({
 // Determine if we're running on the server (in the container) or client (in browser)
 const isServer = typeof window === 'undefined';
 
-// Intercept requests to use internal URL when in container
+// Intercept requests to use the external URL consistently
 apiClient.interceptors.request.use(
   async (config) => {
     try {
-      // If we're in a server environment (inside the container)
-      if (isServer && config.url) {
-        // Replace the domain with direct container access
-        config.url = config.url.replace('https://compsci.president.ac.id/api/v1', 'http://localhost:8080/api/v1');
-        console.log(`Using internal API URL: ${config.url}`);
+      // Always use the external URL - the backend is accessible via the domain
+      // from both inside and outside the container
+      if (config.url && config.url.includes('localhost:8080')) {
+        // If somehow localhost:8080 is used, replace it with the external URL
+        config.url = config.url.replace('http://localhost:8080/api/v1', 'https://compsci.president.ac.id/api/v1');
       }
       return config;
     } catch (error) {
@@ -39,10 +39,10 @@ apiClient.interceptors.request.use(
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
-    // Handle network errors or timeouts
+    // Handle network errors or timeouts gracefully
     if (error.code === 'ECONNABORTED' || !error.response) {
       console.error('Network error or timeout:', error.message);
-    } else {
+    } else if (error.response) {
       console.error('API error response:', error.response?.status, error.response?.data);
     }
     return Promise.reject(error);

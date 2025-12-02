@@ -50,9 +50,10 @@ export const fetchEvents = async (): Promise<Event[]> => {
         // Return the array of processed Event objects
         return processedEvents as Event[];
     } catch (error) {
-        // Log an error message and rethrow the error
+        // Log an error message but return empty array instead of throwing
         console.error("Error fetching events", error);
-        throw error;
+        // Return empty array to prevent page from crashing
+        return [];
     }
 };
 

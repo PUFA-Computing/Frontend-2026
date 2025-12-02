@@ -10,7 +10,9 @@ export const fetchNews = async (): Promise<News[]> => {
         const url = API_NEWS.endsWith('/') ? API_NEWS : `${API_NEWS}/`;
         console.log(`Fetching news from: ${url}`);
         
-        const response = await apiClient.get(url);
+        const response = await apiClient.get(url, {
+            timeout: 10000
+        });
         const newsDataArray = response.data?.data || [];
 
         // Process each news item in the array
