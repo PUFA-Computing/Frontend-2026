@@ -3,6 +3,7 @@ import apiClient from "./apiClient";
 import { API_USER, BASE_URL } from "@/config/config";
 import Event from "@/models/event";
 import User from "@/models/user";
+import { cacheManager, CACHE_TTL } from "@/lib/cacheManager";
 
 /**
  * Fetches the user profile data from the API.
@@ -14,13 +15,28 @@ import User from "@/models/user";
  * const user = await GetUserProfile('userId', 'token');
  */
 export async function GetUserProfile(userId: string, token: string) {
+    const cacheKey = `user:profile:${userId}`;
+
+    // Try to get from cache first
+    const cached = cacheManager.get<User>(cacheKey);
+    if (cached) {
+        console.log(`[User] Returning cached profile for: ${userId}`);
+        return cached;
+    }
+
     try {
         const response = await apiClient.get(`${API_USER}/${userId}`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
         });
-        return response.data?.data;
+
+        const userData = response.data?.data;
+
+        // Cache the user profile
+        cacheManager.set(cacheKey, userData, CACHE_TTL.USER);
+
+        return userData;
     } catch (error) {
         if (error instanceof AxiosError) {
             console.log(error.response);
@@ -70,7 +86,7 @@ export async function UpdateUserProfile(
             year,
             date_of_birth: date_of_birth ? new Date(date_of_birth).toISOString() : null,
         });
-        
+
         const response = await apiClient.put(
             `${API_USER}/edit`,
             {
@@ -176,6 +192,15 @@ export async function Logout() {
  * const users = await GetUser('accessToken');
  */
 export async function GetUser(accessToken: string): Promise<User[]> {
+    const cacheKey = 'users:all';
+
+    // Try to get from cache first
+    const cached = cacheManager.get<User[]>(cacheKey);
+    if (cached) {
+        console.log('[User] Returning cached users list');
+        return cached;
+    }
+
     try {
         // Use the admin endpoint to get all users
         // The endpoint is /api/v1/admin/users based on the backend routes
@@ -188,18 +213,25 @@ export async function GetUser(accessToken: string): Promise<User[]> {
 
         const data = response.data.data;
         console.log('Admin users response:', data);
-        
+
+        let users: User[] = [];
+
         // Ensure we always return an array
         if (Array.isArray(data)) {
-            return data;
+            users = data;
         } else if (data && typeof data === 'object') {
             // If it's a single user object, wrap it in an array
-            return [data];
+            users = [data];
         } else {
             // If it's neither an array nor an object, return an empty array
             console.error('Unexpected user data format:', data);
-            return [];
+            users = [];
         }
+
+        // Cache the users list
+        cacheManager.set(cacheKey, users, CACHE_TTL.USER);
+
+        return users;
     } catch (error) {
         console.error('Error fetching all users from admin endpoint:', error);
         // If there's an error, let's try a fallback approach
@@ -210,7 +242,7 @@ export async function GetUser(accessToken: string): Promise<User[]> {
                     Authorization: `Bearer ${accessToken}`,
                 },
             });
-            
+
             const userData = response.data.data;
             if (userData) {
                 console.log('Fallback: Using current user data');
@@ -225,69 +257,17 @@ export async function GetUser(accessToken: string): Promise<User[]> {
 }
 
 /**
- * Fetches all registered users from the API by making multiple requests.
- * This is a workaround until the backend implements a proper endpoint for fetching all users.
+ * Fetches all registered users from the API.
+ * DEPRECATED: Use GetUser() instead which uses the admin endpoint.
+ * This function is kept for backward compatibility but should not be used.
  * @param {string} accessToken - The access token to authenticate the request.
  * @returns {Promise<User[]>} A promise that resolves to an array of User objects.
- * @throws {Error} If an error occurs during the API request.
- * @example
- * const allUsers = await GetAllUsers('accessToken');
+ * @deprecated Use GetUser() instead
  */
 export async function GetAllUsers(accessToken: string): Promise<User[]> {
-    try {
-        // First, get the current user to have at least one user in the list
-        const currentUserResponse = await apiClient.get(`${API_USER}/me`, {
-            headers: {
-                Authorization: `Bearer ${accessToken}`,
-            },
-        });
-        
-        const currentUser = currentUserResponse.data.data;
-        const users: User[] = [];
-        
-        if (currentUser) {
-            users.push(currentUser);
-        }
-        
-        // Try to fetch users with sequential IDs
-        // This is a temporary solution until the backend provides a proper endpoint
-        const maxUsersToFetch = 50; // Limit to avoid too many requests
-        const startId = 1;
-        
-        const fetchPromises = [];
-        for (let i = startId; i < startId + maxUsersToFetch; i++) {
-            fetchPromises.push(
-                apiClient.get(`${API_USER}/${i}`, {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                }).then(response => {
-                    if (response.data && response.data.data) {
-                        return response.data.data;
-                    }
-                    return null;
-                }).catch(() => null) // Silently fail for non-existent users
-            );
-        }
-        
-        const results = await Promise.all(fetchPromises);
-        
-        // Add all valid users to the array, avoiding duplicates
-        results.forEach(user => {
-            if (user && user.id) {
-                // Check if this user is already in the array
-                const isDuplicate = users.some(existingUser => existingUser.id === user.id);
-                if (!isDuplicate) {
-                    users.push(user);
-                }
-            }
-        });
-        
-        return users;
-    } catch (error) {
-        console.error('Error fetching all users:', error);
-        throw error;
-    }
+    console.warn('GetAllUsers is deprecated. Use GetUser() instead.');
+    // Just delegate to GetUser which uses the proper admin endpoint
+    return GetUser(accessToken);
 }
 
 /**
@@ -299,6 +279,15 @@ export async function GetAllUsers(accessToken: string): Promise<User[]> {
  * const events = await fetchUserEvents('accessToken');
  */
 export async function fetchUserEvents(accessToken: string): Promise<Event[]> {
+    const cacheKey = 'user:events';
+
+    // Try to get from cache first
+    const cached = cacheManager.get<Event[]>(cacheKey);
+    if (cached) {
+        console.log('[User] Returning cached user events');
+        return cached;
+    }
+
     try {
         const response = await apiClient.get(`${API_USER}/registered-events`, {
             headers: {
@@ -307,7 +296,12 @@ export async function fetchUserEvents(accessToken: string): Promise<Event[]> {
         });
 
         if (Array.isArray(response.data?.data)) {
-            return response.data.data;
+            const events = response.data.data;
+
+            // Cache the user events (shorter TTL since it changes when user registers)
+            cacheManager.set(cacheKey, events, CACHE_TTL.USER);
+
+            return events;
         } else {
             console.error("Unexpected response structure:", response.data);
             return [];

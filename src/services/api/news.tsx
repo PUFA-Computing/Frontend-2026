@@ -1,18 +1,24 @@
 import apiClient from "./apiClient";
 import News from "../../models/news";
 import { API_NEWS } from "@/config/config";
-
-const newsCache: { [key: string]: News } = {};
+import { cacheManager, CACHE_TTL } from "@/lib/cacheManager";
 
 export const fetchNews = async (): Promise<News[]> => {
+    const cacheKey = 'news:all';
+
+    // Try to get from cache first
+    const cached = cacheManager.get<News[]>(cacheKey);
+    if (cached) {
+        console.log('[News] Returning cached news');
+        return cached;
+    }
+
     try {
         // Make sure we're using the correct URL format with trailing slash
         const url = API_NEWS.endsWith('/') ? API_NEWS : `${API_NEWS}/`;
         console.log(`Fetching news from: ${url}`);
-        
-        const response = await apiClient.get(url, {
-            timeout: 10000
-        });
+
+        const response = await apiClient.get(url);
         const newsDataArray = response.data?.data || [];
 
         // Process each news item in the array
@@ -28,13 +34,11 @@ export const fetchNews = async (): Promise<News[]> => {
                 newsItem.updated_at = new Date(newsItem.updated_at);
             }
 
-            // Cache the news item if it has a slug
-            if (newsItem.slug) {
-                newsCache[newsItem.slug] = newsItem;
-            }
-
             return newsItem;
         });
+
+        // Cache the processed news
+        cacheManager.set(cacheKey, processedNews, CACHE_TTL.NEWS);
 
         return processedNews as News[];
     } catch (error) {
@@ -45,16 +49,21 @@ export const fetchNews = async (): Promise<News[]> => {
 };
 
 export const fetchNewsBySlug = async (newsSlug: string): Promise<News | null> => {
-    try {
-        if (newsCache[newsSlug]) {
-            return newsCache[newsSlug];
-        }
+    const cacheKey = `news:slug:${newsSlug}`;
 
+    // Try to get from cache first
+    const cached = cacheManager.get<News>(cacheKey);
+    if (cached) {
+        console.log(`[News] Returning cached news: ${newsSlug}`);
+        return cached;
+    }
+
+    try {
         // Make sure we're using the correct URL format
         const baseUrl = API_NEWS.endsWith('/') ? API_NEWS : `${API_NEWS}/`;
         const url = `${baseUrl}${newsSlug}`;
         console.log(`Fetching news by slug from: ${url}`);
-        
+
         const response = await apiClient.get(url);
 
         const newsData = response.data?.data;
@@ -62,7 +71,7 @@ export const fetchNewsBySlug = async (newsSlug: string): Promise<News | null> =>
             console.error('No data returned from API');
             return null;
         }
-        
+
         // Only process date fields if they exist
         if (newsData.publish_date) {
             newsData.publish_date = new Date(newsData.publish_date);
@@ -74,7 +83,8 @@ export const fetchNewsBySlug = async (newsSlug: string): Promise<News | null> =>
             newsData.updated_at = new Date(newsData.updated_at);
         }
 
-        newsCache[newsSlug] = newsData;
+        // Cache the news data
+        cacheManager.set(cacheKey, newsData, CACHE_TTL.NEWS);
 
         return newsData as News;
     } catch (error) {
@@ -122,6 +132,9 @@ export const createNews = async (
 
         const newsData = response.data?.data;
 
+        // Invalidate news cache since we created new news
+        cacheManager.invalidate('news:*');
+
         return newsData as News;
     } catch (error) {
         console.error("Error creating news", error);
@@ -163,6 +176,10 @@ export const editNews = async (
 
         console.log("Edit news response:", response.data);
         const newsData = response.data?.data;
+
+        // Invalidate news cache since we edited news
+        cacheManager.invalidate('news:*');
+
         return newsData as News;
     } catch (error: any) {
         console.error("Error editing news:", error);
@@ -184,6 +201,9 @@ export const deleteNews = async (
                 Authorization: `Bearer ${accessToken}`,
             },
         });
+
+        // Invalidate news cache since we deleted news
+        cacheManager.invalidate('news:*');
     } catch (error) {
         console.error("Error deleting news", error);
         throw error;

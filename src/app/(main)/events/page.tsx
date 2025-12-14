@@ -9,8 +9,8 @@ import EventsFilter from "@/components/event/EventsFilter"
 export const metadata: Metadata = {
   title: "Events | Computer Science",
 }
-export const revalidate = 0
-export const dynamic = "force-dynamic"
+export const revalidate = 300; // 5 minutes
+// Removed dynamic = "force-dynamic" to enable ISR caching
 
 export default async function EventsPage() {
   let events;
@@ -32,7 +32,7 @@ export default async function EventsPage() {
       </div>
     );
   }
-  
+
   if (!events || events.length === 0) return (
     <div className="flex min-h-[50vh] items-center justify-center">
       <div className="rounded-lg bg-white p-8 text-center shadow-lg">
@@ -50,7 +50,7 @@ export default async function EventsPage() {
   const today: Date = new Date()
 
   // Sort all events by start date (newest first for better UX)
-  const sortedEvents = [...events].sort((a, b) => 
+  const sortedEvents = [...events].sort((a, b) =>
     b.start_date.getTime() - a.start_date.getTime()
   )
 
@@ -60,7 +60,7 @@ export default async function EventsPage() {
     .slice(0, 3)
 
   // Get all events for timeline, sorted chronologically (newest first)
-  const allEvents = [...events].sort((a, b) => 
+  const allEvents = [...events].sort((a, b) =>
     b.start_date.getTime() - a.start_date.getTime()
   )
 
@@ -79,7 +79,7 @@ export default async function EventsPage() {
         <div className="absolute -left-20 -top-20 h-40 w-40 rounded-full bg-blue-500 opacity-10"></div>
         <div className="absolute -right-20 bottom-10 h-60 w-60 rounded-full bg-purple-500 opacity-10"></div>
         <div className="absolute left-1/2 top-1/2 h-80 w-80 -translate-x-1/2 -translate-y-1/2 transform rounded-full bg-indigo-500 opacity-5"></div>
-        
+
         <div className="relative mx-auto max-w-7xl">
           <div className="relative z-10 max-w-3xl">
             <div className="mb-6 inline-block rounded-full bg-indigo-500/20 px-4 py-1 backdrop-blur-sm">
@@ -89,7 +89,7 @@ export default async function EventsPage() {
               Discover Our <span className="text-amber-400">Events</span>
             </h1>
             <p className="mb-8 text-xl text-indigo-100">Join us for exciting workshops, competitions, and gatherings throughout the academic year.</p>
-            
+
             <div className="flex flex-wrap gap-4">
               <Link href="#upcoming" className="rounded-full bg-amber-500 px-6 py-3 font-medium text-white transition-all hover:bg-amber-600 hover:shadow-lg">
                 Explore Events
@@ -183,7 +183,7 @@ export default async function EventsPage() {
             </div>
           </div>
         </div>
-        
+
         {/* Filter Controls */}
         <div className="mb-6 px-3 sm:mb-8 sm:px-4">
           <EventsFilter events={allEvents} />
@@ -199,21 +199,21 @@ export default async function EventsPage() {
                   const isUpcoming = event.start_date > now;
                   const isOngoing = event.start_date <= now && event.end_date >= now;
                   const isEnded = event.end_date < now;
-                  
+
                   // Set status color based on event status
-                  const statusColor = isUpcoming 
-                    ? "bg-blue-100 text-blue-800" 
-                    : isOngoing 
-                      ? "bg-green-100 text-green-800" 
+                  const statusColor = isUpcoming
+                    ? "bg-blue-100 text-blue-800"
+                    : isOngoing
+                      ? "bg-green-100 text-green-800"
                       : "bg-amber-100 text-amber-800";
-                  
+
                   // Set card border color based on event status
-                  const borderColor = isUpcoming 
-                    ? "border-blue-200 hover:border-blue-300" 
-                    : isOngoing 
-                      ? "border-green-200 hover:border-green-300" 
+                  const borderColor = isUpcoming
+                    ? "border-blue-200 hover:border-blue-300"
+                    : isOngoing
+                      ? "border-green-200 hover:border-green-300"
                       : "border-amber-200 hover:border-amber-300";
-                  
+
                   return (
                     <Link key={event.id} href={`/events/${event.slug}`} className="block h-full" data-event-id={event.id}>
                       <div className={`group flex h-full flex-col rounded-xl border ${borderColor} bg-white p-3 shadow-sm transition-all hover:shadow-md sm:p-4 md:p-6`}>
@@ -223,7 +223,7 @@ export default async function EventsPage() {
                             {isUpcoming ? "Upcoming" : isOngoing ? "Ongoing" : "Ended"}
                           </span>
                         </div>
-                        
+
                         <div className="mb-2 space-y-1 sm:mb-4 sm:space-y-2">
                           <div className="flex items-center text-[10px] text-gray-600 sm:text-xs md:text-sm">
                             <Calendar className="mr-1 h-3 w-3 text-indigo-500 sm:mr-2 sm:h-4 sm:w-4" />
@@ -235,20 +235,20 @@ export default async function EventsPage() {
                               })}`}
                             </span>
                           </div>
-                          
+
                           <div className="hidden items-center text-[10px] text-gray-600 sm:flex sm:text-xs md:text-sm">
                             <MapPin className="mr-1 h-3 w-3 text-indigo-500 sm:mr-2 sm:h-4 sm:w-4" />
                             <span className="truncate">{event.location || "Faculty of Computing"}</span>
                           </div>
-                        
+
                           <div className="flex items-center text-[10px] text-gray-600 sm:text-xs md:text-sm">
                             <Users className="mr-1 h-3 w-3 text-indigo-500 sm:mr-2 sm:h-4 sm:w-4" />
                             <span className="truncate">{event.organization}</span>
                           </div>
                         </div>
-                        
+
                         <p className="mt-1 hidden flex-grow text-xs text-gray-600 sm:mt-2 sm:block sm:text-sm">{truncateDescription(event.description, 60)}</p>
-                        
+
                         <div className="mt-2 flex justify-end sm:mt-4">
                           <span className="flex items-center text-[10px] font-medium text-indigo-600 group-hover:text-indigo-700 sm:text-xs md:text-sm">
                             Details <ChevronRight className="ml-0.5 h-3 w-3 sm:ml-1 sm:h-4 sm:w-4" />
@@ -259,7 +259,7 @@ export default async function EventsPage() {
                   );
                 })}
               </div>
-              
+
               {/* Load more button instead of pagination */}
               {allEvents.length > 10 && (
                 <div className="mt-8 flex justify-center">

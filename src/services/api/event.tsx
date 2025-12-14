@@ -2,11 +2,7 @@ import apiClient from "./apiClient";
 import Event from "../../models/event";
 import { API_EVENT } from "@/config/config";
 import FormData from "form-data";
-
-/**
- * An object that caches event data by slug.
- */
-const eventCache: { [key: string]: Event } = {};
+import { cacheManager, CACHE_TTL } from "@/lib/cacheManager";
 
 /**
  * Fetches a list of events from the specified API endpoint.
@@ -15,15 +11,22 @@ const eventCache: { [key: string]: Event } = {};
  * @throws {Error} If an error occurs during the API request.
  */
 export const fetchEvents = async (): Promise<Event[]> => {
+    const cacheKey = 'events:all';
+
+    // Try to get from cache first
+    const cached = cacheManager.get<Event[]>(cacheKey);
+    if (cached) {
+        console.log('[Events] Returning cached events');
+        return cached;
+    }
+
     try {
-        // Make a GET request to the API endpoint with a timeout
-        const response = await apiClient.get(API_EVENT, {
-            timeout: 8000 // 8 second timeout specifically for events
-        });
+        // Make a GET request to the API endpoint
+        const response = await apiClient.get(API_EVENT);
 
         // Extract event data from the response with proper validation
         const eventData = response.data?.data || [];
-        
+
         // Validate and process each event
         const processedEvents = eventData.map((event: Event) => {
             try {
@@ -46,7 +49,10 @@ export const fetchEvents = async (): Promise<Event[]> => {
                 };
             }
         });
-        
+
+        // Cache the processed events
+        cacheManager.set(cacheKey, processedEvents, CACHE_TTL.EVENTS);
+
         // Return the array of processed Event objects
         return processedEvents as Event[];
     } catch (error) {
@@ -65,12 +71,16 @@ export const fetchEvents = async (): Promise<Event[]> => {
  * @param eventSlug
  */
 export const fetchEventBySlug = async (eventSlug: string): Promise<Event> => {
-    try {
-        // Check if the event is already cached
-        if (eventCache[eventSlug]) {
-            return eventCache[eventSlug];
-        }
+    const cacheKey = `events:slug:${eventSlug}`;
 
+    // Try to get from cache first
+    const cached = cacheManager.get<Event>(cacheKey);
+    if (cached) {
+        console.log(`[Events] Returning cached event: ${eventSlug}`);
+        return cached;
+    }
+
+    try {
         // Make a GET request to the API endpoint
         const response = await apiClient.get(`${API_EVENT}/${eventSlug}`);
 
@@ -82,7 +92,7 @@ export const fetchEventBySlug = async (eventSlug: string): Promise<Event> => {
         eventData.updated_at = new Date(eventData.updated_at);
 
         // Cache the event data
-        eventCache[eventSlug] = eventData;
+        cacheManager.set(cacheKey, eventData, CACHE_TTL.EVENTS);
 
         // Return the Event object
         return eventData as Event;
@@ -149,6 +159,9 @@ export const createEvent = async (
         // Extract the newly created event data from the response.
         const newEventData = response.data?.data;
 
+        // Invalidate events cache since we created a new event
+        cacheManager.invalidate('events:*');
+
         // Return the newly created Event object.
         return newEventData as Event;
     } catch (error) {
@@ -176,7 +189,7 @@ export const updateEvent = async (
 ): Promise<Event> => {
     try {
         console.log('updateEvent called with:', { eventId, eventData, hasFile: !!file });
-        
+
         const formData = new FormData();
 
         // Format dates properly
@@ -188,7 +201,7 @@ export const updateEvent = async (
 
         // Convert eventData to JSON string and append it with content type application/json
         formData.append("data", JSON.stringify(formattedEventData));
-        
+
         // Only append file if it exists
         if (file) {
             formData.append("file", file, file.name);
@@ -203,7 +216,7 @@ export const updateEvent = async (
 
         // The backend expects a PATCH request to /:eventID/edit
         console.log('Making PATCH request to:', `${API_EVENT}/${eventId}/edit`);
-        
+
         // Make a PATCH request to the API endpoint
         const response = await apiClient.patch(
             `${API_EVENT}/${eventId}/edit`,
@@ -217,9 +230,12 @@ export const updateEvent = async (
         );
 
         console.log('Update response:', response.data);
-        
+
         // Extract the updated event data from the response
         const updatedEventData = response.data?.data;
+
+        // Invalidate events cache since we updated an event
+        cacheManager.invalidate('events:*');
 
         // Return the updated Event object
         return updatedEventData as Event;
@@ -251,6 +267,9 @@ export const deleteEvent = async (
                 Authorization: `Bearer ${accessToken}`,
             },
         });
+
+        // Invalidate events cache since we deleted an event
+        cacheManager.invalidate('events:*');
     } catch (error) {
         // Log an error message and rethrow the error.
         console.error(`Error deleting event with ID ${eventId}`, error);

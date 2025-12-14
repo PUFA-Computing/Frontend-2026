@@ -25,10 +25,10 @@ interface Project {
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Get base URL for the site
   const baseUrl = 'https://compsci.president.ac.id'
-  
+
   // Current date for lastModified
   const now = new Date()
-  
+
   // Basic static routes
   const routes = [
     {
@@ -70,10 +70,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ] as MetadataRoute.Sitemap
 
   try {
-    // Get events and news (projects API not available yet)
+    // Get events and news (will use cache if available, reducing API calls)
+    console.log('[Sitemap] Fetching events and news for sitemap generation');
     const [events, news] = await Promise.all([
-      fetchEvents(),
-      fetchNews(),
+      fetchEvents().catch(err => {
+        console.error('[Sitemap] Error fetching events:', err);
+        return [];
+      }),
+      fetchNews().catch(err => {
+        console.error('[Sitemap] Error fetching news:', err);
+        return [];
+      }),
     ])
 
     // Add event pages to sitemap
@@ -91,14 +98,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'weekly' as const,
       priority: 0.8,
     })) || []
-    
+
     // Project API not implemented yet, will add when available
     const projectUrls: MetadataRoute.Sitemap = []
+
+    console.log(`[Sitemap] Generated sitemap with ${routes.length + eventUrls.length + newsUrls.length} URLs`);
 
     // Combine all URLs
     return [...routes, ...eventUrls, ...newsUrls, ...projectUrls]
   } catch (error) {
-    console.error('Error generating sitemap:', error)
+    console.error('[Sitemap] Error generating sitemap:', error)
     // Return just static routes if there's an error
     return routes
   }
