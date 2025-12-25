@@ -1,13 +1,14 @@
 "use client";
 import {
-	CalendarIcon,
-	BuildingStorefrontIcon,
-	DocumentDuplicateIcon,
-	HomeIcon,
-	UsersIcon,
-	NewspaperIcon,
+    CalendarIcon,
+    BuildingStorefrontIcon,
+    DocumentDuplicateIcon,
+    HomeIcon,
+    UsersIcon,
+    NewspaperIcon,
     EnvelopeIcon,
-    TrophyIcon
+    TrophyIcon,
+    FolderIcon
 } from "@heroicons/react/24/outline";
 import React from "react";
 import { Cog6ToothIcon } from "@heroicons/react/24/outline";
@@ -46,6 +47,11 @@ const Sidebar = ({ teams }: SidebarProps) => {
             name: "News",
             href: "/admin/news",
             icon: NewspaperIcon,
+        },
+        {
+            name: "Projects",
+            href: "/admin/projects",
+            icon: FolderIcon,
         },
         {
             name: "Users",

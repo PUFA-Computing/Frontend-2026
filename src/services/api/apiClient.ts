@@ -1,6 +1,7 @@
 // src/services/api/apiClient.ts
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { requestDeduplicator } from '@/lib/requestDeduplicator';
+import { BASE_URL } from '@/config/config';
 
 // Configuration from environment variables or defaults
 const API_CONFIG = {
@@ -54,11 +55,14 @@ const requestQueue = new RequestQueue();
 
 // Create an API client with enhanced error handling and timeout settings
 const apiClient = axios.create({
-  timeout: API_CONFIG.timeout,
+  baseURL: BASE_URL,
+  timeout: 30000,
   headers: {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json'
-  }
+    'Accept': 'application/json',
+    // Don't set Content-Type here - let axios auto-detect based on data type
+    // For FormData, axios will automatically set: multipart/form-data; boundary=...
+    // For JSON, axios will set: application/json
+  },
 });
 
 // Determine if we're running on the server (in the container) or client (in browser)
@@ -105,12 +109,13 @@ async function retryRequest<T>(
 apiClient.interceptors.request.use(
   async (config) => {
     try {
-      // Always use the external URL - the backend is accessible via the domain
-      // from both inside and outside the container
-      if (config.url && config.url.includes('localhost:8080')) {
-        // If somehow localhost:8080 is used, replace it with the external URL
-        config.url = config.url.replace('http://localhost:8080/api/v1', 'https://compsci.president.ac.id/api/v1');
-      }
+      // NOTE: URL replacement disabled for development
+      // This was redirecting all localhost requests to production server
+      // Uncomment for production deployment if needed
+
+      // if (config.url && config.url.includes('localhost:8080')) {
+      //   config.url = config.url.replace('http://localhost:8080/api/v1', 'https://compsci.president.ac.id/api/v1');
+      // }
 
       // Add request metadata for deduplication
       const deduplicationKey = requestDeduplicator.generateKey(

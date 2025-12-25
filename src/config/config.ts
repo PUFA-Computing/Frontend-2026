@@ -14,3 +14,4 @@ export const API_FORGOT_PASSWORD = BASE_URL + "/auth/forgot-password";
 export const API_UPDATE_PASSWORD = BASE_URL + "/user/change-password";
 export const API_CANDIDATES = BASE_URL + "/candidates";
 export const API_VOTES = BASE_URL + "/votes";
+export const API_PROJECTS = BASE_URL + "/projects";
