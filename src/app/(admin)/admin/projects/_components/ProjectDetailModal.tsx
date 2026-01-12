@@ -188,7 +188,7 @@ export default function ProjectDetailModal({
                                     <User className="w-5 h-5" />
                                     <div>
                                         <p className="text-sm text-gray-500">Submitted by</p>
-                                        <p className="font-medium">{project.user?.name || "Unknown"}</p>
+                                        <p className="font-medium">{project.user_name || "Unknown"}</p>
                                     </div>
                                 </div>
 
@@ -221,6 +221,52 @@ export default function ProjectDetailModal({
                                     </a>
                                 </div>
                             )}
+
+                            {/* Team Information */}
+                            <div className="pt-6 border-t space-y-4">
+                                <h4 className="text-lg font-semibold text-gray-900">Team Information</h4>
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div className="space-y-3">
+                                        <div>
+                                            <p className="text-sm text-gray-500">Major</p>
+                                            <p className="font-medium text-gray-900">
+                                                {project.major === 'information_system' ? 'Information System' :
+                                                    project.major === 'informatics' ? 'Informatics' : (project.major || '-')}
+                                            </p>
+                                        </div>
+                                        <div>
+                                            <p className="text-sm text-gray-500">Batch</p>
+                                            <p className="font-medium text-gray-900">{project.batch || '-'}</p>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <p className="text-sm text-gray-500 mb-2">Team Members</p>
+                                        <div className="space-y-2">
+                                            {project.project_members && project.project_members.length > 0 ? (
+                                                project.project_members.map((member, index) => (
+                                                    <div key={index} className="flex items-center justify-between bg-gray-50 p-2 rounded">
+                                                        <span className="text-sm font-medium">{member}</span>
+                                                        {project.linkedin_profiles && project.linkedin_profiles[index] && (
+                                                            <a
+                                                                href={project.linkedin_profiles[index]}
+                                                                target="_blank"
+                                                                rel="noopener noreferrer"
+                                                                className="text-blue-600 hover:text-blue-800 text-xs flex items-center gap-1"
+                                                            >
+                                                                LinkedIn <ExternalLink className="w-3 h-3" />
+                                                            </a>
+                                                        )}
+                                                    </div>
+                                                ))
+                                            ) : (
+                                                <p className="text-sm text-gray-400 italic">No team members listed</p>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 

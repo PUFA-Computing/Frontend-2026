@@ -6,6 +6,10 @@ export interface Project {
     category?: string | null;
     project_url?: string | null;
     image_url: string;
+    project_members?: string[];
+    linkedin_profiles?: string[];
+    major?: string;
+    batch?: number;
     is_published: boolean;
     vote_count: number;
     approved_by?: string | null;
@@ -25,6 +29,10 @@ export interface CreateProjectRequest {
     description: string;
     category?: string;
     project_url?: string;
+    project_members?: string[];
+    linkedin_profiles?: string[];
+    major?: string;
+    batch?: number;
 }
 
 export default Project;

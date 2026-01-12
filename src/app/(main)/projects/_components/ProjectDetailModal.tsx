@@ -140,15 +140,15 @@ export default function ProjectDetailModal({
                                         onClick={handleVoteToggle}
                                         disabled={isVoting}
                                         className={`group relative p-4 rounded-full transition-all duration-300 ${hasVoted
-                                                ? "bg-red-50 hover:bg-red-100"
-                                                : "bg-gray-50 hover:bg-gray-100"
+                                            ? "bg-red-50 hover:bg-red-100"
+                                            : "bg-gray-50 hover:bg-gray-100"
                                             } ${isVoting ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
                                         title={status === "authenticated" ? (hasVoted ? "Remove vote" : "Vote for this project") : "Login to vote"}
                                     >
                                         <Heart
                                             className={`w-8 h-8 transition-all duration-300 ${hasVoted
-                                                    ? "fill-red-500 text-red-500"
-                                                    : "text-gray-400 group-hover:text-red-400"
+                                                ? "fill-red-500 text-red-500"
+                                                : "text-gray-400 group-hover:text-red-400"
                                                 }`}
                                         />
                                         {isVoting && (
@@ -209,6 +209,58 @@ export default function ProjectDetailModal({
                                     </a>
                                 </div>
                             )}
+
+                            {/* Team Information */}
+                            <div className="pt-6 border-t space-y-6">
+                                <h4 className="text-xl font-bold text-gray-900 border-l-4 border-blue-600 pl-3">Team Information</h4>
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                    <div className="space-y-4">
+                                        <div className="bg-blue-50 p-4 rounded-lg">
+                                            <p className="text-sm text-blue-600 font-semibold uppercase tracking-wider mb-1">Major</p>
+                                            <p className="text-lg font-medium text-gray-900">
+                                                {project.major === 'information_system' ? 'Information System' :
+                                                    project.major === 'informatics' ? 'Informatics' : (project.major || '-')}
+                                            </p>
+                                        </div>
+                                        <div className="bg-indigo-50 p-4 rounded-lg">
+                                            <p className="text-sm text-indigo-600 font-semibold uppercase tracking-wider mb-1">Batch</p>
+                                            <p className="text-lg font-medium text-gray-900">{project.batch || '-'}</p>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <p className="text-sm text-gray-500 mb-3 font-semibold uppercase tracking-wider">Team Members</p>
+                                        <div className="space-y-3">
+                                            {project.project_members && project.project_members.length > 0 ? (
+                                                project.project_members.map((member, index) => (
+                                                    <div key={index} className="flex items-center justify-between bg-white border border-gray-200 p-3 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                                                        <div className="flex items-center gap-3">
+                                                            <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-500">
+                                                                <User className="w-4 h-4" />
+                                                            </div>
+                                                            <span className="font-medium text-gray-900">{member}</span>
+                                                        </div>
+                                                        {project.linkedin_profiles && project.linkedin_profiles[index] && (
+                                                            <a
+                                                                href={project.linkedin_profiles[index]}
+                                                                target="_blank"
+                                                                rel="noopener noreferrer"
+                                                                className="text-blue-600 hover:text-blue-800 p-1.5 hover:bg-blue-50 rounded-full transition-colors"
+                                                                title="View LinkedIn Profile"
+                                                            >
+                                                                <ExternalLink className="w-4 h-4" />
+                                                            </a>
+                                                        )}
+                                                    </div>
+                                                ))
+                                            ) : (
+                                                <p className="text-sm text-gray-400 italic">No team members listed</p>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 

@@ -18,7 +18,8 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { Upload, X, Loader2, Image as ImageIcon } from "lucide-react";
+import { Upload, X, Loader2 } from "lucide-react";
+import TeamMembers, { TeamMember } from "./TeamMembers";
 
 // Form validation schema
 const ProjectFormSchema = z.object({
@@ -32,6 +33,15 @@ const ProjectFormSchema = z.object({
     project_url: z.string().url({
         message: "Please enter a valid URL",
     }).optional().or(z.literal("")),
+    major: z.enum(["information_system", "informatics"], {
+        required_error: "Please select a major",
+    }),
+    batch: z.string().refine((val) => {
+        const year = parseInt(val);
+        return year >= 2021 && year <= 2025;
+    }, {
+        message: "Batch must be between 2021 and 2025",
+    }),
 });
 
 type ProjectFormData = z.infer<typeof ProjectFormSchema>;
@@ -55,12 +65,18 @@ export default function ProjectForm() {
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const [fileError, setFileError] = useState<string>("");
 
+    // Team Members State
+    const [teamMembers, setTeamMembers] = useState<TeamMember[]>([{ name: "", linkedinUrl: "" }]);
+    const [teamErrors, setTeamErrors] = useState<{ [key: number]: { name?: string; linkedinUrl?: string } }>({});
+
     // Form state
     const [formData, setFormData] = useState<ProjectFormData>({
         title: "",
         description: "",
         category: "",
         project_url: "",
+        major: "information_system", // Default value
+        batch: "2025", // Default value
     });
 
     const [errors, setErrors] = useState<Partial<Record<keyof ProjectFormData, string>>>({});
@@ -81,9 +97,9 @@ export default function ProjectForm() {
             return;
         }
 
-        // Validate file size (max 10MB)
-        if (file.size > 10 * 1024 * 1024) {
-            setFileError("File size must be less than 10MB");
+        // Validate file size (max 5MB)
+        if (file.size > 5 * 1024 * 1024) {
+            setFileError("File size must be less than 5MB");
             return;
         }
 
@@ -104,6 +120,50 @@ export default function ProjectForm() {
         setFileError("");
     };
 
+    // Validate Team Members
+    const validateTeamMembers = () => {
+        const errors: { [key: number]: { name?: string; linkedinUrl?: string } } = {};
+        let isValid = true;
+
+        if (teamMembers.length === 0) {
+            // Should not happen due to UI restrictions, but good to check
+            return false;
+        }
+
+        teamMembers.forEach((member, index) => {
+            const memberErrors: { name?: string; linkedinUrl?: string } = {};
+
+            if (!member.name.trim()) {
+                memberErrors.name = "Name is required";
+                isValid = false;
+            }
+
+            if (!member.linkedinUrl.trim()) {
+                memberErrors.linkedinUrl = "LinkedIn URL is required";
+                isValid = false;
+            } else {
+                // Simple URL validation
+                try {
+                    new URL(member.linkedinUrl);
+                    if (!member.linkedinUrl.includes("linkedin.com/")) {
+                        memberErrors.linkedinUrl = "Must be a LinkedIn URL";
+                        isValid = false;
+                    }
+                } catch {
+                    memberErrors.linkedinUrl = "Invalid URL";
+                    isValid = false;
+                }
+            }
+
+            if (Object.keys(memberErrors).length > 0) {
+                errors[index] = memberErrors;
+            }
+        });
+
+        setTeamErrors(errors);
+        return isValid;
+    };
+
     // Handle form submission
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -118,6 +178,9 @@ export default function ProjectForm() {
         // Validate form data
         const result = ProjectFormSchema.safeParse(formData);
 
+        // Validate team members
+        const isTeamValid = validateTeamMembers();
+
         if (!result.success) {
             const fieldErrors: Partial<Record<keyof ProjectFormData, string>> = {};
             result.error.issues.forEach((issue) => {
@@ -125,6 +188,12 @@ export default function ProjectForm() {
                 fieldErrors[field] = issue.message;
             });
             setErrors(fieldErrors);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            return;
+        }
+
+        if (!isTeamValid) {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
             return;
         }
 
@@ -148,6 +217,10 @@ export default function ProjectForm() {
                 description: result.data.description,
                 ...(result.data.category && { category: result.data.category }),
                 ...(result.data.project_url && { project_url: result.data.project_url }),
+                major: result.data.major,
+                batch: parseInt(result.data.batch),
+                project_members: teamMembers.map(m => m.name),
+                linkedin_profiles: teamMembers.map(m => m.linkedinUrl)
             };
 
             // Create project
@@ -230,56 +303,121 @@ export default function ProjectForm() {
                 )}
             </div>
 
-            {/* Category */}
-            <div className="space-y-2">
-                <label htmlFor="category" className="block text-sm font-medium text-gray-700">
-                    Category (Optional)
-                </label>
-                <Select
-                    value={formData.category}
-                    onValueChange={(value) => setFormData({ ...formData, category: value })}
-                    disabled={isSubmitting}
-                >
-                    <SelectTrigger id="category" className="w-full">
-                        <SelectValue placeholder="Select a category" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectGroup className="bg-white">
-                            <SelectLabel>Project Categories</SelectLabel>
-                            {PROJECT_CATEGORIES.map((category) => (
-                                <SelectItem key={category} value={category}>
-                                    {category}
-                                </SelectItem>
-                            ))}
-                        </SelectGroup>
-                    </SelectContent>
-                </Select>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Category */}
+                <div className="space-y-2">
+                    <label htmlFor="category" className="block text-sm font-medium text-gray-700">
+                        Category (Optional)
+                    </label>
+                    <Select
+                        value={formData.category}
+                        onValueChange={(value) => setFormData({ ...formData, category: value })}
+                        disabled={isSubmitting}
+                    >
+                        <SelectTrigger id="category" className="w-full">
+                            <SelectValue placeholder="Select a category" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectGroup className="bg-white">
+                                <SelectLabel>Project Categories</SelectLabel>
+                                {PROJECT_CATEGORIES.map((category) => (
+                                    <SelectItem key={category} value={category}>
+                                        {category}
+                                    </SelectItem>
+                                ))}
+                            </SelectGroup>
+                        </SelectContent>
+                    </Select>
+                </div>
+
+                {/* Major (New Field) */}
+                <div className="space-y-2">
+                    <label htmlFor="major" className="block text-sm font-medium text-gray-700">
+                        Major <span className="text-red-500">*</span>
+                    </label>
+                    <Select
+                        value={formData.major}
+                        onValueChange={(value: "information_system" | "informatics") => setFormData({ ...formData, major: value })}
+                        disabled={isSubmitting}
+                    >
+                        <SelectTrigger id="major" className={errors.major ? "border-red-500 w-full" : "w-full"}>
+                            <SelectValue placeholder="Select Major" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectGroup className="bg-white">
+                                <SelectItem value="information_system">Information System</SelectItem>
+                                <SelectItem value="informatics">Informatics</SelectItem>
+                            </SelectGroup>
+                        </SelectContent>
+                    </Select>
+                    {errors.major && (
+                        <p className="text-xs text-red-500">{errors.major}</p>
+                    )}
+                </div>
+
+                {/* Batch (New Field) */}
+                <div className="space-y-2">
+                    <label htmlFor="batch" className="block text-sm font-medium text-gray-700">
+                        Batch <span className="text-red-500">*</span>
+                    </label>
+                    <Select
+                        value={formData.batch}
+                        onValueChange={(value) => setFormData({ ...formData, batch: value })}
+                        disabled={isSubmitting}
+                    >
+                        <SelectTrigger id="batch" className={errors.batch ? "border-red-500 w-full" : "w-full"}>
+                            <SelectValue placeholder="Select Batch" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectGroup className="bg-white">
+                                <SelectItem value="2025">2025</SelectItem>
+                                <SelectItem value="2024">2024</SelectItem>
+                                <SelectItem value="2023">2023</SelectItem>
+                                <SelectItem value="2022">2022</SelectItem>
+                                <SelectItem value="2021">2021</SelectItem>
+                            </SelectGroup>
+                        </SelectContent>
+                    </Select>
+                    {errors.batch && (
+                        <p className="text-xs text-red-500">{errors.batch}</p>
+                    )}
+                </div>
+
+                {/* Project URL */}
+                <div className="space-y-2">
+                    <label htmlFor="project_url" className="block text-sm font-medium text-gray-700">
+                        Project URL (Optional)
+                    </label>
+                    <Input
+                        id="project_url"
+                        type="url"
+                        placeholder="https://github.com/username/project"
+                        value={formData.project_url}
+                        onChange={(e) => setFormData({ ...formData, project_url: e.target.value })}
+                        disabled={isSubmitting}
+                        className={errors.project_url ? "border-red-500" : ""}
+                    />
+                    {errors.project_url && (
+                        <p className="text-xs text-red-500">{errors.project_url}</p>
+                    )}
+                    <p className="text-xs text-gray-500">
+                        Link to your GitHub, GitLab, or project demo
+                    </p>
+                </div>
             </div>
 
-            {/* Project URL */}
-            <div className="space-y-2">
-                <label htmlFor="project_url" className="block text-sm font-medium text-gray-700">
-                    Project URL (Optional)
-                </label>
-                <Input
-                    id="project_url"
-                    type="url"
-                    placeholder="https://github.com/username/project"
-                    value={formData.project_url}
-                    onChange={(e) => setFormData({ ...formData, project_url: e.target.value })}
+            {/* Team Members Component (New) */}
+            <div className="border-t pt-6 pb-2">
+                <TeamMembers
+                    members={teamMembers}
+                    setMembers={setTeamMembers}
+                    errors={teamErrors}
                     disabled={isSubmitting}
-                    className={errors.project_url ? "border-red-500" : ""}
                 />
-                {errors.project_url && (
-                    <p className="text-xs text-red-500">{errors.project_url}</p>
-                )}
-                <p className="text-xs text-gray-500">
-                    Link to your GitHub, GitLab, or project demo
-                </p>
             </div>
 
             {/* Image Upload */}
-            <div className="space-y-2">
+            <div className="space-y-2 pt-4 border-t">
                 <label htmlFor="image" className="block text-sm font-medium text-gray-700">
                     Project Image <span className="text-red-500">*</span>
                 </label>
@@ -326,7 +464,7 @@ export default function ProjectForm() {
                                     className={`text-xs ${isSubmitting ? "text-gray-400" : "text-gray-500"
                                         }`}
                                 >
-                                    PNG, JPG or JPEG (MAX. 10MB)
+                                    PNG, JPG or JPEG (MAX. 5MB)
                                 </p>
                             </div>
                             <input
