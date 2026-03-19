@@ -69,11 +69,15 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
-            whoami
-            docker stop ${{ vars.CONTAINER_NAME }} || true && docker rm ${{ vars.CONTAINER_NAME }} || true
-            docker pull ${{ vars.IMAGE_NAME }}
-            docker run -d -p ${{ secrets.API_PORT }}:3000 --name ${{ vars.CONTAINER_NAME }} \
-            -e NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }} \
-            -e NEXTAUTH_URL=${{ secrets.NEXTAUTH_URL }} \
-            -e NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }} \
-            ${{ vars.IMAGE_NAME }}
+            echo "${{ secrets.GH_TOKEN }}" | docker login ghcr.io -u kizoukun --password-stdin
+            docker pull ghcr.io/kizoukun/pufafrontend:latest
+            docker stop frontend-pufa || true
+            docker rm frontend-pufa || true
+            docker run -d \
+              --name frontend-pufa \
+              --network host \
+              --restart always \
+              --env-file /opt/pufa/frontend/.env \
+              ghcr.io/kizoukun/pufafrontend:latest
+            docker image prune -f
+            echo "✅ Frontend deployed successfully"

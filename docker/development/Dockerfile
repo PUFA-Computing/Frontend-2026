@@ -1,65 +1,62 @@
-FROM node:18-alpine AS base
+# ============================================================
+# docker/development/Dockerfile — Development Build
+# Runs Next.js in production mode but with dev API endpoint
+# Usage: docker compose -f docker/development/docker-compose.yml up --build
+# ============================================================
+FROM node:20-alpine AS base
 
 RUN npm install -g pnpm
 
-# 1. Install dependencies only when needed
+# Stage 1: Install dependencies
 FROM base AS deps
-# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
 RUN apk add --no-cache libc6-compat
-
 WORKDIR /app
+COPY package.json pnpm-lock.yaml* package-lock.json* yarn.lock* ./
+RUN pnpm install --frozen-lockfile
 
-# Install dependencies based on the preferred package manager
-COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
-RUN pnpm install
-
-# 2. Rebuild the source code only when needed
+# Stage 2: Build the application
 FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Ensure environment variables are set with defaults if not provided
-ARG NEXT_PUBLIC_API_URL=https://compsci.president.ac.id
+# These are build-time env vars — passed via docker compose build args or defaults
+ARG NEXT_PUBLIC_API_URL=http://localhost:8080
+ARG NEXTAUTH_URL=http://localhost:3000
+ARG NEXTAUTH_SECRET=""
+ARG DATABASE_URL=""
+
 ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
-
-# Install sharp for image optimization
-RUN pnpm add sharp
-
-# Generate Prisma client
-RUN npx prisma generate
-
-# This will do the trick, use the corresponding env file for each environment.
-# RUN pnpm run build
-
-# Skipping type check for testing, and after that uncomment the "RUN pnpm run build"
-ENV NEXT_SKIP_TYPE_CHECK=true
+ENV NEXTAUTH_URL=${NEXTAUTH_URL}
+ENV NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
+ENV DATABASE_URL=${DATABASE_URL}
 ENV NODE_OPTIONS="--max-old-space-size=4096"
+ENV NEXT_TELEMETRY_DISABLED=1
 
-# Build with no lint and ignore TypeScript errors - ensure we get a successful build
-RUN pnpm run build || (echo "First build attempt failed, trying with forced success" && NEXT_TELEMETRY_DISABLED=1 npx next build --no-lint)
+# Generate Prisma Client before building
+RUN pnpm exec prisma generate
 
-# 3. Production image, copy all the files and run next
+# Build Next.js (standalone output mode is set in next.config.js)
+RUN pnpm run build
+
+# Stage 3: Runtime image
 FROM base AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
 
-RUN addgroup -g 1001 -S nodejs
-RUN adduser -S nextjs -u 1001
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S nextjs -u 1001
 
 COPY --from=builder /app/public ./public
-
-# Automatically leverage output traces to reduce image size
-# https://nextjs.org/docs/advanced-features/output-file-tracing
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 USER nextjs
 
 EXPOSE 3000
-
-ENV PORT 3000
-ENV HOSTNAME "0.0.0.0"
+ENV PORT=3000
+ENV HOSTNAME="0.0.0.0"
 
 CMD ["node", "server.js"]

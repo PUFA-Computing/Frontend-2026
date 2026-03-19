@@ -1,7 +1,37 @@
-version: "3"
+# ============================================================
+# docker/production/docker-compose.yml — Production (Skenario A: Native DB)
+# Usage: docker compose -f docker/production/docker-compose.yml up -d --build
+#
+# Asumsi: PostgreSQL sudah berjalan native di OS server.
+# Container frontend menggunakan --network host agar DATABASE_URL
+# bisa mengarah ke 127.0.0.1 (Prisma/NextAuth session storage).
+#
+# Setup server sebelum jalankan ini:
+#   - sudo systemctl start postgresql
+#   - Pastikan .env berisi DATABASE_URL=postgresql://...@127.0.0.1:5432/pufa_24
+# ============================================================
 
 services:
-  production:
+  frontend:
     build:
       context: ../../
       dockerfile: docker/production/Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
+        NEXTAUTH_URL: ${NEXTAUTH_URL}
+        NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
+        DATABASE_URL: ${DATABASE_URL}
+    image: frontend-pufa:latest
+    container_name: frontend-pufa
+    restart: always
+    # host network: container bisa akses localhost OS server (PostgreSQL native)
+    network_mode: host
+    environment:
+      NODE_ENV: production
+      NEXTAUTH_URL: ${NEXTAUTH_URL}
+      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
+      DATABASE_URL: ${DATABASE_URL}
+      NEXTAUTH_BASE_PATH: ${NEXTAUTH_BASE_PATH:-/nextauth}
+      PORT: 3000
+      HOSTNAME: "0.0.0.0"
