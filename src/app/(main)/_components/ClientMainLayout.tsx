@@ -36,14 +36,14 @@ export default function ClientMainLayout({
             
             {!isDashboard && <Navbar />}
             
-            <div className={`flex-1 bg-[#FBFBFB] ${isDashboard ? 'pt-0' : ''}`}>
+            <div className={`flex-1 bg-[#F5EDD0] ${isDashboard ? 'pt-0' : ''}`}>
                 {/* Gunakan breadcrumbs tersembunyi untuk SEO tanpa mengganggu UI */}
                 {!isDashboard && pathname !== '/' && <HiddenBreadcrumbs />}
                 
                 {children}
             </div>
             
-            <Footer version={version} />
+            {!isDashboard && <Footer version={version} />}
         </div>
     );
 }

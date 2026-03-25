@@ -23,23 +23,22 @@ export default function page({ params }: CabinetProps) {
     const { division, description, button, banner, member } = divisionData;
 
     // Map division slugs to their corresponding image files in the cabinet folder
-    const getImageForDivision = (slug: string) => {
+    const getImagesForDivision = (slug: string): { image: string; image2?: string } => {
         switch(slug) {
-            case 'board-of-director': return '/images/cabinet/BOD.JPG';
-            case 'communication-and-multimedia': return '/images/cabinet/CnM.JPG';
-            case 'external-relation': return '/images/cabinet/ER.JPG';
-            case 'entrepreneur': return '/images/cabinet/Entre.JPG';
-            case 'internal-relation': return '/images/cabinet/IR.JPG';
-            case 'art-and-sport': return '/images/cabinet/ANS.JPG';
-            case 'research-and-technology': return '/images/cabinet/RnT.png';
-            case 'student-development-and-competition': return '/images/cabinet/SDC.JPG';
-            case 'student-welfare-advocacy': return '/images/cabinet/SWA.JPG';
-            default: return '/placeholder.svg';
+            case 'board-of-director':                   return { image: '/images/cabinet/2025-2026/BOD.webp' };
+            case 'communication-and-multimedia':        return { image: '/images/cabinet/2025-2026/Com.webp', image2: '/images/cabinet/2025-2026/Mulmed.webp' };
+            case 'external-relation':                   return { image: '/images/cabinet/2025-2026/External.webp' };
+            case 'entrepreneur':                        return { image: '/images/cabinet/2025-2026/Entre.webp' };
+            case 'internal-relation':                   return { image: '/images/cabinet/2025-2026/Internal.webp' };
+            case 'art-and-sport':                       return { image: '/images/cabinet/2025-2026/AnS.webp' };
+            case 'research-and-technology':             return { image: '/images/cabinet/2025-2026/coming-soon.webp' };
+            case 'student-development-and-competition': return { image: '/images/cabinet/2025-2026/SDC.webp' };
+            case 'student-welfare-advocacy':            return { image: '/images/cabinet/2025-2026/SWA.webp' };
+            default: return { image: '/placeholder.svg' };
         }
     };
 
-    // Get the appropriate image for this division
-    const divisionImage = getImageForDivision(slug);
+    const { image: divisionImage, image2: divisionImage2 } = getImagesForDivision(slug);
 
     return (
         <section>
@@ -47,6 +46,7 @@ export default function page({ params }: CabinetProps) {
                 title={division}
                 description={description}
                 image={divisionImage}
+                image2={divisionImage2}
             />
             <EventsAndWorkplan buttons={button} />
             <SwiperCard members={member} />

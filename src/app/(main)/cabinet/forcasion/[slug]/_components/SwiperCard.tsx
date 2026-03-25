@@ -23,22 +23,26 @@ interface SwiperCardProps {
 
 export default function SwiperCard({ members, title = "Division Members" }: SwiperCardProps) {
   return (
-    <div className="relative bg-gradient-to-b from-white to-slate-50 py-16 px-4 md:px-12 lg:px-16 xl:px-24 overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute top-0 right-0 w-64 h-64 bg-blue-50 rounded-full -mr-32 -mt-32 opacity-70" />
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-50 rounded-full -ml-48 -mb-48 opacity-70" />
+    <div className="relative bg-[#F5EDD0] py-20 px-4 md:px-12 lg:px-16 xl:px-24 overflow-hidden">
+      {/* Subtle background glow */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-full max-w-3xl h-full bg-[#B8841E]/5 rounded-full blur-[120px] pointer-events-none" />
       
       <div className="relative z-10 max-w-7xl mx-auto">
         {/* Section header */}
-        <div className="text-center mb-12">
-          <div className="flex items-center justify-center gap-2 mb-2">
-            <Users className="h-6 w-6 text-blue-600" />
-            <p className="text-sm font-medium uppercase tracking-wider text-blue-600">Our Team</p>
+        <div className="text-center mb-14">
+          <div className="inline-flex items-center justify-center border border-[#B8841E]/30 bg-[#FAF5E8]/60 px-4 py-1.5 shadow-parch-sm mb-6">
+            <Users className="h-4 w-4 text-[#B8841E] mr-2" />
+            <p className="font-serif text-xs tracking-[0.2em] font-medium text-[#B8841E] uppercase">Our Team</p>
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4">
+          <h2 className="font-display italic text-5xl md:text-6xl text-[#0D1B3E] mb-5">
             {title}
           </h2>
-          <div className="w-20 h-1 bg-blue-600 mx-auto rounded-full"></div>
+          {/* Ornamental rule */}
+          <div className="flex items-center justify-center gap-3">
+            <div className="h-px w-16 bg-gradient-to-r from-transparent to-[#B8841E]/40" />
+            <span className="text-[#B8841E]/50 text-xs">✦</span>
+            <div className="h-px w-16 bg-gradient-to-l from-transparent to-[#B8841E]/40" />
+          </div>
         </div>
 
         {/* Mobile Swiper (1 slide) */}
@@ -46,14 +50,8 @@ export default function SwiperCard({ members, title = "Division Members" }: Swip
           <Swiper
             slidesPerView={1}
             spaceBetween={20}
-            pagination={{
-              clickable: true,
-              dynamicBullets: true,
-            }}
-            autoplay={{
-              delay: 3500,
-              disableOnInteraction: false,
-            }}
+            pagination={{ clickable: true, dynamicBullets: true }}
+            autoplay={{ delay: 3500, disableOnInteraction: false }}
             modules={[Pagination, Autoplay]}
             className="pb-12"
           >
@@ -76,15 +74,9 @@ export default function SwiperCard({ members, title = "Division Members" }: Swip
           <Swiper
             slidesPerView={2}
             spaceBetween={24}
-            pagination={{
-              clickable: true,
-              dynamicBullets: true,
-            }}
+            pagination={{ clickable: true, dynamicBullets: true }}
             navigation={true}
-            autoplay={{
-              delay: 4000,
-              disableOnInteraction: false,
-            }}
+            autoplay={{ delay: 4000, disableOnInteraction: false }}
             modules={[Pagination, Navigation, Autoplay]}
             className="pb-12"
           >
@@ -107,15 +99,9 @@ export default function SwiperCard({ members, title = "Division Members" }: Swip
           <Swiper
             slidesPerView={4}
             spaceBetween={24}
-            pagination={{
-              clickable: true,
-              dynamicBullets: true,
-            }}
+            pagination={{ clickable: true, dynamicBullets: true }}
             navigation={true}
-            autoplay={{
-              delay: 5000,
-              disableOnInteraction: false,
-            }}
+            autoplay={{ delay: 5000, disableOnInteraction: false }}
             modules={[Pagination, Navigation, Autoplay]}
             className="pb-12"
           >

@@ -74,30 +74,39 @@ export default async function EventsPage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-r from-blue-900 via-indigo-800 to-purple-900 px-4 py-24 sm:px-6 md:px-8 lg:px-16">
-        {/* Decorative elements */}
-        <div className="absolute -left-20 -top-20 h-40 w-40 rounded-full bg-blue-500 opacity-10"></div>
-        <div className="absolute -right-20 bottom-10 h-60 w-60 rounded-full bg-purple-500 opacity-10"></div>
-        <div className="absolute left-1/2 top-1/2 h-80 w-80 -translate-x-1/2 -translate-y-1/2 transform rounded-full bg-indigo-500 opacity-5"></div>
+      <section className="relative w-full flex flex-col items-center justify-center pt-32 pb-20 overflow-hidden bg-[#F5EDD0]">
+        <div className="absolute inset-0 bg-gradient-to-b from-[#EDE0BB]/80 to-[#F5EDD0]" />
+        
+        {/* Top corner ornaments */}
+        <div className="absolute top-28 left-8 w-12 h-12 border-l border-t border-[#B8841E]/40 hidden md:block" />
+        <div className="absolute top-28 right-8 w-12 h-12 border-r border-t border-[#B8841E]/40 hidden md:block" />
 
-        <div className="relative mx-auto max-w-7xl">
-          <div className="relative z-10 max-w-3xl">
-            <div className="mb-6 inline-block rounded-full bg-indigo-500/20 px-4 py-1 backdrop-blur-sm">
-              <p className="text-sm font-medium text-indigo-100">Faculty of Computing</p>
-            </div>
-            <h1 className="mb-6 text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl">
-              Discover Our <span className="text-amber-400">Events</span>
-            </h1>
-            <p className="mb-8 text-xl text-indigo-100">Join us for exciting workshops, competitions, and gatherings throughout the academic year.</p>
+        <div className="relative container mx-auto px-6 flex flex-col items-center text-center max-w-4xl z-10">
+          <div className="mb-6 inline-block border border-[#B8841E]/30 bg-[#FAF5E8]/60 px-4 py-1.5 shadow-parch-sm">
+            <p className="font-serif text-xs tracking-[0.2em] font-medium text-[#B8841E] uppercase">Faculty of Computing</p>
+          </div>
+          <h1 className="font-display italic text-6xl sm:text-7xl md:text-8xl text-[#0D1B3E] mb-6 leading-[0.9]">
+            Our <span className="text-[#B8841E]">Events</span>
+          </h1>
+          
+          {/* Ornamental rule */}
+          <div className="flex items-center justify-center gap-3 w-full mb-6">
+              <div className="h-px w-20 bg-gradient-to-r from-transparent to-[#B8841E]/40" />
+              <span className="text-[#B8841E]/50 text-xs">✦</span>
+              <div className="h-px w-20 bg-gradient-to-l from-transparent to-[#B8841E]/40" />
+          </div>
+          
+          <p className="font-serif text-lg text-[#1A1A2E]/65 max-w-2xl text-balance mb-8">
+            Join us for exciting workshops, competitions, and gatherings throughout the academic year.
+          </p>
 
-            <div className="flex flex-wrap gap-4">
-              <Link href="#upcoming" className="rounded-full bg-amber-500 px-6 py-3 font-medium text-white transition-all hover:bg-amber-600 hover:shadow-lg">
-                Explore Events
-              </Link>
-              <Link href="#categories" className="rounded-full border border-white/30 bg-white/10 px-6 py-3 font-medium text-white backdrop-blur-sm transition-all hover:bg-white/20">
-                View Categories
-              </Link>
-            </div>
+          <div className="flex flex-wrap justify-center gap-4">
+            <Link href="#upcoming" className="font-serif px-8 py-3 text-sm tracking-wide border border-[#0D1B3E] text-[#F5EDD0] bg-[#0D1B3E] transition-all duration-300 hover:bg-[#0D1B3E]/90 hover:shadow-parch-lg">
+              Explore Events
+            </Link>
+            <Link href="#categories" className="font-serif px-8 py-3 text-sm tracking-wide border border-[#B8841E]/40 text-[#0D1B3E] bg-transparent transition-all duration-300 hover:border-[#B8841E] hover:bg-[#B8841E]/5">
+              View Categories
+            </Link>
           </div>
         </div>
       </section>

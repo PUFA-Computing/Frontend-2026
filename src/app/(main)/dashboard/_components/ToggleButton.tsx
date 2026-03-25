@@ -1,51 +1,38 @@
 "use client";
-import { FiMenu, FiX } from "react-icons/fi";
 import { useDashboardContext } from "./DashboardContext";
 import { useEffect, useState } from "react";
 
 export default function ToggleButton() {
     const { isMenuOpen, toggleMenu } = useDashboardContext();
-    const [isHovered, setIsHovered] = useState(false);
-    const [isVisible, setIsVisible] = useState(true);
-    const [lastScrollY, setLastScrollY] = useState(0);
+    const [mounted, setMounted] = useState(false);
 
-    // Hide toggle button on scroll down, show on scroll up
     useEffect(() => {
-        const handleScroll = () => {
-            if (window.scrollY > lastScrollY && window.scrollY > 100) {
-                setIsVisible(false);
-            } else {
-                setIsVisible(true);
-            }
-            setLastScrollY(window.scrollY);
-        };
+        setMounted(true);
+    }, []);
 
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, [lastScrollY]);
+    if (!mounted) {
+        return (
+            <div className="h-8 w-8 rounded-md bg-[#FAF5E8]/10 border border-[#B8841E]/20" />
+        );
+    }
 
     return (
         <button
-            className={`fixed bottom-4 sm:bottom-6 left-4 sm:left-6 z-50 rounded-full bg-gradient-to-r ${isMenuOpen ? 'from-red-500 to-red-600' : 'from-[#02ABF3] to-blue-600'} 
-                p-2 sm:p-3 text-white shadow-lg transition-all duration-300 
-                ${isHovered ? 'scale-110 shadow-xl' : ''} 
-                ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'}`}
             onClick={() => toggleMenu()}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-            aria-label={isMenuOpen ? 'Close sidebar menu' : 'Open sidebar menu'}
+            aria-label={isMenuOpen ? "Close sidebar" : "Open sidebar"}
+            className="flex items-center justify-center h-8 w-8 rounded-md text-[#F5EDD0]/60 hover:text-[#EDD085] hover:bg-[#B8841E]/10 border border-transparent hover:border-[#B8841E]/25 transition-all duration-200"
         >
-            <div className="relative">
-                {isMenuOpen ? 
-                    <FiX className="h-5 w-5 sm:h-6 sm:w-6 transition-all duration-300" /> : 
-                    <FiMenu className="h-5 w-5 sm:h-6 sm:w-6 transition-all duration-300" />
-                }
-                {isHovered && (
-                    <span className="absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-gray-800 px-2 py-1 text-xs text-white opacity-90 shadow-lg">
-                        {isMenuOpen ? 'Close Menu' : 'Open Menu'}
-                    </span>
-                )}
-            </div>
+            {isMenuOpen ? (
+                /* X icon */
+                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M18 6L6 18M6 6l12 12" />
+                </svg>
+            ) : (
+                /* Hamburger icon */
+                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M3 12h18M3 6h18M3 18h18" />
+                </svg>
+            )}
         </button>
     );
 }

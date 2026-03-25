@@ -1,11 +1,10 @@
 "use client"
 
 import type React from "react"
-
 import Link from "next/link"
 import Image, { type StaticImageData } from "next/image"
 import { motion } from "framer-motion"
-import { Instagram, Linkedin, ExternalLink } from "lucide-react"
+import { Instagram, Linkedin } from "lucide-react"
 import type { UrlObject } from "url"
 import { useState } from "react"
 
@@ -26,91 +25,82 @@ const MemberCard: React.FC<MemberCardProps> = ({ image, name, position, instagra
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      whileHover={{ y: -5 }}
+      whileHover={{ y: -4 }}
     >
-      <div className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 h-full flex flex-col">
-        {/* Image container */}
+      <div className="bg-[#FAF5E8] border border-[#B8841E]/20 overflow-hidden transition-all duration-300 hover:border-[#B8841E]/50 hover:shadow-parch-md h-full flex flex-col">
+        {/* Image */}
         <div
           className="relative overflow-hidden"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
-          {/* Main image */}
           <div className="aspect-[3/4] relative">
             <Image
               src={image || "/placeholder.svg"}
               alt={`${name}'s Photo`}
               fill
               className="object-cover object-center transition-transform duration-500 ease-out"
-              style={{
-                transform: isHovered ? "scale(1.05)" : "scale(1)",
-              }}
+              style={{ transform: isHovered ? "scale(1.04)" : "scale(1)" }}
             />
-
-            {/* Gradient overlay */}
+            {/* Parchment tint */}
+            <div className="absolute inset-0 bg-[#0D1B3E]/10 mix-blend-multiply pointer-events-none" />
+            {/* Hover dark overlay */}
             <div
-              className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 transition-opacity duration-300"
-              style={{
-                opacity: isHovered ? 1 : 0,
-              }}
+              className="absolute inset-0 bg-gradient-to-t from-[#0D1B3E]/70 to-transparent pointer-events-none transition-opacity duration-300"
+              style={{ opacity: isHovered ? 1 : 0 }}
             />
           </div>
 
-          {/* Social media overlay */}
+          {/* Social on hover */}
           {(linkedin || instagram) && (
             <motion.div
-              className="absolute inset-0 flex items-center justify-center gap-4 z-10"
+              className="absolute inset-0 flex items-center justify-center gap-3 z-10"
               initial={{ opacity: 0 }}
               animate={{ opacity: isHovered ? 1 : 0 }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.25 }}
             >
               {linkedin && (
                 <Link href={linkedin as string} target="_blank" rel="noopener noreferrer">
                   <motion.div
-                    className="bg-white/90 p-3 rounded-full shadow-md hover:bg-green-50 transition-colors duration-200"
-                    whileHover={{ scale: 1.1 }}
+                    className="bg-[#FAF5E8]/90 border border-[#B8841E]/30 p-2.5 shadow-parch-sm hover:bg-[#F5EDD0] transition-colors duration-200"
+                    whileHover={{ scale: 1.08 }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    <Linkedin className="w-5 h-5 text-green-600" />
+                    <Linkedin className="w-4 h-4 text-[#0D1B3E]" />
                   </motion.div>
                 </Link>
               )}
-
               {instagram && (
                 <Link href={instagram as string} target="_blank" rel="noopener noreferrer">
                   <motion.div
-                    className="bg-white/90 p-3 rounded-full shadow-md hover:bg-green-50 transition-colors duration-200"
-                    whileHover={{ scale: 1.1 }}
+                    className="bg-[#FAF5E8]/90 border border-[#B8841E]/30 p-2.5 shadow-parch-sm hover:bg-[#F5EDD0] transition-colors duration-200"
+                    whileHover={{ scale: 1.08 }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    <Instagram className="w-5 h-5 text-green-600" />
+                    <Instagram className="w-4 h-4 text-[#0D1B3E]" />
                   </motion.div>
                 </Link>
               )}
             </motion.div>
           )}
 
-          {/* Position badge */}
-          <div className="absolute bottom-0 left-0 right-0 px-4 py-2">
-            <motion.div
-              className="bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-full inline-block shadow-sm"
-              initial={{ y: 40, opacity: 0 }}
-              animate={{
-                y: isHovered ? 0 : 40,
-                opacity: isHovered ? 1 : 0,
-              }}
-              transition={{ duration: 0.3 }}
-            >
-              <p className="text-xs font-medium text-green-700">{position}</p>
-            </motion.div>
-          </div>
+          {/* Position badge — visible on hover */}
+          <motion.div
+            className="absolute bottom-3 left-3 right-3 z-10"
+            animate={{ y: isHovered ? 0 : 12, opacity: isHovered ? 1 : 0 }}
+            transition={{ duration: 0.25 }}
+          >
+            <div className="bg-[#FAF5E8]/90 border border-[#B8841E]/20 px-3 py-1.5 inline-block">
+              <p className="font-serif text-[11px] font-medium text-[#B8841E] uppercase tracking-wider">{position}</p>
+            </div>
+          </motion.div>
         </div>
 
-        {/* Content */}
-        <div className="p-5 flex-grow flex flex-col justify-between">
+        {/* Info */}
+        <div className="px-5 py-4 flex-grow flex flex-col justify-between border-t border-[#B8841E]/15">
           <div className="text-center">
-            <h3 className="font-semibold text-lg text-slate-800 mb-1">{name}</h3>
-            <p className="text-sm text-slate-500 hidden md:block">{position}</p>
+            <h3 className="font-display italic text-lg text-[#0D1B3E] leading-tight mb-1">{name}</h3>
+            <p className="font-serif text-[11px] text-[#B8841E]/70 uppercase tracking-wider">{position}</p>
           </div>
         </div>
       </div>
@@ -119,4 +109,3 @@ const MemberCard: React.FC<MemberCardProps> = ({ image, name, position, instagra
 }
 
 export default MemberCard
-

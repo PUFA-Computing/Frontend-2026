@@ -5,74 +5,65 @@ import { Version } from "@/models/version";
 
 export default function Footer({ version }: { version: Version }) {
     return (
-        <footer className="mx-auto max-w-7xl pt-8">
-            <div className="container mx-auto px-6 py-12">
-                <hr className="my-4 border-gray-200 dark:border-gray-700" />
-                <div className="md:-mx-3 md:flex md:items-center md:justify-between">
-                    <div className="md:mx-3 xl:text-sm dark:text-white">
-                        <div className="text-sm font-semibold tracking-widest text-[#0C8CE9]">
-                            SUBSCRIBE TO OUR NEWSLETTER
-                        </div>
-                        <div className="mt-2 text-sm font-normal tracking-widest text-[#6B7280]">
-                            The latest news, information, and updates, sent to
-                            your inbox directly.
-                        </div>
-                    </div>
+        <footer className="relative bg-[#0D1B3E] overflow-hidden">
+            {/* Top rule */}
+            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#D9A84A]/50 to-transparent" />
 
-                    <div className="mt-6 flex flex-col justify-center space-y-3 md:ml-auto md:flex-row md:space-y-0">
-                        <input
-                            id="email"
-                            type="text"
-                            className="cursor-not-allowed rounded-md border bg-white px-4 py-2 text-gray-700 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 disabled:opacity-50"
-                            placeholder="Email Address"
-                            disabled
-                            title="This feature is not available yet"
-                        />
-                        <button
-                            disabled
-                            title="This feature is not available yet"
-                            className="bg-clip- disabled w-full transform cursor-not-allowed rounded-lg border border-sky-500 from-blue-600 to-blue-400 px-6 py-2.5 text-sm font-medium tracking-wider text-sky-500 transition-colors duration-300 hover:bg-gradient-to-r hover:from-blue-500 hover:to-blue-300 hover:text-white focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-80 disabled:opacity-60 md:mx-4 md:w-auto"
-                        >
+            {/* Subtle corner glow */}
+            <div className="absolute bottom-0 left-0 w-64 h-32 bg-[#B8841E]/6 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute top-0 right-0 w-48 h-24 bg-[#B8841E]/4 rounded-full blur-3xl pointer-events-none" />
+
+            <div className="relative container mx-auto px-6 py-12 max-w-7xl">
+                {/* Newsletter */}
+                <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-8 pb-10">
+                    <div className="max-w-xs">
+                        <p className="font-display italic text-[#D9A84A] text-lg mb-1">Subscribe to our Newsletter</p>
+                        <p className="font-serif text-sm text-[#F5EDD0]/45 leading-relaxed">
+                            Latest news, events, and updates delivered to your inbox.
+                        </p>
+                    </div>
+                    <div className="flex flex-col sm:flex-row gap-2.5">
+                        <input id="footer-email" type="email" disabled title="Coming soon" placeholder="Email address"
+                            className="cursor-not-allowed rounded-md px-4 py-2 text-sm bg-[#152347]/60 border border-[#B8841E]/20 text-[#F5EDD0]/30 placeholder:text-[#F5EDD0]/25 outline-none font-serif" />
+                        <button disabled title="Coming soon"
+                            className="cursor-not-allowed rounded-md px-5 py-2 text-sm font-serif font-medium text-[#D9A84A] border border-[#B8841E]/30 bg-[#B8841E]/8 opacity-60 whitespace-nowrap">
                             Subscribe
                         </button>
                     </div>
                 </div>
-                <hr className="my-4" />
-                <div className="md:-mx-3 md:flex md:items-center md:justify-between">
-                    <div className="md:mx-3 xl:text-sm dark:text-white">
-                        <div className="text-sm font-normal tracking-widest text-[#9CA3AF]">
-                            © {new Date().getFullYear()} PUMA Computer Science. All
-                            rights reserved.
-                            <br />
-                            Made by Research & Technology PUFA Computer Science
-                        </div>
-                        {/*Version Info*/}
-                            <div className="mt-2 justify-center text-sm font-normal tracking-widest text-[#9CA3AF]">
-                                App Version: <Link href="/change-log" className="border-blue-600 bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent hover:border-b-2 hover:border-b-blue-600">Latest Version</Link>
-                            </div>
 
-                               
+                {/* Divider rule with ornament */}
+                <div className="flex items-center gap-4 mb-8">
+                    <div className="flex-1 h-px bg-gradient-to-r from-transparent to-[#B8841E]/30" />
+                    <span className="text-[#B8841E]/50 text-xs">✦</span>
+                    <div className="flex-1 h-px bg-gradient-to-l from-transparent to-[#B8841E]/30" />
+                </div>
+
+                {/* Bottom */}
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                    <div>
+                        <p className="font-serif text-sm text-[#F5EDD0]/35 mb-0.5">
+                            © {new Date().getFullYear()} PUFA Computer Science · President University
+                        </p>
+                        <p className="font-serif text-xs text-[#F5EDD0]/25">
+                            Research &amp; Technology ·{" "}
+                            <Link href="/change-log" className="text-[#D9A84A]/70 hover:text-[#D9A84A] transition-colors duration-200">
+                                Latest Version
+                            </Link>
+                        </p>
                     </div>
 
-                    <div className="mt-6 flex flex-row items-center justify-center space-x-4 md:ml-auto md:flex-row md:space-y-0">
-                        <Link href="https://www.linkedin.com/company/pufa-computerscience/">
-                            <FaLinkedin
-                                size={25}
-                                className="text-[#DADADA] transition-colors duration-300 hover:text-gray-500"
-                            />
-                        </Link>
-                        <Link href="https://www.instagram.com/pucompsci">
-                            <FaInstagram
-                                size={25}
-                                className="text-[#DADADA] transition-colors duration-300 hover:text-gray-500"
-                            />
-                        </Link>
-                        <Link href="https://github.com/PUFA-Computing">
-                            <FaGithub
-                                size={25}
-                                className="text-[#DADADA] transition-colors duration-300 hover:text-gray-500"
-                            />
-                        </Link>
+                    <div className="flex items-center gap-4">
+                        {[
+                            { href: "https://www.linkedin.com/company/pufa-computerscience/", Icon: FaLinkedin, label: "LinkedIn" },
+                            { href: "https://www.instagram.com/pucompsci",                   Icon: FaInstagram, label: "Instagram" },
+                            { href: "https://github.com/PUFA-Computing",                     Icon: FaGithub,    label: "GitHub" },
+                        ].map(({ href, Icon, label }) => (
+                            <Link key={label} href={href} aria-label={label}
+                                className="text-[#F5EDD0]/25 hover:text-[#D9A84A] transition-colors duration-250">
+                                <Icon size={18} />
+                            </Link>
+                        ))}
                     </div>
                 </div>
             </div>

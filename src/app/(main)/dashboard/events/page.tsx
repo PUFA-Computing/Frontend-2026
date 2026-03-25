@@ -3,46 +3,35 @@ import RegisteredEvents from "@/app/(main)/dashboard/events/_components/Register
 
 export default function Page() {
     return (
-        <div className="container mx-auto px-4 py-8 max-w-7xl">
-            <div className="mb-8">
-                <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-2 bg-gradient-to-r from-indigo-600 to-blue-500 bg-clip-text text-transparent animate-gradient">
-                    My Events
-                </h1>
-                <p className="text-gray-600 max-w-2xl">
+        <div className="space-y-6">
+
+            {/* ── Page heading ── */}
+            <div>
+                <p className="font-serif text-[10px] tracking-[0.22em] uppercase text-[#B8841E] mb-1">Dashboard</p>
+                <h1 className="font-display italic text-3xl sm:text-4xl text-[#0D1B3E]">My Events</h1>
+                <div className="flex items-center gap-3 mt-3">
+                    <div className="h-px flex-1 max-w-[80px] bg-gradient-to-r from-[#B8841E]/40 to-transparent" />
+                    <span className="text-[#B8841E]/40 text-[10px]">✦</span>
+                    <div className="h-px flex-1 max-w-[80px] bg-gradient-to-l from-[#B8841E]/40 to-transparent" />
+                </div>
+                <p className="font-serif text-sm text-[#1A1A2E]/50 mt-3 max-w-xl">
                     Track and manage all the events you've registered for. Stay updated with event details and status changes.
                 </p>
             </div>
-            
-            <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden transition-all duration-300 hover:shadow-md">
-                <div className="p-6 border-b border-gray-100">
-                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                        <h2 className="text-xl font-semibold text-gray-800 flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-indigo-500" viewBox="0 0 20 20" fill="currentColor">
-                                <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
-                            </svg>
-                            Registered Events
-                        </h2>
-                        <div className="flex items-center space-x-2">
-                            <button className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 inline mr-1" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fillRule="evenodd" d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z" clipRule="evenodd" />
-                                </svg>
-                                Filter
-                            </button>
-                            <button className="px-4 py-2 bg-indigo-600 rounded-lg text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 inline mr-1" viewBox="0 0 20 20" fill="currentColor">
-                                    <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
-                                    <path fillRule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd" />
-                                </svg>
-                                View All
-                            </button>
-                        </div>
-                    </div>
+
+            {/* ── Events card ── */}
+            <div className="bg-[#FAF5E8] border border-[#B8841E]/20 rounded-sm shadow-sm overflow-hidden">
+                {/* Card header */}
+                <div className="px-5 py-4 border-b border-[#B8841E]/15 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <h2 className="font-display italic text-xl text-[#0D1B3E] flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="text-[#B8841E]">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M8 7V3M16 7V3M3 11H21M5 4H19C20.1046 4 21 4.89543 21 6V20C21 21.1046 20.1046 22 19 22H5C3.89543 22 3 21.1046 3 20V6C3 4.89543 3.89543 4 5 4Z" />
+                        </svg>
+                        Registered Events
+                    </h2>
                 </div>
                 <RegisteredEvents />
             </div>
-            
-            
         </div>
     );
 }

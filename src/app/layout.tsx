@@ -1,38 +1,37 @@
 import "./globals.css";
 import localFont from "next/font/local";
+import { Cormorant_Garamond, Lora } from "next/font/google";
 import Providers from "@/components/Loading";
 import AuthProvider from "@/components/AuthProvider";
 
-// Define your main custom font
-const customFont = localFont({
+// Geist — UI / sans-serif font (keep for admin/UI elements)
+const geistFont = localFont({
     src: [
-        {
-            path: '../../public/fonts/Geist-Regular.otf',
-            weight: '400',
-            style: 'normal',
-        },
-        {
-            path: '../../public/fonts/Geist-Bold.otf',
-            weight: '700',
-            style: 'normal',
-        }
+        { path: '../../public/fonts/Geist-Regular.otf', weight: '400', style: 'normal' },
+        { path: '../../public/fonts/Geist-Bold.otf',    weight: '700', style: 'normal' },
     ],
-    variable: '--font-custom',
+    variable: '--font-sans',
 });
 
-// Define hero font for specific elements
-const heroFonts = localFont({
-    src: [
-        {
-            path: '../../public/fonts/BebasNeue-Regular.ttf',
-            weight: '400',
-            style: 'normal',
-        },
-    ],
-    variable: '--font-hero',
+// Cormorant Garamond — Display / calligraphic heading font
+// Matches the elegant italic calligraphy in the Aurascendia branding
+const cormorant = Cormorant_Garamond({
+    subsets: ['latin'],
+    weight: ['300', '400', '500', '600', '700'],
+    style: ['normal', 'italic'],
+    variable: '--font-display',
+    display: 'swap',
 });
 
-// Viewport configuration - separate from metadata as required in Next.js 14+
+// Lora — Body serif, refined Times-style
+const lora = Lora({
+    subsets: ['latin'],
+    weight: ['400', '500', '600', '700'],
+    style: ['normal', 'italic'],
+    variable: '--font-serif',
+    display: 'swap',
+});
+
 export const viewport = {
     width: "device-width",
     initialScale: 1,
@@ -44,34 +43,22 @@ export const metadata = {
         template: "%s | PUFA Computer Science",
         default: "PUFA Computer Science - President University",
     },
-    description: "PUFA Computer Science is the official Computer Science organization at President University, offering events, news, projects and resources for CS students.",
-    keywords: "computer science, president university, CS events, programming, PUFA Computing, PUFA Computer Science, student organization",
+    description: "PUFA Computer Science is the official Computer Science organization at President University.",
+    keywords: "computer science, president university, CS events, PUFA Computing",
     authors: [{ name: "PUFA Computer Science", url: "https://compsci.president.ac.id" }],
     creator: "PUFA Computer Science",
     publisher: "President University",
-    formatDetection: {
-        email: false,
-        telephone: false,
-    },
+    formatDetection: { email: false, telephone: false },
     metadataBase: new URL("https://compsci.president.ac.id"),
-    alternates: {
-        canonical: "/",
-    },
+    alternates: { canonical: "/" },
     openGraph: {
         title: "PUFA Computer Science - President University",
-        description: "Official Computer Science organization at President University with events, news, and resources for CS students",
+        description: "Official Computer Science organization at President University",
         url: "https://compsci.president.ac.id",
         siteName: "PUFA Computer Science",
         locale: "en_US",
         type: "website",
-        images: [
-            {
-                url: "/images/og-image.jpg",
-                width: 1200,
-                height: 630,
-                alt: "PUFA Computer Science",
-            },
-        ],
+        images: [{ url: "/images/og-image.jpg", width: 1200, height: 630, alt: "PUFA Computer Science" }],
     },
     twitter: {
         card: "summary_large_image",
@@ -80,26 +67,15 @@ export const metadata = {
         images: ["/images/og-image.jpg"],
     },
     robots: {
-        index: true,
-        follow: true,
-        googleBot: {
-            index: true,
-            follow: true,
-            "max-image-preview": "large",
-            "max-video-preview": -1,
-            "max-snippet": -1,
-        },
+        index: true, follow: true,
+        googleBot: { index: true, follow: true, "max-image-preview": "large", "max-video-preview": -1, "max-snippet": -1 },
     },
 };
 
-export default function RootLayout({
-    children,
-}: {
-    children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
-        <html lang="en" className={`${customFont.variable} ${heroFonts.variable}`}>
-            <body className={customFont.className}>
+        <html lang="en" className={`${geistFont.variable} ${cormorant.variable} ${lora.variable}`}>
+            <body className={lora.className}>
                 <AuthProvider>
                     <Providers children={children} />
                 </AuthProvider>

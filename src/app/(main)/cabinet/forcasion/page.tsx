@@ -1,548 +1,123 @@
 import Image from "next/image"
-import Logo from "@/assets/forcasionlogo.png"
+import Logo from "@/assets/aurascendialogo.png"
 import Logo2 from "@/assets/PUComSci.png"
 import Link from "next/link"
-import { ChevronRight, ExternalLink } from "lucide-react"
+import { ChevronRight } from "lucide-react"
+
+function SectionRule() {
+  return (
+    <div className="flex items-center gap-3 justify-center my-6">
+      <div className="h-px w-24 bg-gradient-to-r from-transparent to-[#B8841E]/40" />
+      <span className="text-[#B8841E]/60 text-xs">✦</span>
+      <div className="h-px w-24 bg-gradient-to-l from-transparent to-[#B8841E]/40" />
+    </div>
+  )
+}
+
+const divisions = [
+  { title: "Board of Director", link: "forcasion/board-of-director", desc: "Chairperson, Vice Chairperson, Secretary and Treasurer — the highest governing body." },
+  { title: "External Relations", link: "forcasion/external-relation", desc: "Organizes activities with parties outside campus and builds community relationships." },
+  { title: "Internal Relations", link: "forcasion/internal-relation", desc: "Strengthens bonds between students, lecturers, alumni, and PUMA – PUFA." },
+  { title: "Art and Sport", link: "forcasion/art-and-sport", desc: "Develops interest in arts and sports, organizing competitions for computing students." },
+  { title: "Communication & Multimedia", link: "forcasion/communication-and-multimedia", desc: "Manages PUFA Computing social media and creates multimedia content templates." },
+  { title: "Research & Technology", link: "forcasion/research-and-technology", desc: "Develops creative technology ideas and shares knowledge to grow computing resources." },
+  { title: "Student Dev & Competition", link: "forcasion/student-development-and-competition", desc: "Improves student quality and academic competitiveness within and beyond the faculty." },
+  { title: "Student Welfare Advocacy", link: "forcasion/student-welfare-advocacy", desc: "Bridges students and campus, accommodating aspirations and student welfare." },
+  { title: "Entrepreneurship", link: "forcasion/entrepreneur", desc: "New division developing interests and talents in entrepreneurship and business." },
+]
+
+const timelineEvents = [
+  { date: "September 2025", entries: [{ title: "COMPUTING STORE", desc: "A merchandise and resource initiative where students can access exclusive PUFA Computing products." }] },
+  { date: "November 2025", entries: [
+    { title: "COMPSHADOW I", desc: "COMPSHADOW I welcomes new students." },
+    { title: "COMPCRUSADER", desc: "COMPCRUSADER showcases skills." },
+    { title: "CSML", desc: "CSML develops faculty leadership." }
+  ] },
+  { date: "December 2025", entries: [{ title: "COMPBRAINTS I", desc: "Knowledge and innovation competition showcasing intellectual and creative problem-solving skills." }] },
+  { date: "January 2026", entries: [{ title: "COMPBRAINTS II", desc: "Second edition with new formats and categories advancing critical thinking and innovation." }] },
+  { date: "February 2026", entries: [{ title: "CSGO", desc: "A sports and gaming event fostering friendly competition and camaraderie in the computing community." }] },
+  { date: "March 2026", entries: [
+    { title: "SOSPRO I", desc: "SOSPRO I focuses on community service." },
+    { title: "PUFA IFTAR", desc: "PUFA IFTAR is a special Ramadhan gathering." }
+  ] },
+  { date: "May 2026", entries: [{ title: "COMPSTUD", desc: "Academic development with workshops, seminars, and educational sessions." }] },
+  { date: "June 2026", entries: [{ title: "COMPSCIGALA", desc: "A prestigious gala celebrating CS faculty achievements, talents, and milestones." }] },
+  { date: "July 2026", entries: [
+    { title: "COMPSHADOW II", desc: "COMPSHADOW II offers deeper insights." },
+    { title: "COMPCONNECT", desc: "COMPCONNECT links students with alumni and industry." }
+  ] },
+  { date: "October 2026", entries: [
+    { title: "COMPREGEN", desc: "COMPREGEN re-energizes the community." },
+    { title: "COMPSPHERE", desc: "COMPSPHERE showcases student projects and innovations." }
+  ] },
+  { date: "November 2026", entries: [{ title: "COMPSHADOW (FAREWELL)", desc: "Farewell event celebrating graduating students' journey and achievements." }] },
+]
 
 export default function Page() {
-   return (
-      <div className="min-h-screen bg-white text-gray-800">
-         
+  return (
+    <div className="min-h-screen bg-[#F5EDD0] text-[#1A1A2E]">
 
-         {/* Hero Section - Modern Design */}
-         <section className="relative h-[60vh] w-full overflow-hidden pt-20">
-                {/* Background with subtle gradient and pattern */}
-                <div className="absolute inset-0 bg-gradient-to-br from-gray-50 via-white to-[#F2B233]/5 -z-10"></div>
-                <div className="absolute inset-0 bg-[url('/noise.png')] opacity-[0.02] mix-blend-overlay -z-10"></div>
-                
-                {/* Decorative elements */}
-                <div className="absolute top-20 right-20 w-64 h-64 bg-[#B48322]/5 rounded-full blur-3xl -z-5"></div>
-                <div className="absolute bottom-20 left-20 w-72 h-72 bg-[#F2B233]/5 rounded-full blur-3xl -z-5"></div>
-                
-                <div className="container relative mx-auto flex h-full flex-col items-center justify-center px-4">
-                    {/* Logo with modern styling - Moved down to avoid navbar overlap */}
-                    <div className="relative mb-8 mt-16">
-                        <div className="absolute -inset-0.5 bg-gradient-to-r from-[#B48322] to-[#F2B233] rounded-full blur opacity-75"></div>
-                        <div className="relative bg-white rounded-full p-1">
-                            <Image
-                                src={Logo}
-                                alt="Forcasion Logo"
-                                width={180}
-                                height={180}
-                                className="rounded-full object-cover"
-                                priority
-                            />
-                        </div>
-                    </div>
-                    
-                    {/* Heading with modern typography */}
-                    <h1 className="font-hero mb-4 text-4xl sm:text-5xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#000000] via-[#B48322] to-[#F2B233] text-center">
-                        FORCASION CABINET
-                    </h1>
-                    
-                    {/* Tagline with elegant styling */}
-                    <p className="mb-8 text-xl italic text-gray-600 max-w-2xl text-center">
-                        "Together We Stand, Together We Succeed"
-                    </p>
-                    
-                    {/* Decorative divider */}
-                    <div className="w-24 h-1 bg-gradient-to-r from-[#B48322] to-[#F2B233] mx-auto mb-8"></div>
-                </div>
-            </section>
+      {/* ══ HERO ══ */}
+      <section className="relative min-h-[70vh] w-full flex items-center justify-center pt-32 pb-20 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-[#EDE0BB]/80 to-[#F5EDD0]" />
 
-         {/* Vision & Mission - Modern Cards */}
-         <section className="py-20 bg-gradient-to-b from-white to-gray-50">
-                <div className="container mx-auto px-4">
-                    {/* Section header */}
-                    <div className="text-center mb-16">
-                        <span className="inline-block px-4 py-1.5 bg-[#B48322]/10 text-[#B48322] text-xs sm:text-sm font-medium rounded-full mb-4">Our Purpose</span>
-                        <h2 className="font-hero text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-[#000000] via-[#B48322] to-[#F2B233]">
-                            Vision & Mission
-                        </h2>
-                        <div className="w-24 h-1 bg-gradient-to-r from-[#B48322] to-[#F2B233] mx-auto mb-6"></div>
-                    </div>
-                    
-                    {/* Cards with modern design */}
-                    <div className="grid gap-8 md:grid-cols-2 max-w-5xl mx-auto">
-                        <div className="rounded-2xl bg-white/80 backdrop-blur-sm p-8 shadow-xl border border-gray-100 transform transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl">
-                            <div className="flex items-center mb-6">
-                                <div className="w-12 h-12 rounded-full bg-[#B48322]/10 flex items-center justify-center mr-4">
-                                    <svg className="w-6 h-6 text-[#B48322]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
-                                    </svg>
-                                </div>
-                                <h2 className="text-2xl font-bold text-[#B48322]">
-                                    Vision
-                                </h2>
-                            </div>
-                            <p className="text-lg leading-relaxed text-gray-700">
-                                To create a united, communicative, and
-                                competitive faculty where students from all
-                                departments actively participate in academic and
-                                non-academic activities and are fully supported
-                                in achieving their highest potential.
-                            </p>
-                        </div>
-                        
-                        <div className="rounded-2xl bg-white/80 backdrop-blur-sm p-8 shadow-xl border border-gray-100 transform transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl">
-                            <div className="flex items-center mb-6">
-                                <div className="w-12 h-12 rounded-full bg-[#B48322]/10 flex items-center justify-center mr-4">
-                                    <svg className="w-6 h-6 text-[#B48322]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
-                                    </svg>
-                                </div>
-                                <h2 className="text-2xl font-bold text-[#B48322]">
-                                    Mission
-                                </h2>
-                            </div>
-                            <ul className="space-y-4 text-gray-700">
-                                {[
-                                    "Solidify - Enhance Solidarity and Cohesion Across Departments",
-                                    "Communicate - Improve Effective Communication",
-                                    "Organize - Encourage Participation in Academic and Non-Academic Activities",
-                                    "Participate - Provide Support and Motivation to Students",
-                                    "Encourage - Encourage Participation and Support Student Activities"
-                                ].map((item, index) => (
-                                    <li key={index} className="flex items-start">
-                                        <svg className="w-5 h-5 text-[#B48322] mr-2 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"></path>
-                                        </svg>
-                                        <span>{item}</span>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </section>
+        {/* Top corner ornaments */}
+        <div className="absolute top-28 left-8 w-12 h-12 border-l border-t border-[#B8841E]/40" />
+        <div className="absolute top-28 right-8 w-12 h-12 border-r border-t border-[#B8841E]/40" />
 
-      {/* Division Section - Modern Design */}
-      <section id="divisions" className="py-24 bg-white relative overflow-hidden">
-        {/* Decorative elements */}
-        <div className="absolute top-0 left-0 w-80 h-80 bg-[#F2B233]/5 rounded-full blur-3xl -z-10"></div>
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#B48322]/5 rounded-full blur-3xl -z-10"></div>
-        <div className="absolute top-1/2 left-1/4 w-64 h-64 bg-gradient-to-br from-[#B48322]/5 to-[#F2B233]/5 rounded-full blur-3xl -z-10"></div>
-        
-        <div className="container mx-auto px-4 relative">
-          {/* Section header with modern styling */}
-          <div className="text-center mb-16">
-            <span className="inline-block px-4 py-1.5 bg-[#B48322]/10 text-[#B48322] text-xs sm:text-sm font-medium rounded-full mb-4">Team Structure</span>
-            <h2 className="font-hero text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-[#000000] via-[#B48322] to-[#F2B233]">
-              Our Divisions
-            </h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-[#B48322] to-[#F2B233] mx-auto mb-6"></div>
-            <p className="text-gray-600 max-w-xl mx-auto text-sm sm:text-base md:text-lg">
-              Meet the dedicated teams that work together to bring our vision to life and serve the Computing Faculty community.
-            </p>
+        <div className="relative container mx-auto px-6 flex flex-col items-center text-center max-w-4xl">
+          {/* Logo — Rounded Square */}
+          <div className="relative animate-float mb-10 group">
+            <div className="absolute -inset-1.5 rounded-[2rem] bg-gradient-to-br from-[#B8841E] via-[#D9A84A] to-[#B8841E] blur-md opacity-30 group-hover:opacity-50 transition-opacity duration-500 animate-glow-pulse" />
+            <Image
+              src={Logo}
+              alt="Aurascendia Logo"
+              priority
+              className="relative w-40 md:w-52 h-auto rounded-[2rem] border border-[#B8841E]/40 bg-[#0D1B3E] p-3 shadow-parch-xl"
+            />
           </div>
 
-          {/* Desktop View */}
-          <div className="hidden md:block">
-            <div className="relative">
-              {/* Center Logo */}
-              <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform">
-                <div className="relative">
-                  <div className="absolute -inset-4 rounded-full bg-gradient-to-r from-[#B48322] to-[#F2B233] opacity-30 blur-md"></div>
-                  <Image
-                    src={Logo2}
-                    alt="Logo PUFA Computing"
-                    width={180}
-                    height={180}
-                    className="bg-white/80 backdrop-blur-sm relative h-[180px] w-[180px] rounded-full border-4 border-[#B48322]/50 object-cover p-4 transition-all duration-500 hover:scale-105"
-                  />
-                </div>
-              </div>
+          <p className="section-label mb-5 tracking-[0.25em]">Aurascendia 2026</p>
+          <h1 className="font-display italic text-6xl sm:text-7xl md:text-8xl text-[#0D1B3E] mb-4 leading-[0.9]">
+            The Cabinet
+          </h1>
 
-              {/* Divisions Grid */}
-              <div className="grid grid-cols-2 gap-8">
-                {/* Left Column */}
-                <div className="flex flex-col gap-8 pr-24">
-                  {[
-                    {
-                      title: "Board of Director",
-                      description:
-                        "Is a representative of the highest division consisting of Chairperson, Vice Chairperson, Secretary and Treasurer.",
-                      link: "forcasion/board-of-director",
-                      color: "from-[#B48322] to-[#F2B233]",
-                      icon: "👑"
-                    },
-                    {
-                      title: "External Relations",
-                      description: "This division organize activities or events related to parties outside the campus. To build relationships with the community, other campus and companies. It also have purpose to share knowledge and experience with each other.",
-                      link: "forcasion/external-relation",
-                      color: "from-[#B48322] to-[#F2B233]",
-                      icon: "🤝"
-                    },
-                    {
-                      title: "Internal Relations",
-                      description:
-                        "This division has the main task of strengthening the relationship between students and students, students and lecturers, students and alumni and PUMA - PUFA",
-                      link: "forcasion/internal-relation",
-                      color: "from-[#B48322] to-[#F2B233]",
-                      icon: "🏛️"
-                    },
-                    {
-                      title: "Art and Sport",
-                      description:
-                        "Is a division that focuses on developing interest and burning the arts and sports in the computing sphere. This division also in charge of organizing both arts and sports activities so that computizens has a place to channel their non-academics potential.",
-                      link: "forcasion/art-and-sport",
-                      color: "from-[#B48322] to-[#F2B233]",
-                      icon: "🎨"
-                    },
-                    {
-                      title: "Communication and Multimedia",
-                      description:
-                        "Is a division that handles PUFA Computing social media such as Instagram, LinkedIn, LINE OA, and youtube. Multimedia division is responsible to in charge of creating and editing templates content to be posted on social media PUFA Computing.",
-                      link: "forcasion/communication-and-multimedia",
-                      color: "from-[#B48322] to-[#F2B233]",
-                      icon: "📱"
-                    },
-                  ].map((division, index) => (
-                    <Link
-                      key={index}
-                      href={division.link}
-                      className="group flex flex-col items-end rounded-xl bg-white/80 backdrop-blur-sm p-6 text-right transition-all duration-500 hover:-translate-y-2 hover:shadow-xl border border-gray-100 shadow-md relative overflow-hidden"
-                    >
-                      {/* Right accent border */}
-                      <div className="absolute inset-y-0 right-0 w-1 bg-gradient-to-b from-[#B48322] to-[#F2B233]"></div>
-                      
-                      <div className="flex items-center justify-end mb-3">
-                        <h3 className="mr-3 text-xl font-bold text-gray-800 group-hover:text-[#B48322] transition-colors duration-300">
-                          {division.title}
-                        </h3>
-                        <div className="flex items-center justify-center h-10 w-10 rounded-full bg-[#B48322]/10 text-lg">
-                          {division.icon}
-                        </div>
-                      </div>
-                      <p className="mt-2 text-sm text-gray-600 leading-relaxed">{division.description}</p>
-                      <div className="mt-4 pt-2 border-t border-gray-100 flex items-center justify-end text-[#B48322] transition-all duration-300 group-hover:-translate-x-1">
-                        <span className="mr-1 text-sm font-medium">Learn more</span>
-                        <ChevronRight className="h-4 w-4 transition-transform duration-300 group-hover:-translate-x-1" />
-                      </div>
-                    </Link>
-                  ))}
-                </div>
+          <SectionRule />
 
-                {/* Right Column */}
-                <div className="flex flex-col gap-8 pl-24">
-                  {[
-                    {
-                      title: "Research and Technology",
-                      description:
-                        "Is a division in charge of developing creative ideas in the field of technology and sharing knowledge in the field of technology which aims to develop human resources, especially students within the campus itself.",
-                      link: "forcasion/research-and-technology",
-                      color: "from-[#B48322] to-[#F2B233]",
-                      icon: "💡"
-                    },
-                    {
-                      title: "Student Development and Competition",
-                      description:
-                        "Is a division that focuses on improving the quality and optimizing the potential of Computizen in academic field, with the hope that it can have high competitiveness and contribute fully to the Faculty of Computing, President University, and Indonesia. ",
-                      link: "forcasion/student-development-and-competition",
-                      color: "from-[#B48322] to-[#F2B233]",
-                      icon: "🚀"
-                    },
-                    {
-                      title: "Student Welfare Advocacy",
-                      description:
-                        "Is a division that serves as a bridge between Computizens (students) and the campus (faculty).SWA is responsible for accommodating aspirations and suggestions, as well as assisting and defending problems experienced by Computizens.",
-                      link: "forcasion/student-welfare-advocacy",
-                      color: "from-[#B48322] to-[#F2B233]",
-                      icon: "⚖️"
-                    },
-                    {
-                      title: "Entrepreneurship",
-                      description:
-                        "Is a new division at PUFA Computing this cabinet, this division aims to develop computizens interests and talents in entrepreneurship and business.",
-                      link: "forcasion/entrepreneur",
-                      color: "from-[#B48322] to-[#F2B233]",
-                      icon: "💼"
-                    },
-                  ].map((division, index) => (
-                    <Link
-                      key={index}
-                      href={division.link}
-                      className="group flex flex-col items-start rounded-xl bg-white/80 backdrop-blur-sm p-6 text-left transition-all duration-500 hover:-translate-y-2 hover:shadow-xl border border-gray-100 shadow-md relative overflow-hidden"
-                    >
-                      {/* Left accent border */}
-                      <div className="absolute inset-y-0 left-0 w-1 bg-gradient-to-b from-[#B48322] to-[#F2B233]"></div>
-                      
-                      <div className="flex items-center mb-3">
-                        <div className="flex items-center justify-center h-10 w-10 rounded-full bg-[#B48322]/10 text-lg mr-3">
-                          {division.icon}
-                        </div>
-                        <h3 className="text-xl font-bold text-gray-800 group-hover:text-[#B48322] transition-colors duration-300">
-                          {division.title}
-                        </h3>
-                      </div>
-                      <p className="mt-2 text-sm text-gray-600 leading-relaxed">{division.description}</p>
-                      <div className="mt-4 pt-2 border-t border-gray-100 flex items-center text-[#B48322] transition-all duration-300 group-hover:translate-x-1">
-                        <span className="mr-1 text-sm font-medium">Learn more</span>
-                        <ChevronRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Mobile View - Modern Design */}
-          <div className="grid gap-5 md:hidden">
-            {[
-              {
-                title: "Board of Director",
-                description:
-                  "Is a representative of the highest division consisting of Chairperson, Vice Chairperson, Secretary and Treasurer.",
-                link: "forcasion/board-of-director",
-                color: "from-[#B48322] to-[#F2B233]",
-                icon: "👑"
-              },
-              {
-                title: "External Relations",
-                description: "This division organize activities or events related to parties outside the campus. To build relationships with the community, other campus and companies. It also have purpose to share knowledge and experience with each other.",
-                link: "forcasion/external-relation",
-                color: "from-[#B48322] to-[#F2B233]",
-                icon: "🤝"
-              },
-              {
-                title: "Internal Relations",
-                description:
-                  "This division has the main task of strengthening the relationship between students and students, students and lecturers, students and alumni and PUMA - PUFA",
-                link: "forcasion/internal-relation",
-                color: "from-[#B48322] to-[#F2B233]",
-                icon: "🏛️"
-              },
-              {
-                title: "Art and Sport",
-                description:
-                  "Is a division that focuses on developing interest and burning the arts and sports in the computing sphere. This division also in charge of organizing both arts and sports activities so that computizens has a place to channel their non-academics potential.",
-                link: "forcasion/art-and-sport",
-                color: "from-[#B48322] to-[#F2B233]",
-                icon: "🎨"
-              },
-              {
-                title: "Communication and Multimedia",
-                description:
-                  "Is a division that handles PUFA Computing social media such as Instagram, LinkedIn, LINE OA, and youtube. Multimedia division is responsible to in charge of creating and editing templates content to be posted on social media PUFA Computing.",
-                link: "forcasion/communication-and-multimedia",
-                color: "from-[#B48322] to-[#F2B233]",
-                icon: "📱"
-              },
-              {
-                title: "Research and Technology",
-                description:
-                  "Is a division in charge of developing creative ideas in the field of technology and sharing knowledge in the field of technology which aims to develop human resources, especially students within the campus itself.",
-                link: "forcasion/research-and-technology",
-                color: "from-[#B48322] to-[#F2B233]",
-                icon: "💡"
-              },
-              {
-                title: "Student Development and Competition",
-                description:
-                  "Is a division that focuses on improving the quality and optimizing the potential of Computizen in academic field, with the hope that it can have high competitiveness and contribute fully to the Faculty of Computing, President University, and Indonesia. ",
-                link: "forcasion/student-development-and-competition",
-                color: "from-[#B48322] to-[#F2B233]",
-                icon: "🚀"
-              },
-              {
-                title: "Student Welfare Advocacy",
-                description:
-                  "Is a division that serves as a bridge between Computizens (students) and the campus (faculty).SWA is responsible for accommodating aspirations and suggestions, as well as assisting and defending problems experienced by Computizens.",
-                link: "forcasion/student-welfare-advocacy",
-                color: "from-[#B48322] to-[#F2B233]",
-                icon: "⚖️"
-              },
-              {
-                title: "Entrepreneurship",
-                description:
-                  "Entrepreneurship is a new division at PUFA Computing this cabinet, this division aims to develop computizens interests and talents in entrepreneurship and business.",
-                link: "forcasion/entrepreneur",
-                color: "from-[#B48322] to-[#F2B233]",
-                icon: "💼"
-              },
-            ].map((division, index) => (
-              <Link
-                key={index}
-                href={division.link}
-                className="group flex items-start rounded-xl bg-white/80 backdrop-blur-sm p-5 text-left transition-all duration-300 shadow-md hover:shadow-lg border border-gray-100 relative"
-              >
-                {/* Top accent border */}
-                <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#B48322] to-[#F2B233]"></div>
-                
-                <div className="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-full bg-[#B48322]/10 text-lg mr-3">
-                  {division.icon}
-                </div>
-                <div>
-                  <h3 className="text-lg font-bold text-gray-800 group-hover:text-[#B48322] transition-colors duration-300">{division.title}</h3>
-                  <p className="mt-2 text-sm text-gray-600 leading-relaxed">{division.description}</p>
-                  
-                  {/* Learn more link */}
-                  <div className="mt-3 flex items-center text-[#B48322] transition-all duration-300 group-hover:translate-x-1">
-                    <span className="text-xs font-medium">Learn more</span>
-                    <ChevronRight className="h-3 w-3 ml-1 transition-transform duration-300 group-hover:translate-x-1" />
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
+          <p className="font-serif italic text-[#1A1A2E]/60 text-lg md:text-xl max-w-xl text-balance">
+            &ldquo;Grow Together, Impact Further&rdquo;
+          </p>
         </div>
       </section>
 
-      {/* Timeline Section */}
-      <section id="timeline" className="py-20">
-        <div className="container mx-auto px-4">
-          <h2 className="font-hero mb-12 text-center text-3xl font-bold text-amber-400 sm:text-4xl">Event Timeline</h2>
+      {/* ══ VISION & MISSION (Centered Layout) ══ */}
+      <section className="py-24 sm:py-32 bg-[#FAF5E8]">
+        <div className="container mx-auto px-6 max-w-3xl text-center">
+          <SectionRule />
 
-          <div className="grid gap-8 md:grid-cols-3">
-            <div className="md:sticky md:top-24 md:self-start">
-              <div className="rounded-2xl bg-white/80 backdrop-blur-sm p-8 shadow-xl border border-gray-100 transform transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl">
-                <span className="inline-block rounded-full bg-[#B48322]/10 text-[#B48322] px-3 py-1 text-xs font-medium mb-4">
-                  2024-2025
-                </span>
-                <h3 className="mt-4 text-2xl font-bold text-gray-800 sm:text-3xl">FORCASION Events</h3>
-                <div className="w-16 h-1 bg-gradient-to-r from-[#B48322] to-[#F2B233] mt-4 mb-4"></div>
-                <p className="mt-2 text-gray-600 leading-relaxed">
-                  Here's our event timeline for the academic year 2024-2025. Various events are organized throughout the year to engage students and enhance their university experience.
-                </p>
-                <Link
-                  href="/events"
-                  className="mt-6 inline-flex items-center rounded-full bg-gradient-to-r from-[#000000] to-[#B48322] px-6 py-3 text-sm font-medium text-white transition-all duration-300 hover:shadow-lg hover:shadow-[#B48322]/30 group"
-                >
-                  Explore All Events
-                  <ExternalLink className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-                </Link>
-              </div>
-            </div>
+          <div className="my-16">
+            <h2 className="font-display italic text-4xl sm:text-5xl text-[#B8841E] mb-6">Our Vision</h2>
+            <p className="font-serif text-lg sm:text-xl leading-relaxed text-[#0D1B3E]/80 text-balance mx-auto">
+              To build a faculty association that focuses on strengthening student potential to contribute meaningfully to the academic, non-academic, and social growth of the faculty and university.
+            </p>
+          </div>
 
-            <div className="relative col-span-2">
-              <div className="absolute left-4 top-0 h-full w-0.5 bg-gradient-to-b from-[#B48322] via-[#F2B233] to-transparent md:left-0"></div>
+          <SectionRule />
 
+          <div className="my-16">
+            <h2 className="font-display italic text-4xl sm:text-5xl text-[#B8841E] mb-10">Our Mission</h2>
+            <div className="flex flex-col gap-8 text-left max-w-2xl mx-auto">
               {[
-                {
-                  date: "October 2024",
-                  title: "CML (Computing Major Leader)",
-                  description:
-                    "CML helps organize and facilitate events, activities, and meetings that involve students from their class or department. They coordinate logistics, gather participants, and ensure that events run smoothly.",
-                  icon: "👥"
-                },
-                {
-                  date: "November 2024",
-                  title: "COMPSHADOW & COMPBRAINTS",
-                  description:
-                    "COMPSHADOW is a welcoming event for new students, while COMPBRAINTS is a competitive event where students can showcase their talents and skills in various computing fields.",
-                  isMultiple: true,
-                  events: ["COMPSHADOW", "COMPBRAINTS"],
-                  icon: "🎮"
-                },
-                {
-                  date: "January 2025",
-                  title: "New Year Events",
-                  description:
-                    "Special events to kick off the new year with various activities and programs for students to participate in.",
-                  icon: "🎆"
-                },
-                {
-                  date: "February 2025",
-                  title: "CSGO x Senior High School & COMPRUSADER",
-                  description:
-                    "CSGO x Senior High School event promotes our campus and increases its recognition among high school students through engaging sports and esports competitions. COMPRUSADER is another exciting event for students.",
-                  isMultiple: true,
-                  events: ["CSGO x Senior High School", "COMPRUSADER"],
-                  icon: "🏆"
-                },
-                {
-                  date: "March 2025",
-                  title: "SOSPRO (Ramadhan)",
-                  description:
-                    "Special social project activities during the Ramadhan month, focusing on community service and charitable initiatives.",
-                  icon: "🌙"
-                },
-                {
-                  date: "April 2025",
-                  title: "COMPBIRTHDAY & Achievement Gala",
-                  description:
-                    "The Computing Achievement Gala is an event designed to recognize and celebrate the exceptional achievements of students within the Faculty of Computing. The gala aims to highlight both academic and non-academic successes, fostering a culture of excellence.",
-                  isMultiple: true,
-                  events: ["COMPBIRTHDAY", "Computing Achievement Gala"],
-                  icon: "🎓"
-                },
-                {
-                  date: "May 2025",
-                  title: "COMPSTUD",
-                  description:
-                    "An academic event focused on student development and learning, providing opportunities for students to enhance their skills and knowledge.",
-                  icon: "📚"
-                },
-                {
-                  date: "June 2025",
-                  title: "BIZCONNECT",
-                  description:
-                    "A networking event connecting students with business professionals and industry experts to build relationships and explore career opportunities.",
-                  icon: "🤝"
-                },
-                {
-                  date: "July 2025",
-                  title: "COMPBRAINST II",
-                  description:
-                    "The second iteration of the COMPBRAINST event, focusing on innovation, creativity, and problem-solving in computing.",
-                  icon: "💡"
-                },
-                {
-                  date: "September 2025",
-                  title: "COMPSPHERE",
-                  description:
-                    "A comprehensive event showcasing various aspects of computing and technology, with exhibitions, workshops, and competitions.",
-                  icon: "🌐"
-                },
-                {
-                  date: "October 2025",
-                  title: "COMPRECEN",
-                  description:
-                    "An event celebrating recent achievements and recognizing outstanding contributions within the computing community.",
-                  icon: "🏅"
-                },
-                {
-                  date: "November 2025",
-                  title: "COMPSHADOW II (FAREWELL)",
-                  description:
-                    "A farewell event for graduating students, celebrating their journey and achievements throughout their time at the university.",
-                  icon: "👋"
-                },
-              ].map((event, index) => (
-                <div
-                  key={index}
-                  className="group relative mb-8 ml-8 rounded-2xl border border-gray-200 bg-white/80 backdrop-blur-sm p-6 transition-all duration-500 hover:-translate-y-1 hover:border-[#B48322]/50 hover:shadow-xl hover:shadow-[#B48322]/10 md:ml-12"
-                >
-                  <div className="absolute -left-8 top-6 flex items-center justify-center h-8 w-8 rounded-full border-2 border-[#B48322] bg-white text-[#B48322] transition-all duration-300 group-hover:bg-[#B48322] group-hover:text-white md:-left-14">
-                    {event.icon}
-                  </div>
-                  <span className="inline-block rounded-full bg-[#B48322]/10 px-3 py-1 text-xs font-medium text-[#B48322] mb-2">
-                    {event.date}
-                  </span>
-                  {event.isMultiple ? (
-                    <div className="mt-2">
-                      {event.events?.map((subEvent, idx) => (
-                        <h3 key={idx} className="mb-1 text-xl font-bold text-gray-800 group-hover:text-[#B48322] transition-colors duration-300">
-                          {subEvent}
-                        </h3>
-                      ))}
-                    </div>
-                  ) : (
-                    <h3 className="mt-2 text-xl font-bold text-gray-800 group-hover:text-[#B48322] transition-colors duration-300">{event.title}</h3>
-                  )}
-                  <p className="mt-3 text-gray-600 leading-relaxed">{event.description}</p>
-                  
-                  {/* Read more button */}
-                  <div className="mt-4 text-right">
-                    <span className="inline-flex items-center text-sm font-medium text-[#B48322] transition-all duration-300 group-hover:translate-x-1 cursor-pointer">
-                      Learn more
-                      <svg className="ml-1.5 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                      </svg>
-                    </span>
-                  </div>
+                { key: "Nurture", desc: "Strengthen integrity and thoughtful behavior in all actions." },
+                { key: "Oblige", desc: "Commit to responsibility with sincerity for collective student interest." },
+                { key: "Build", desc: "Foster empathy, collaboration, and inclusive leadership." },
+                { key: "Lead", desc: "Represent with integrity and lead with transparency." },
+                { key: "Empower", desc: "Support academic and non-academic excellence through impactful initiatives." },
+              ].map(({ key, desc }) => (
+                <div key={key} className="flex flex-col sm:flex-row gap-2 sm:gap-6 items-center sm:items-start text-center sm:text-left group">
+                  <span className="font-display italic text-2xl tracking-wide text-[#B8841E] min-w-[100px] group-hover:text-[#D9A84A] transition-colors">{key}</span>
+                  <span className="h-px w-8 bg-[#B8841E]/30 mt-4 hidden sm:block" />
+                  <span className="font-serif text-base text-[#1A1A2E]/70 leading-relaxed sm:mt-1">{desc}</span>
                 </div>
               ))}
             </div>
@@ -550,8 +125,99 @@ export default function Page() {
         </div>
       </section>
 
-      
+      {/* ══ DIVISIONS (Centered Grid/List Pattern) ══ */}
+      <section id="divisions" className="py-24 sm:py-32 bg-[#F5EDD0]">
+        <div className="container mx-auto px-6 max-w-5xl">
+          <div className="text-center mb-16">
+            <p className="section-label mb-4">Structure</p>
+            <h2 className="font-display italic text-5xl sm:text-6xl text-[#0D1B3E]">Our Divisions</h2>
+            <SectionRule />
+          </div>
+
+          {/* Centered frames for divisions */}
+          <div className="grid gap-6 max-w-4xl mx-auto md:grid-cols-2 lg:grid-cols-3">
+            {divisions.map((div, i) => (
+              <Link key={i} href={div.link}
+                className="group flex flex-col items-center text-center p-8 bg-[#FAF5E8]/80 border border-[#B8841E]/20 hover:border-[#B8841E]/50 transition-all duration-300 hover:shadow-parch-md hover:-translate-y-1 rounded-sm">
+
+                {/* Ornamental top line */}
+                <div className="w-10 h-px bg-[#B8841E]/40 mb-5 group-hover:w-16 group-hover:bg-[#B8841E] transition-all duration-300" />
+
+                <h3 className="font-display italic text-[1.4rem] text-[#0D1B3E] mb-3 leading-snug px-2">
+                  {div.title}
+                </h3>
+                <p className="font-serif text-[13px] text-[#1A1A2E]/60 leading-relaxed mb-6 flex-1">
+                  {div.desc}
+                </p>
+
+                <span className="text-[11px] font-serif uppercase tracking-widest text-[#B8841E]/80 group-hover:text-[#B8841E] transition-colors inline-flex items-center gap-2">
+                  Explore <ChevronRight className="h-3 w-3" />
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ══ TIMELINE (Center Spine) ══ */}
+      <section id="timeline" className="py-24 sm:py-32 bg-[#FAF5E8] relative overflow-hidden">
+        {/* Subtle background glow */}
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-full max-w-3xl h-full bg-[#B8841E]/5 rounded-full blur-[100px] pointer-events-none" />
+
+        <div className="container relative mx-auto px-6 max-w-5xl z-10">
+          <div className="text-center mb-20">
+            <p className="section-label mb-4">2025 — 2026</p>
+            <h2 className="font-display italic text-5xl sm:text-6xl text-[#0D1B3E]">Event Timeline</h2>
+            <SectionRule />
+            <p className="font-serif text-sm text-[#1A1A2E]/60 max-w-md mx-auto mt-6">
+              A comprehensive workplan of events curated to elevate the student experience throughout the academic year.
+            </p>
+          </div>
+
+          <div className="relative max-w-4xl mx-auto">
+            {/* Center Spine Line */}
+            <div className="absolute left-[24px] md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-[#B8841E]/40 to-transparent md:-translate-x-1/2" />
+
+            <div className="space-y-16 md:space-y-0">
+              {timelineEvents.map((ev, i) => {
+                const isEven = i % 2 === 0;
+                return (
+                  <div key={i} className={`relative flex flex-col md:flex-row items-start ${isEven ? 'md:flex-row-reverse' : ''} md:h-64`}>
+
+                    {/* Center Dot */}
+                    <div className="absolute left-[24px] md:left-1/2 top-4 md:top-8 w-3 h-3 rounded-full bg-[#B8841E] border-4 border-[#FAF5E8] shadow-[0_0_0_1px_rgba(184,132,30,0.3)] transform -translate-x-[5.5px] md:-translate-x-1/2 z-10 text-center" />
+
+                    {/* Desktop Content spacing */}
+                    <div className="hidden md:block md:w-1/2" />
+
+                    {/* Content Card */}
+                    <div className={`ml-14 md:ml-0 md:w-1/2 group ${isEven ? 'md:pr-12 md:text-right' : 'md:pl-12 md:text-left'} pt-1 md:pt-[22px]`}>
+                      <p className="section-label text-[#B8841E]/70 mb-4">{ev.date}</p>
+                      
+                      <div className="flex flex-col gap-6">
+                        {ev.entries.map((e, j) => (
+                          <div key={j}>
+                            <h3 className="font-display italic text-[1.4rem] text-[#0D1B3E] leading-tight mb-1 group-hover:text-[#B8841E] transition-colors">{e.title}</h3>
+                            <p className="font-serif text-[13px] text-[#1A1A2E]/60 leading-relaxed text-balance">
+                              {e.desc}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                  </div>
+                )
+              })}
+            </div>
+
+            {/* Bottom ornament for timeline */}
+            <div className="absolute bottom-[-40px] left-[24px] md:left-1/2 transform -translate-x-1/2 text-[#B8841E]/40 text-xs">
+              ✦
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   )
 }
-

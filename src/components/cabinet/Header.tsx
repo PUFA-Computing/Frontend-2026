@@ -3,15 +3,17 @@
 import OptimizedImage from "@/components/ui/OptimizedImage"
 import { useEffect, useState } from "react"
 import { motion } from "framer-motion"
-import { ChevronRight } from "lucide-react"
+import Link from "next/link"
+import { ArrowLeft } from "lucide-react"
 
 interface HeaderProps {
   title: string
   description: string
   image: string
+  image2?: string
 }
 
-export default function Header({ title, description, image }: HeaderProps) {
+export default function Header({ title, description, image, image2 }: HeaderProps) {
   const [isLoaded, setIsLoaded] = useState(false)
 
   useEffect(() => {
@@ -19,99 +21,136 @@ export default function Header({ title, description, image }: HeaderProps) {
   }, [])
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-slate-50 to-slate-100">
-      {/* Background elements */}
-      <div className="absolute top-0 left-0 w-full h-full">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-green-50 rounded-full -mr-32 -mt-32 opacity-70" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-green-50 rounded-full -ml-48 -mb-48 opacity-70" />
-        <div className="absolute top-1/2 left-1/4 w-4 h-4 bg-green-400 rounded-full" />
-        <div className="absolute top-1/4 right-1/3 w-6 h-6 bg-green-200 rounded-full" />
-        <div className="absolute bottom-1/3 right-1/4 w-3 h-3 bg-green-300 rounded-full" />
+    <section className="relative w-full flex flex-col items-center justify-center pt-32 pb-16 overflow-hidden bg-[#F5EDD0]">
+      {/* Parchment gradient bg */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#EDE0BB]/80 to-[#F5EDD0]" />
 
-        {/* Grid pattern */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_110%)]"></div>
-      </div>
+      {/* Corner ornaments */}
+      <div className="absolute top-28 left-8 w-12 h-12 border-l border-t border-[#B8841E]/40 hidden md:block" />
+      <div className="absolute top-28 right-8 w-12 h-12 border-r border-t border-[#B8841E]/40 hidden md:block" />
 
-      <div className="container mx-auto px-4 md:px-8 lg:px-12 py-16 md:py-24">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center relative z-10">
-          {/* Text content */}
+      <div className="relative container mx-auto px-6 max-w-7xl z-10">
+        {/* Back button */}
+        <motion.div
+          initial={{ opacity: 0, x: -12 }}
+          animate={isLoaded ? { opacity: 1, x: 0 } : {}}
+          transition={{ duration: 0.5 }}
+          className="mb-10"
+        >
+          <Link
+            href="/cabinet/forcasion"
+            className="inline-flex items-center rounded-none border border-[#B8841E]/30 bg-[#FAF5E8]/60 px-4 py-2 text-sm font-serif font-medium text-[#0D1B3E] transition-all hover:bg-[#B8841E]/10"
+          >
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back to Cabinet
+          </Link>
+        </motion.div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-20 items-center">
+          {/* Text */}
           <motion.div
-            className="space-y-6"
+            className="space-y-8 text-center lg:text-left"
             initial={{ opacity: 0, x: -20 }}
             animate={isLoaded ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <div className="flex items-center space-x-2 text-green-600">
-              <div className="h-px w-8 bg-green-600"></div>
-              <span className="text-sm font-medium uppercase tracking-wider">Division Spotlight</span>
-            </div>
-
-            <div className="relative pl-5 md:pl-8 border-l-4 border-green-500">
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-black uppercase tracking-wide text-slate-800 mb-2">
+            <div>
+              <div className="inline-block border border-[#B8841E]/30 bg-[#FAF5E8]/60 px-4 py-1.5 shadow-parch-sm mb-6">
+                <p className="font-serif text-xs tracking-[0.2em] font-medium text-[#B8841E] uppercase">Division Spotlight</p>
+              </div>
+              <h1 className="font-display italic text-5xl md:text-6xl lg:text-7xl text-[#0D1B3E] leading-[0.95] mb-4">
                 {title}
               </h1>
-
-              <div className="flex flex-col md:flex-row md:items-end gap-4 md:gap-6">
-                <h2 className="text-2xl md:text-3xl lg:text-4xl font-extralight uppercase tracking-wider text-slate-400">
-                  Division
-                </h2>
-
-                <p className="text-base md:text-lg text-slate-600 max-w-md leading-relaxed">{description}</p>
+              <div className="flex items-center justify-center lg:justify-start gap-3 mb-8">
+                <div className="h-px w-16 bg-gradient-to-r from-[#B8841E]/40 to-transparent" />
+                <span className="text-[#B8841E]/50 text-xs">✦</span>
+                <div className="h-px w-16 bg-gradient-to-l from-[#B8841E]/40 to-transparent" />
               </div>
             </div>
-
-            <motion.div
-              className="pt-4"
-              initial={{ opacity: 0, y: 20 }}
-              animate={isLoaded ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.6 }}
-            >
-              {/* <button className="inline-flex items-center gap-2 px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-all duration-300 group">
-                Learn More
-                <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </button> */}
-            </motion.div>
+            <p className="font-serif text-base md:text-lg text-[#1A1A2E]/70 leading-relaxed max-w-xl mx-auto lg:mx-0 text-balance">
+              {description}
+            </p>
           </motion.div>
 
-          {/* Image container */}
+          {/* Image — dual panel for CnM, single for others */}
           <motion.div
             className="relative"
             initial={{ opacity: 0, scale: 0.95 }}
             animate={isLoaded ? { opacity: 1, scale: 1 } : {}}
-            transition={{ duration: 0.7, delay: 0.4 }}
+            transition={{ duration: 0.7, delay: 0.35 }}
           >
-            <div className="relative z-20 rounded-lg overflow-hidden shadow-2xl" style={{ minHeight: '400px' }}>
-              <OptimizedImage
-                src={image || "/placeholder.svg"}
-                alt={`${title} Division`}
-                width={1080}
-                height={720}
-                className="w-full h-full object-contain rounded-lg"
-                priority={true}
-                placeholder="blur"
-                sizes="(max-width: 768px) 100vw, 50vw"
-              />
+            <div className="absolute -inset-3 border border-[#B8841E]/15 hidden md:block" />
 
-              {/* Overlay gradient */}
-              <div className="absolute inset-0 bg-gradient-to-tr from-green-900/20 to-transparent pointer-events-none"></div>
-            </div>
-
-            {/* Decorative elements */}
-            <div className="absolute -bottom-6 -right-6 w-32 h-32 border-4 border-green-500 rounded-lg z-10"></div>
-            <div className="absolute -top-6 -left-6 w-24 h-24 bg-green-100 rounded-lg z-10"></div>
-
-            {/* Dots pattern (replacing the DOTTED image) */}
-            <div className="absolute -bottom-12 -left-12 w-48 h-48 z-0">
-              <div className="grid grid-cols-6 gap-2">
-                {[...Array(36)].map((_, i) => (
-                  <div key={i} className="w-2 h-2 rounded-full bg-green-300"></div>
-                ))}
+            {image2 ? (
+              /* ── Split-panel for Communication & Multimedia ── */
+              <div className="relative flex gap-3" style={{ maxHeight: '480px' }}>
+                {/* Left panel — Mulmed */}
+                <div className="relative flex-1 bg-[#FAF5E8] flex items-center justify-center overflow-hidden rounded-sm" style={{ minHeight: '320px' }}>
+                  <OptimizedImage
+                    src={image}
+                    alt={`${title} — Communication`}
+                    width={720}
+                    height={720}
+                    className="w-full h-full object-contain"
+                    priority={true}
+                    placeholder="blur"
+                    sizes="25vw"
+                  />
+                  <div className="absolute inset-0 bg-[#0D1B3E]/5 mix-blend-multiply pointer-events-none" />
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#0D1B3E]/60 to-transparent px-3 pb-3 pt-8">
+                    <p className="font-display italic text-[#F5EDD0]/90 text-sm">Communication</p>
+                  </div>
+                </div>
+                {/* Divider */}
+                <div className="w-px bg-[#B8841E]/30 flex-shrink-0" />
+                {/* Right panel — Com */}
+                <div className="relative flex-1 bg-[#FAF5E8] flex items-center justify-center overflow-hidden rounded-sm" style={{ minHeight: '320px' }}>
+                  <OptimizedImage
+                    src={image2}
+                    alt={`${title} — Multimedia`}
+                    width={720}
+                    height={720}
+                    className="w-full h-full object-contain"
+                    priority={true}
+                    placeholder="blur"
+                    sizes="25vw"
+                  />
+                  <div className="absolute inset-0 bg-[#0D1B3E]/5 mix-blend-multiply pointer-events-none" />
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#0D1B3E]/60 to-transparent px-3 pb-3 pt-8">
+                    <p className="font-display italic text-[#F5EDD0]/90 text-sm">Multimedia</p>
+                  </div>
+                </div>
+                {/* Floating badge */}
+                <div className="absolute top-3 left-1/2 -translate-x-1/2 bg-[#FAF5E8]/90 border border-[#B8841E]/30 px-3 py-1 shadow-parch-sm">
+                  <p className="font-serif text-[10px] tracking-[0.2em] text-[#B8841E] uppercase whitespace-nowrap">Communication & Multimedia</p>
+                </div>
               </div>
-            </div>
+            ) : (
+              /* ── Single image for all other divisions ── */
+              <div className="relative overflow-hidden" style={{ minHeight: '360px' }}>
+                <OptimizedImage
+                  src={image || "/placeholder.svg"}
+                  alt={`${title} Division`}
+                  width={1080}
+                  height={720}
+                  className="w-full h-full object-cover"
+                  priority={true}
+                  placeholder="blur"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                />
+                <div className="absolute inset-0 bg-[#0D1B3E]/10 mix-blend-multiply pointer-events-none" />
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#0D1B3E]/60 to-transparent px-5 pb-4 pt-10">
+                  <p className="font-display italic text-[#F5EDD0]/90 text-lg">{title} Division</p>
+                </div>
+              </div>
+            )}
+
+            {/* Gold corner accents */}
+            <div className="absolute bottom-0 right-0 w-8 h-8 border-b border-r border-[#B8841E]/50" />
+            <div className="absolute top-0 left-0 w-8 h-8 border-t border-l border-[#B8841E]/50" />
           </motion.div>
         </div>
       </div>
     </section>
   )
 }
-

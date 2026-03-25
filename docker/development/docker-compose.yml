@@ -1,24 +1,42 @@
+# ============================================================
+# docker/development/docker-compose.yml — Development Stack
+# Usage: docker compose -f docker/development/docker-compose.yml up --build
+#
+# Reads .env from project root (../../.env)
+# No local PostgreSQL or Redis — connects to remote DB server
+# ============================================================
+
 services:
   development:
     build:
       context: ../../
       dockerfile: docker/development/Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
+        NEXTAUTH_URL: ${NEXTAUTH_URL}
+        NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
+        NEXTAUTH_BASE_PATH: ${NEXTAUTH_BASE_PATH}
+        DATABASE_URL: ${DATABASE_URL}
+    container_name: frontend-dev
     ports:
       - "3000:3000"
-    restart: always
+    restart: unless-stopped
     environment:
+      - NODE_ENV=production
       - NEXTAUTH_URL=${NEXTAUTH_URL}
       - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
       - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
       - NEXTAUTH_BASE_PATH=${NEXTAUTH_BASE_PATH}
-      - NODE_ENV=production
       - DATABASE_URL=${DATABASE_URL}
+    env_file:
+      - ../../.env
     extra_hosts:
+      # Allow container to reach host machine (e.g. local backend on port 8080)
       - "host.docker.internal:host-gateway"
     networks:
-      - pufa_network
+      - pufa_dev_network
 
 networks:
-  pufa_network:
-    external: false
-    name: pufa_network
+  pufa_dev_network:
+    name: pufa_dev_network
+    driver: bridge

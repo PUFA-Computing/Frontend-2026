@@ -137,37 +137,37 @@ export default async function EventDetailsPage({ params }: EventPageProps) {
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(eventSchema) }}
             />
             {/* Header Section */}
-            <section className="relative overflow-hidden bg-gradient-to-r from-blue-900 via-indigo-800 to-purple-900 px-4 py-16 sm:px-6 md:px-8 lg:px-16">
-                {/* Decorative elements */}
-                <div className="absolute -left-20 -top-20 h-40 w-40 rounded-full bg-blue-500 opacity-10"></div>
-                <div className="absolute -right-20 bottom-10 h-60 w-60 rounded-full bg-purple-500 opacity-10"></div>
+            <section className="relative w-full flex flex-col items-center justify-center pt-32 pb-20 overflow-hidden bg-[#F5EDD0]">
+                <div className="absolute inset-0 bg-gradient-to-b from-[#EDE0BB]/80 to-[#F5EDD0]" />
                 
-                <div className="relative mx-auto max-w-7xl">
+                {/* Top corner ornaments */}
+                <div className="absolute top-28 left-8 w-12 h-12 border-l border-t border-[#B8841E]/40 hidden md:block" />
+                <div className="absolute top-28 right-8 w-12 h-12 border-r border-t border-[#B8841E]/40 hidden md:block" />
+                
+                <div className="relative container mx-auto px-6 max-w-7xl z-10 flex flex-col items-center text-center">
                     <div className="mb-6">
                         <Link 
                             href="/events" 
-                            className="inline-flex items-center rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm transition-all hover:bg-white/20"
+                            className="inline-flex items-center rounded-none border border-[#B8841E]/30 bg-[#FAF5E8]/60 px-4 py-2 text-sm font-serif font-medium text-[#0D1B3E] transition-all hover:bg-[#B8841E]/10"
                         >
                             <ArrowLeft className="mr-2 h-4 w-4" />
                             Back to Events
                         </Link>
                     </div>
                     
-                    <div className="flex flex-wrap items-center justify-between gap-4">
-                        <div>
-                            <div className="mb-2 flex items-center">
-                                <Link href="/events" className="text-indigo-200 hover:text-white hover:underline">
-                                    CS Events
-                                </Link>
-                                <IoIosArrowForward className="mx-2 text-indigo-200" />
-                                <span className="text-white">{event.organization}</span>
-                            </div>
-                            <h1 className="text-3xl font-bold text-white md:text-4xl lg:text-5xl">
-                                {event.title}
-                            </h1>
+                    <div className="flex flex-col items-center justify-center gap-4">
+                        <div className="mb-2 flex items-center font-serif text-[#B8841E]/80 text-sm">
+                            <Link href="/events" className="hover:text-[#B8841E] hover:underline">
+                                CS Events
+                            </Link>
+                            <span className="mx-2">✦</span>
+                            <span className="text-[#0D1B3E] font-medium">{event.organization}</span>
                         </div>
+                        <h1 className="text-4xl font-display italic text-[#0D1B3E] md:text-5xl lg:text-6xl text-balance max-w-4xl leading-tight">
+                            {event.title}
+                        </h1>
                         
-                        <div className="rounded-full bg-amber-500 px-4 py-2 text-sm font-medium text-white">
+                        <div className="mt-4 border border-[#0D1B3E] bg-[#0D1B3E] px-6 py-1.5 text-xs font-serif font-medium text-[#F5EDD0] tracking-[0.2em] uppercase shadow-parch-sm">
                             {event.status}
                         </div>
                     </div>
