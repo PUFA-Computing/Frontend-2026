@@ -34,7 +34,7 @@ export default function Preloader() {
   }, [])
 
   return (
-    <AnimatePresence>
+    <AnimatePresence onExitComplete={() => { document.body.style.overflow = 'unset' }}>
       {isLoading && (
         <motion.div
           key="preloader"
