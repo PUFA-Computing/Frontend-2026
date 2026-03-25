@@ -58,33 +58,33 @@ export default function Page() {
     <div className="min-h-screen bg-[#F5EDD0] text-[#1A1A2E]">
 
       {/* ══ HERO ══ */}
-      <section className="relative min-h-[70vh] w-full flex items-center justify-center pt-32 pb-20 overflow-hidden">
+      <section className="relative w-full flex items-center justify-center pt-24 sm:pt-32 pb-14 sm:pb-20 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-[#EDE0BB]/80 to-[#F5EDD0]" />
 
-        {/* Top corner ornaments */}
-        <div className="absolute top-28 left-8 w-12 h-12 border-l border-t border-[#B8841E]/40" />
-        <div className="absolute top-28 right-8 w-12 h-12 border-r border-t border-[#B8841E]/40" />
+        {/* Top corner ornaments — desktop only */}
+        <div className="absolute top-28 left-8 w-12 h-12 border-l border-t border-[#B8841E]/40 hidden sm:block" />
+        <div className="absolute top-28 right-8 w-12 h-12 border-r border-t border-[#B8841E]/40 hidden sm:block" />
 
-        <div className="relative container mx-auto px-6 flex flex-col items-center text-center max-w-4xl">
+        <div className="relative container mx-auto px-4 sm:px-6 flex flex-col items-center text-center max-w-4xl">
           {/* Logo — Rounded Square */}
-          <div className="relative animate-float mb-10 group">
+          <div className="relative animate-float mb-8 md:mb-10 group">
             <div className="absolute -inset-1.5 rounded-[2rem] bg-gradient-to-br from-[#B8841E] via-[#D9A84A] to-[#B8841E] blur-md opacity-30 group-hover:opacity-50 transition-opacity duration-500 animate-glow-pulse" />
             <Image
               src={Logo}
               alt="Aurascendia Logo"
               priority
-              className="relative w-40 md:w-52 h-auto rounded-[2rem] border border-[#B8841E]/40 bg-[#0D1B3E] p-3 shadow-parch-xl"
+              className="relative w-28 sm:w-40 md:w-52 h-auto rounded-[2rem] border border-[#B8841E]/40 bg-[#0D1B3E] p-3 shadow-parch-xl"
             />
           </div>
 
-          <p className="section-label mb-5 tracking-[0.25em]">Aurascendia 2026</p>
-          <h1 className="font-display italic text-6xl sm:text-7xl md:text-8xl text-[#0D1B3E] mb-4 leading-[0.9]">
+          <p className="section-label mb-4 tracking-[0.25em]">Aurascendia 2026</p>
+          <h1 className="font-display italic text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-[#0D1B3E] mb-4 leading-[0.9]">
             The Cabinet
           </h1>
 
           <SectionRule />
 
-          <p className="font-serif italic text-[#1A1A2E]/60 text-lg md:text-xl max-w-xl text-balance">
+          <p className="font-serif italic text-[#1A1A2E]/60 text-base sm:text-lg md:text-xl max-w-xl text-balance">
             &ldquo;Grow Together, Impact Further&rdquo;
           </p>
         </div>
