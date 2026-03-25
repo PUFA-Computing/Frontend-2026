@@ -31,7 +31,7 @@ export default function page({ params }: CabinetProps) {
             case 'entrepreneur':                        return { image: '/images/cabinet/2025-2026/Entre.webp' };
             case 'internal-relation':                   return { image: '/images/cabinet/2025-2026/Internal.webp' };
             case 'art-and-sport':                       return { image: '/images/cabinet/2025-2026/AnS.webp' };
-            case 'research-and-technology':             return { image: '/images/cabinet/2025-2026/coming-soon.webp' };
+            case 'research-and-technology':             return { image: '/images/cabinet/2025-2026/RNT.webp' };
             case 'student-development-and-competition': return { image: '/images/cabinet/2025-2026/SDC.webp' };
             case 'student-welfare-advocacy':            return { image: '/images/cabinet/2025-2026/SWA.webp' };
             default: return { image: '/placeholder.svg' };

@@ -5,6 +5,7 @@ import Script from 'next/script';
 import Navbar from "@/components/ui/Navbar";
 import Footer from "@/components/ui/Footer";
 import HiddenBreadcrumbs from "@/components/ui/HiddenBreadcrumbs";
+import Preloader from "@/components/ui/Preloader";
 import type GetVersion from "@/services/api/version";
 
 export default function ClientMainLayout({
@@ -29,6 +30,8 @@ export default function ClientMainLayout({
     
     return (
         <div className="flex min-h-screen flex-col scroll-smooth">
+            <Preloader />
+            
             {/* Add structured data for SEO */}
             <Script id="website-schema" type="application/ld+json">
                 {JSON.stringify(structuredData)}
