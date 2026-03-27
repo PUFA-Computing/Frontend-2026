@@ -323,7 +323,7 @@ import GALE_ENT from "@/assets/member/entre/2025-2026/gale-adi-saputra.webp";
 import GRACIELLA_ENT from "@/assets/member/entre/2025-2026/graciella-rizma-kiding-allo.webp";
 import SABRINA_ENT from "@/assets/member/entre/2025-2026/nur-sabrina-bilqis.webp";
 import AFRIDA_ENT from "@/assets/member/entre/2025-2026/afrida-dwi-azzahra.webp";
-import FAYYADH_ENT from "@/assets/member/entre/2025-2026/RIZ_0079.webp";
+import FAYYADH_ENT from "@/assets/member/entre/2025-2026/fayyadh-abdurrahman.webp";
 
 // Banner
 import BANNER from "@/assets/coming_soon.jpg"
