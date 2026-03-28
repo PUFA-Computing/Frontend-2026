@@ -147,165 +147,177 @@ export const PUMAInformationSystemVnM = {
 
 // PUMA Visual Communication Design section removed as it no longer exists
 
-// Content of Cabinet
-// ANS Images
-import RIZWAN_ANS from "@/assets/member/ans/maulana-rizwan-ahmad.JPG";
-import NAJLA_ANS from "@/assets/member/ans/najla-rifa-nur-asjad.jpg";
-import ABRAM_ANS from "@/assets/member/ans/abram-pesuma-sitorus.JPG";
-import TIMOTHY_ANS from "@/assets/member/ans/timothy-alessandro-maybrave-mait.JPG";
-import AULIA_ANS from "@/assets/member/ans/marsha-aulia-rizky.JPG";
-import NADA_ANS from "@/assets/member/ans/nada-kamelia.JPG";
+// // Content of Cabinet
+// // ANS Images
+import JULLIO_ANS from "@/assets/member/ans/2025-2026/jullio-imanuel-paulus.webp";
+import WISNU_ANS from "@/assets/member/ans/2025-2026/wisnu-alfian-nur-ashar.webp";
+import ARSENIUS_ANS from "@/assets/member/ans/2025-2026/arsenius-madio-juliano-witi.webp";
+import ZERIN_ANS from "@/assets/member/ans/2025-2026/zerin-ilma-nurmaziz.webp";
+import JAMES_ANS from "@/assets/member/ans/2025-2026/james-david-leonardo-fanggidae.webp";
+import SARAH_ANS from "@/assets/member/ans/2025-2026/sarah-nurul-faridah.webp";
 
-// BOD Images
-import BIMASENA_BOD from "@/assets/member/bod/bimasena-yudhaprawira.JPG";
-import GEORGE_BOD from "@/assets/member/bod/george-elver-andrew-tamba.JPG";
-import DIAN_BOD from "@/assets/member/bod/dian-vania-jessicha-rondonuwu.jpg";
-import IRENE_BOD from "@/assets/member/bod/veronica-irene-tanumihadja.JPG";
-import JHON_BOD from "@/assets/member/bod/joao-zinho-franklin-saldanha.JPG";
-import EILEEN_BOD from  "@/assets/member/bod/eileen-daneaya.JPG";
-import NABILA_BOD from  "@/assets/member/bod/fasya-nabila-salim.JPG";
+// // BOD Images
+import KAILA_BOD from "@/assets/member/bod/2025-2026/kaila-annisa-syafitri.webp";
+import FARIS_BOD from "@/assets/member/bod/2025-2026/muhammad-faris-sakhi-ashari.webp";
+import CRIZIA_BOD from "@/assets/member/bod/2025-2026/crizia-ribeiro-nunes.webp";
+import AZZAHRA_BOD from "@/assets/member/bod/2025-2026/azzahra-puteri-kamilah.webp";
+import AISYAH_BOD from "@/assets/member/bod/2025-2026/aisyah-zahro-putri.webp";
+import SHERIL_BOD from "@/assets/member/bod/2025-2026/sheril-gissel-karundeng.webp";
+import GLORYA_BOD from "@/assets/member/bod/2025-2026/glorya-estetica-br-munte.webp";
+import SANTA_BOD from "@/assets/member/bod/2025-2026/santa-kristina-nelvi-sagala.webp";
 
-// COMMDESS Images
-import KEZIA_COMMDESS from "@/assets/member/comm/kezia-vanesa-joseph.JPG";
-import SALSA_COMMDESS from "@/assets/member/comm/salsa-nabila -putri-widiana.JPG";
-import REYNER_COMMDESS from "@/assets/member/comm/reyne-orlando-winata.JPG";
-import NASWA_COMMDESS from "@/assets/member/comm/shakiva-naswa-crescensia.JPG";
-import WIEWIEN_COMMDESS from "@/assets/member/comm/wiewien-tancaniago.JPG";
-import KADEK_COMMDESS from "@/assets/member/comm/kadek-widyana-dharma-dirgayusa.JPG";
-import RAFA_COMMDESS from "@/assets/member/comm/rafa-basia-hanif.JPG";
-import ANGEL_COMMDESS from "@/assets/member/comm/tessalonika-angeline-purba.JPG";
-import NAILAH_COMMDESS from "@/assets/member/comm/nailah-septiani-putri.jpg";
-import RICARDA_COMMDESS from "@/assets/member/comm/ricarda-sebastian-hutagalung.jpg";
-import KAILA_COMMDESS from "@/assets/member/comm/kaila-annisa-syafitri.JPG";
+// // CnM Images
+// Comm
+import REYNER_CNM from "@/assets/member/comm/2025-2026/reyner-orlando-winata.webp";
+import RAFA_CNM from "@/assets/member/comm/2025-2026/rafa-basia-hanif.webp";
+import ADELINE_CNM from "@/assets/member/comm/2025-2026/adeline-chelsea-somba.webp";
+import MICHELLE_CNM from "@/assets/member/comm/2025-2026/michelle-clarissa-watung.webp";
+import JESSYCA_CNM from "@/assets/member/comm/2025-2026/jessyca-wijaya.webp";
+import SYAHRUL_CNM from "@/assets/member/comm/2025-2026/syahrul-ramadhan.webp";
+// Multimedia
+import SALSA_CNM from "@/assets/member/multimedia/2025-2026/salsa-nabila-putri-widiana.webp";
+import ALUNA_CNM from "@/assets/member/multimedia/2025-2026/aluna-siti-kirani-putri-akbar.webp";
+import SANDRA_CNM from "@/assets/member/multimedia/2025-2026/sandra-miranda-salindeho.webp";
+import GISSAN_CNM from "@/assets/member/multimedia/2025-2026/gissan-omariko.webp";
+import MALVIN_CNM from "@/assets/member/multimedia/2025-2026/malvin-cendana.webp";
+import KYREN_CNM from "@/assets/member/multimedia/2025-2026/kyren-winata.webp";
 
-// ENTRE Images
-import ARIZAL_ENTRE from "@/assets/member/entre/arizal-anru.JPG";
-import BELVA_ENTRE from "@/assets/member/entre/belva-tabitha.jpg";
-import GLORYA_ENTRE from "@/assets/member/entre/glorya-estetica-br-munte.JPG";
-import MELVI_ENTRE from "@/assets/member/entre/melvi-yendra.JPG";
-import AHDA_ENTRE from "@/assets/member/entre/muhammad-ahda-briliantama.JPG";
+// // ENTRE Images
+import ARIZAL_ENT from "@/assets/member/entre/2025-2026/arizal-anru.webp";
+import GALE_ENT from "@/assets/member/entre/2025-2026/gale-adi-saputra.webp";
+import GRACIELLA_ENT from "@/assets/member/entre/2025-2026/graciella-rizma-kiding-allo.webp";
+import SABRINA_ENT from "@/assets/member/entre/2025-2026/nur-sabrina-bilqis.webp";
+import AFRIDA_ENT from "@/assets/member/entre/2025-2026/afrida-dwi-azzahra.webp";
+import FAYYADH_ENT from "@/assets/member/entre/2025-2026/fayyadh-abdurrahman.webp";
 
-// ER Images
-import DICHO_ER from "@/assets/member/er/dicho-dermawan.jpg";
-import DAFFA_ER from "@/assets/member/er/daffa-athallah-hade.jpg";
-import AHS_ER from "@/assets/member/er/aisyah-hafizhah-sayoga.JPG";
-import EJI_ER from "@/assets/member/er/alfadzri-abhipraya.JPG";
-import LINTAR_ER from "@/assets/member/er/dimas-lintar-ramadhan.JPG";
-import MAULIDAH_ER from "@/assets/member/er/maulidah-barakbah.JPG";
+// // ER Images
+import MAULIDAH_ER from "@/assets/member/er/2025-2026/maulidah-barakbah.webp";
+import AISYAH_ER from "@/assets/member/er/2025-2026/aisyah-hafizhah-sayoga.webp";
+import WAFI_ER from "@/assets/member/er/2025-2026/muhammad-fadhlil-wafi-riyadi.webp";
+import SYAIFUL_ER from "@/assets/member/er/2025-2026/syaiful-ardi-wijaya.webp";
+import HANIF_ER from "@/assets/member/er/2025-2026/hanif-hafidz-abdurrahman.webp";
 
-// IR Images
-import ADELIA_IR from "@/assets/member/ir/adelia-zhafira-puspasari.JPG";
-import CARINA_IR from "@/assets/member/ir/ajeng-miftahul-carina.JPG";
-import KEVIN_IR from "@/assets/member/ir/kevin-alexander-papu.JPG";
-import PUSRI_IR from "@/assets/member/ir/pusri-ananda-handa.JPG";
-import ARMALIA_IR from "@/assets/member/ir/putri-armalia.JPG";
+// // IR Images
+import PUSRI_IR from "@/assets/member/ir/2025-2026/pusri-ananda-handal.webp";
+import AJENG_IR from "@/assets/member/ir/2025-2026/ajeng-miftahul-carina.webp";
+import NEILIL_IR from "@/assets/member/ir/2025-2026/neilil-alia-isalmi.webp";
+import CHELSEA_IR from "@/assets/member/ir/2025-2026/chelsea-setyarso.webp";
+import PINKA_IR from "@/assets/member/ir/2025-2026/pinka-ratna-putri-aimar.webp";
 
-// RNT Images
-import ALDI_RNT from "@/assets/member/rnt/muhamad-aldi-apriansyah.jpg";
-import ARKA_RNT from "@/assets/member/rnt/arka-pradipa-dwi-santoso.JPG";
-import SIDIQ_RNT from "@/assets/member/rnt/ahmad-akbar-sidiq-n.jpg";
-import ABYAN_RNT from "@/assets/member/rnt/muhammad-praditya-abyan.JPG";
-import RIZKI_RNT from "@/assets/member/rnt/rizki-adi-prasetyo.JPG";
-import DARRELL_RNT from "@/assets/member/rnt/darrell-rafa-alamsyah.JPG";
-import AUDINA_RNT from "@/assets/member/rnt/fauziah-audina-hapsari.JPG";
+// // RNT Images
+import ARKA_RNT from "@/assets/member/rnt/2025-2026/arka-pradipa-dwi-santoso.webp";
+import GABRIELLE_RNT from "@/assets/member/rnt/2025-2026/gabrielle-briliant-lintong.webp";
+import DHAVYNA_RNT from "@/assets/member/rnt/2025-2026/dhavyna-mirable-sirait.webp";
+import BAGAS_RNT from "@/assets/member/rnt/2025-2026/bagas-pratama-junianika.webp";
+import SELLY_RNT from "@/assets/member/rnt/2025-2026/selly-resty-wijayanti.webp";
+import DYANDRA_RNT from "@/assets/member/rnt/2025-2026/dyandra-wahyu-islamy.webp";
+import FIRZA_RNT from "@/assets/member/rnt/2025-2026/firza-miftahul-ilmi.webp";
+import RADELLA_RNT from "@/assets/member/rnt/2025-2026/radella-hafiza-gehan.webp";
 
-// SDC Images
-import ALYSIA_SDC from "@/assets/member/sdc/alysia-dapyaraka.JPG";
-import GERALD_SDC from "@/assets/member/sdc/gerald-darryl-joseph-manurung.JPG";
-import UMAYAH_SDC from "@/assets/member/sdc/nor-umayah.JPG";
-import ZAHRA_SDC from "@/assets/member/sdc/sheny-ayu-zahra.JPG";
-import ZASTALIE_SDC from "@/assets/member/sdc/suri-agatha-zastalie-lumban-tobing.JPG";
+// // SDC Images
+import SHENY_SDC from "@/assets/member/sdc/2025-2026/sheny-ayu-zahra-anugerah.webp";
+import NOR_SDC from "@/assets/member/sdc/2025-2026/nor-umayah.webp";
+import ASHILA_SDC from "@/assets/member/sdc/2025-2026/ashila-nur-azka.webp";
+import MADAN_SDC from "@/assets/member/sdc/2025-2026/madan-kishin-dasani.webp";
+import AZIZAH_SDC from "@/assets/member/sdc/2025-2026/azizah-putri-sasonto.webp";
+import IBAD_SDC from "@/assets/member/sdc/2025-2026/ibad-abrisam.webp";
 
-// SWA Images
-import ELMIRA_SWA from "@/assets/member/swa/elmira-jacinda-wahid.JPG";
-import HANSON_SWA from "@/assets/member/swa/hanson-samuel-timothy.JPG";
-import FARIS_SWA from "@/assets/member/swa/muhammad-faris-sakhi-ashari.JPG";
-import KARTIKA_SWA from "@/assets/member/swa/putu-kartika-widya-arjentinia.JPG";
+// // SWA Images
+import GERALD_SWA from "@/assets/member/swa/2025-2026/gerald-darryl-joseph-manurung.webp";
+import NABIL_SWA from "@/assets/member/swa/2025-2026/nabil-fadhlur-rahman.webp";
+import RAISYAH_SWA from "@/assets/member/swa/2025-2026/raisyah-eka-putri-widian.webp";
+import GHANI_SWA from "@/assets/member/swa/2025-2026/muhammad-ghani-muzakki.webp";
 
-// Exporting Images
+// // Exporting Images
 export const ANSImages = {
-    RIZWAN_ANS,
-    NAJLA_ANS,
-    ABRAM_ANS,
-    TIMOTHY_ANS,
-    AULIA_ANS,
-    NADA_ANS,
+    JULLIO_ANS,
+    WISNU_ANS,
+    ARSENIUS_ANS,
+    ZERIN_ANS,
+    JAMES_ANS,
+    SARAH_ANS,
 };
 
 export const BODImages = {
-    BIMASENA_BOD,
-    GEORGE_BOD,
-    DIAN_BOD,
-    IRENE_BOD,
-    JHON_BOD,
-    NABILA_BOD,
-    EILEEN_BOD,
+    KAILA_BOD,
+    FARIS_BOD,
+    CRIZIA_BOD,
+    AZZAHRA_BOD,
+    AISYAH_BOD,
+    SHERIL_BOD,
+    GLORYA_BOD,
+    SANTA_BOD,
 };
 
 export const COMMDESSImages = {
-    KEZIA_COMMDESS,
-    SALSA_COMMDESS,
-    REYNER_COMMDESS,
-    NASWA_COMMDESS,
-    WIEWIEN_COMMDESS,
-    KADEK_COMMDESS,
-    RAFA_COMMDESS,
-    ANGEL_COMMDESS,
-    NAILAH_COMMDESS,
-    RICARDA_COMMDESS,
-    KAILA_COMMDESS,
+    // Comm
+    REYNER_CNM,
+    RAFA_CNM,
+    ADELINE_CNM,
+    MICHELLE_CNM,
+    JESSYCA_CNM,
+    SYAHRUL_CNM,
+    // Multimedia
+    SALSA_CNM,
+    ALUNA_CNM,
+    SANDRA_CNM,
+    GISSAN_CNM,
+    MALVIN_CNM,
+    KYREN_CNM,
 };
 
-// export const DESIGNImages = {
+// // export const DESIGNImages = {
     
-// };
+// // };
 
 export const ENTREImages = {
-    ARIZAL_ENTRE,
-    BELVA_ENTRE,
-    GLORYA_ENTRE,
-    MELVI_ENTRE,
-    AHDA_ENTRE,
+    ARIZAL_ENT,
+    GALE_ENT,
+    GRACIELLA_ENT,
+    SABRINA_ENT,
+    AFRIDA_ENT,
+    FAYYADH_ENT,
 };
 
 export const ERImages = {
-    DAFFA_ER,
-    DICHO_ER,
-    AHS_ER,
-    EJI_ER,
-    LINTAR_ER,
     MAULIDAH_ER,
+    AISYAH_ER,
+    WAFI_ER,
+    SYAIFUL_ER,
+    HANIF_ER,
 };
 
 export const IRImages = {
-    ADELIA_IR,
-    ARMALIA_IR,
-    CARINA_IR,
-    KEVIN_IR,
     PUSRI_IR,
+    AJENG_IR,
+    NEILIL_IR,
+    CHELSEA_IR,
+    PINKA_IR,
 };
 
 export const RNTImages = {
-    ALDI_RNT,
     ARKA_RNT,
-    SIDIQ_RNT,
-    ABYAN_RNT,
-    RIZKI_RNT,
-    DARRELL_RNT,
-    AUDINA_RNT,
+    GABRIELLE_RNT,
+    DHAVYNA_RNT,
+    BAGAS_RNT,
+    SELLY_RNT,
+    DYANDRA_RNT,
+    FIRZA_RNT,
+    RADELLA_RNT,
 };
 
 export const SDCImages = {
-    ALYSIA_SDC,
-    GERALD_SDC,
-    UMAYAH_SDC,
-    ZAHRA_SDC,
-    ZASTALIE_SDC,
+    SHENY_SDC,
+    NOR_SDC,
+    ASHILA_SDC,
+    MADAN_SDC,
+    AZIZAH_SDC,
+    IBAD_SDC,
 };
 
 export const SWAImages = {
-    ELMIRA_SWA,
-    HANSON_SWA,
-    FARIS_SWA,
-    KARTIKA_SWA,
+    GERALD_SWA,
+    NABIL_SWA,
+    RAISYAH_SWA,
+    GHANI_SWA,
 };
