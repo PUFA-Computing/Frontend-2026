@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://compsci.president.ac.id/api/v1'; // Change this to "http://localhost:8080/api/v1" if you are using the local server, or "https://compsci.president.ac.id/api/v1" if you are using the production server
+export const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://compsci.president.ac.id/api/v1'; // Uses NEXT_PUBLIC_API_URL env var, falls back to production URL
 export const API_LOGIN = BASE_URL + "/auth/login";
 export const API_LOGOUT = BASE_URL + "/auth/logout";
 export const API_REGISTER = BASE_URL + "/auth/register";

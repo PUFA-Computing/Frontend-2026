@@ -10,16 +10,8 @@ import User from "@/models/user";
 import { string } from "zod";
 
 
-export interface RegisterUserType {
-    username: string;
-    first_name: string;
-    last_name: string;
-    email: string;
-    password: string;
-    student_id: string;
-    year: string;
-    role_id?: number;
-}
+
+
 
 /**
  * Logs the user into the system.
