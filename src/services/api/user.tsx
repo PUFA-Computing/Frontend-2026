@@ -204,8 +204,7 @@ export async function GetUser(accessToken: string): Promise<User[]> {
     try {
         // Use the admin endpoint to get all users
         // The endpoint is /api/v1/admin/users based on the backend routes
-        const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
-        const response = await apiClient.get(`${baseUrl}/api/v1/admin/users`, {
+        const response = await apiClient.get(`/admin/users`, {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
             },

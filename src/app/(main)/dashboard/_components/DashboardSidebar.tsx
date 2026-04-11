@@ -70,17 +70,15 @@ export default function DashboardSidebar() {
         <>
             {/* Overlay — closes sidebar on mobile tap */}
             <div
-                className={`fixed inset-0 z-40 bg-[#0D1B3E]/60 backdrop-blur-sm transition-opacity duration-500 lg:hidden ${
-                    isMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-                }`}
+                className={`fixed inset-0 z-40 bg-[#0D1B3E]/60 backdrop-blur-sm transition-opacity duration-500 lg:hidden ${isMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+                    }`}
                 onClick={() => setIsMenuOpen(false)}
             />
 
             {/* Sidebar */}
             <aside
-                className={`fixed top-0 left-0 z-50 h-screen w-64 bg-[#0D1B3E] flex flex-col transition-transform duration-500 ease-in-out ${
-                    isMenuOpen ? "translate-x-0" : "-translate-x-full"
-                }`}
+                className={`fixed top-0 left-0 z-50 h-screen w-64 bg-[#0D1B3E] flex flex-col transition-transform duration-500 ease-in-out ${isMenuOpen ? "translate-x-0" : "-translate-x-full"
+                    }`}
             >
                 {/* Top shimmer */}
                 <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#D9A84A]/40 to-transparent pointer-events-none" />
@@ -117,11 +115,10 @@ export default function DashboardSidebar() {
                                     // Close sidebar on mobile after click
                                     if (window.innerWidth < 1024) setIsMenuOpen(false);
                                 }}
-                                className={`group flex items-center gap-3 px-4 py-3 rounded-sm text-[14px] font-serif transition-all duration-250 ${
-                                    isActive
-                                        ? "bg-[#B8841E]/12 text-[#EDD085] border-l-2 border-[#B8841E] pl-[14px]"
-                                        : "text-[#F5EDD0]/55 hover:bg-[#152347] hover:text-[#F5EDD0]/90 border-l-2 border-transparent pl-[14px]"
-                                }`}
+                                className={`group flex items-center gap-3 px-4 py-3 rounded-sm text-[14px] font-serif transition-all duration-250 ${isActive
+                                    ? "bg-[#B8841E]/12 text-[#EDD085] border-l-2 border-[#B8841E] pl-[14px]"
+                                    : "text-[#F5EDD0]/55 hover:bg-[#152347] hover:text-[#F5EDD0]/90 border-l-2 border-transparent pl-[14px]"
+                                    }`}
                             >
                                 <span className={`transition-colors duration-250 ${isActive ? "text-[#D9A84A]" : "text-[#F5EDD0]/40 group-hover:text-[#F5EDD0]/70"}`}>
                                     {link.icon}
@@ -142,13 +139,31 @@ export default function DashboardSidebar() {
                 {/* Divider */}
                 <div className="mx-5 h-px bg-gradient-to-r from-transparent via-[#B8841E]/25 to-transparent" />
 
+                {/* Footer — Back to Main */}
+                <div className="p-3 shrink-0">
+                    <button
+                        className="flex items-center gap-3 w-full px-4 py-3 rounded-sm font-serif text-[14px] text-[#F5EDD0]/40 hover:text-red-400 hover:bg-red-900/10 transition-all duration-250 border-l-2 border-transparent pl-[14px]"
+                        onClick={() => {
+                            if (typeof window !== "undefined") {
+                                window.location.href = "/";
+                            }
+                        }}
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="shrink-0">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                        </svg>
+                        <span>Back to Main</span>
+                    </button>
+                </div>
+
+
                 {/* Footer — Logout */}
                 <div className="p-3 shrink-0">
                     <button
                         className="flex items-center gap-3 w-full px-4 py-3 rounded-sm font-serif text-[14px] text-[#F5EDD0]/40 hover:text-red-400 hover:bg-red-900/10 transition-all duration-250 border-l-2 border-transparent pl-[14px]"
                         onClick={() => {
                             if (typeof window !== "undefined") {
-                                window.location.href = "/auth/signout";
+                                window.location.href = "/auth/logout";
                             }
                         }}
                     >
