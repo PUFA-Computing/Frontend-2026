@@ -13,6 +13,40 @@ function SectionRule() {
 
 const entries = [
   {
+    version: "v2.2.0",
+    date: "April 2026",
+    tag: "Core & UI Updates",
+    title: "Auth Fixes & Module Redesigns",
+    changes: [
+      {
+        category: "Authentication & Core",
+        items: [
+          "Fixed registration 'Network Error' by standardizing API URLs and resolving CORS issues.",
+          "Implemented proper Sign Out logout behavior with session clearing and landing page redirection.",
+          "Streamlined authentication for student domain, so after the register, user already possible to login.",
+        ],
+      },
+      {
+        category: "Projects Module",
+        items: [
+          "Complete redesign of Project Detail Modal into a wider, more elegant landscape layout.",
+          "Improved visual hierarchy with a 50/50 split between project visuals and detailed information.",
+          "Enhanced focus on project images with increased container sizes and shadow effects.",
+          "Implemented scroll-locking for background content when modals are active for better UX.",
+          "Parchment & Gold theme applied consistently to all project cards and interactions.",
+        ],
+      },
+      {
+        category: "Aspirations Module",
+        items: [
+          "Aspiration Form redesigned into a landscape grid layout for better focus and organization.",
+          "Updated Aspirations Library cards to fully match the new editorial design language.",
+          "Optimized form size and typography for improved readability and user engagement.",
+        ],
+      },
+    ],
+  },
+  {
     version: "v2.1.0",
     date: "March 2026",
     tag: "Design Overhaul",

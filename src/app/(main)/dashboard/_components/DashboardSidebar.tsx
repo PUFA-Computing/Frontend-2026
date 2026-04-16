@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useDashboardContext } from "./DashboardContext";
 import { useEffect, useState } from "react";
+import { signOut } from "next-auth/react";
 
 export default function DashboardSidebar() {
     const pathname = usePathname();
@@ -142,7 +143,7 @@ export default function DashboardSidebar() {
                 {/* Footer — Back to Main */}
                 <div className="p-3 shrink-0">
                     <button
-                        className="flex items-center gap-3 w-full px-4 py-3 rounded-sm font-serif text-[14px] text-[#F5EDD0]/40 hover:text-red-400 hover:bg-red-900/10 transition-all duration-250 border-l-2 border-transparent pl-[14px]"
+                        className="flex items-center gap-3 w-full px-4 py-3 rounded-sm font-serif text-[14px] text-[#F5EDD0]/40 hover:text-[#EDD085] hover:bg-[#B8841E]/10 transition-all duration-250 border-l-2 border-transparent pl-[14px]"
                         onClick={() => {
                             if (typeof window !== "undefined") {
                                 window.location.href = "/";
@@ -150,7 +151,7 @@ export default function DashboardSidebar() {
                         }}
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="shrink-0">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                         </svg>
                         <span>Back to Main</span>
                     </button>
@@ -161,11 +162,7 @@ export default function DashboardSidebar() {
                 <div className="p-3 shrink-0">
                     <button
                         className="flex items-center gap-3 w-full px-4 py-3 rounded-sm font-serif text-[14px] text-[#F5EDD0]/40 hover:text-red-400 hover:bg-red-900/10 transition-all duration-250 border-l-2 border-transparent pl-[14px]"
-                        onClick={() => {
-                            if (typeof window !== "undefined") {
-                                window.location.href = "/auth/logout";
-                            }
-                        }}
+                        onClick={() => signOut({ callbackUrl: "/" })}
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="shrink-0">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />

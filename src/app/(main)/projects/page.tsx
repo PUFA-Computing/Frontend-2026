@@ -54,7 +54,7 @@ export default function ProjectsPage() {
             {/* Hero Section */}
             <section className="relative w-full flex flex-col items-center justify-center pt-32 pb-20 overflow-hidden bg-[#F5EDD0]">
                 <div className="absolute inset-0 bg-gradient-to-b from-[#EDE0BB]/80 to-[#F5EDD0]" />
-                
+
                 {/* Top corner ornaments */}
                 <div className="absolute top-28 left-8 w-12 h-12 border-l border-t border-[#B8841E]/40 hidden md:block" />
                 <div className="absolute top-28 right-8 w-12 h-12 border-r border-t border-[#B8841E]/40 hidden md:block" />
@@ -67,14 +67,14 @@ export default function ProjectsPage() {
                     <h1 className="font-display italic text-6xl sm:text-7xl md:text-8xl text-[#0D1B3E] mb-6 leading-[0.9]">
                         CS <span className="text-[#B8841E]">Projects</span>
                     </h1>
-                    
+
                     {/* Ornamental rule */}
                     <div className="flex items-center justify-center gap-3 w-full mb-6">
                         <div className="h-px w-20 bg-gradient-to-r from-transparent to-[#B8841E]/40" />
                         <span className="text-[#B8841E]/50 text-xs">✦</span>
                         <div className="h-px w-20 bg-gradient-to-l from-transparent to-[#B8841E]/40" />
                     </div>
-                    
+
                     <p className="font-serif text-lg text-[#1A1A2E]/65 max-w-2xl text-balance mb-8">
                         Discover amazing projects created by our talented computizens. Get inspired and share your own work!
                     </p>
@@ -96,8 +96,8 @@ export default function ProjectsPage() {
             {/* Projects Section */}
             <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:px-8 lg:px-10">
                 <div className="mb-8 flex items-center">
-                    <div className="mr-4 rounded-full bg-indigo-100 p-2">
-                        <Rocket className="h-6 w-6 text-indigo-600" />
+                    <div className="mr-4 rounded-full bg-red-100 p-2">
+                        <Rocket className="h-6 w-6 text-red-600" />
                     </div>
                     <div>
                         <h2 className="text-3xl font-bold text-gray-900">Featured Projects</h2>

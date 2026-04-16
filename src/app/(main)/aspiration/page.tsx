@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 
 export default function page() {
    return (
-      <div className="min-h-screen bg-gradient-to-b from-white to-gray-50">
+      <div className="min-h-screen bg-[#F5EDD0]">
          {/* Hero Section */}
          {/* Hero Section */}
          <section className="relative w-full flex flex-col items-center justify-center pt-32 pb-24 overflow-hidden bg-[#F5EDD0]">
@@ -53,19 +53,20 @@ export default function page() {
          </section>
 
          {/* Form Section */}
-         <section className="container mx-auto max-w-6xl px-4 py-12 md:px-6 lg:py-16">
+         <section className="container mx-auto max-w-5xl px-4 py-12 md:px-6 lg:py-16">
             <div className="relative z-10 -mt-8 md:-mt-16 lg:-mt-24">
                <AspirationForm />
             </div>
          </section>
 
          {/* Aspirations Library Section */}
-         <section className="container mx-auto max-w-6xl px-4 pb-16 md:px-6 lg:pb-24">
+         <section className="container mx-auto max-w-5xl px-4 pb-16 md:px-6 lg:pb-24">
             <div className="mb-12 text-center">
-               <h2 className="mb-2 text-3xl font-bold tracking-tight text-gray-900 md:text-4xl">
+               <h2 className="mb-2 text-3xl font-display font-bold tracking-tight text-[#0D1B3E] md:text-4xl relative inline-block">
                   Aspirations Library
+                  <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-12 h-1 bg-[#B8841E]/40 rounded-full" />
                </h2>
-               <p className="mx-auto max-w-2xl text-gray-600">
+               <p className="mx-auto max-w-2xl text-[#1A1A2E]/70 font-serif mt-4">
                   Explore what others have shared and learn from our community's collective wisdom.
                </p>
             </div>
@@ -75,15 +76,15 @@ export default function page() {
                <div className="relative w-full max-w-2xl">
                   <input
                      type="text"
-                     className="w-full rounded-full border-2 border-gray-300 bg-white py-3 pl-12 pr-4 shadow-sm transition-all focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                     className="w-full rounded-full border border-[#B8841E]/30 bg-[#FAF5E8] py-3 pl-12 pr-4 shadow-parch-sm transition-all focus:border-[#B8841E] focus:outline-none focus:ring-2 focus:ring-[#B8841E]/20 text-[#0D1B3E] font-serif placeholder:text-[#1A1A2E]/40"
                      placeholder="Search aspirations..."
                   />
-                  <CiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-xl text-gray-500" />
+                  <CiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-xl text-[#B8841E]" />
                </div>
             </div>
             
             {/* Aspirations Cards */}
-            <div className="rounded-xl bg-white p-6 shadow-lg md:p-8 lg:p-10">
+            <div className="rounded-xl bg-[#FAF5E8] border border-[#B8841E]/20 p-6 shadow-parch-md md:p-8 lg:p-10">
                <AspirationsCards />
             </div>
          </section>

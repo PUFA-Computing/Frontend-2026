@@ -77,7 +77,7 @@ export default function AspirationForm() {
     function handleChangeSubject(event: React.ChangeEvent<HTMLInputElement>) {
         const value = event.target.value;
         setSubject(value);
-    
+
         const blacklistedWords = containsBlacklistedWords(value);
         if (blacklistedWords.length > 0) {
             const sanitizedValue = removeBlacklistedWords(value, blacklistedWords);
@@ -95,11 +95,11 @@ export default function AspirationForm() {
             });
         }
     }
-    
+
     function handleChangeMessage(event: React.ChangeEvent<HTMLTextAreaElement>) {
         const value = event.target.value;
         setMessage(value);
-    
+
         const blacklistedWords = containsBlacklistedWords(value);
         if (blacklistedWords.length > 0) {
             const sanitizedValue = removeBlacklistedWords(value, blacklistedWords);
@@ -117,12 +117,12 @@ export default function AspirationForm() {
             });
         }
     }
-    
+
     function removeBlacklistedWords(text: string, blacklistedWords: string[]): string {
         let sanitizedText = text;
         blacklistedWords.forEach((word) => {
-            const regex = new RegExp(`\\b${word}\\b`, 'gi'); 
-            sanitizedText = sanitizedText.replace(regex, ''); 
+            const regex = new RegExp(`\\b${word}\\b`, 'gi');
+            sanitizedText = sanitizedText.replace(regex, '');
         });
         return sanitizedText.trim();
     }
@@ -208,7 +208,7 @@ export default function AspirationForm() {
 
     // More forgiving validation logic
     const isFormValid = selectedOrganization && subject.length > 0 && message.length > 0;
-    
+
     // Debug information to help users understand validation status
     const validationStatus = {
         organization: selectedOrganization ? true : false,
@@ -218,28 +218,28 @@ export default function AspirationForm() {
 
     if (!isLoggedIn) {
         return (
-            <div className="flex flex-col overflow-hidden rounded-xl border border-gray-200 bg-white shadow-lg">
+            <div className="flex flex-col overflow-hidden rounded-xl border border-[#B8841E]/20 bg-[#FAF5E8] shadow-parch-sm">
                 {/* Header */}
-                <div className="bg-gradient-to-r from-blue-600 to-indigo-700 p-6 text-white md:p-8">
-                    <h2 className="mb-2 text-2xl font-bold md:text-3xl">
+                <div className="bg-[#0D1B3E] p-6 md:p-8">
+                    <h2 className="mb-2 text-2xl text-[#F5EDD0] font-display font-medium md:text-3xl">
                         Share Your Aspirations
                     </h2>
-                    <p className="text-blue-100">
+                    <p className="font-serif text-[#E5D5A5]/80">
                         Help us make Computing better with your valuable feedback
                     </p>
                 </div>
-                
+
                 {/* Content */}
                 <div className="flex flex-col items-center justify-center p-8 text-center md:p-12">
                     <div className="mb-8">
-                        <h3 className="mb-2 text-xl font-semibold text-gray-800">Hello, Guest!</h3>
-                        <p className="text-gray-600">
+                        <h3 className="mb-2 text-2xl font-display font-semibold text-[#0D1B3E]">Hello, Guest!</h3>
+                        <p className="font-serif text-[#1A1A2E]/70">
                             Please sign in to share your aspirations with us.
                         </p>
                     </div>
-                    
+
                     <button
-                        className="rounded-lg bg-blue-600 px-8 py-3 font-medium text-white shadow-md transition-all hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                        className="rounded-lg bg-[#0D1B3E] px-8 py-3 font-serif font-medium text-[#F5EDD0] shadow-md transition-all hover:bg-[#152347] focus:outline-none focus:ring-2 focus:ring-[#B8841E]/50 focus:ring-offset-2"
                         onClick={() => {
                             window.location.href = "auth/signin";
                         }}
@@ -253,27 +253,27 @@ export default function AspirationForm() {
 
     if (userRole === 8) {
         return (
-            <div className="flex flex-col overflow-hidden rounded-xl border border-gray-200 bg-white shadow-lg">
+            <div className="flex flex-col overflow-hidden rounded-xl border border-[#B8841E]/20 bg-[#FAF5E8] shadow-parch-sm">
                 {/* Header */}
-                <div className="bg-gradient-to-r from-blue-600 to-indigo-700 p-6 text-white md:p-8">
-                    <h2 className="mb-2 text-2xl font-bold md:text-3xl">
+                <div className="bg-[#0D1B3E] p-6 text-[#F5EDD0] md:p-8">
+                    <h2 className="mb-2 text-2xl text-[#F5EDD0] font-display font-medium md:text-3xl">
                         Share Your Aspirations
                     </h2>
-                    <p className="text-blue-100">
+                    <p className="font-serif text-[#E5D5A5]/80">
                         Help us make Computing better with your valuable feedback
                     </p>
                 </div>
-                
+
                 {/* Content */}
                 <div className="flex flex-col items-center justify-center p-8 text-center md:p-12">
-                    <div className="rounded-full bg-amber-100 p-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <div className="rounded-full bg-[#E5D5A5]/40 p-4 border border-[#B8841E]/20">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-[#B8841E]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                         </svg>
                     </div>
                     <div className="mt-4">
-                        <h3 className="mb-2 text-xl font-semibold text-gray-800">Hello, {userName}</h3>
-                        <p className="text-gray-600">
+                        <h3 className="mb-2 text-xl font-display font-semibold text-[#0D1B3E]">Hello, {userName}</h3>
+                        <p className="font-serif text-[#1A1A2E]/70">
                             You are not a Faculty of Computing Student and are not authorized to use this feature.
                         </p>
                     </div>
@@ -283,133 +283,141 @@ export default function AspirationForm() {
     }
 
     return (
-        <div className="flex flex-col overflow-hidden rounded-xl border border-gray-200 bg-white shadow-lg">
+        <div className="flex flex-col overflow-hidden rounded-xl border border-[#B8841E]/20 bg-[#FAF5E8] shadow-parch-sm">
             {/* Form Header */}
-            <div className="bg-gradient-to-r from-blue-600 to-indigo-700 p-6 text-white md:p-8">
-                <h2 className="mb-2 text-2xl font-bold md:text-3xl">
+            <div className="bg-[#0D1B3E] p-6 text-[#F5EDD0] md:p-8">
+                <h2 className="mb-2 text-2xl text-[#F5EDD0] font-display font-medium md:text-3xl">
                     Share Your Aspirations
                 </h2>
-                <p className="text-blue-100">
+                <p className="font-serif text-[#E5D5A5]/80">
                     Help us make Computing better with your valuable feedback
                 </p>
             </div>
-            
+
             {/* User Greeting */}
-            <div className="border-b border-gray-100 bg-gray-50 p-4 md:p-6">
+            <div className="border-b border-[#B8841E]/10 bg-[#E5D5A5]/20 p-4 md:p-6">
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between">
                     <div>
-                        <p className="text-lg text-gray-600">Hello, <span className="font-medium text-gray-900">{userName}</span></p>
-                        <h3 className="text-lg font-semibold text-gray-900">
+                        <p className="text-sm font-serif text-[#1A1A2E]/60 uppercase tracking-wider">Hello, <span className="font-medium text-[#0D1B3E]">{userName}</span></p>
+                        <h3 className="text-lg font-display font-semibold text-[#0D1B3E] mt-1">
                             Let's share your thoughts!
                         </h3>
                     </div>
                 </div>
             </div>
 
-            <form onSubmit={handleSubmit} ref={formHtml} className="p-6 md:p-8">
-                {/* Organization Selection */}
-                <div className="mb-6">
-                    <label className="mb-2 block text-sm font-medium text-gray-700">To Organization</label>
-                    <p className="mb-2 text-sm text-gray-500">
-                        Select the organization you want to share your aspiration with
-                    </p>
-                    <Select
-                        value={selectedOrganization}
-                        onChange={(selectedOption) =>
-                            setSelectedOrganization(selectedOption as any)
-                        }
-                        options={organizations}
-                        className="w-full rounded-lg"
-                        classNames={{
-                            control: () => "p-2 border-2 border-gray-300 hover:border-blue-400 focus:border-blue-500"
-                        }}
-                        placeholder="Select an organization..."
-                    />
-                </div>
+            <form onSubmit={handleSubmit} ref={formHtml} className="p-6 md:p-8 font-serif">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 mb-8">
+                    {/* Left Column: Core Fields */}
+                    <div className="space-y-6">
+                        {/* Organization Selection */}
+                        <div>
+                            <label className="mb-2 block text-sm font-semibold text-[#0D1B3E]">To Organization</label>
+                            <p className="mb-2 text-sm text-[#1A1A2E]/60">
+                                Select the organization you want to share your aspiration with
+                            </p>
+                            <Select
+                                value={selectedOrganization}
+                                onChange={(selectedOption) =>
+                                    setSelectedOrganization(selectedOption as any)
+                                }
+                                options={organizations}
+                                className="w-full rounded-lg"
+                                classNames={{
+                                    control: () => "p-2 border border-[#B8841E]/30 bg-white/60 hover:border-[#B8841E]/50 focus:border-[#B8841E]"
+                                }}
+                                placeholder="Select an organization..."
+                                styles={{ menu: (provided) => ({ ...provided, backgroundColor: '#FAF5E8' }), option: (provided, state) => ({ ...provided, backgroundColor: state.isFocused ? '#E5D5A5' : 'transparent', color: '#0D1B3E' }) }}
+                            />
+                        </div>
 
-                {/* From Section */}
-                <div className="mb-6">
-                    <div className="mb-2 flex items-center justify-between">
-                        <label className="block text-sm font-medium text-gray-700">From</label>
-                        <div className="flex items-center gap-2">
-                            <label className="relative inline-flex cursor-pointer items-center">
-                                <input
-                                    type="checkbox"
-                                    name="anonymous"
-                                    className="peer sr-only"
-                                    onChange={(e) => setAnonymous(e.target.checked)}
-                                    checked={anonymous}
-                                />
-                                <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-300"></div>
-                                <span className="ml-3 text-sm font-medium text-gray-700">Share anonymously</span>
-                            </label>
+                        {/* From Section */}
+                        <div>
+                            <div className="mb-2 flex items-center justify-between">
+                                <label className="block text-sm font-semibold text-[#0D1B3E]">From</label>
+                                <div className="flex items-center gap-2">
+                                    <label className="relative inline-flex cursor-pointer items-center">
+                                        <input
+                                            type="checkbox"
+                                            name="anonymous"
+                                            className="peer sr-only"
+                                            onChange={(e) => setAnonymous(e.target.checked)}
+                                            checked={anonymous}
+                                        />
+                                        <div className="peer h-6 w-11 rounded-full bg-[#E5D5A5]/60 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-[#B8841E]/30 after:bg-white after:transition-all after:content-[''] peer-checked:bg-[#B8841E] peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-[#B8841E]/30"></div>
+                                        <span className="ml-3 text-sm font-medium text-[#1A1A2E]/70">Share anonymously</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <input
+                                type="text"
+                                name="from"
+                                className="w-full rounded-lg border border-[#B8841E]/30 bg-[#E5D5A5]/20 p-3 text-[#1A1A2E] focus:border-[#B8841E] focus:outline-none focus:ring-1 focus:ring-[#B8841E]/30 disabled:cursor-not-allowed disabled:opacity-75"
+                                value={userName}
+                                disabled
+                            />
+                        </div>
+
+                        {/* Subject Field */}
+                        <div>
+                            <label htmlFor="subject" className="mb-2 block text-sm font-semibold text-[#0D1B3E]">Subject</label>
+                            <p className="mb-2 text-sm text-[#1A1A2E]/60">
+                                Specific topic you want to discuss
+                            </p>
+                            <input
+                                type="text"
+                                id="subject"
+                                name="subject"
+                                className="w-full rounded-lg border border-[#B8841E]/30 bg-white/60 p-3 text-[#0D1B3E] focus:border-[#B8841E] focus:outline-none focus:ring-1 focus:ring-[#B8841E]/30"
+                                value={subject}
+                                onChange={handleChangeSubject}
+                                placeholder="Enter the subject of your aspiration"
+                            />
                         </div>
                     </div>
-                    <input
-                        type="text"
-                        name="from"
-                        className="w-full rounded-lg border-2 border-gray-300 bg-gray-50 p-3 text-gray-700 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 disabled:cursor-not-allowed disabled:opacity-75"
-                        value={userName}
-                        disabled
-                    />
-                </div>
 
-                {/* Subject Field */}
-                <div className="mb-6">
-                    <label htmlFor="subject" className="mb-2 block text-sm font-medium text-gray-700">Subject</label>
-                    <p className="mb-2 text-sm text-gray-500">
-                        Specific topic you want to discuss
-                    </p>
-                    <input
-                        type="text"
-                        id="subject"
-                        name="subject"
-                        className="w-full rounded-lg border-2 border-gray-300 p-3 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                        value={subject}
-                        onChange={handleChangeSubject}
-                        placeholder="Enter the subject of your aspiration"
-                    />
-                </div>
-
-                {/* Message Field */}
-                <div className="mb-8">
-                    <label htmlFor="message" className="mb-2 block text-sm font-medium text-gray-700">Message</label>
-                    <p className="mb-2 text-sm text-gray-500">
-                        Share your thoughts, ideas, or suggestions in detail
-                    </p>
-                    <textarea
-                        id="message"
-                        name="message"
-                        rows={6}
-                        className="w-full resize-none rounded-lg border-2 border-gray-300 p-3 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                        value={message}
-                        onChange={handleChangeMessage}
-                        placeholder="Write your message here..."
-                    ></textarea>
-                </div>
-
-                {/* Submit Button */}
-                <div className="flex flex-col items-center">
-                    {/* Validation feedback */}
-                    {!isFormValid && (
-                        <div className="mb-4 w-full max-w-md rounded-lg bg-amber-50 p-3 text-sm text-amber-800">
-                            <p className="font-medium">Please complete the form:</p>
-                            <ul className="mt-1 list-inside list-disc">
-                                {!validationStatus.organization && <li>Select an organization</li>}
-                                {!validationStatus.subject && <li>Enter a subject</li>}
-                                {!validationStatus.message && <li>Write your message</li>}
-                            </ul>
+                    {/* Right Column: Message & Submission */}
+                    <div className="flex flex-col space-y-6">
+                        {/* Message Field */}
+                        <div className="flex flex-col flex-grow">
+                            <label htmlFor="message" className="mb-2 block text-sm font-semibold text-[#0D1B3E]">Message</label>
+                            <p className="mb-2 text-sm text-[#1A1A2E]/60">
+                                Share your thoughts, ideas, or suggestions in detail
+                            </p>
+                            <textarea
+                                id="message"
+                                name="message"
+                                className="w-full h-full min-h-[200px] resize-none rounded-lg border border-[#B8841E]/30 bg-white/60 p-3 text-[#0D1B3E] focus:border-[#B8841E] focus:outline-none focus:ring-1 focus:ring-[#B8841E]/30 flex-grow"
+                                value={message}
+                                onChange={handleChangeMessage}
+                                placeholder="Write your message here..."
+                            ></textarea>
                         </div>
-                    )}
-                    
-                    <button
-                        type="submit"
-                        className="flex items-center justify-center rounded-lg bg-blue-600 px-8 py-3 font-medium text-white shadow-md transition-all hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:bg-gray-400 md:px-12"
-                        disabled={isLoading}
-                    >
-                        {isLoading ? <Spinner size="sm" className="mr-2" /> : null}
-                        {isLoading ? "Submitting..." : "Submit Aspiration"}
-                    </button>
+
+                        {/* Submit Button */}
+                        <div className="flex flex-col mt-auto pt-2">
+                            {/* Validation feedback */}
+                            {!isFormValid && (
+                                <div className="mb-4 w-full rounded-lg bg-[#E5D5A5]/40 p-3 text-sm text-[#0D1B3E] border border-[#B8841E]/20">
+                                    <p className="font-semibold text-[#B8841E]">Please complete the form:</p>
+                                    <ul className="mt-1 list-inside list-disc opacity-80">
+                                        {!validationStatus.organization && <li>Select an organization</li>}
+                                        {!validationStatus.subject && <li>Enter a subject</li>}
+                                        {!validationStatus.message && <li>Write your message</li>}
+                                    </ul>
+                                </div>
+                            )}
+
+                            <button
+                                type="submit"
+                                className="w-full flex items-center justify-center rounded-lg bg-[#0D1B3E] px-8 py-3.5 font-display font-semibold tracking-wide text-[#F5EDD0] shadow-md transition-all hover:bg-[#152347] focus:outline-none focus:ring-2 focus:ring-[#B8841E]/40 focus:ring-offset-2 disabled:cursor-not-allowed disabled:bg-[#1A1A2E]/50 md:px-12"
+                                disabled={isLoading}
+                            >
+                                {isLoading ? <Spinner size="sm" className="mr-2" color="warning" /> : null}
+                                {isLoading ? "Submitting..." : "Submit Aspiration"}
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </form>
         </div>
