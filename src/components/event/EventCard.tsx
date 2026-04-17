@@ -19,12 +19,12 @@ export default function EventCard({
     link
 }: EventCardProps) {
     return (
-        <div className="group relative h-full flex flex-col bg-white rounded-lg sm:rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2">
-            {/* Decorative gradient border */}
-            <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#B48322] to-[#F2B233]"></div>
+        <div className="group w-full relative overflow-hidden border border-[#B8841E]/15 bg-[#FAF5E8]/40 transition-colors duration-500 hover:bg-[#FAF5E8]/80 hover:border-[#B8841E]/40 h-full flex flex-col">
+            {/* Top gold rule */}
+            <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-[#B8841E]/70 to-transparent scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500 z-10" />
             
             {/* Event image with overlay and badge */}
-            <div className="relative h-48 sm:h-52 md:h-56 overflow-hidden">
+            <div className="relative h-48 sm:h-52 md:h-56 overflow-hidden border-b border-[#B8841E]/15">
                 <Image
                     src={typeof image === 'string' ? `${image}?t=${new Date().getTime()}` : image || "/placeholder.svg"}
                     alt={title}
@@ -32,22 +32,17 @@ export default function EventCard({
                     width={500}
                     height={300}
                     style={{ objectFit: 'cover' }}
-                    unoptimized={true} // Disable Next.js image optimization to prevent caching
+                    unoptimized={true}
                     onError={(e) => {
-                        // Fallback to a local image if the thumbnail fails to load
                         const imgElement = e.currentTarget as HTMLImageElement;
                         imgElement.src = "/placeholder.svg";
-                        console.log("Image failed to load, using fallback", image);
                     }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0D1B3E]/60 to-transparent opacity-80 transition-opacity duration-300"></div>
                 
                 {/* Event badge */}
                 <div className="absolute top-3 right-3">
-                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-[#B48322]/90 text-white shadow-md">
-                        <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                            <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd"></path>
-                        </svg>
+                    <span className="inline-flex items-center px-3 py-1 font-serif text-[10px] tracking-widest uppercase border border-[#B8841E] bg-[#0D1B3E]/80 text-[#EDD085] backdrop-blur-sm shadow-sm transition-all duration-300 group-hover:bg-[#B8841E] group-hover:text-white">
                         Event
                     </span>
                 </div>
@@ -55,25 +50,31 @@ export default function EventCard({
             
             {/* Content area */}
             <div className="flex-1 p-5 sm:p-6 flex flex-col">
-                {/* Title with hover effect */}
-                <h3 className="text-lg sm:text-xl font-bold mb-3 text-gray-800 group-hover:text-[#B48322] transition-colors duration-300 line-clamp-2">
+                {/* Title */}
+                <h3 className="font-display italic text-xl sm:text-[1.3rem] text-[#0D1B3E] leading-tight mb-3 transition-colors duration-300 group-hover:text-[#B8841E] line-clamp-2">
                     {title}
                 </h3>
                 
-                {/* Description with improved readability */}
-                <p className="text-gray-600 text-sm mb-4 leading-relaxed line-clamp-3 flex-grow">
+                {/* Ornament */}
+                <div className="flex items-center gap-2 mb-4">
+                    <div className="h-px w-6 bg-[#B8841E]/40" />
+                    <span className="text-[#B8841E]/50 text-[10px]">✦</span>
+                </div>
+                
+                {/* Description */}
+                <p className="font-serif text-[#1A1A2E]/60 text-sm mb-5 leading-relaxed line-clamp-3 flex-grow">
                     {description}
                 </p>
                 
-                {/* Link with animated arrow */}
-                <div className="mt-auto pt-3 border-t border-gray-100">
+                {/* Link */}
+                <div className="mt-auto pt-4 border-t border-[#B8841E]/10">
                     <Link 
                         href={link}
-                        className="inline-flex items-center text-sm font-medium text-gray-700 transition-all duration-300 hover:text-[#B48322] group-hover:translate-x-1"
+                        className="inline-flex items-center gap-2 font-serif text-sm text-[#B8841E] hover:text-[#0D1B3E] transition-colors duration-250 group/link"
                     >
-                        Read More
+                        <span>View Details</span>
                         <svg 
-                            className="w-4 h-4 ml-1.5 transition-transform duration-300 group-hover:translate-x-1" 
+                            className="w-4 h-4 transition-transform duration-250 group-hover/link:translate-x-1" 
                             fill="none" 
                             stroke="currentColor" 
                             viewBox="0 0 24 24"
@@ -81,8 +82,8 @@ export default function EventCard({
                             <path 
                                 strokeLinecap="round" 
                                 strokeLinejoin="round" 
-                                strokeWidth={2} 
-                                d="M9 5l7 7-7 7" 
+                                strokeWidth="1.5" 
+                                d="M14 5l7 7-7 7" 
                             />
                         </svg>
                     </Link>

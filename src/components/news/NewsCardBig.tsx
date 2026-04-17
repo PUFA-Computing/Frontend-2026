@@ -23,12 +23,12 @@ export default function NewsCardBig({ news }: NewsCardBigProps) {
     }
 
     return (
-        <div className="group relative overflow-hidden rounded-lg sm:rounded-xl md:rounded-2xl bg-white shadow-md hover:shadow-xl transition-all duration-500 h-full transform hover:-translate-y-2">
-            {/* Decorative gradient border */}
-            <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#B48322] to-[#F2B233] z-10"></div>
+        <div className="group relative overflow-hidden border border-[#B8841E]/15 bg-[#FAF5E8]/40 transition-colors duration-500 hover:bg-[#FAF5E8]/80 hover:border-[#B8841E]/40 h-full flex flex-col">
+            {/* Top gold rule */}
+            <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-[#B8841E]/70 to-transparent scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500 z-10" />
             
             {/* Image container with overlay effect */}
-            <div className="relative h-48 sm:h-56 md:h-64 lg:h-80 overflow-hidden">
+            <div className="relative h-48 sm:h-56 md:h-64 lg:h-80 overflow-hidden border-b border-[#B8841E]/15">
                 <Image
                     src={latestNews.thumbnail || backgroundImg}
                     alt={latestNews.title}
@@ -37,57 +37,65 @@ export default function NewsCardBig({ news }: NewsCardBigProps) {
                     height={400}
                     priority
                 />
-                {/* Gradient overlay with improved visibility */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300"></div>
+                {/* Gradient overlay with elegant dark navy */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0D1B3E]/90 via-[#0D1B3E]/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300"></div>
                 
                 {/* Title and metadata positioned over the image */}
-                <div className="absolute bottom-0 left-0 p-4 sm:p-5 md:p-6 text-white w-full">
-                    {/* Tags with improved styling */}
-                    <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
-                        <span className="text-xs font-medium bg-gradient-to-r from-[#B48322]/90 to-[#F2B233]/90 text-white px-3 py-1 sm:px-4 sm:py-1.5 rounded-full shadow-md backdrop-blur-sm transform transition-transform duration-300 group-hover:scale-105">
+                <div className="absolute bottom-0 left-0 p-5 sm:p-6 md:p-8 text-white w-full">
+                    {/* Tags */}
+                    <div className="flex flex-wrap items-center gap-3 mb-4">
+                        <span className="inline-flex items-center px-3 py-1 font-serif text-[10px] tracking-widest uppercase border border-[#B8841E]/30 bg-[#FAF5E8]/90 text-[#0D1B3E] backdrop-blur-sm shadow-sm transition-transform duration-300 group-hover:scale-105">
                             {new Date(latestNews.publish_date).toLocaleDateString("en-US", {
                                 year: "numeric", month: "short", day: "numeric"
                             })}
                         </span>
-                        <span className="text-xs font-medium bg-black/50 text-white px-3 py-1 sm:px-4 sm:py-1.5 rounded-full shadow-md backdrop-blur-sm">
+                        <span className="inline-flex items-center px-3 py-1 font-serif text-[10px] tracking-widest uppercase border border-[#B8841E] bg-[#0D1B3E]/80 text-[#EDD085] backdrop-blur-sm shadow-sm transition-all duration-300 group-hover:bg-[#B8841E] group-hover:text-white">
                             {latestNews.organization || "PUFA Computing"}
                         </span>
                     </div>
                     
-                    {/* Title with animation effect */}
-                    <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-white drop-shadow-md mb-2 line-clamp-2 transition-all duration-300 group-hover:translate-y-[-3px]">
+                    {/* Title */}
+                    <h3 className="font-display italic text-2xl sm:text-3xl md:text-4xl text-white drop-shadow-md mb-2 line-clamp-2 transition-transform duration-300 group-hover:-translate-y-1">
                         {latestNews.title}
                     </h3>
+
+                    {/* Ornament inside image */}
+                    <div className="flex items-center gap-2 mt-3 opacity-0 translate-y-2 transition-all duration-500 group-hover:opacity-100 group-hover:translate-y-0">
+                        <div className="h-px w-8 bg-[#EDD085]/60" />
+                        <span className="text-[#EDD085]/70 text-[10px]">✦</span>
+                    </div>
                 </div>
             </div>
             
             {/* Content area */}
-            <div className="p-4 sm:p-5 md:p-6 lg:p-7">
-                {/* Description with improved readability */}
-                <p className="mb-4 sm:mb-5 line-clamp-3 text-sm sm:text-base text-gray-600 leading-relaxed">
+            <div className="p-5 sm:p-6 md:p-8 flex-1 flex flex-col">
+                {/* Description */}
+                <p className="mb-6 line-clamp-3 font-serif text-[#1A1A2E]/60 text-sm sm:text-base leading-relaxed flex-grow">
                     {createExcerpt(latestNews.content)}
                 </p>
                 
-                {/* Link with animated arrow */}
-                <Link
-                    href={`/news/${latestNews.slug}`}
-                    className="inline-flex items-center text-sm sm:text-base font-medium text-gray-700 transition-all duration-300 hover:text-[#B48322] group-hover:translate-x-1"
-                >
-                    Read Full Article
-                    <svg
-                        className="ml-1.5 sm:ml-2 h-4 w-4 sm:h-5 sm:w-5 transition-transform duration-300 group-hover:translate-x-1"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
+                {/* Link */}
+                <div className="mt-auto pt-5 border-t border-[#B8841E]/10">
+                    <Link
+                        href={`/news/${latestNews.slug}`}
+                        className="inline-flex items-center gap-2 font-serif text-sm sm:text-base text-[#B8841E] transition-colors duration-250 group-hover:text-[#0D1B3E]"
                     >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M9 5l7 7-7 7"
-                        />
-                    </svg>
-                </Link>
+                        <span>Read Full Article</span>
+                        <svg
+                            className="h-4 w-4 sm:h-5 sm:w-5 transition-transform duration-250 group-hover:translate-x-1"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="1.5"
+                                d="M14 5l7 7-7 7"
+                            />
+                        </svg>
+                    </Link>
+                </div>
             </div>
         </div>
     );
