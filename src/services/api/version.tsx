@@ -1,11 +1,9 @@
 import { API_VERSION } from "@/config/config";
-import axios from "axios";
 
 export default async function GetVersion() {
     try {
         const response = await fetch(API_VERSION, {
-            cache: 'no-store',
-            next: { revalidate: 0 }
+            cache: 'no-store'
         });
 
         // Check if response is ok (status 200-299)
@@ -18,7 +16,13 @@ export default async function GetVersion() {
             return null;
         }
 
-        return await response.json();
+        const text = await response.text();
+        if (!text || text.trim() === '') {
+            console.error("Version API returned empty response");
+            return null;
+        }
+
+        return JSON.parse(text);
     } catch (error) {
         console.error("Failed to fetch version:", error);
         return null;

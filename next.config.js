@@ -7,15 +7,39 @@ const nextConfig = {
 
   output: "standalone",
   images: {
-    domains: [
-      "sg.pufacomputing.live",
-      "id.pufacomputing.live",
-      "api.dicebear.com",
-      "example.com",
-      "ik.imagekit.io",
-      "via.placeholder.com",
-      "pufacompsci.my.id",
-      "pufacompsci.online"
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'sg.pufacomputing.live',
+      },
+      {
+        protocol: 'https',
+        hostname: 'id.pufacomputing.live',
+      },
+      {
+        protocol: 'https',
+        hostname: 'api.dicebear.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'example.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'ik.imagekit.io',
+      },
+      {
+        protocol: 'https',
+        hostname: 'via.placeholder.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'pufacompsci.my.id',
+      },
+      {
+        protocol: 'https',
+        hostname: 'pufacompsci.online',
+      },
     ],
   },
   httpAgentOptions: {

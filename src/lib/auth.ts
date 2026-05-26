@@ -38,10 +38,16 @@ export const authOptions: NextAuthOptions = {
                     );
                     console.log("Login response:", JSON.stringify(response, null, 2));
 
+                    // Check if response exists and has data
+                    if (!response || !response.data) {
+                        console.error("Invalid response from server - missing data:", response);
+                        throw new Error("Invalid response from server - missing data");
+                    }
+
                     // Check if user_id or access_token is null
                     if (!response.data.user_id || !response.data.access_token) {
                         console.error("Missing user_id or access_token in response:", response);
-                        throw new Error("Invalid response from server");
+                        throw new Error("Invalid response from server - missing user_id or access_token");
                     }
 
                     const user = await GetUserProfile(
