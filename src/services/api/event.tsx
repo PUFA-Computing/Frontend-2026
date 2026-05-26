@@ -1,7 +1,7 @@
 import apiClient from "./apiClient";
 import Event from "../../models/event";
 import { API_EVENT } from "@/config/config";
-import FormData from "form-data";
+
 import { cacheManager, CACHE_TTL } from "@/lib/cacheManager";
 
 /**

@@ -208,7 +208,7 @@ export default function ListUserRegistered({
                                 <Image
                                     src={
                                         user.profile_picture ||
-                                        "https://sg.pufacomputing.live/Assets/male.jpeg"
+                                        "/avatar-default.svg"
                                     }
                                     alt={`${user.first_name} Avatar`}
                                     className="h-12 w-12 rounded-full object-cover border-2 border-white shadow-sm"

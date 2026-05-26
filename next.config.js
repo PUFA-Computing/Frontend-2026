@@ -14,7 +14,8 @@ const nextConfig = {
       "example.com",
       "ik.imagekit.io",
       "via.placeholder.com",
-      "pufacompsci.my.id"
+      "pufacompsci.my.id",
+      "pufacompsci.online"
     ],
   },
   httpAgentOptions: {

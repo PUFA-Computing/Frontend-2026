@@ -75,7 +75,7 @@ export default function EmailBlastList({
                                     <dd>
                                         <img
                                             className="h-6 w-6 rounded-full bg-gray-50 ring-2 ring-white"
-                                            src="https://sg.pufacomputing.live/Logo%20Puma.png"
+                                            src="/logo.png"
                                             alt="Admin"
                                         />
                                     </dd>

@@ -181,7 +181,7 @@ export default function AspirationsList({
                                         {aspiration.closed && (
                                             <img
                                                 className="h-8 w-8 rounded-full border-2 border-white object-cover shadow-sm"
-                                                src="https://sg.pufacomputing.live/Logo%20Puma.png"
+                                                src="/logo.png"
                                                 alt="Admin"
                                             />
                                         )}

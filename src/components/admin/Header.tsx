@@ -90,7 +90,7 @@ const Header = ({ userNavigation }: HeaderProps) => {
                             <span className="sr-only">Open user menu</span>
                             <img
                                 className="h-9 w-9 rounded-full bg-gray-50 object-cover border-2 border-white shadow-sm"
-                                src={userProfile?.profile_picture || 'https://sg.pufacomputing.live/Assets/male.jpeg'}
+                                src={userProfile?.profile_picture || '/avatar-default.svg'}
                                 alt="User Profile"
                             />
                             <span className="hidden lg:flex lg:items-center">

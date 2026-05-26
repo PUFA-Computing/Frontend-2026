@@ -42,6 +42,7 @@ export const Login = async (
         const response = await apiClient.post(API_LOGIN, data, {
             withCredentials: true,
         });
+        console.log("AXIOS POST SUCCESS, response.data:", response.data);
         return response.data;
     } catch (error) {
         console.error("Failed to Login", error);

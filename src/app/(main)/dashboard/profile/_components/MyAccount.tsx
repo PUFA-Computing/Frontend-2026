@@ -271,7 +271,7 @@ export default function MyAccount() {
                     <div className="relative shrink-0">
                         <div className="h-36 w-36 sm:h-44 sm:w-44 rounded-full overflow-hidden border-2 border-[#B8841E]/30 ring-4 ring-[#B8841E]/10 shadow-md">
                             <Image
-                                src={userData?.profile_picture || "https://sg.pufacomputing.live/Assets/male.jpeg"}
+                                src={userData?.profile_picture || "/avatar-default.svg"}
                                 alt="Profile picture"
                                 width={176}
                                 height={176}

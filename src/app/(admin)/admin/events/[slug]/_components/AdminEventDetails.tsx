@@ -585,7 +585,7 @@ export default function EventDetails() {
                                                     src={
                                                         event.thumbnail 
                                                         ? `${event.thumbnail}?t=${new Date().getTime()}` 
-                                                        : "https://sg.pufacomputing.live/Assets/male.jpeg"
+                                                        : "/avatar-default.svg"
                                                     }
                                                     alt={`${event.title} Poster`}
                                                     className="h-72 w-56 object-cover transition-all duration-300 group-hover:scale-105"

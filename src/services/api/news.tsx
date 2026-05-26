@@ -14,11 +14,9 @@ export const fetchNews = async (): Promise<News[]> => {
     }
 
     try {
-        // Make sure we're using the correct URL format with trailing slash
-        const url = API_NEWS.endsWith('/') ? API_NEWS : `${API_NEWS}/`;
-        console.log(`Fetching news from: ${url}`);
+        console.log(`Fetching news from: ${API_NEWS}`);
 
-        const response = await apiClient.get(url);
+        const response = await apiClient.get(API_NEWS);
         const newsDataArray = response.data?.data || [];
 
         // Process each news item in the array
@@ -59,9 +57,7 @@ export const fetchNewsBySlug = async (newsSlug: string): Promise<News | null> =>
     }
 
     try {
-        // Make sure we're using the correct URL format
-        const baseUrl = API_NEWS.endsWith('/') ? API_NEWS : `${API_NEWS}/`;
-        const url = `${baseUrl}${newsSlug}`;
+        const url = `${API_NEWS}/${newsSlug}`;
         console.log(`Fetching news by slug from: ${url}`);
 
         const response = await apiClient.get(url);

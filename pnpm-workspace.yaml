@@ -1,0 +1,9 @@
+allowBuilds:
+  '@ampproject/toolbox-optimizer': false
+  '@prisma/client': false
+  '@prisma/engines': false
+  es5-ext: false
+  esbuild: false
+  fsevents: false
+  prisma: false
+  sharp: false
