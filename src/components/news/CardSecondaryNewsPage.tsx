@@ -4,7 +4,8 @@ import Link from "next/link"
 import { Calendar, Clock, User } from "lucide-react"
 
 export default function CardSecondaryNewsPage({ news }: { news: News }) {
-  const truncateDescription = (description: string, maxLength: number) => {
+  const truncateDescription = (description: string | null | undefined, maxLength: number) => {
+    if (!description) return ""
     if (description.length <= maxLength) {
       return description
     }
@@ -43,7 +44,7 @@ export default function CardSecondaryNewsPage({ news }: { news: News }) {
           <div className="absolute right-4 top-4 z-10">
             <span className="inline-flex items-center rounded-full bg-white/80 px-2 py-1 text-xs font-medium text-gray-800 backdrop-blur-sm">
               <Clock className="mr-1 h-3 w-3" />
-              {Math.ceil(news.content.length / 1000)} min
+              {Math.ceil((news.content?.length || 0) / 1000)} min
             </span>
           </div>
         </div>
@@ -67,7 +68,7 @@ export default function CardSecondaryNewsPage({ news }: { news: News }) {
             {/* Description */}
             <div
               className="mb-4 text-sm text-gray-600"
-              dangerouslySetInnerHTML={createMarkup(truncateDescription(news.content, 120))}
+              dangerouslySetInnerHTML={createMarkup(truncateDescription(news.content || "", 120))}
             />
           </div>
 

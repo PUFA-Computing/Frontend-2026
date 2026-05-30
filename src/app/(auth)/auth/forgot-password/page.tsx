@@ -1,180 +1,44 @@
 "use client";
-import React, { useState } from "react";
-import InputEmail from "./_components/InputEmail";
-import OTPForm from "./_components/InputOTP";
-import InputNewPassword from "./_components/InputNewPassword";
-import { CheckIcon } from "lucide-react";
+import React from "react";
+import { signIn } from "next-auth/react";
+import Link from "next/link";
+import { FcGoogle } from "react-icons/fc";
 
-export default function Page() {
-    const [currentStep, setCurrentStep] = useState<string>("Input Email");
-    const [emailSubmitted, setEmailSubmitted] = useState<boolean>(false);
-    const [otpSubmitted, setOtpSubmitted] = useState<boolean>(false);
-
-    const steps = [
-        {
-            id: "01",
-            name: "Input Email",
-            component: () => (
-                <InputEmail
-                    onSubmit={() => {
-                        setEmailSubmitted(true);
-                        setCurrentStep("Input OTP");
-                    }}
-                />
-            ),
-            status: currentStep === "Input Email" ? "current" : "completed",
-        },
-        {
-            id: "02",
-            name: "Input OTP",
-            component: () => (
-                <OTPForm
-                    onSubmit={() => {
-                        setOtpSubmitted(true);
-                        setCurrentStep("Input New Password");
-                    }}
-                />
-            ),
-            status: currentStep === "Input OTP" ? "current" : otpSubmitted ? "completed" : emailSubmitted ? "upcoming" : "disabled",
-        },
-        {
-            id: "03",
-            name: "Input New Password",
-            component: InputNewPassword,
-            status: currentStep === "Input New Password" ? "current" : otpSubmitted ? "upcoming" : "disabled",
-        },
-    ];
-
-    const handleStepChange = (stepName: string) => {
-        const currentStepIndex = steps.findIndex(step => step.name === currentStep);
-        const nextStepIndex = steps.findIndex(step => step.name === stepName);
-        
-        // Ensure we only navigate to the next step or the current step, but not previous ones
-        if (nextStepIndex > currentStepIndex && steps[nextStepIndex].status !== "completed") {
-            setCurrentStep(stepName);
-        }
+export default function ForgotPasswordPage() {
+    const handleGoogleVerify = () => {
+        // Redirect to Google login, and then to the security page with reset=true
+        signIn("google", { callbackUrl: "/dashboard/profile?reset=true" });
     };
-
-    const classNames = (...classes: string[]) => {
-        return classes.filter(Boolean).join(" ");
-    };
-
-    const currentComponent = steps.find(
-        (step) => step.name === currentStep
-    )?.component;
 
     return (
-        <div
-            className="min-h-screen w-full bg-cover bg-center flex flex-col"
-            style={{ backgroundImage: `url('/doodle.svg')` }}
-        >
-            <nav aria-label="Progress" className="">
-                <ol
-                    role="list"
-                    className="divide-y divide-gray-300 rounded-md border bg-white border-gray-300 md:flex md:divide-y-0"
+        <div className="flex h-screen items-center justify-center relative overflow-hidden" style={{ backgroundImage: `url('/doodle.svg')` }}>
+            <div className="z-10 w-full max-w-md p-8 bg-white/95 backdrop-blur-sm rounded-lg shadow-xl border border-gray-100 flex flex-col items-center text-center">
+                <div className="mb-6 flex justify-center">
+                    <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mb-2">
+                        <svg className="w-8 h-8 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8V7a4 4 0 00-8 0v4h8z"></path>
+                        </svg>
+                    </div>
+                </div>
+                
+                <h1 className="text-2xl font-bold text-gray-800 mb-2">Reset Your Password</h1>
+                <p className="text-gray-500 mb-8 text-sm">
+                    Verify your identity using your Google account to reset your password. Once verified, you will be able to set a new password in your account settings.
+                </p>
+
+                <button
+                    onClick={handleGoogleVerify}
+                    className="w-full flex items-center justify-center gap-3 bg-white border border-gray-300 text-gray-700 px-4 py-3 rounded-md hover:bg-gray-50 transition-colors duration-200 font-medium shadow-sm mb-6"
                 >
-                    {steps.map((step, stepIdx) => (
-                        <li
-                            key={step.name}
-                            className="relative md:flex md:flex-1"
-                        >
-                            {step.status === "completed" ? (
-                                <div
-                                    className="group flex w-full items-center cursor-not-allowed opacity-50"
-                                    aria-disabled="true"
-                                >
-                                    <span className="flex items-center px-6 py-4 text-sm font-medium">
-                                        <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-indigo-600">
-                                            <CheckIcon
-                                                className="h-6 w-6 text-white"
-                                                aria-hidden="true"
-                                            />
-                                        </span>
-                                        <span className="ml-4 text-sm font-medium text-gray-900">
-                                            {step.name}
-                                        </span>
-                                    </span>
-                                </div>
-                            ) : step.status === "current" ? (
-                                <button
-                                    onClick={() => handleStepChange(step.name)}
-                                    className="flex items-center px-6 py-4 text-sm font-medium"
-                                    aria-current="step"
-                                >
-                                    <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border-2 border-indigo-600">
-                                        <span className="text-indigo-600">
-                                            {step.id}
-                                        </span>
-                                    </span>
-                                    <span className="ml-4 text-sm font-medium text-indigo-600">
-                                        {step.name}
-                                    </span>
-                                </button>
-                            ) : step.status === "upcoming" ? (
-                                <button
-                                    onClick={() => handleStepChange(step.name)}
-                                    className="group flex items-center"
-                                >
-                                    <span className="flex items-center px-6 py-4 text-sm font-medium">
-                                        <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border-2 border-gray-300 group-hover:border-gray-400">
-                                            <span className="text-gray-500 group-hover:text-gray-900">
-                                                {step.id}
-                                            </span>
-                                        </span>
-                                        <span className="ml-4 text-sm font-medium text-gray-500 group-hover:text-gray-900">
-                                            {step.name}
-                                        </span>
-                                    </span>
-                                </button>
-                            ) : (
-                                <div
-                                    className="group flex items-center cursor-not-allowed opacity-50"
-                                >
-                                    <span className="flex items-center px-6 py-4 text-sm font-medium">
-                                        <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border-2 border-gray-300">
-                                            <span className="text-gray-500">
-                                                {step.id}
-                                            </span>
-                                        </span>
-                                        <span className="ml-4 text-sm font-medium text-gray-500">
-                                            {step.name}
-                                        </span>
-                                    </span>
-                                </div>
-                            )}
+                    <FcGoogle className="w-5 h-5" />
+                    Verify with Google
+                </button>
 
-                            {stepIdx !== steps.length - 1 ? (
-                                <>
-                                    {/* Arrow separator for lg screens and up */}
-                                    <div
-                                        className="absolute right-0 top-0 hidden h-full w-5 md:block"
-                                        aria-hidden="true"
-                                    >
-                                        <svg
-                                            className="h-full w-full text-gray-300"
-                                            viewBox="0 0 22 80"
-                                            fill="none"
-                                            preserveAspectRatio="none"
-                                        >
-                                            <path
-                                                d="M0 -2L20 40L0 82"
-                                                vectorEffect="non-scaling-stroke"
-                                                stroke="currentcolor"
-                                                strokeLinejoin="round"
-                                            />
-                                        </svg>
-                                    </div>
-                                </>
-                            ) : null}
-                        </li>
-                    ))}
-                </ol>
-            </nav>
-
-            <div className="mt-8">
-                {currentComponent
-                    ? React.createElement(currentComponent)
-                    : null}
+                <div className="text-sm">
+                    <Link href="/auth/signin" className="text-indigo-600 hover:text-indigo-800 font-medium transition-colors">
+                        ← Back to Login
+                    </Link>
+                </div>
             </div>
         </div>
     );

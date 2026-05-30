@@ -28,6 +28,9 @@ services:
       - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
       - NEXTAUTH_BASE_PATH=${NEXTAUTH_BASE_PATH}
       - DATABASE_URL=${DATABASE_URL}
+      # BACKEND_URL: server-side runtime URL for NextAuth → backend calls.
+      # Uses container name because both containers share pufa_dev_network.
+      - BACKEND_URL=http://backend-dev:8080/api/v1
     env_file:
       - ../../.env
     extra_hosts:

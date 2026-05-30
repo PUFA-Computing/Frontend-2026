@@ -4,7 +4,8 @@ import Link from "next/link"
 import { Calendar, ArrowRight, Clock, User } from "lucide-react"
 
 export default function FeaturedNewsCard({ news }: { news: News }) {
-  const truncateDescription = (description: string, maxLength: number) => {
+  const truncateDescription = (description: string | null | undefined, maxLength: number) => {
+    if (!description) return ""
     if (description.length <= maxLength) {
       return description
     }
@@ -73,7 +74,7 @@ export default function FeaturedNewsCard({ news }: { news: News }) {
               {/* Content preview */}
               <div
                 className="mb-6 text-gray-700"
-                dangerouslySetInnerHTML={createMarkup(truncateDescription(news.content, 180))}
+                dangerouslySetInnerHTML={createMarkup(truncateDescription(news.content || "", 180))}
               />
             </div>
 
@@ -95,7 +96,7 @@ export default function FeaturedNewsCard({ news }: { news: News }) {
                 {/* Reading time */}
                 <div className="flex items-center text-sm text-gray-500">
                   <Clock className="mr-1.5 h-4 w-4 text-indigo-500" />
-                  <span>{Math.ceil(news.content.length / 1000)} min read</span>
+                  <span>{Math.ceil((news.content?.length || 0) / 1000)} min read</span>
                 </div>
               </div>
 

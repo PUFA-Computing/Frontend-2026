@@ -1,9 +1,15 @@
-import Login from "@/services/api/auth";
-import { GetUser, GetUserProfile } from "@/services/api/user";
+import { GetUserProfile } from "@/services/api/user";
 import { UserType } from "@/types/next-auth";
 import { AxiosError } from "axios";
 import { NextAuthOptions, getServerSession } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
+
+// BACKEND_URL is a runtime env var (not NEXT_PUBLIC_), so it works inside Docker
+// where localhost would refer to the container itself, not the backend.
+// Local:       BACKEND_URL=http://backend-dev:8080/api/v1
+// Production:  BACKEND_URL=<same as NEXT_PUBLIC_API_URL or left unset>
+const getBackendUrl = () => process.env.BACKEND_URL || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api/v1';
 
 interface Credentials extends Record<"username" | "password", string> {
     passcode?: string;
@@ -14,6 +20,12 @@ export const authOptions: NextAuthOptions = {
         strategy: "jwt",
     },
     providers: [
+        GoogleProvider({
+            clientId: process.env.GOOGLE_CLIENT_ID ?? "",
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
+            // We need the ID token to forward to the Go backend for verification.
+            authorization: { params: { prompt: "select_account", access_type: "offline" } },
+        }),
         CredentialsProvider({
             id: "credentials",
             name: "Credentials",
@@ -31,29 +43,39 @@ export const authOptions: NextAuthOptions = {
                     throw new Error("No credentials provided");
                 }
                 try {
-                    const response = await Login(
-                        credentials.username,
-                        credentials.password,
-                        credentials.passcode
-                    );
+                    const backendUrl = getBackendUrl();
+                    console.log(`[Auth] Using backend URL: ${backendUrl}`);
+
+                    const body: Record<string, string> = {
+                        username: credentials.username,
+                        password: credentials.password,
+                    };
+                    if (credentials.passcode) body.passcode = credentials.passcode;
+
+                    const res = await fetch(`${backendUrl}/auth/login`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(body),
+                    });
+
+                    const response = await res.json();
                     console.log("Login response:", JSON.stringify(response, null, 2));
 
-                    // Check if response exists and has data
-                    if (!response || !response.data) {
-                        console.error("Invalid response from server - missing data:", response);
-                        throw new Error("Invalid response from server - missing data");
+                    if (!res.ok || !response.success) {
+                        console.error("Login failed:", response);
+                        throw new Error(response.message || "Invalid Credentials");
                     }
 
-                    // Check if user_id or access_token is null
-                    if (!response.data.user_id || !response.data.access_token) {
+                    if (!response.data?.user_id || !response.data?.access_token) {
                         console.error("Missing user_id or access_token in response:", response);
                         throw new Error("Invalid response from server - missing user_id or access_token");
                     }
 
-                    const user = await GetUserProfile(
-                        response.data.user_id,
-                        response.data.access_token
-                    );
+                    const userRes = await fetch(`${backendUrl}/user/${response.data.user_id}`, {
+                        headers: { Authorization: `Bearer ${response.data.access_token}` },
+                    });
+                    const userBody = await userRes.json();
+                    const user = userBody?.data;
                     console.log("User profile:", JSON.stringify(user, null, 2));
 
                     return {
@@ -63,18 +85,57 @@ export const authOptions: NextAuthOptions = {
                     };
                 } catch (err) {
                     console.error("Authorization error:", err);
-                    if (err instanceof AxiosError) {
-                        console.error("Response data:", err.response?.data);
-                        throw new Error(
-                            err.response?.data.message || err.message
-                        );
-                    }
                     throw err;
                 }
             }
         }),
     ],
     callbacks: {
+        // signIn fires *before* jwt/session. We use it to exchange Google's
+        // id_token for our backend JWT, then attach the result onto the
+        // `user` object so the jwt() callback below can hoist it into the
+        // NextAuth token. Returning false here aborts the sign-in.
+        async signIn({ user, account, profile }) {
+            if (account?.provider !== "google") return true;
+
+            const idToken = (account as any).id_token as string | undefined;
+            if (!idToken) {
+                console.error("[Auth][google] No id_token in account");
+                return false;
+            }
+
+            try {
+                const backendUrl = getBackendUrl();
+                const res = await fetch(`${backendUrl}/auth/google`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ id_token: idToken }),
+                });
+                const body = await res.json();
+                if (!res.ok || !body.success) {
+                    console.error("[Auth][google] backend rejected:", body);
+                    return false;
+                }
+
+                // Stuff backend payload into `user`. NextAuth merges this into
+                // the JWT via the jwt() callback below.
+                const data = body.data;
+                Object.assign(user as any, {
+                    id: data.user_id,
+                    access_token: data.access_token,
+                    email: data.email ?? user.email,
+                    role_id: data.role_id,
+                    needs_completion: data.needs_completion,
+                    profile_completed: !data.needs_completion,
+                    auth_provider: data.was_linked ? "both" : "google",
+                });
+                return true;
+            } catch (err) {
+                console.error("[Auth][google] exchange failed:", err);
+                return false;
+            }
+        },
+
         async session({ token, session }) {
             if (token) {
                 session.user = token;
@@ -112,11 +173,16 @@ export const authOptions: NextAuthOptions = {
                             }
 
                             // Gabungkan dengan session.user yang sudah ada
-                            // Prioritaskan data dari API, tetapi pertahankan token
+                            // Prioritaskan data dari API, tetapi pertahankan token + needs_completion
                             session.user = {
                                 ...formattedData,
                                 id: session.user.id, // Pastikan ID tetap sama
-                                access_token: session.user.access_token // Pastikan token tetap sama
+                                access_token: session.user.access_token, // Pastikan token tetap sama
+                                // Preserve Google-flow flags that the backend's
+                                // GET /user/:id doesn't include in the legacy response.
+                                needs_completion: session.user.needs_completion ?? !(formattedData as any).profile_completed,
+                                profile_completed: (formattedData as any).profile_completed ?? session.user.profile_completed,
+                                auth_provider: (formattedData as any).auth_provider ?? session.user.auth_provider,
                             };
 
                             console.log("Session user after update:", session.user);

@@ -12,7 +12,7 @@ const API_CONFIG = {
 // Create an API client with enhanced error handling and timeout settings
 const apiClient = axios.create({
   baseURL: BASE_URL,
-  timeout: 30000,
+  timeout: 90000, // 90 seconds — matches the backend's global timeout
   headers: {
     'Accept': 'application/json',
     // Don't set Content-Type here - let axios auto-detect based on data type

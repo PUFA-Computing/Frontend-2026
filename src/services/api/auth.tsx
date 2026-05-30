@@ -170,12 +170,23 @@ export const ForgotPasswordRequest = async (email: string) => {
     }
 };
 
-export async function UpdatePassword(password: string, accessToken: string) {
+export const GetAccountStatus = async (email: string) => {
+    try {
+        const response = await apiClient.get(`/auth/account-status?email=${encodeURIComponent(email)}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error getting account status:", error);
+        throw error;
+    }
+};
+
+export async function UpdatePassword(newPassword: string, accessToken: string, currentPassword?: string) {
     try {
         const response = await apiClient.put(
             API_UPDATE_PASSWORD,
             {
-                "password": password,
+                "new_password": newPassword,
+                "current_password": currentPassword || "",
             },
             {
                 headers: {

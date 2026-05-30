@@ -30,7 +30,7 @@ export default function NewsAllSection({ allNews }: { allNews: News[] }) {
       const query = searchQuery.toLowerCase()
       result = result.filter(item => 
         item.title.toLowerCase().includes(query) || 
-        item.content.toLowerCase().includes(query) ||
+        (item.content?.toLowerCase() ?? '').includes(query) ||
         (item.author && item.author.toLowerCase().includes(query))
       )
     }
@@ -207,7 +207,7 @@ export default function NewsAllSection({ allNews }: { allNews: News[] }) {
                       <div className="absolute right-3 top-3 z-10">
                         <span className="inline-flex items-center rounded-full bg-white/80 px-2 py-0.5 text-xs font-medium text-gray-800 backdrop-blur-sm">
                           <Clock className="mr-1 h-2.5 w-2.5" />
-                          {Math.ceil(item.content.length / 1000)} min
+                          {Math.ceil((item.content?.length || 0) / 1000)} min
                         </span>
                       </div>
                     </div>

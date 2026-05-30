@@ -123,10 +123,12 @@ export const createProject = async (
 
         // Make a POST request to the API endpoint
         // Note: Don't set Content-Type manually for FormData - axios will set it with boundary
+        // Use a 120s timeout for file uploads (image optimization + R2 upload can take time)
         const response = await apiClient.post(`${API_PROJECTS}/create`, formData, {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
             },
+            timeout: 120000, // 120 seconds — matches backend's per-route timeout for /projects/create
         });
 
         console.log('=== SUCCESS: Project created ===');

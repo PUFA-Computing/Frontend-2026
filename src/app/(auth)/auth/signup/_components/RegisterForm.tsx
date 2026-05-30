@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 import { AxiosError } from "axios";
 import Link from "next/link";
 import { Spinner } from "@nextui-org/spinner";
+import GoogleSignInButton from "@/components/GoogleSignInButton";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 type ErrorResponse = {
@@ -232,6 +233,17 @@ export default function RegisterForm() {
             </div>
 
             <div className="my-4 border-t border-[#D1D5DB]" />
+
+            {/* Google sign-up — the recommended path. Skips password setup
+                entirely and routes new users to /auth/complete-profile to
+                enter Student ID + batch. */}
+            <GoogleSignInButton label="Sign up with Google" />
+
+            <div className="my-4 flex items-center gap-3">
+                <div className="h-px flex-1 bg-gray-200" />
+                <span className="text-xs text-gray-400">or fill in the form below</span>
+                <div className="h-px flex-1 bg-gray-200" />
+            </div>
 
             <form onSubmit={handleRegister} className="w-full max-w-md" noValidate>
                 {/* Name */}

@@ -2,9 +2,9 @@
 import React, { useState, useEffect } from "react";
 import { GetUserProfile, Toggle2FA } from "@/services/api/user";
 import Swal from "sweetalert2";
-import { signOut, useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-import { UpdatePassword } from "@/services/api/auth";
+import { UpdatePassword, GetAccountStatus } from "@/services/api/auth";
 
 function CardSection({ icon, title, children }: { icon: React.ReactNode; title: string; children: React.ReactNode }) {
     return (
@@ -31,11 +31,14 @@ export default function SecurityPage() {
     const session = useSession();
     const [userData, setUserData] = useState<any>({});
     const [is2FAEnable, setIs2FAEnable] = useState(false);
+    const [currentPassword, setCurrentPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [showCurrentPassword, setShowCurrentPassword] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [hasPassword, setHasPassword] = useState(true);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -48,6 +51,15 @@ export default function SecurityPage() {
                 const userDataResult = await GetUserProfile(session.data.user.id, session.data.user.access_token);
                 setUserData(userDataResult);
                 setIs2FAEnable(userDataResult.twofa_enabled || false);
+
+                // Fetch account status to see if they have a password
+                if (session.data.user.email) {
+                    const statusResult = await GetAccountStatus(session.data.user.email);
+                    if (statusResult.success && statusResult.data.exists) {
+                        setHasPassword(statusResult.data.has_password);
+                    }
+                }
+                
                 setLoading(false);
             } catch (error) {
                 console.error("Error fetching user data:", error);
@@ -78,11 +90,13 @@ export default function SecurityPage() {
         const accessToken = session.data?.user?.access_token;
         if (!accessToken) { Swal.fire("Error!", "Access token is missing. Please log in again.", "error"); return; }
         if (newPassword !== confirmPassword) { Swal.fire("Error!", "Passwords do not match.", "error"); return; }
+        if (hasPassword && !currentPassword) { Swal.fire("Error!", "Current password is required.", "error"); return; }
         try {
-            await UpdatePassword(newPassword, accessToken);
+            await UpdatePassword(newPassword, accessToken, currentPassword);
             Swal.fire("Success!", "Password updated successfully.", "success").then(() => signOut({ callbackUrl: "/auth/signin" }));
         } catch (error: any) {
-            Swal.fire("Error!", "Failed to update password. Please try again later.", "error");
+            const errorMsg = error?.response?.data?.message || "Failed to update password. Please try again later.";
+            Swal.fire("Error!", errorMsg, "error");
         }
     };
 
@@ -160,6 +174,29 @@ export default function SecurityPage() {
                     title="Password Management"
                 >
                     <form onSubmit={handleUpdatePassword} className="space-y-4">
+                        {hasPassword && (
+                            <div>
+                                <FieldLabel htmlFor="current-password">Current Password</FieldLabel>
+                                <div className="relative">
+                                    <input
+                                        id="current-password"
+                                        type={showCurrentPassword ? "text" : "password"}
+                                        value={currentPassword}
+                                        onChange={(e) => setCurrentPassword(e.target.value)}
+                                        placeholder="Enter current password"
+                                        required
+                                        className={inputCls + " pr-10"}
+                                    />
+                                    <button type="button" onClick={() => setShowCurrentPassword(!showCurrentPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#1A1A2E]/35 hover:text-[#B8841E] transition-colors duration-200">
+                                        {showCurrentPassword ? (
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" /></svg>
+                                        ) : (
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+                                        )}
+                                    </button>
+                                </div>
+                            </div>
+                        )}
                         <div>
                             <FieldLabel htmlFor="new-password">New Password</FieldLabel>
                             <div className="relative">
@@ -206,10 +243,48 @@ export default function SecurityPage() {
                         <div className="flex justify-end pt-2">
                             <button type="submit" className="flex items-center gap-2 px-6 py-2.5 font-serif text-sm text-[#EDD085] border border-[#B8841E]/40 bg-[#0D1B3E] hover:bg-[#152347] rounded-sm transition-all duration-250 shadow-sm">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
-                                Update Password
+                                {hasPassword ? "Update Password" : "Set Password"}
                             </button>
                         </div>
                     </form>
+                </CardSection>
+
+                {/* ── Linked Accounts ─────────────────────────────────────────
+                     Lets a password user attach Google to their account so
+                     they can sign in with one click next time. The handler
+                     reuses NextAuth's GoogleProvider — after the OAuth dance
+                     the user lands on /auth/post-google which our signIn
+                     callback has already linked server-side. */}
+                <CardSection
+                    icon={<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 015.656 0l1.414 1.414a4 4 0 010 5.656l-3.536 3.536a4 4 0 01-5.656 0L10.293 19.5M10.172 13.828a4 4 0 01-5.656 0L3.1 12.414a4 4 0 010-5.656l3.536-3.536a4 4 0 015.656 0L13.707 4.5" /></svg>}
+                    title="Linked Accounts"
+                >
+                    <div className="flex items-center justify-between gap-4">
+                        <div className="flex items-center gap-3">
+                            <svg width="22" height="22" viewBox="0 0 18 18" aria-hidden="true"><path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844a4.14 4.14 0 0 1-1.796 2.716v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z" fill="#4285F4"/><path d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.258c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z" fill="#34A853"/><path d="M3.964 10.707A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.707V4.96H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.04l3.007-2.333z" fill="#FBBC05"/><path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.96l3.007 2.333C4.672 5.166 6.656 3.58 9 3.58z" fill="#EA4335"/></svg>
+                            <div>
+                                <p className="font-serif text-sm text-[#0D1B3E]">Google</p>
+                                <p className="font-serif text-xs text-[#1A1A2E]/55">
+                                    {userData?.google_sub || userData?.auth_provider === "google" || userData?.auth_provider === "both"
+                                        ? "Linked — you can sign in with Google."
+                                        : "Not linked — connect to sign in faster next time."}
+                                </p>
+                            </div>
+                        </div>
+                        {userData?.google_sub || userData?.auth_provider === "google" || userData?.auth_provider === "both" ? (
+                            <span className="rounded-sm border border-emerald-500/30 bg-emerald-50 px-3 py-1 font-serif text-xs text-emerald-700">
+                                Connected
+                            </span>
+                        ) : (
+                            <button
+                                type="button"
+                                onClick={() => signIn("google", { callbackUrl: "/dashboard/profile?linked=1" })}
+                                className="flex items-center gap-2 rounded-sm border border-[#B8841E]/40 bg-[#0D1B3E] px-4 py-2 font-serif text-xs text-[#EDD085] transition-all duration-250 hover:bg-[#152347]"
+                            >
+                                Link Google
+                            </button>
+                        )}
+                    </div>
                 </CardSection>
             </div>
         </section>

@@ -6,6 +6,7 @@ import { Spinner } from "@nextui-org/spinner";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { Eye, EyeOff } from "lucide-react";
+import GoogleSignInButton from "@/components/GoogleSignInButton";
 
 // ─── Error map ─────────────────────────────────────────────────────────────────
 // Maps raw backend messages to user-friendly copy
@@ -136,6 +137,15 @@ export default function LoginForm() {
             </div>
 
             <div className="my-4 border-t border-[#D1D5DB]" />
+
+            {/* Google sign-in — preferred path for new users */}
+            <GoogleSignInButton label="Sign in with Google" />
+
+            <div className="my-4 flex items-center gap-3">
+                <div className="h-px flex-1 bg-gray-200" />
+                <span className="text-xs text-gray-400">or use your password</span>
+                <div className="h-px flex-1 bg-gray-200" />
+            </div>
 
             <form onSubmit={handleLogin} noValidate>
                 {/* Username / email */}

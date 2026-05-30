@@ -25,6 +25,10 @@ export type UserType = {
     institution_name: string | null;
     gender: string;
     access_token: string;
+    // Google OAuth additions (migration 000029) ─────────────────────────────
+    auth_provider?: string;        // "password" | "google" | "both"
+    profile_completed?: boolean;   // false ⇢ Google sign-up still needs Student ID
+    needs_completion?: boolean;    // returned from backend /auth/google
 };
 
 declare module "next-auth" {
@@ -53,6 +57,9 @@ declare module "next-auth" {
             institution_name: string | null;
             gender: string;
             access_token: string;
+            auth_provider?: string;
+            profile_completed?: boolean;
+            needs_completion?: boolean;
         };
     }
 
@@ -89,6 +96,9 @@ declare module "next-auth/jwt" {
         institution_name: string | null;
         gender: string;
         access_token: string;
+        auth_provider?: string;
+        profile_completed?: boolean;
+        needs_completion?: boolean;
     }
 
     interface DefaultJWT {
@@ -115,5 +125,8 @@ declare module "next-auth/jwt" {
         institution_name: string | null;
         gender: string;
         access_token: string;
+        auth_provider?: string;
+        profile_completed?: boolean;
+        needs_completion?: boolean;
     }
 }
