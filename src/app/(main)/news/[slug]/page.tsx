@@ -170,12 +170,13 @@ export default async function NewsDetailsPage({
                     {/* Main Content */}
                     <div className="lg:col-span-2">
                         {/* Featured Image - Optimized for SEO and Core Web Vitals */}
-                        <div className="mb-8 overflow-hidden rounded-xl">
-                            <div className="relative aspect-video w-full overflow-hidden">
+                        <div className="mb-8 overflow-hidden rounded-xl bg-gray-100">
+                            <div className="relative h-[300px] sm:h-[400px] lg:h-[550px] w-full overflow-hidden">
                                 <OptimizedImage
-                                    className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
+                                    className="h-full w-full transition-transform duration-500 hover:scale-105"
                                     src={news.thumbnail}
                                     layout="fill"
+                                    objectFit="contain"
                                     alt={news.title}
                                     priority={true} // Prioritize LCP image
                                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 75vw, 1200px"
