@@ -13,6 +13,35 @@ function SectionRule() {
 
 const entries = [
   {
+    version: "v2.3.0",
+    date: "May 2026",
+    tag: "Features & Optimizations",
+    title: "Google Auth & Premium UI Enhancements",
+    changes: [
+      {
+        category: "Authentication",
+        items: [
+          "Implemented a dynamic and efficient Google OAuth login feature.",
+          "Implemented a bypass capability for login without requiring SMTP configuration."
+        ],
+      },
+      {
+        category: "Backend & Routes",
+        items: [
+          "Fixed domain handling issues for photo uploads.",
+          "Resolved routing bugs to ensure stable feature access across the platform."
+        ],
+      },
+      {
+        category: "UI/UX & Accessibility",
+        items: [
+          "Improved user accessibility standards.",
+          "Optimized and completely redesigned the display layout for the Major and PUMA pages to match the premium 'Navy & Gold' aesthetic."
+        ],
+      },
+    ],
+  },
+  {
     version: "v2.2.0",
     date: "April 2026",
     tag: "Core & UI Updates",

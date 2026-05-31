@@ -8,8 +8,9 @@ import { fetchProjects } from "@/services/api/project";
 import { ProjectResponse } from "@/models/project";
 import ProjectCard from "./_components/ProjectCard";
 import ProjectDetailModal from "./_components/ProjectDetailModal";
-import { Plus, Loader2, AlertCircle, Lightbulb, Code2, Rocket } from "lucide-react";
+import { Plus, Loader2, AlertCircle, Lightbulb, Code2, Rocket, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { canCreateContent, getRestrictionReason } from "@/lib/permissions";
 
 export default function ProjectsPage() {
     const { data: session, status } = useSession();
@@ -79,8 +80,14 @@ export default function ProjectsPage() {
                         Discover amazing projects created by our talented computizens. Get inspired and share your own work!
                     </p>
 
-                    {/* Add Project Button - Only visible when logged in */}
-                    {status === "authenticated" && session && (
+                    {/*
+                       Add Project Button — gated on canCreateContent (role 1
+                       Admin OR role 2 Computizen with a verified CS Student
+                       ID). Guests (role 6) and any other role see a
+                       read-only badge instead, mirroring the backend
+                       guard in `services/access_control.go`.
+                    */}
+                    {status === "authenticated" && session && canCreateContent(session.user) && (
                         <div className="flex flex-wrap justify-center gap-4">
                             <Link href="/projects/new">
                                 <button className="font-serif px-8 py-3 text-sm tracking-wide border border-[#0D1B3E] text-[#F5EDD0] bg-[#0D1B3E] transition-all duration-300 hover:bg-[#0D1B3E]/90 hover:shadow-parch-lg flex items-center gap-2">
@@ -88,6 +95,23 @@ export default function ProjectsPage() {
                                     Submit Your Project
                                 </button>
                             </Link>
+                        </div>
+                    )}
+                    {status === "authenticated" && session && !canCreateContent(session.user) && (
+                        <div className="flex flex-col items-center gap-2 max-w-xl">
+                            <div
+                                className="inline-flex items-center gap-2 border border-[#B8841E]/40 px-4 py-2 bg-[#FAF5E8]/60 shadow-parch-sm"
+                                role="status"
+                                aria-live="polite"
+                            >
+                                <Eye className="w-4 h-4 text-[#B8841E]" />
+                                <p className="font-serif text-xs tracking-widest uppercase text-[#0D1B3E]">
+                                    Read-only access
+                                </p>
+                            </div>
+                            <p className="font-serif text-sm text-[#1A1A2E]/65 text-center">
+                                {getRestrictionReason(session.user)}
+                            </p>
                         </div>
                     )}
                 </div>

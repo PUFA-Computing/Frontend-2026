@@ -5,11 +5,17 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import Link from "next/link";
 import ProjectForm from "./_components/ProjectForm";
-import { Loader2, ArrowLeft, Lightbulb, Code2 } from "lucide-react";
+import { Loader2, ArrowLeft, Lightbulb, Code2, ShieldAlert } from "lucide-react";
+import { canCreateContent, getRestrictionReason } from "@/lib/permissions";
 
 export default function ProjectsNewPage() {
    const { data: session, status } = useSession();
    const router = useRouter();
+
+   // Hide button is not enough — also lock the page itself so a guest who
+   // types /projects/new directly (or follows a stale bookmark) is blocked.
+   // The authoritative check still lives on the backend.
+   const allowed = !!session && canCreateContent(session.user);
 
    useEffect(() => {
       if (status === "unauthenticated") {
@@ -27,6 +33,31 @@ export default function ProjectsNewPage() {
 
    if (!session) {
       return null;
+   }
+
+   if (!allowed) {
+      return (
+         <div className="min-h-screen flex items-center justify-center px-6 bg-[#F5EDD0]">
+            <div className="max-w-xl w-full rounded-xl border border-[#B8841E]/30 bg-[#FAF5E8] p-8 shadow-parch-sm text-center">
+               <div className="mx-auto mb-4 inline-flex items-center justify-center w-14 h-14 rounded-full bg-[#E5D5A5]/40 border border-[#B8841E]/30">
+                  <ShieldAlert className="h-7 w-7 text-[#B8841E]" />
+               </div>
+               <h1 className="font-display italic text-3xl text-[#0D1B3E] mb-2">
+                  Read-only access
+               </h1>
+               <p className="font-serif text-[#1A1A2E]/75 mb-6">
+                  {getRestrictionReason(session.user)}
+               </p>
+               <Link
+                  href="/projects"
+                  className="inline-flex items-center rounded-none border border-[#0D1B3E] bg-[#0D1B3E] px-5 py-2.5 text-sm font-serif font-medium text-[#F5EDD0] hover:bg-[#152347] transition-colors"
+               >
+                  <ArrowLeft className="mr-2 h-4 w-4" />
+                  Back to Projects
+               </Link>
+            </div>
+         </div>
+      );
    }
 
    return (

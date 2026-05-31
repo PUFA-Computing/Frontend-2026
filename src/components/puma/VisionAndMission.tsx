@@ -7,64 +7,68 @@ interface VisionAndMissionProps {
   misi: string[]
 }
 
+const fadeUp = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: "easeOut" } },
+}
+
 function VisionAndMission({ visi, misi }: VisionAndMissionProps) {
   return (
-    <section className="mx-auto w-full max-w-7xl py-16 px-4 lg:px-0">
+    <section className="py-20 relative">
+      <div className="absolute top-0 left-0 w-96 h-96 bg-[#B8841E]/5 rounded-full blur-[120px] pointer-events-none" />
+
       <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
+        initial="hidden"
+        whileInView="visible"
         viewport={{ once: true }}
-        className="text-center mb-16"
+        variants={fadeUp}
+        className="mb-14 relative z-10"
       >
-        <h2 className="text-4xl sm:text-5xl font-bold text-gray-800 relative inline-block">
-          VISION AND MISSION
-          <span className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-gray-800 to-gray-400 transform -translate-y-2"></span>
-        </h2>
+        <div className="flex items-center gap-3 mb-3">
+          <span className="h-5 w-1 rounded-full bg-[#B8841E]" />
+          <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#B8841E]">Purpose & Direction</p>
+        </div>
+        <h2 className="text-4xl md:text-5xl font-bold text-[#0D1B3E]">Vision & Mission</h2>
       </motion.div>
 
-      <div className="space-y-20">
-        {/* Vision Section */}
+      <div className="space-y-6 relative z-10">
+        {/* Vision */}
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          initial="hidden"
+          whileInView="visible"
           viewport={{ once: true }}
-          className="grid grid-cols-1 gap-8 md:grid-cols-3 items-start"
+          variants={fadeUp}
+          className="bg-[#0D1B3E] rounded-3xl p-8 md:p-12 relative overflow-hidden"
         >
-          <div className="md:sticky md:top-24">
-            <div className="relative">
-              <h2 className="text-6xl md:text-7xl font-bold text-gray-800 bg-clip-text text-transparent bg-gradient-to-br from-gray-800 to-gray-500">
-                Vision
-              </h2>
-              <div className="absolute -bottom-4 left-0 w-16 h-1 bg-gradient-to-r from-gray-800 to-transparent"></div>
+          <div className="absolute top-0 right-0 w-72 h-72 bg-[#B8841E]/10 rounded-full blur-3xl" />
+          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            <div className="lg:col-span-3">
+              <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#B8841E] mb-2">Vision</p>
+              <h3 className="text-5xl md:text-6xl font-bold text-white/10 select-none">V</h3>
             </div>
-          </div>
-          <div className="md:col-span-2">
-            <div className="bg-white p-6 rounded-xl shadow-md border-l-4 border-gray-800">
-              <p className="text-xl md:text-2xl font-medium text-gray-700 leading-relaxed">{visi}</p>
+            <div className="lg:col-span-9">
+              <p className="text-white/85 text-xl leading-relaxed font-light italic">"{visi}"</p>
             </div>
           </div>
         </motion.div>
 
-        {/* Mission Section */}
+        {/* Mission */}
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
+          initial="hidden"
+          whileInView="visible"
           viewport={{ once: true }}
-          className="grid grid-cols-1 gap-8 md:grid-cols-3 items-start"
+          variants={fadeUp}
+          className="bg-white rounded-3xl border border-gray-100 shadow-[0_4px_24px_rgba(13,27,62,0.06)] p-8 md:p-12 relative overflow-hidden"
         >
-          <div className="md:sticky md:top-24">
-            <div className="relative">
-              <h2 className="text-6xl md:text-7xl font-bold text-gray-800 bg-clip-text text-transparent bg-gradient-to-br from-gray-800 to-gray-500">
-                Mission
-              </h2>
-              <div className="absolute -bottom-4 left-0 w-16 h-1 bg-gradient-to-r from-gray-800 to-transparent"></div>
+          <div className="absolute bottom-0 right-0 w-48 h-48 bg-[#0D1B3E]/4 rounded-full blur-3xl" />
+          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            <div className="lg:col-span-3">
+              <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#B8841E] mb-2">Mission</p>
+              <h3 className="text-5xl md:text-6xl font-bold text-[#0D1B3E]/10 select-none">M</h3>
             </div>
-          </div>
-          <div className="md:col-span-2">
-            <MissionSection misi={misi} />
+            <div className="lg:col-span-9">
+              <MissionSection misi={misi} />
+            </div>
           </div>
         </motion.div>
       </div>

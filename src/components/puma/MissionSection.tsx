@@ -1,129 +1,88 @@
 "use client"
 
 import { useState } from "react"
-import { Swiper, SwiperSlide } from "swiper/react"
 import { motion, AnimatePresence } from "framer-motion"
-import { ChevronRight, ChevronLeft } from "lucide-react"
-import "swiper/css"
-import "swiper/css/pagination"
-import "swiper/css/effect-cards"
-import { Autoplay, Pagination, EffectCards, Navigation } from "swiper/modules"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 
 interface MissionSectionProps {
   misi: string[]
 }
 
 export default function MissionSection({ misi }: MissionSectionProps) {
-  const [activeIndex, setActiveIndex] = useState(0)
-  const [showAllMissions, setShowAllMissions] = useState(false)
+  const [active, setActive] = useState(0)
 
-  // Toggle between carousel and list view
-  const toggleView = () => {
-    setShowAllMissions(!showAllMissions)
-  }
+  const prev = () => setActive((i) => (i - 1 + misi.length) % misi.length)
+  const next = () => setActive((i) => (i + 1) % misi.length)
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center mb-4">
-        <h3 className="text-xl font-semibold text-gray-700">Our Missions</h3>
-        <button
-          onClick={toggleView}
-          className="text-sm font-medium px-4 py-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors text-gray-700"
-        >
-          {showAllMissions ? "Show as Carousel" : "Show All"}
-        </button>
-      </div>
-
-      {showAllMissions ? (
-        <AnimatePresence>
+      {/* Carousel view */}
+      <div className="relative">
+        <AnimatePresence mode="wait">
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="space-y-6"
+            key={active}
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+            className="bg-[#F8F9FC] rounded-2xl p-7 border border-gray-100 min-h-[140px] flex flex-col justify-between"
           >
-            {misi.map((item, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                className="bg-white p-6 rounded-xl shadow-md border-l-4 border-gray-800"
-              >
-                <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-10 h-10 rounded-full bg-gradient-to-br from-gray-800 to-gray-600 flex items-center justify-center text-white font-bold">
-                    {index + 1}
-                  </div>
-                  <p className="text-lg text-gray-700 leading-relaxed">{item}</p>
-                </div>
-              </motion.div>
-            ))}
+            <p className="text-[#3D4D6A] text-base leading-relaxed font-light">{misi[active]}</p>
+            <div className="flex items-center justify-between mt-5">
+              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#B8841E]">
+                Mission {String(active + 1).padStart(2, "0")} / {String(misi.length).padStart(2, "0")}
+              </span>
+              <div className="flex gap-2">
+                <button
+                  onClick={prev}
+                  className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center hover:bg-[#0D1B3E] hover:border-[#0D1B3E] hover:text-white transition-all"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={next}
+                  className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center hover:bg-[#0D1B3E] hover:border-[#0D1B3E] hover:text-white transition-all"
+                >
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
           </motion.div>
         </AnimatePresence>
-      ) : (
-        <div className="relative">
-          <Swiper
-            modules={[Autoplay, Pagination, EffectCards, Navigation]}
-            pagination={{
-              clickable: true,
-              dynamicBullets: true,
-            }}
-            effect="cards"
-            grabCursor={true}
-            navigation={{
-              prevEl: ".swiper-button-prev",
-              nextEl: ".swiper-button-next",
-            }}
-            onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex % misi.length)}
-            className="mission-swiper h-[300px] sm:h-[250px]"
-            loop={true}
-            autoplay={{
-              delay: 4000,
-              disableOnInteraction: false,
-              pauseOnMouseEnter: true,
-            }}
-          >
-            {misi.map((item, index) => (
-              <SwiperSlide key={index} className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
-                <div className="flex flex-col h-full">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-gray-800 to-gray-600 flex items-center justify-center text-white font-bold text-xl">
-                      {index + 1}
-                    </div>
-                    <div className="h-1 flex-grow bg-gradient-to-r from-gray-800 to-transparent rounded-full"></div>
-                  </div>
+      </div>
 
-                  <p className="text-lg sm:text-xl text-gray-700 leading-relaxed flex-grow">{item}</p>
+      {/* Progress dots */}
+      <div className="flex gap-1.5 justify-center">
+        {misi.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setActive(i)}
+            className={`h-1.5 rounded-full transition-all duration-300 ${
+              i === active ? "w-8 bg-[#B8841E]" : "w-2 bg-gray-300 hover:bg-gray-400"
+            }`}
+          />
+        ))}
+      </div>
 
-                  <div className="mt-4 text-right text-sm text-gray-500">
-                    Mission {index + 1} of {misi.length}
-                  </div>
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-
-          {/* Custom navigation buttons */}
-          <button className="swiper-button-prev absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 backdrop-blur-sm w-10 h-10 rounded-full flex items-center justify-center shadow-md -ml-5 border border-gray-100">
-            <ChevronLeft className="w-5 h-5 text-gray-700" />
-          </button>
-          <button className="swiper-button-next absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 backdrop-blur-sm w-10 h-10 rounded-full flex items-center justify-center shadow-md -mr-5 border border-gray-100">
-            <ChevronRight className="w-5 h-5 text-gray-700" />
-          </button>
-
-          {/* Progress indicator */}
-          <div className="mt-6 flex justify-center gap-1.5">
-            {misi.map((_, index) => (
-              <div
-                key={index}
-                className={`h-1.5 rounded-full transition-all duration-300 ${
-                  index === activeIndex ? "w-8 bg-gray-800" : "w-2 bg-gray-300"
-                }`}
-              ></div>
-            ))}
-          </div>
+      {/* All missions list */}
+      <details className="group">
+        <summary className="text-xs font-semibold text-[#8A9AB7] uppercase tracking-[0.15em] cursor-pointer hover:text-[#0D1B3E] transition-colors list-none flex items-center gap-2 pt-2">
+          <span className="flex-1 h-px bg-gray-200" />
+          <span>View all missions</span>
+          <ChevronRight className="w-3.5 h-3.5 group-open:rotate-90 transition-transform" />
+          <span className="flex-1 h-px bg-gray-200" />
+        </summary>
+        <div className="mt-4 space-y-3">
+          {misi.map((item, i) => (
+            <div key={i} className="flex gap-4 items-start p-4 rounded-xl bg-[#F8F9FC] border border-gray-100">
+              <span className="flex-shrink-0 mt-0.5 w-6 h-6 rounded-full bg-[#0D1B3E] text-white text-[10px] font-bold flex items-center justify-center">
+                {i + 1}
+              </span>
+              <p className="text-[#3D4D6A] text-sm leading-relaxed font-light">{item}</p>
+            </div>
+          ))}
         </div>
-      )}
+      </details>
     </div>
   )
 }

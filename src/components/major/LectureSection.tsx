@@ -44,27 +44,31 @@ export default function LecturersSection({ lecturers }: LecturersSectionProps) {
   });
 
   return (
-    <section className="py-12 bg-gradient-to-b from-white to-gray-50">
-      <div className="container mx-auto px-4">
-        <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
-          <div className="flex items-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
-              <Users className="h-6 w-6 text-primary" />
+    <section className="py-16 bg-white relative">
+      {/* Background accents */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#B8841E]/5 rounded-full blur-[100px] -mr-[250px] -mt-[250px] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#0D1B3E]/5 rounded-full blur-[100px] -ml-[250px] -mb-[250px] pointer-events-none" />
+      
+      <div className="container mx-auto px-4 relative z-10">
+        <div className="flex flex-col md:flex-row md:items-center justify-between mb-12 gap-4">
+          <div className="flex items-center gap-4">
+            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-[#0D1B3E]/5 shadow-sm">
+              <Users className="h-8 w-8 text-[#0D1B3E]" />
             </div>
             <div>
-              <h2 className="text-3xl font-bold tracking-tight">Our Faculty</h2>
-              <p className="text-muted-foreground">Meet our distinguished academic team</p>
+              <h2 className="text-4xl font-display font-bold tracking-tight text-[#0D1B3E]">Our Faculty</h2>
+              <p className="text-gray-500 font-light mt-1 text-lg">Meet our distinguished academic team</p>
             </div>
           </div>
         </div>
 
         <Tabs defaultValue="chief" className="w-full">
-          <TabsList className="h-10 bg-muted/50 p-1">
-            <TabsTrigger value="chief" className="data-[state=active]:bg-white rounded-md px-6">
+          <TabsList className="h-12 bg-[#0D1B3E]/5 p-1 rounded-xl w-full max-w-md mx-auto flex mb-8">
+            <TabsTrigger value="chief" className="flex-1 data-[state=active]:bg-white data-[state=active]:text-[#B8841E] rounded-lg data-[state=active]:shadow-sm transition-all text-base">
               <Award className="mr-2 h-4 w-4" />
               Chief
             </TabsTrigger>
-            <TabsTrigger value="faculty" className="data-[state=active]:bg-white rounded-md px-6">
+            <TabsTrigger value="faculty" className="flex-1 data-[state=active]:bg-white data-[state=active]:text-[#0D1B3E] rounded-lg data-[state=active]:shadow-sm transition-all text-base">
               <Users className="mr-2 h-4 w-4" />
               All Lecturers
             </TabsTrigger>
@@ -106,28 +110,29 @@ export default function LecturersSection({ lecturers }: LecturersSectionProps) {
 
 function LecturerCard({ lecturer, featured = false }: { lecturer: Lecturer; featured?: boolean }) {
   return (
-    <motion.div className="mt-4" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0, transition: { duration: 0.4 } }}>
+    <motion.div className="mt-4" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }}>
       <Dialog>
         <DialogTrigger asChild>
-          <Card className={`overflow-hidden h-full cursor-pointer transition-all duration-300 hover:shadow-lg hover:translate-y-[-5px] ${featured ? "border-primary/20" : ""}`}>
+          <Card className={`overflow-hidden h-full cursor-pointer transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 border-0 bg-white shadow-[0_8px_30px_rgb(0,0,0,0.04)] rounded-2xl group ${featured ? "ring-1 ring-[#B8841E]/20" : ""}`}>
             <div className="relative">
               {featured && (
-                <div className="absolute top-3 right-3 z-10">
-                  <Badge className="bg-primary hover:bg-primary">Chief</Badge>
+                <div className="absolute top-4 right-4 z-10">
+                  <Badge className="bg-[#B8841E] text-white hover:bg-[#B8841E]/90 shadow-md border-none px-3 py-1 font-medium tracking-wide">Chief</Badge>
                 </div>
               )}
-              <div className="relative aspect-[3/4] overflow-hidden">
+              <div className="relative aspect-[3/4] overflow-hidden rounded-t-2xl">
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0D1B3E]/60 to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <Image
                   src={lecturer.image || "/placeholder.svg"}
                   alt={lecturer.name}
                   fill
-                  className="object-cover transition-transform duration-500 hover:scale-105"
+                  className="object-cover transition-transform duration-700 group-hover:scale-110"
                 />
               </div>
             </div>
-            <CardContent className="p-4">
-              <h3 className="font-semibold text-lg line-clamp-1">{lecturer.name}</h3>
-              <p className="text-primary text-sm font-medium mt-1">{lecturer.position}</p>
+            <CardContent className="p-6">
+              <h3 className="font-display font-bold text-xl line-clamp-1 text-[#0D1B3E] group-hover:text-[#B8841E] transition-colors">{lecturer.name}</h3>
+              <p className="text-gray-500 font-light text-sm mt-2">{lecturer.position}</p>
             </CardContent>
           </Card>
         </DialogTrigger>

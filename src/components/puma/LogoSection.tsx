@@ -9,48 +9,59 @@ interface LogoSectionProps {
   description: string | React.ReactNode
 }
 
+const fadeUp = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: "easeOut" } },
+}
+
 export default function LogoSection({ image, title, description }: LogoSectionProps) {
   return (
     <motion.section
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      transition={{ duration: 0.8 }}
+      initial="hidden"
+      whileInView="visible"
       viewport={{ once: true }}
-      className="mx-auto max-w-7xl py-16 px-4 sm:px-6 lg:px-8"
+      variants={fadeUp}
+      className="py-20 relative"
     >
-      <div className="text-center mb-12">
-        <h2 className="text-4xl sm:text-5xl font-bold text-gray-800 relative inline-block">
-          Logo Philosophy
-          <span className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-gray-800 to-gray-400 transform -translate-y-2"></span>
-        </h2>
+      {/* Section label */}
+      <div className="flex items-center gap-3 mb-3">
+        <span className="h-5 w-1 rounded-full bg-[#B8841E]" />
+        <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#B8841E]">Identity</p>
       </div>
+      <h2 className="text-4xl md:text-5xl font-bold text-[#0D1B3E] mb-12">Logo Philosophy</h2>
 
       <motion.div
-        initial={{ opacity: 0, y: 40 }}
+        initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.3 }}
+        transition={{ duration: 0.7, delay: 0.15 }}
         viewport={{ once: true }}
-        className="flex flex-col lg:flex-row items-center gap-10 mt-10"
+        className="bg-white rounded-3xl border border-gray-100 shadow-[0_4px_24px_rgba(13,27,62,0.06)] overflow-hidden"
       >
-        <div className="relative w-[250px] h-[250px] flex-shrink-0">
-          <div className="absolute inset-0 bg-gradient-to-br from-gray-700 to-gray-900 rounded-2xl transform rotate-3"></div>
-          <Image
-            src={image || "/placeholder.svg"}
-            alt={`${title}'s logo`}
-            height={250}
-            width={250}
-            className="relative z-10 h-[250px] w-[250px] object-contain p-4 rounded-2xl bg-black"
-          />
-        </div>
+        <div className="flex flex-col lg:flex-row">
+          {/* Logo panel */}
+          <div className="lg:w-72 flex-shrink-0 bg-[#0D1B3E] flex items-center justify-center p-12">
+            <div className="relative w-40 h-40 group">
+              <div className="absolute inset-0 rounded-2xl bg-[#B8841E]/25 blur-2xl group-hover:bg-[#B8841E]/40 transition-all duration-700" />
+              <div className="relative z-10 w-full h-full bg-white/10 rounded-2xl border border-white/15 backdrop-blur-sm p-4 flex items-center justify-center">
+                <Image
+                  src={image || "/placeholder.svg"}
+                  alt={`${title} logo`}
+                  fill
+                  className="object-contain p-4 transition-transform duration-700 group-hover:scale-110"
+                />
+              </div>
+            </div>
+          </div>
 
-        <div className="flex flex-col items-center lg:items-start space-y-6 max-w-2xl">
-          <h3 className="inline-block rounded-lg border-2 border-gray-800 px-6 py-3 text-2xl sm:text-3xl font-bold bg-gradient-to-r from-gray-800 to-gray-700 text-white">
-            {title}
-          </h3>
-          <div className="text-lg sm:text-xl text-gray-700 leading-relaxed">{description}</div>
+          {/* Description panel */}
+          <div className="flex-1 p-8 md:p-12">
+            <h3 className="text-xl md:text-2xl font-bold text-[#0D1B3E] mb-6 leading-snug">{title}</h3>
+            <div className="text-[#3D4D6A] text-base leading-relaxed font-light">{description}</div>
+          </div>
         </div>
       </motion.div>
     </motion.section>
   )
 }
+
 

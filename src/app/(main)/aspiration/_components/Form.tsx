@@ -11,6 +11,7 @@ import { Spinner } from "@nextui-org/spinner";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { wordBlacklist } from "@/lib/wordBlaclist";
+import { canCreateContent, getRestrictionReason } from "@/lib/permissions";
 
 // zod
 const AspirationSchema = z.object({
@@ -130,6 +131,19 @@ export default function AspirationForm() {
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         setIsLoading(true);
+
+        // Belt-and-suspenders client gate. The button is already hidden for
+        // ineligible users, but a tampered DOM should still be stopped here
+        // before we hit the network. Backend re-checks the same rule.
+        if (!session.data || !canCreateContent(session.data.user)) {
+            await Swal.fire({
+                icon: "error",
+                title: "Read-only access",
+                text: getRestrictionReason(session.data?.user) ?? "You don't have permission to add data.",
+            });
+            setIsLoading(false);
+            return;
+        }
 
         if (!selectedOrganization) {
             Swal.fire({
@@ -251,7 +265,11 @@ export default function AspirationForm() {
         );
     }
 
-    if (userRole === 8) {
+    // Read-only gate: Guests (role 6) and any other non-eligible role can
+    // browse aspirations but cannot submit. Single source of truth lives in
+    // `@/lib/permissions`; backend mirrors it in `services/access_control.go`.
+    // The legacy `userRole === 8` branch this replaced was unreachable.
+    if (session.data && !canCreateContent(session.data.user)) {
         return (
             <div className="flex flex-col overflow-hidden rounded-xl border border-[#B8841E]/20 bg-[#FAF5E8] shadow-parch-sm">
                 {/* Header */}
@@ -272,9 +290,11 @@ export default function AspirationForm() {
                         </svg>
                     </div>
                     <div className="mt-4">
-                        <h3 className="mb-2 text-xl font-display font-semibold text-[#0D1B3E]">Hello, {userName}</h3>
+                        <h3 className="mb-2 text-xl font-display font-semibold text-[#0D1B3E]">
+                            Hello, {userName || session.data.user.first_name || "Guest"}
+                        </h3>
                         <p className="font-serif text-[#1A1A2E]/70">
-                            You are not a Faculty of Computing Student and are not authorized to use this feature.
+                            {getRestrictionReason(session.data.user)}
                         </p>
                     </div>
                 </div>
