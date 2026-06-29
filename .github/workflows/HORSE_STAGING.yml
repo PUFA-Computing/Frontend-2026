@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - development
+      - testing/compregen-2027-cp-vcp
 
 permissions:
   contents: read

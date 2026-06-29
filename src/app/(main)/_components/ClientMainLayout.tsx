@@ -17,6 +17,7 @@ export default function ClientMainLayout({
 }) {
     const pathname = usePathname();
     const isDashboard = pathname?.startsWith('/dashboard');
+    const isCompregen = pathname?.startsWith('/compregen');
 
     // We don't need to manually add canonical URLs in App Router as they're handled by metadata
     // But we can add structured data for rich results
@@ -37,16 +38,22 @@ export default function ClientMainLayout({
                 {JSON.stringify(structuredData)}
             </Script>
             
-            {!isDashboard && <Navbar />}
+            {!isDashboard && !isCompregen && <Navbar />}
             
-            <div className={`flex-1 bg-[#F5EDD0] ${isDashboard ? 'pt-0' : ''}`}>
+            <div className={`flex-1 ${
+                isCompregen
+                    ? 'bg-[#FBFBFB]'
+                    : isDashboard
+                    ? 'bg-[#F5EDD0] pt-0'
+                    : 'bg-[#F5EDD0]'
+            }`}>
                 {/* Gunakan breadcrumbs tersembunyi untuk SEO tanpa mengganggu UI */}
-                {!isDashboard && pathname !== '/' && <HiddenBreadcrumbs />}
+                {!isDashboard && !isCompregen && pathname !== '/' && <HiddenBreadcrumbs />}
                 
                 {children}
             </div>
             
-            {!isDashboard && <Footer version={version} />}
+            {!isDashboard && !isCompregen && <Footer version={version} />}
         </div>
     );
 }
