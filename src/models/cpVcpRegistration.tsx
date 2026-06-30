@@ -25,6 +25,7 @@ export interface CandidateMember {
   student_id: string;
   major: string;
   phone_number: string;
+  nationality: string;
   photo_upload_id: string;
 }
 

@@ -20,9 +20,9 @@ export async function GET() {
           cabinet_name: "Synergy Cabinet",
           submitted_at: new Date().toISOString(),
           members: {
-            cp:   { full_name: "Budi Santoso",  student_id: "001202300001", major: "Informatics",       phone_number: "081234567890", photo_upload_id: "" },
-            vcp1: { full_name: "Dewi Rahayu",   student_id: "001202300002", major: "Information System", phone_number: "081234567891", photo_upload_id: "" },
-            vcp2: { full_name: "Andi Wijaya",   student_id: "001202300003", major: "Informatics",       phone_number: "081234567892", photo_upload_id: "" },
+            cp:   { full_name: "Budi Santoso",  student_id: "001202300001", major: "Informatics",       phone_number: "081234567890", nationality: "Indonesian", photo_upload_id: "" },
+            vcp1: { full_name: "Dewi Rahayu",   student_id: "001202300002", major: "Information System", phone_number: "081234567891", nationality: "Indonesian", photo_upload_id: "" },
+            vcp2: { full_name: "Andi Wijaya",   student_id: "001202300003", major: "Informatics",       phone_number: "081234567892", nationality: "Indonesian", photo_upload_id: "" },
           },
         },
       ],

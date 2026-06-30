@@ -18,13 +18,13 @@ interface MemberState {
   student_id: string;
   major: string;
   phone_number: string;
+  nationality: string;
   photo_upload_id: string;
 }
 
 export default function RegistrationForm({ token }: Props) {
   const router = useRouter();
 
-  const [cabinetName, setCabinetName] = useState("");
   const [consentAccepted, setConsentAccepted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -34,6 +34,7 @@ export default function RegistrationForm({ token }: Props) {
     student_id: "",
     major: "Informatics",
     phone_number: "",
+    nationality: "",
     photo_upload_id: "",
   });
 
@@ -42,6 +43,7 @@ export default function RegistrationForm({ token }: Props) {
     student_id: "",
     major: "Informatics",
     phone_number: "",
+    nationality: "",
     photo_upload_id: "",
   });
 
@@ -50,6 +52,7 @@ export default function RegistrationForm({ token }: Props) {
     student_id: "",
     major: "Informatics",
     phone_number: "",
+    nationality: "",
     photo_upload_id: "",
   });
 
@@ -80,10 +83,6 @@ export default function RegistrationForm({ token }: Props) {
     setErrorMsg("");
     const errors: Record<string, string> = {};
 
-    if (!cabinetName.trim()) {
-      errors["cabinet_name"] = "Cabinet Name is required.";
-    }
-
     const checkMember = (role: "cp" | "vcp1" | "vcp2", data: MemberState, label: string) => {
       if (!data.full_name.trim()) errors[`members.${role}.full_name`] = `${label} Full Name is required.`;
       if (!data.student_id.trim()) errors[`members.${role}.student_id`] = `${label} Student ID is required.`;
@@ -92,6 +91,7 @@ export default function RegistrationForm({ token }: Props) {
       } else if (!/^\d+$/.test(data.phone_number.trim())) {
         errors[`members.${role}.phone_number`] = `${label} Phone Number must be numeric.`;
       }
+      if (!data.nationality.trim()) errors[`members.${role}.nationality`] = `${label} Nationality is required.`;
       if (!data.photo_upload_id) errors[`members.${role}.photo_upload_id`] = `${label} Photo is required.`;
     };
 
@@ -120,7 +120,7 @@ export default function RegistrationForm({ token }: Props) {
 
     try {
       const payload = {
-        cabinet_name: cabinetName.trim(),
+        cabinet_name: "",
         consent_accepted: consentAccepted,
         members: { cp, vcp1, vcp2 },
       };
@@ -155,35 +155,10 @@ export default function RegistrationForm({ token }: Props) {
         </div>
       )}
 
-      {/* 1. Cabinet Name Section */}
-      <div className="bg-blue-50/30 rounded-2xl p-5 border border-blue-100/50 space-y-3">
-        <h2 className="text-base font-bold text-gray-800 uppercase tracking-wider flex items-center gap-2">
-          <span className="flex h-6 w-6 items-center justify-center rounded-full bg-blue-600 text-xs text-white">1</span>
-          Cabinet Details
-        </h2>
-        <div className="space-y-1">
-          <label htmlFor="cabinet-name" className="text-xs font-bold text-gray-500 uppercase tracking-wider">
-            Cabinet Name
-          </label>
-          <Input
-            id="cabinet-name"
-            type="text"
-            placeholder="e.g. Aurascendia Cabinet"
-            value={cabinetName}
-            onChange={(e) => setCabinetName(e.target.value)}
-            disabled={isLoading}
-            className={`h-11 bg-white border ${fieldErrors["cabinet_name"] ? "border-red-400 focus-visible:ring-red-400" : "border-gray-200"}`}
-          />
-          {fieldErrors["cabinet_name"] && (
-            <p className="text-xs text-red-500 font-semibold">{fieldErrors["cabinet_name"]}</p>
-          )}
-        </div>
-      </div>
-
-      {/* 2. Members Details */}
+      {/* Candidate Profile Details */}
       <div className="space-y-6">
         <h2 className="text-base font-bold text-gray-800 uppercase tracking-wider flex items-center gap-2 border-b border-gray-100 pb-2">
-          <span className="flex h-6 w-6 items-center justify-center rounded-full bg-blue-600 text-xs text-white">2</span>
+          <span className="flex h-6 w-6 items-center justify-center rounded-full bg-blue-600 text-xs text-white">1</span>
           Candidate Profile
         </h2>
 
@@ -221,10 +196,10 @@ export default function RegistrationForm({ token }: Props) {
         </div>
       </div>
 
-      {/* 3. Photo Uploads Row — stacks on mobile, 3 columns on md+ */}
+      {/* 2. Half-body Photo Uploads */}
       <div className="space-y-3">
         <h2 className="text-sm font-bold text-gray-800 uppercase tracking-wider flex items-center gap-2">
-          <span className="flex h-6 w-6 items-center justify-center rounded-full bg-blue-600 text-xs text-white">3</span>
+          <span className="flex h-6 w-6 items-center justify-center rounded-full bg-blue-600 text-xs text-white">2</span>
           Half-body Photo Uploads
         </h2>
 
@@ -232,22 +207,22 @@ export default function RegistrationForm({ token }: Props) {
           <PhotoUploadField
             role="cp"
             token={token}
-            label="CP"
-            hint="PDH/Uniform half-body"
+            label="Chairperson"
+            hint="Half-body photo in the official PDH uniform."
             onUploadSuccess={(id) => updateMember("cp", "photo_upload_id", id)}
           />
           <PhotoUploadField
             role="vcp1"
             token={token}
-            label="VCP 1"
-            hint="PDH/Uniform half-body"
+            label="Vice Chairperson 1"
+            hint="Half-body photo in the official PDH uniform."
             onUploadSuccess={(id) => updateMember("vcp1", "photo_upload_id", id)}
           />
           <PhotoUploadField
             role="vcp2"
             token={token}
-            label="VCP 2"
-            hint="Formal attire/PDH"
+            label="Vice Chairperson 2"
+            hint="Half-body photo wearing a black collar shirt"
             onUploadSuccess={(id) => updateMember("vcp2", "photo_upload_id", id)}
           />
         </div>
@@ -392,6 +367,27 @@ function MemberFormFields({ role, label, data, updateField, errors, disabled }: 
         </div>
         {errors[`members.${role}.phone_number`] && (
           <p className="text-[10px] text-red-500 font-semibold">{errors[`members.${role}.phone_number`]}</p>
+        )}
+      </div>
+
+      {/* Nationality */}
+      <div className="space-y-1">
+        <label htmlFor={`${role}-nationality`} className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">
+          Nationality
+        </label>
+        <div className="relative">
+          <Input
+            id={`${role}-nationality`}
+            type="text"
+            placeholder="Nationality"
+            value={data.nationality}
+            onChange={(e) => updateField(role, "nationality", e.target.value)}
+            disabled={disabled}
+            className={`h-9 bg-white border text-sm ${errors[`members.${role}.nationality`] ? "border-red-400" : "border-gray-200"}`}
+          />
+        </div>
+        {errors[`members.${role}.nationality`] && (
+          <p className="text-[10px] text-red-500 font-semibold">{errors[`members.${role}.nationality`]}</p>
         )}
       </div>
     </div>
