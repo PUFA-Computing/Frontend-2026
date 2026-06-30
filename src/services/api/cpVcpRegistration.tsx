@@ -1,5 +1,6 @@
 // src/services/api/cpVcpRegistration.tsx
 
+import axios from "axios";
 import apiClient from "./apiClient";
 import {
   TokenStatusResponse,
@@ -69,7 +70,7 @@ export async function verifyIdentity(
 }
 
 /**
- * Submits the complete CP/VCP/VCP2 trio registration
+ * Submits the complete CP/VCP/VCP2 registration
  */
 export async function submitRegistration(
   token: string,
@@ -137,9 +138,7 @@ export async function getRegistrations(adminApiKey?: string): Promise<AdminRegis
     };
   }
 
-  const headers: Record<string, string> = {};
-  if (adminApiKey) headers["X-Admin-Api-Key"] = adminApiKey;
-  const response = await apiClient.get<AdminRegistrationsResponse>(`${API_PREFIX}/admin/registrations`, { headers });
+  const response = await axios.get<AdminRegistrationsResponse>("/api/admin/compregen/registrations");
   return response.data;
 }
 
@@ -153,12 +152,6 @@ export async function generateInviteLink(adminApiKey?: string): Promise<{ token:
     return { token: mockToken, url: `http://localhost:3000/compregen/cp-vcp/${mockToken}` };
   }
 
-  const headers: Record<string, string> = {};
-  if (adminApiKey) headers["X-Admin-Api-Key"] = adminApiKey;
-  const response = await apiClient.post<{ token: string; url: string }>(
-    `${API_PREFIX}/admin/links`,
-    {},
-    { headers }
-  );
+  const response = await axios.post<{ token: string; url: string }>("/api/admin/compregen/links");
   return response.data;
 }

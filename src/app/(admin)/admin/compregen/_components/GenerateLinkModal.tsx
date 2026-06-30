@@ -59,7 +59,7 @@ export default function GenerateLinkModal({ accessToken }: Props) {
         <DialogHeader>
           <DialogTitle className="text-gray-900 font-bold">Generate Invite Token</DialogTitle>
           <DialogDescription className="text-gray-500">
-            Create a unique registration link for CP, VCP1, and VCP2 trios.
+            Create a unique registration link for CP, VCP1, and VCP2.
           </DialogDescription>
         </DialogHeader>
 

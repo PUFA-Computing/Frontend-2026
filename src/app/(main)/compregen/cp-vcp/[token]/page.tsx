@@ -5,13 +5,13 @@ import { validateToken } from "@/services/api/cpVcpRegistration";
 import { Spinner } from "@/components/ui/Spinner";
 
 interface Props {
-  params: {
+  params: Promise<{
     token: string;
-  };
+  }>;
 }
 
 export default async function TokenLandingPage({ params }: Props) {
-  const { token } = params;
+  const { token } = await params;
 
   // Validate token status from backend
   const { status } = await validateToken(token);

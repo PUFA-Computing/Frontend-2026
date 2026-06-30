@@ -4,11 +4,11 @@ import Image from "next/image"
 import { motion } from "framer-motion"
 import { majorPage } from "@/lib/page"
 import { redirect } from "next/navigation"
-import { useState } from "react"
+import { useState, use } from "react"
 import NextImage from "next/image"
 
 interface StudyProgramPageProps {
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }
 
 const fadeUp = {
@@ -21,7 +21,7 @@ const fadeUp = {
 }
 
 export default function StudyProgramPage({ params }: StudyProgramPageProps) {
-  const { slug } = params
+  const { slug } = use(params)
   const programData = majorPage.find((program) => program.slug === slug)
 
   if (!programData) {

@@ -1,8 +1,8 @@
-// src/middleware.ts
+// src/proxy.ts
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Pattern: /compregen/cp-vcp/[token]/form
@@ -28,6 +28,9 @@ export function middleware(request: NextRequest) {
 
   return NextResponse.next();
 }
+
+// Export as middleware for backward compatibility if the router looks for it
+export const middleware = proxy;
 
 export const config = {
   matcher: [

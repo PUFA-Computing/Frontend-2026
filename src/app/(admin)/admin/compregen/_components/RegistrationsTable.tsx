@@ -29,7 +29,7 @@ export default function RegistrationsTable({ registrations, onViewDetails }: Pro
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
           <FolderHeart className="h-5 w-5 text-blue-600" />
-          Trio Registrations ({filtered.length})
+          Registrations ({filtered.length})
         </h2>
         
         {/* Search Input */}
@@ -107,7 +107,7 @@ export default function RegistrationsTable({ registrations, onViewDetails }: Pro
                     <button
                       onClick={() => onViewDetails(reg)}
                       className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-bold text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition"
-                      title="View Trio Profile Details"
+                      title="View Profile Details"
                     >
                       <Eye className="h-3.5 w-3.5" /> Details
                     </button>

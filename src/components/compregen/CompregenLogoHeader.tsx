@@ -24,12 +24,12 @@ export default function CompregenLogoHeader({
       </div>
 
       {/* Logos Container */}
-      <div className="flex items-center justify-center gap-3">
+      <div className="flex items-center justify-center gap-2 flex-shrink-0 md:gap-3">
         {/* PU Logo */}
         <img
           src="/PU.png"
           alt="President University Logo"
-          className="h-12 w-auto object-contain md:h-14 lg:h-16"
+          className="h-10 w-auto object-contain md:h-12 lg:h-12"
           onError={(e) => {
             e.currentTarget.src = "../../../PU.png";
           }}
@@ -38,15 +38,31 @@ export default function CompregenLogoHeader({
         <img
           src="/logo/PUFA_Computing.png"
           alt="PUFA Computing Logo"
-          className="h-12 w-auto object-contain md:h-14 lg:h-16"
+          className="h-10 w-auto object-contain md:h-12 lg:h-12"
           onError={(e) => {
             e.currentTarget.src = "../../../logo/PUFA_Computing.png";
           }}
         />
-        {/* Compregen 2027 Logo (Fallback to beautiful CSS-based design if PNG is missing) */}
-        <div className="relative h-12 w-12 md:h-14 md:w-14 lg:h-16 lg:w-16 flex items-center justify-center rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 shadow-md border border-white/20">
-          <span className="text-[9px] md:text-[10px] font-black text-white tracking-widest text-center leading-tight">
-            COMPRE<br/>2027
+        {/* Compregen 2026 Logo */}
+        <img
+          id="compregen-logo-img"
+          src="/logo/COMPREGEN 2026.png"
+          alt="COMPREGEN 2026 Logo"
+          className="h-10 w-auto object-contain md:h-12 lg:h-12"
+          onError={(e) => {
+            e.currentTarget.style.display = "none";
+            const fallbackEl = document.getElementById("compregen-logo-fallback");
+            if (fallbackEl) fallbackEl.style.display = "flex";
+          }}
+        />
+        {/* Fallback to beautiful CSS-based design if PNG is missing */}
+        <div 
+          id="compregen-logo-fallback" 
+          style={{ display: "none" }} 
+          className="relative h-10 w-10 md:h-12 md:w-12 lg:h-12 lg:w-12 flex items-center justify-center rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 shadow-md border border-white/20"
+        >
+          <span className="text-[8px] md:text-[9px] font-black text-white tracking-widest text-center leading-tight">
+            COMPRE<br/>2026
           </span>
         </div>
       </div>

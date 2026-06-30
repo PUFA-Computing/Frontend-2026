@@ -48,7 +48,7 @@ export default function CompregenAdminClient({ initialRegistrations, accessToken
             Compregen 2027 Registration
           </h1>
           <p className="text-sm text-gray-500 mt-1">
-            Manage submitted Chairperson (CP) & Vice Chairperson (VCP) candidate trios and invite tokens.
+            Manage submitted Chairperson (CP) & Vice Chairperson (VCP) candidate profiles and invite tokens.
           </p>
         </div>
 
@@ -76,7 +76,7 @@ export default function CompregenAdminClient({ initialRegistrations, accessToken
             <Users className="h-6 w-6" />
           </div>
           <div>
-            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider">Total Trios Registered</p>
+            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider">Total Cabinets Registered</p>
             <p className="text-2xl font-black text-gray-900 mt-0.5">{registrations.length}</p>
           </div>
         </div>

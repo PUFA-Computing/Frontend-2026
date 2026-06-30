@@ -4,13 +4,13 @@ import CompregenLogoHeader from "@/components/compregen/CompregenLogoHeader";
 import RegistrationForm from "./_components/RegistrationForm";
 
 interface Props {
-  params: {
+  params: Promise<{
     token: string;
-  };
+  }>;
 }
 
-export default function RegistrationFormPage({ params }: Props) {
-  const { token } = params;
+export default async function RegistrationFormPage({ params }: Props) {
+  const { token } = await params;
 
   return (
     <div
@@ -23,7 +23,7 @@ export default function RegistrationFormPage({ params }: Props) {
           {/* Welcoming Header */}
           <CompregenLogoHeader 
             title="Hello, Computizens!" 
-            subtitle="CP & VCP Trio Registration Form"
+            subtitle="CP & VCP Registration Form"
           />
 
           {/* Form Container */}

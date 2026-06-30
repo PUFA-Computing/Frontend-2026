@@ -6,11 +6,11 @@ import EventsAndWorkplan from "@/components/cabinet/EventsAndWorkplan";
 import Header from "@/components/cabinet/Header";
 
 interface CabinetProps {
-    params: { slug: string };
+    params: Promise<{ slug: string }>;
 }
 
-export default function page({ params }: CabinetProps) {
-    const { slug } = params;
+export default async function page({ params }: CabinetProps) {
+    const { slug } = await params;
 
     const divisionData = divisionPage.find((divisions) => divisions.slug === slug);
     if (!divisionData) {

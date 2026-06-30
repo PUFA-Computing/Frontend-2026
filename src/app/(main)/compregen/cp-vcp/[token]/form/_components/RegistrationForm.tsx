@@ -180,7 +180,7 @@ export default function RegistrationForm({ token }: Props) {
         </div>
       </div>
 
-      {/* 2. Trio Members Details */}
+      {/* 2. Members Details */}
       <div className="space-y-6">
         <h2 className="text-base font-bold text-gray-800 uppercase tracking-wider flex items-center gap-2 border-b border-gray-100 pb-2">
           <span className="flex h-6 w-6 items-center justify-center rounded-full bg-blue-600 text-xs text-white">2</span>

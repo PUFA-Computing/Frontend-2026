@@ -11,10 +11,11 @@ import { Metadata } from "next";
 
 // Generate dynamic metadata for each news article
 export async function generateMetadata(
-    { params }: { params: { slug: string } }
+    { params }: { params: Promise<{ slug: string }> }
 ): Promise<Metadata> {
+    const { slug } = await params;
     // Fetch news data
-    const news = await fetchNewsBySlug(params.slug);
+    const news = await fetchNewsBySlug(slug);
     
     if (!news) {
         return {
@@ -63,16 +64,17 @@ export async function generateMetadata(
 }
 
 interface NewsDetailsPageProps {
-    params: { slug: string };
+    params: Promise<{ slug: string }>;
 }
 
 export default async function NewsDetailsPage({
     params,
 }: NewsDetailsPageProps) {
-    if (!params.slug || params.slug.length < 1) {
+    const { slug } = await params;
+    if (!slug || slug.length < 1) {
         return redirect("/404");
     }
-    const news = await fetchNewsBySlug(params.slug);
+    const news = await fetchNewsBySlug(slug);
     const moreNews = await fetchNews();
 
     if (!news) {

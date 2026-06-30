@@ -4,13 +4,13 @@ import CompregenLogoHeader from "@/components/compregen/CompregenLogoHeader";
 import VerifyIdentityForm from "./_components/VerifyIdentityForm";
 
 interface Props {
-  params: {
+  params: Promise<{
     token: string;
-  };
+  }>;
 }
 
-export default function VerifyIdentityPage({ params }: Props) {
-  const { token } = params;
+export default async function VerifyIdentityPage({ params }: Props) {
+  const { token } = await params;
 
   return (
     <div

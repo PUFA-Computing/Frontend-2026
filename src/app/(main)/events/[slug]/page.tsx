@@ -12,10 +12,11 @@ import type { Metadata } from "next";
 
 // Generate dynamic metadata for each event page
 export async function generateMetadata(
-    { params }: { params: { slug: string } }
+    { params }: { params: Promise<{ slug: string }> }
 ): Promise<Metadata> {
+    const { slug } = await params;
     // Fetch event data
-    const event = await fetchEventBySlug(params.slug);
+    const event = await fetchEventBySlug(slug);
     
     if (!event) {
         return {
@@ -65,14 +66,15 @@ const description = (description: string) => {
 };
 
 interface EventPageProps {
-    params: { slug: string };
+    params: Promise<{ slug: string }>;
 }
 
 export default async function EventDetailsPage({ params }: EventPageProps) {
-    if (!params.slug || params.slug.length < 1) {
+    const { slug } = await params;
+    if (!slug || slug.length < 1) {
         return redirect("/404");
     }
-    const event = await fetchEventBySlug(params.slug);
+    const event = await fetchEventBySlug(slug);
 
     if (!event) {
         return redirect("/404");
