@@ -58,3 +58,21 @@ export interface AdminRegistrationsResponse {
 export interface PhotoUploadResponse {
   photo_upload_id: string;
 }
+
+export interface WhitelistMember {
+  student_id: string;
+  full_name: string;
+  campus_email: string;
+  major: string;
+  registered: boolean;
+}
+
+export interface VerificationAttempt {
+  id: string;
+  student_id_attempted: string;
+  email_attempted: string;
+  success: boolean;
+  attempted_at: string;
+  attempts_count: number;
+}
+

@@ -8,7 +8,8 @@ import {
     NewspaperIcon,
     EnvelopeIcon,
     TrophyIcon,
-    FolderIcon
+    FolderIcon,
+    ShieldCheckIcon
 } from "@heroicons/react/24/outline";
 import React from "react";
 import { Cog6ToothIcon } from "@heroicons/react/24/outline";
@@ -77,6 +78,11 @@ const Sidebar = ({ teams }: SidebarProps) => {
             name: "CSML",
             href: "/admin/votes",
             icon: TrophyIcon,
+        },
+        {
+            name: "CP/VCP Regist",
+            href: "/admin/compregen",
+            icon: ShieldCheckIcon,
         },
     ];
     return (
