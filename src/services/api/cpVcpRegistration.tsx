@@ -53,19 +53,15 @@ export async function verifyIdentity(
   }
 
   try {
-    const payload: VerifyIdentityRequest = {
-      token,
-      student_id: studentId,
-      campus_email: email,
-    };
-    const response = await apiClient.post<VerifyIdentityResponse>(`${API_PREFIX}/verify`, payload);
-    return response.data;
-  } catch (error: any) {
-    console.error("[API] Error verifying identity:", error.message);
-    if (error.response) {
-      return error.response.data;
-    }
-    return { verified: false, error: "Network error occurred" };
+    const response = await axios.post<VerifyIdentityResponse>(`/api/compregen/verify`, {
+        token,
+        student_id: studentId,
+        campus_email: email,
+      });
+      return response.data;
+    } catch (error: any) {
+      console.error("[API] Error verifying identity:", error.message);
+      return error.response?.data || { verified: false };
   }
 }
 
@@ -138,7 +134,10 @@ export async function getRegistrations(adminApiKey?: string): Promise<AdminRegis
     };
   }
 
-  const response = await axios.get<AdminRegistrationsResponse>("/api/admin/compregen/registrations");
+  const baseUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000';
+  const response = await axios.get<AdminRegistrationsResponse>(
+    `${baseUrl}/api/admin/compregen/registrations`
+  );
   return response.data;
 }
 

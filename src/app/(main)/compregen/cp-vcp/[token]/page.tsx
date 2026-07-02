@@ -18,7 +18,8 @@ export default async function TokenLandingPage({ params }: Props) {
 
   if (status === "active") {
     // If the token is active, check if the session cookie exists
-    const hasSession = cookies().has("compregen_session");
+    const cookieStore = await cookies();
+    const hasSession = cookieStore.has("compregen_session");  
     if (hasSession) {
       redirect(`/compregen/cp-vcp/${token}/form`);
     } else {
