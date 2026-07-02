@@ -5,11 +5,11 @@ import axios from "axios";
 import { BASE_URL } from "@/config/config";
 
 export async function GET() {
-  // const session = await getServerSession(authOptions);
+  const session = await getServerSession(authOptions);
   
-  // if (!session) {
-  //   return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  // }
+  if (!session) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
 
   // [MOCK] Bypass if mock mode is active
   if (process.env.NEXT_PUBLIC_MOCK_COMPREGEN === "true") {

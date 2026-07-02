@@ -130,7 +130,7 @@ const setStorageItem = (key: string, value: any) => {
   }
 };
 
-export async function getRegistrations(adminApiKey?: string): Promise<AdminRegistrationsResponse> {
+export async function getRegistrations(accessToken?: string): Promise<AdminRegistrationsResponse> {
   // [MOCK] Return sample registrations for admin UI preview
   if (MOCK_MODE) {
     const defaultRegs = [
@@ -175,8 +175,19 @@ export async function getRegistrations(adminApiKey?: string): Promise<AdminRegis
   }
 
   const baseUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000';
+  // Get cookies for SSR
+  let cookieHeader = "";
+  if (typeof window === "undefined") {
+    const { cookies } = await import("next/headers");
+    const cookieStore = await cookies();
+    cookieHeader = cookieStore.toString();
+  }
+
   const response = await axios.get<AdminRegistrationsResponse>(
-    `${baseUrl}/api/admin/compregen/registrations`
+    `${baseUrl}/api/admin/compregen/registrations`,
+    {
+      headers: cookieHeader ? { Cookie: cookieHeader } : {},
+    }
   );
   return response.data;
 }
