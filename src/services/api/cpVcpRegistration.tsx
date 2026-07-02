@@ -136,7 +136,6 @@ export async function getRegistrations(accessToken?: string): Promise<AdminRegis
     const defaultRegs = [
       {
         id: "reg-001",
-        cabinet_name: "Kabinet Nusantara",
         submitted_at: new Date(Date.now() - 3600000 * 2).toISOString(), // 2 hours ago
         members: {
           cp:   { full_name: "Raka Darmawan",   student_id: "001202400112", major: "Informatics",       phone_number: "081234567890", nationality: "Indonesian", photo_upload_id: "" },
@@ -147,7 +146,6 @@ export async function getRegistrations(accessToken?: string): Promise<AdminRegis
       },
       {
         id: "reg-002",
-        cabinet_name: "Kabinet Gemilang",
         submitted_at: new Date(Date.now() - 3600000 * 5).toISOString(), // 5 hours ago
         members: {
           cp:   { full_name: "Andi Laksono",    student_id: "001202400107", major: "Informatics",       phone_number: "081244445555", nationality: "Indonesian", photo_upload_id: "" },
@@ -158,7 +156,6 @@ export async function getRegistrations(accessToken?: string): Promise<AdminRegis
       },
       {
         id: "reg-003",
-        cabinet_name: "Kabinet Cakrawala",
         submitted_at: new Date(Date.now() - 3600000 * 25).toISOString(), // 25 hours ago
         members: {
           cp:   { full_name: "Maya Hendra",    student_id: "001202400103", major: "Informatics",       phone_number: "081311112222", nationality: "Indonesian", photo_upload_id: "" },

@@ -17,7 +17,6 @@ export async function GET() {
       registrations: [
         {
           id: "mock-reg-001",
-          cabinet_name: "Synergy Cabinet",
           submitted_at: new Date().toISOString(),
           members: {
             cp:   { full_name: "Budi Santoso",  student_id: "001202300001", major: "Informatics",       phone_number: "081234567890", nationality: "Indonesian", photo_upload_id: "" },

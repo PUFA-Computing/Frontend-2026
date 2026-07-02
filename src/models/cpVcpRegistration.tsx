@@ -31,7 +31,6 @@ export interface CandidateMember {
 
 export interface RegistrationPayload {
   token: string;
-  cabinet_name: string;
   consent_accepted: boolean;
   members: {
     cp: CandidateMember;
@@ -42,7 +41,6 @@ export interface RegistrationPayload {
 
 export interface RegistrationRecord {
   id: string;
-  cabinet_name: string;
   submitted_at: string;
   members: {
     cp: CandidateMember;

@@ -213,7 +213,7 @@ export default function RegistrationsTable({ registrations, onViewDetails, onRes
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
-                            if (confirm(`Reset session for ${reg.cabinet_name}?`)) {
+                            if (confirm(`Reset session for candidate ${reg.members.cp?.full_name}?`)) {
                               onResetSession(reg.id);
                             }
                           }}
