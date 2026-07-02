@@ -74,5 +74,6 @@ export interface VerificationAttempt {
   success: boolean;
   attempted_at: string;
   attempts_count: number;
+  full_name?: string;
 }
 

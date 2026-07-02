@@ -52,6 +52,7 @@ interface Props {
   accessToken: string;
 }
 
+
 export default function CompregenAdminClient({ initialRegistrations, accessToken }: Props) {
   const [registrations, setRegistrations] = useState<RegistrationRecord[]>(initialRegistrations);
   const [activeLink, setActiveLink] = useState<{ token: string; url: string; created_at?: string; status?: string; submissions?: number } | null>(null);
@@ -438,7 +439,7 @@ export default function CompregenAdminClient({ initialRegistrations, accessToken
                     className="flex items-center justify-between p-2.5 border border-gray-100 bg-gray-50/50 rounded-xl text-xs hover:border-gray-250 transition"
                   >
                     <div>
-                      <div className="font-semibold text-gray-900">Unknown Candidate</div>
+                      <div className="font-semibold text-gray-900">{att.full_name || "Unknown Candidate"}</div>
                       <div className="text-[10px] text-gray-400 font-mono mt-0.5">{att.student_id_attempted}</div>
                     </div>
                     <div className="flex flex-col items-end gap-1.5">
