@@ -174,7 +174,7 @@ export async function getRegistrations(accessToken?: string): Promise<AdminRegis
     return { registrations: regs };
   }
 
-  const baseUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000';
+  const baseUrl = process.env.NEXTAUTH_URL || process.env.NEXT_PUBLIC_NEXTAUTH_URL || 'http://localhost:3000';
   // Get cookies for SSR
   let cookieHeader = "";
   if (typeof window === "undefined") {
