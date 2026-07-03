@@ -42,7 +42,7 @@ export default function SuccessPage() {
               Please join the official WhatsApp coordinator group for CP & VCP candidates to receive further schedules and coordination details.
             </p>
             <a 
-              href="https://chat.whatsapp.com/invite/compregen2027" 
+              href="https://chat.whatsapp.com/D9Qei4U6mHkJFoyeSQchXq?s=cl&p=a&mlu=3" 
               target="_blank" 
               rel="noopener noreferrer" 
               className="w-full block"
