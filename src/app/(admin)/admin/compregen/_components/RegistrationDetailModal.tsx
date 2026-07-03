@@ -26,7 +26,7 @@ export default function RegistrationDetailModal({ registration, isOpen, onOpenCh
         <DialogHeader className="border-b border-gray-100 pb-3">
           <DialogTitle className="text-gray-900 font-bold text-xl flex items-center gap-2">
             <ShieldCheck className="h-5 w-5 text-blue-600" />
-            Registration Detail — Cabinet: {registration.cabinet_name}
+            Registration Detail — Chairperson: {registration.members.cp.full_name}
           </DialogTitle>
           <div className="flex items-center gap-1.5 text-xs text-gray-500 mt-1.5">
             <Calendar className="h-3.5 w-3.5" />

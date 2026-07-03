@@ -120,7 +120,6 @@ export default function RegistrationForm({ token }: Props) {
 
     try {
       const payload = {
-        cabinet_name: "",
         consent_accepted: consentAccepted,
         members: { cp, vcp1, vcp2 },
       };
