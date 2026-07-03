@@ -11,9 +11,9 @@ export async function GET() {
           id: "mock-reg-001",
           submitted_at: new Date().toISOString(),
           members: {
-            cp:   { full_name: "Budi Santoso",  student_id: "001202300001", major: "Informatics",       phone_number: "081234567890", nationality: "Indonesian", photo_upload_id: ""  },
-            vcp1: { full_name: "Dewi Rahayu",   student_id: "001202300002", major: "Information System", phone_number: "081234567891", nationality: "Indonesian", photo_upload_id: ""  },
-            vcp2: { full_name: "Andi Wijaya",   student_id: "001202300003", major: "Informatics",       phone_number: "081234567892", nationality: "Indonesian", photo_upload_id: ""  },
+            cp:   { full_name: "Arka Pradipa Dwi Santoso",  student_id: "001202400020", major: "Informatics",       phone_number: "081234567890", nationality: "Indonesian", photo_upload_id: ""  },
+            vcp1: { full_name: "Arka Pradipa Dwi Santoso",   student_id: "001202400020", major: "Information System", phone_number: "081234567891", nationality: "Indonesian", photo_upload_id: ""  },
+            vcp2: { full_name: "Arka Pradipa Dwi Santoso",   student_id: "001202400020", major: "Informatics",       phone_number: "081234567892", nationality: "Indonesian", photo_upload_id: ""  },
            },
          },
       ],

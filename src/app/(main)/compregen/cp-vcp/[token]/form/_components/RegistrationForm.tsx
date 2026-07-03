@@ -125,11 +125,20 @@ export default function RegistrationForm({ token }: Props) {
       };
 
       const res = await submitRegistration(token, payload);
-
       if (res.success) {
         router.push(`/compregen/cp-vcp/${token}/success`);
       } else {
-        setErrorMsg(res.error || "Form submission failed. Please try again.");
+        if (res.error === "validation_failed" && res.detail) {
+          const role = res.detail.split(":")[1];
+          const roleLabel: Record<string, string> = {
+            cp: "Chairperson",
+            vcp1: "Vice Chairperson 1",
+            vcp2: "Vice Chairperson 2",
+          };
+          setErrorMsg(`${roleLabel[role] || role}'s Student ID is not registered in the eligibility whitelist.`);
+        } else {
+          setErrorMsg(res.error || "Form submission failed. Please try again.");
+        }
         if (res.fields) {
           setFieldErrors(res.fields);
         }

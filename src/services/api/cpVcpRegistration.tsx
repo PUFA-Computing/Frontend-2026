@@ -73,7 +73,7 @@ export async function verifyIdentity(
 export async function submitRegistration(
   token: string,
   payload: Omit<RegistrationPayload, "token">
-): Promise<{ success: boolean; registration_id?: string; error?: string; fields?: Record<string, string> }> {
+): Promise<{ success: boolean; registration_id?: string; error?: string; detail?: string; fields?: Record<string, string> }>{
   // [MOCK] Always succeeds — redirects to /success
   if (MOCK_MODE) return { success: true, registration_id: "mock-reg-001" };
 
@@ -87,6 +87,7 @@ export async function submitRegistration(
       return {
         success: false,
         error: error.response.data.error,
+        detail: error.response.data.detail,
         fields: error.response.data.fields,
       };
     }
