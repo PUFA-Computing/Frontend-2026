@@ -1,76 +1,63 @@
-import { getServerSession // } from "next-auth";
-import { authOptions // } from "@/lib/auth";
-import { NextResponse // } from "next/server";
+import { NextResponse  } from "next/server";
 import axios from "axios";
-import { BASE_URL // } from "@/config/config";
+import { BASE_URL  } from "@/config/config";
 
 export async function POST() {
-  
-  
-  // if (!session) {
-    
-  // }
 
-  // [MOCK] Bypass if mock mode is active
+    //[MOCK] Bypass if mock mode is active
   if (process.env.NEXT_PUBLIC_MOCK_COMPREGEN === "true") {
-    const mockToken = `mock-token-${Date.now()// }`;
+    const mockToken = `mock-token-${Date.now() }`;
     return NextResponse.json({
       token: mockToken,
-      url: `${process.env.NEXTAUTH_URL || "http://localhost:3000"// }/compregen/cp-vcp/${mockToken}`,
-    // }, { status: 201 });
-  // }
+      url: `${process.env.NEXTAUTH_URL || "http:localhost:3000" }/compregen/cp-vcp/${mockToken}`,
+     }, { status: 201 });
+   }
 
   try {
     const adminApiKey = process.env.COMPREGEN_ADMIN_API_KEY || process.env.ADMIN_API_KEY || "";
     const response = await axios.post(
-      `${BASE_URL// }/compregen/admin/links`,
-      {// },
+      `${BASE_URL }/compregen/admin/links`,
+      { },
       {
         headers: {
           "X-Admin-Api-Key": adminApiKey,
           Accept: "application/json",
-        // },
-      // }
+         },
+       }
     );
-    return NextResponse.json(response.data, { status: 201 // });
-  // } catch (error: any) {
+    return NextResponse.json(response.data, { status: 201  });
+   } catch (error: any) {
     console.error("[API Proxy] Error generating invite link:", error.message);
     const status = error.response?.status || 500;
-    const data = error.response?.data || { error: "Failed to generate invite link from backend" // };
-    return NextResponse.json(data, { status // });
-  // }
-// }
+    const data = error.response?.data || { error: "Failed to generate invite link from backend"  };
+    return NextResponse.json(data, { status  });
+   }
+ }
 
 export async function GET() {
-  
-  
-  // if (!session) {
-    
-  // }
-
   if (process.env.NEXT_PUBLIC_MOCK_COMPREGEN === "true") {
     return NextResponse.json({
       token: "mock-token-active",
-      url: `http://localhost:3000/compregen/cp-vcp/mock-token-active`,
+      url: `http:localhost:3000/compregen/cp-vcp/mock-token-active`,
       status: "active"
-    // });
-  // }
+     });
+   }
 
   try {
     const adminApiKey = process.env.COMPREGEN_ADMIN_API_KEY || process.env.ADMIN_API_KEY || "";
     const response = await axios.get(
-      `${BASE_URL// }/compregen/admin/links/active`,
+      `${BASE_URL }/compregen/admin/links/active`,
       {
         headers: {
           "X-Admin-Api-Key": adminApiKey,
           Accept: "application/json",
-        // },
-      // }
+         },
+       }
     );
     return NextResponse.json(response.data);
-  // } catch (error: any) {
+   } catch (error: any) {
     const status = error.response?.status || 404;
-    const data = error.response?.data || { error: "No active link found" // };
-    return NextResponse.json(data, { status // });
-  // }
-// }
+    const data = error.response?.data || { error: "No active link found"  };
+    return NextResponse.json(data, { status  });
+   }
+ }
