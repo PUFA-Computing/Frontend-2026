@@ -171,22 +171,28 @@ export async function getRegistrations(accessToken?: string): Promise<AdminRegis
     return { registrations: regs };
   }
 
-  const baseUrl = process.env.NEXTAUTH_URL || process.env.NEXT_PUBLIC_NEXTAUTH_URL || 'http://localhost:3000';
-  // Get cookies for SSR
-  let cookieHeader = "";
+  
   if (typeof window === "undefined") {
+    // Server-side only
+    const baseUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000';
     const { cookies } = await import("next/headers");
     const cookieStore = await cookies();
-    cookieHeader = cookieStore.toString();
+    const cookieHeader = cookieStore.toString();
+    
+    const response = await axios.get<AdminRegistrationsResponse>(
+      `${baseUrl}/api/admin/compregen/registrations`,
+      {
+        headers: cookieHeader ? { Cookie: cookieHeader } : {},
+      }
+    );
+    return response.data;
+  } else {
+    // Client-side — relative URL
+    const response = await axios.get<AdminRegistrationsResponse>(
+      `/api/admin/compregen/registrations`
+    );
+    return response.data;
   }
-
-  const response = await axios.get<AdminRegistrationsResponse>(
-    `${baseUrl}/api/admin/compregen/registrations`,
-    {
-      headers: cookieHeader ? { Cookie: cookieHeader } : {},
-    }
-  );
-  return response.data;
 }
 
 /**
